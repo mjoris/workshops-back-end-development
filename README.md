@@ -31,7 +31,7 @@ docker-compose up
 * Run from your terminal/cmd, in your <code>workshops-wmss</code> directory
 ```shell
 git reset --hard
-git pull
+git pull origin master
 ```
 
 ### <code>docker-compose up</code> does not start one or more containers
