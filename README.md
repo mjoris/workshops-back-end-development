@@ -23,7 +23,11 @@ cd workshops-wmss
 docker-compose up
 ```
 * Browse to [http://localhost:8080](http://localhost:8080)
-* Stop the environment in yout terminal/cmd by pressing <code>Ctrl+C</code>
+* Stop the environment in your terminal/cmd by pressing <code>Ctrl+C</code>
+* In order to avoid conflicts with your lab environment, run from your terminal/cmd
+```shell
+docker-compose down
+```
 
 ## Recipes and troubleshooting
 
