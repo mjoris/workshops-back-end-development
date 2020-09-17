@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  php-web:
+    build: docker-php
+    ports:
+      - "8080:80"
+    volumes:
+      - "./app:/var/www"
+    links:
+      - mysqldb
+  mysqldb:
+    image: mysql:5.7
+    restart: always
+    ports:
+     - "3307:3306"
+    volumes:
+     - "./mysql-data:/var/lib/mysql"
+     - "./mysql-sql/demo.sql:/docker-entrypoint-initdb.d/dump.sql"
+    environment:
+     - MYSQL_ROOT_PASSWORD=Azerty123
+  myadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    ports:
+        - "8000:80"
+    environment:
+        - PMA_ARBITRARY=0
+        - PMA_HOST=mysqldb
+    restart: always
+    depends_on:
+        - mysqldb
