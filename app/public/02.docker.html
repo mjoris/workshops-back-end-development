@@ -1,0 +1,717 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>W&amp;M Server-side – Course materials</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/black.css" id="theme">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+    <style>
+        .reveal .slides {
+            font-size: 70%;
+        }
+        code {
+            background: rgba(255,255,255,0.3);
+            font-size: 0.55em;
+        }
+        .has-light-background code {
+            background: rgba(0,0,255,0.2);
+        }
+        code.hljs {
+            font-size: 100%;
+        }
+        :not(.current-fragment).hide-when-not-current {
+            display: none;
+        }
+        .slide-background-content {
+            opacity: 0.3;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+        <section data-background="#b5533c" > <!-- wposad color #4d7e65 -->
+            <h3>Web &amp; Mobile Server-side <small>[OGI03q]</small></h3>
+            <h1>02. Docker</h1>
+
+        </section>
+
+
+
+        <!-- Introduction: virtualization -->
+        <section >
+            <section>
+                <h2>02.1<br>Introduction: Docker and virtualization</h2>
+            </section>
+
+            <section>
+                <h2>What is Docker?</h2>
+                <ul>
+                    <li>A tool that uses <strong>virtualization</strong> (yes like VMs)</li>
+                    <li style="margin-top: 0.5em">We will use Docker to create virtual server environments (for example containing a PHP-enabled web server and a MySQL DBMS) </li>
+                    <li style="margin-top: 0.5em">In Docker, such virtual environment is described by a bunch of text files, to be added to your project</li>
+                    <li style="margin-top: 0.5em">This bunch of text files generates everywhere exactly the same environment (<em>reproducable</em>)</li>
+                </ul>
+
+            </section>
+
+            <section data-background="https://i.giphy.com/BcF7P2fOYyKJO.gif">
+                <h2>PHP programming without Docker </h2>
+                <q>But it worked on my machine</q>
+                <ul>
+                    <li style="margin-top: 1em">When &hellip;
+                        <ul>
+                            <li>developing in a team</li>
+                            <li>publishing your project on a <em>production</em> server</li>
+                            <li>handing over your project to &hellip;
+                                <ul>
+                                    <li>a customer</li>
+                                    <li>your lecturer ;-)</li>
+                                    <li>&hellip;</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <footer style="margin-top: 1em"><small>Environments might differ w.r.t. PHP version, PHP config, PHP extensions, DBMS brand/veriosn, Webserver brand/version/config, database schema, &hellip; </small></footer>
+            </section>
+
+            <section data-background="#fdfdfd">
+                <h2>So why Docker? </h2>
+                <ul>
+                    <li>It provides a complete server environment out-of-the-box (no installation hassle) &hellip;</li>
+                    <li>&hellip; easy to share with others (no big files)</li>
+                    <li>Docker is pretty <em>lightweight</em>* </li>
+                    <li>Docker is popular</li>
+                </ul>
+                <footer style="margin-top: 1em">* virtualization based on <em>isolated features</em> of Linux kernel</footer>
+            </section>
+
+
+        </section>
+
+
+        <section>
+            <section>
+                <h2>02.2<br>Docker basics</h2>
+            </section>
+
+            <section data-background="#fdfdfd">
+                <h2>Architecture</h2>
+                <p><img src="assets/02/docker-architecture.svg" alt="" title="" width="650" style="border: 0px;"/></p>
+                <p class="fragment hide-when-not-current" style="font-size: 58%;">
+                    <strong>Easy version.</strong>
+                    <br>
+                    Download images (DBMS, web server, &hellip;) from <strong>Docker Hub</strong> on the web to your machine.
+                    <br>
+                    Create (multiple) containers from images, and run them on your machine.
+                    <br>
+                    Use the <em>docker</em> command from the terminal for this.
+                </p>
+                <p class="fragment" style="font-size: 50%;">
+                    <strong>Advanced version.</strong><br>A (public) <strong>registry</strong> like <strong>Docker Hub</strong> stores Docker <strong>images</strong> anyone can use. These images can be copied to your system.
+                    <strong>Images</strong> are <em>blueprints (= read-only templates)</em> of Docker <strong>containers</strong>. <strong>Containers</strong> are runnable isolated instances you can create, start, stop, &hellip; on the central Linux kernel.
+                    With a <strong>Dockerfile</strong> you can create your own image.<br/>Docker comes with a client-server architecture on you system, where the central server component listening for commands is called the Docker <strong>daemon</strong>.
+
+                </p>
+            </section>
+
+            <section>
+                <h2>Installing and running Docker</h2>
+                <ul>
+                    <li>
+                        Docker CE - stable release - instructions:
+                        <ul>
+                            <li><a href="https://docs.docker.com/docker-for-windows/install/">Docker for Windows</a></li>
+                            <li><a href="https://docs.docker.com/docker-for-mac/install/">Docker for Mac</a></li>
+                            <li><a href="https://docs.docker.com/install/linux/docker-ce/ubuntu/">Docker on Ubuntu</a></li>
+                            <li>Since 2020, Docker runs on Windows Home Edition (WSL), please follow <a href="https://docs.docker.com/docker-for-windows/install-windows-home/">these steps</a>.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section data-background="#fdfdfd">
+                <h2>Linux containers</h2>
+
+                <ul style="width: 16em;float: left;">
+                    <li>
+                        Docker for Windows has multiple modes: Windows containers and Linux containers
+                        <ul>
+                            <li>For the sake of compatibility &rarr; <strong>always use Linux containers</strong></li>
+                            <li>Yes, Docker's running a VM on Windows (Hyperkit VM on Mac)</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p><img src="assets/02/linux-containers.png" alt="" title="" height="400" style="border: 0px;margin-top: 10px;"/></p>
+                <footer>
+                    Note: a container can have a base OS or can be a binary executed directly on the kernel<br><small>Source: <a href="http://www.floydhilton.com/docker/2017/03/31/Docker-ContainerHost-vs-ContainerOS-Linux-Windows.html">http://www.floydhilton.com/docker/2017/03/31/Docker-ContainerHost-vs-ContainerOS-Linux-Windows.html</small></a>
+                </footer>
+            </section>
+
+            <section data-background="#fdfdfd">
+                <h2>Docker Hub (1)</h2>
+                <ul>
+                    <li>
+                        <a href="https://hub.docker.com">Docker Hub</a> is Docker's browsable registry of images
+                    </li>
+                    <li>
+                        Image versions (indicated by <em>tags</em>) are grouped into <em>repositories</em>
+                    </li>
+                </ul>
+                <p><img src="assets/02/dockerhub.png" alt="" title="" width="600" /></p>
+            </section>
+
+            <section>
+                <h2>Docker Hub (2)</h2>
+
+                <ul>
+                    <li>
+                        Let's explore &hellip;
+                        <ul>
+                            <li><a href="https://hub.docker.com/search?q=&type=image">Explore</a>: repositories ordered by # pulls</li>
+                            <li><a href="https://docs.docker.com/docker-hub/official_repos/">Official repositories</a> are curated by a dedicated team &rarr; use them !
+                                <ul>
+                                    <li>OSs like <a href="https://hub.docker.com/_/alpine/">Alpine Linux</a></li>
+                                    <li>Dev components like <a href="https://hub.docker.com/_/nginx/">nginx</a>*, <a href="https://hub.docker.com/_/php/">PHP</a>* and <a href="https://hub.docker.com/_/mysql/">MySQL</a>* </li>
+                                    <li>Some images's configuration can be changed by overruling environment variables</li>
+                                </ul>
+                            </li>
+                            <li>Any user can publish images in <em>public repositories</em> either by <code>docker push</code> or by automated builds (git hook)
+                                <ul>
+                                    <li>Example: <a href="https://hub.docker.com/r/richarvey/nginx-php-fpm/">richarvey/nginx-php-fpm</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <footer>
+                    <small>* containing a base OS<br/>Documentation on <a href="https://docs.docker.com/docker-hub/">Docker Hub</a></small>
+                </footer>
+            </section>
+
+            <section>
+                <h2>Let's run a container</h2>
+
+
+                        <ol>
+                            <li style="margin-top: 0.7em;">
+                                Get the mysql:5.7 image (if not present): <code>$ docker pull mysql:5.7</code>
+                            </li>
+                            <li style="margin-top: 0.7em;">
+                                Create a new container: <code>$ docker create -e MYSQL_ROOT_PASSWORD=Azerty123 mysql:5.7</code>
+                                <br> &rarr; the daemon returns a container ID: <code>950968d78d63ae451c178a46799cd85b6aed5d9692d46a6b3acca05da8830990</code>
+                                <ul>
+                                    <li>! all allocations, network connections, &hellip; are made in this step</li>
+                                    <li>! each time you repeat this line, a new container is allocated</li>
+                                </ul>
+                            </li>
+                            <li style="margin-top: 0.7em;">
+                                Start the container (in background mode): <code>$ docker start 950</code> <br> &rarr; you see? a <em>unique ID prefix</em> is enough
+                            </li>
+                        </ol>
+
+                <ul style="margin-top: 1.4em;width: 100%">
+                    <li>
+                        All at once:
+                    </li>
+                </ul>
+                <pre data-id="code-animation">
+                    <code class="hljs bash" data-trim>$ docker run -e MYSQL_ROOT_PASSWORD=Azerty123 -d mysql:5.7</code>
+                </pre>
+                <footer>
+                    <small>Documentation on <a href="https://docs.docker.com/engine/reference/run/">run</a>, <a href="https://docs.docker.com/engine/reference/commandline/pull/">pull</a>, <a href="https://docs.docker.com/engine/reference/commandline/create/">create</a> and <a href="https://docs.docker.com/engine/reference/commandline/start/">start</a></small>
+                </footer>
+            </section>
+
+            <section>
+                <h2>Let's see what happened</h2>
+
+                <pre data-id="code-animation">
+                    <code class="hljs bash" data-trim>$ docker images
+REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE
+mysql                   5.7                 5d4d51c57ea8        2 weeks ago         374MB
+mysql                   latest              f0f3956a9dd8        3 weeks ago         409MB
+nimmis/apache-php7      latest              93b52d88eb58        6 weeks ago         482MB
+alexcheng/magento2      latest              41b274b16771        7 weeks ago         1.43GB
+phpmyadmin/phpmyadmin   latest              19c3875df23d        2 months ago        104MB
+mysql                   5.6.23              0bd9ef0792fa        2 years ago         283MB
+
+$ docker ps
+CONTAINER ID    IMAGE               COMMAND                  CREATED           STATUS                  PORTS      NAMES
+950968d78d63    mysql:5.7           "docker-entrypoint.s…"   20 minutes ago    Up 8 minutes            3306/tcp   confident_hermann
+
+$ docker ps -a
+CONTAINER ID    IMAGE               COMMAND                  CREATED           STATUS                  PORTS      NAMES
+950968d78d63    mysql:5.7           "docker-entrypoint.s…"   20 minutes ago    Up 8 minutes            3306/tcp   confident_hermann
+4f909c0d46e1    nimmis/apache-php7  "/my_init"               2 weeks ago       Exited (0) 2 weeks ago             youthful_rosalind
+ec1702dd0e85    alexcheng/magento2  "/sbin/my_init"          5 weeks ago       Exited (0) 5 weeks ago             gallant_villani
+c5d0d1270551    alexcheng/magento2  "/sbin/my_init"          5 weeks ago       Exited (0) 5 weeks ago             agitated_kowalevski</code></pre>
+                <ul style="font-size: 75%;width: 100%">
+                    <li>
+                        Actually we have been using a lot of shorthand commands:
+                        <ul>
+                            <li><code>docker image pull</code> &rarr; <code>docker pull</code></li>
+                            <li><code>docker image ls</code> &rarr; <code>docker images</code></li>
+                            <li><code>docker container create</code> &rarr; <code>docker create</code></li>
+                            <li><code>docker container ls</code> &rarr; <code>docker ps</code></li>
+                        </ul>
+                    </li>
+                </ul>
+                <footer>
+                    <small>Documentation on <a href="https://docs.docker.com/engine/reference/commandline/image/">image *</a> and <a href="https://docs.docker.com/engine/reference/commandline/container/">container *</a></small>
+                </footer>
+            </section>
+
+            <section>
+                <h2>Play and rewind</h2>
+                <ul>
+                    <li>
+                        <code>container *</code> shorthands
+                        <ul>
+                            <li>
+                                <code>$ docker start [C]</code> (re)starts the container
+                            </li>
+                            <li>
+                                <code>$ docker pause [C]</code> pauses the container
+                            </li>
+                            <li>
+                                <code>$ docker unpause [C]</code> starts a paused container
+                            </li>
+                            <li>
+                                <code>$ docker stop [C]</code> stops the container (at first <em>gracefully</em>)
+                            </li>
+                            <li>
+                                <code>$ docker kill [C]</code> stops the container immediately
+                            </li>
+                            <li>
+                                <code>$ docker rm [C]</code> removes the container from your system
+                            </li>
+                            <li style="margin-top: 1em">Replace <code>[C]</code> by the container id (unique prefix) or container name (might be assigned randomly)</li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </section>
+
+
+
+            <section>
+                <h2>docker create|run</h2>
+                <ul>
+                    <li>
+                        Some options (upon container <strong>creation</strong>)
+                        <ul>
+                            <li>
+                                <code>--name test</code>: assign a name to the container
+                            </li>
+                            <li>
+                                <code>-w /working/directory</code>: specify the path where the command must executed
+                            </li>
+                            <li>
+                                <code>-v /Users/franky/Documents/configmap:/etc/mysql/conf.d</code>: mounts a host folder into the container
+                            </li>
+                            <li>
+                                <code>--expose 80</code>: you document which ports are intended for public usage
+                            </li>
+
+                            <li>
+                                <code>-p 3307:3306</code>: binds port 3307 of the host machine to port 3306 of the container
+                            </li>
+                            <li>
+                                <code>-P</code>: binds all exposed ports to random ports of the container (detect with <code>docker port</code>)
+                            </li>
+                            <li>
+                                <code>-e MYSQL_ROOT_PASSWORD=my-secret-pw</code>: set environment variables
+                            </li>
+                            <li>and many <a href="https://docs.docker.com/engine/reference/commandline/create/">others</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>docker start|run</h2>
+                <ul>
+                    <li>
+                        You can start a container in
+                        <ul>
+                            <li style="font-size: 85%;margin-top: 0.5em;">
+                                <strong>detached/background mode</strong> e.g. <code>$ docker run -d mysql:5.7</code>
+                                <ul>
+                                    <li>You don't have STDIN, STDOUT and STDERR of the container</li>
+                                    <li>You have the prompt <code>$</code> back</li>
+                                    <li>You can still run a command and attach by <code>docker exec -it 950 bash</code></li>
+                                </ul>
+                            </li>
+                            <li style="font-size: 85%;margin-top: 1em;">
+                                <strong>attached/foreground mode</strong> e.g. <code>$ docker run -it mysql:5.7 bash</code>
+                                <ul>
+                                    <li>Without <code>-d</code>, Docker attaches STDIN, STDOUT and STDERR to the current console</li>
+                                    <li>after the image (<code>mysql:5.7</code>) a command (<code>bash</code>) to be executed inside the container can be specified</li>
+                                    <li>when it concerns an <strong>interactive</strong> command, you must use <code>-i</code> and <code>-t</code> in order to attach a pseudo-TTY</li>
+                                    <li>when you exit the tty (e.g. Ctrl+C), the container is stopped</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <footer><small><code>-t</code> is actually a <code>docker create</code> option</small></footer>
+            </section>
+
+            <section>
+                <h2>docker run</h2>
+                <ul style="font-size: 90%; width: 100%">
+                    <li>
+                        A better example
+                    </li>
+                </ul>
+                <pre>
+                    <code class="hljs bash">$ docker run -it -p 8080:80 --name demo-app -v /volledig/pad/myfolder:/var/www/html php:7.2-apache</code></pre>
+            </section>
+        </section>
+
+        <section>
+            <section>
+                <h2>02.3<br>More about Docker images</h2>
+            </section>
+
+            <section>
+                <h2>Creating your own images</h2>
+                <ul style="font-size: 85%">
+                    <li>
+                        How does it work?
+
+                        <ul>
+                            <li>
+                                A <a href="https://docs.docker.com/engine/reference/builder/">Dockerfile</a> is a text file containing a list of commands to build an image
+                                <pre><code class="hljs Dockerfile">FROM mysql:8.0
+
+MAINTAINER Mahmoud Zalt &lt;mahmoud@zalt.me&gt;
+
+# Set timezone
+ARG TZ=UTC
+ENV TZ ${TZ}
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime &amp;&amp; echo $TZ &gt; /etc/timezone
+
+COPY my.cnf /etc/mysql/conf.d/my.cnf
+CMD ["mysqld"]
+EXPOSE 3306</code></pre>
+                            </li>
+                            <li>
+                                Some instructions add to, others override the instructions of the parent image
+                            </li>
+                            <li>
+                                Dockerfile &rarr; installation; <code>docker run</code> options &rarr; running on your system
+                            </li>
+                            <li>
+                                Create the image locally by: <code>docker build -t mjoris/mysql-tz:1.0 .</code>
+                                <br> &rarr; the image is built layer by layer
+                            </li>
+                            <li>Publish your image on Docker Hub with <code>docker push</code> (first <code>docker login</code>) or use <a href="https://docs.docker.com/docker-hub/github/">automated builds with GitHub</a></li>
+
+                        </ul>
+                    </li>
+                </ul>
+
+            </section>
+
+            <section data-background="#fdfdfd">
+                <h2>Image layers?</h2>
+                <ul style="font-size:85%;width:100%">
+                    <li>
+                        An image is stored in <em>layers</em> on your system
+                        <ul>
+                            <li>
+                                <a href="https://stackoverflow.com/questions/31222377/what-are-docker-image-layers">Image layers</a> are <em>intermediate images</em> stored as a <em>diff</em> on the previous layer
+                            </li>
+                            <li>
+                                Almost each command in a Dockerfile generates a new layer
+                            </li>
+                            <li>
+                                Inspect an image's layers with <code>docker history</code>
+                            </li>
+                            <li>
+                                Layers <a href="https://www.ctl.io/developers/blog/post/caching-docker-images">are cached by Docker</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <p><img src="assets/02/sample-imagelayers.png" alt="" title="" height="270" /></p>
+                <footer>
+                    <small>Image: an <a href="https://imagelayers.io">imagelayers.io</a> screenshot from a <a href="https://www.ctl.io/developers/blog/post/imagelayers-io-docker-visualization-and-badges">blogpost by ctl.io</a></small>
+                </footer>
+            </section>
+
+            <section>
+                <h2>UnionFS</h2>
+                <ul>
+                    <li><strong>UnionFS</strong> is a filesystem enabling a <strong>union mount</strong>: file systems can be transparently overlaid and presented as a merged virtual file system (<em>snapshotting</em>)</li>
+                    <li>= the magic behind Docker's image layers</li>
+                    <li>Even a Docker container is a <em>union mount</em> of a Docker image</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>The Dockerfile</h2>
+                <ul style="font-size: 85%">
+                    <li>
+                        Coding your own Dockerfile? Read the <a href="https://docs.docker.com/engine/reference/builder/">docs</a>, look at examples and read about the <a href="https://github.com/FuriKuri/docker-best-practices">do's</a> and the don'ts (<a href="https://runnable.com/blog/9-common-dockerfile-mistakes">1</a>, <a href="https://developers.redhat.com/blog/2016/02/24/10-things-to-avoid-in-docker-containers/">2</a>)
+                        Mainly, it's all about reproducability.
+                    </li>
+                    <li style="margin-top: 0.5em;"> Instructions (some introduction)
+                        <ul>
+                            <li>
+                                <code>FROM</code> defines the image to start from
+                            </li>
+                            <li>
+                                <code>RUN</code> commands to be executed when the image is built (each run ~ image layer)
+                            </li>
+                            <li>
+                                <code>CMD</code> command to be executed each time a container is started
+                            </li>
+                            <li>
+                                <code>ENV</code> declare an environment variable for the image
+                            </li>
+                            <li>
+                                <code>VOLUME</code>: container's directory to be stored on the host's file system, outside the UnionFS-system &rarr; to be used for data
+                                <ul>
+                                    <li>manage the volumes on your system <code>$ docker volume ls</code></li>
+                                </ul>
+                            </li>
+                            <li>
+                                You can <code>COPY</code>/<code>ADD</code> your (configuration) files (at build time) into the image
+                            </li>
+
+                        </ul>
+                    </li>
+                </ul>
+
+            </section>
+
+            <section>
+                <h2>Some examples</h2>
+                <ul style="width: 100%">
+                    <li>
+                        Let's take a look at the following examples
+                        <ul>
+                            <li><a href="https://hub.docker.com/r/nimmis/ubuntu/~/dockerfile/">nimmis/ubuntu</a></li>
+                            <li><a href="https://hub.docker.com/r/nimmis/apache/~/dockerfile/">nimmis/apache</a></li>
+                            <li><a href="https://hub.docker.com/r/nimmis/apache-php7/dockerfile">nimmis/apache-php7</a></li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em">
+                        Typically, Docker is used with more than 1 container at a time
+                        <ul>
+                            <li>
+                                One task per container
+                            </li>
+                            <li>
+                                &rarr; multi-container environments
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </section>
+
+        </section>
+
+        <!-- Machine configuration -->
+        <section>
+            <section>
+                <h2>02.4<br>Docker compose</h2>
+            </section>
+
+            <section>
+                <h2>Multi-container environment (MCE)</h2>
+                <ul style="font-size: 90%">
+                    <li>
+                        There's a lot to tell about creating containers and making them work together <em>manually</em>
+                        <ul>
+                            <li>By default, containers share the default <em>bridge</em> network - so we'll need to create a separate <code>docker network</code></li>
+                            <li>You'll need to match ports, passwords, env variables and other settings manually</li>
+                            <li>Precaution if you have multiple MCEs, if you need to change a container, etc.</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em">
+                        Fortunately, <a href="https://docs.docker.com/compose/overview/">Docker Compose</a> exists
+                        <ul>
+                            <li>
+                                CLI tool for running multi-container Docker apps in an easy way
+                            </li>
+                            <li>
+                                included in Docker for Mac &amp; Windows
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </section>
+
+            <section data-background="#fdfdfd">
+                <h2>How does it work? (1)</h2>
+                <p><img src="assets/02/dcompose.jpg" alt="" title="" height="150" /></p>
+                <ol style="font-size: 90%">
+                    <li>
+                        Define your multi-container app in a file called <code>docker-compose.yml</code>
+                        <ul>
+                            <li>The <code>services:</code> section lists the images from which the containers will be built</li>
+                            <li>Services starting with <code>build:</code> will use an image from the <code>Dockerfile</code> in the specified directory</li>
+                            <li>Services starting with <code>image:</code> refer to images to be pulled from Docker Hub</li>
+                        </ul>
+                    </li>
+                </ol>
+            </section>
+            <section data-background="#fdfdfd">
+                <h2>How does it work? (2)</h2>
+                <p><img src="assets/02/dcompose.jpg" alt="" title="" height="100" /></p>
+                <ol start="2" style="font-size: 90%">
+                    <li>
+                        Build and start your app by running <code>docker-compose up</code> (add <code>-d</code> for detached mode)
+                        <ul>
+                            <li>
+                                A Docker <a href="https://docs.docker.com/compose/networking/">network</a> is created when missing (network names = service names)
+                            </li>
+                            <li>
+                                Images/container are created when missing; containers are replaced when changed
+                            </li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 0.4em">
+                        Stop your app: <code>Ctrl+C</code> (or <code>docker-compose stop</code> in detached mode)
+                    </li>
+                    <li style="margin-top: 0.4em">
+                        Remove the containers and associated volumes: <code>docker-compose down --volumes</code>
+                    </li>
+                </ol>
+
+            </section>
+
+            <section>
+                <h2>A simple example</h2>
+                <pre style="margin-bottom: 0;">docker-php/Dockerfile</pre>
+                <pre style="margin-top: 0;"><code class="hljs Dockerfile">FROM php:7.4-apache
+
+RUN docker-php-ext-install pdo_mysql</code></pre>
+                <pre style="margin-bottom: 0;">docker-compose.yml</pre>
+                <pre style="margin-top: 0;"><code class="hljs yml">version: '3'
+
+services:
+  php-web:
+    build: docker-php
+    ports:
+      - "8080:80"
+    volumes:
+      - "./app:/var/www"
+    links:
+      - mysqldb
+
+  mysqldb:
+    image: mysql:5.7
+    ports:
+     - "3307:3306"
+    volumes:
+     - "./mysql-data:/var/lib/mysql"
+    environment:
+     - MYSQL_ROOT_PASSWORD=Azerty123</code></pre>
+                <p><small>&rarr; this is actually a simplified version of the MCE of the course slides</small></p>
+            </section>
+
+            <section>
+                <h2>Some more examples</h2>
+
+                    <ul>
+                        <li>
+                            nanoninja's <a href="https://github.com/nanoninja/docker-nginx-php-mysql">docker-nginx-php-mysql on GitHub</a> (<a href="https://github.com/nanoninja/docker-nginx-php-mysql/blob/master/docker-compose.yml">Dockerfile</a>)
+                            <ul>
+                                <li>5 different base OS's running on the kernel, incl. phpmyadmin and composer</li>
+                                <li>nginx needs server like php-fpm for PHP code processing </li>
+                                <li>(-) no fixed mysql version;</li>
+                                <li>(-) PHP version of composer may differ from PHP web version (!)</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="https://phpdocker.io/generator">PHPDocker.io</a> generates very similar MCEs
+                        </li>
+                        <li>
+                            <a href="http://laradock.io/">Laradock</a>: an extremely flexible PHP development environment for Docker
+                            <ul>
+                                <li>choose from almost 40 containers</li>
+                                <li>extremely well designed at the inside (<a href="https://github.com/laradock/laradock/blob/master/docker-compose.yml">Dockerfile</a>) </li>
+                                <li>the <code>workspace</code> container is where you run any of your CLI commands (e.g. composer)</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+
+            </section>
+
+        </section>
+
+
+        <!-- The END -->
+        <section>
+            <section>
+                <h2>Questions?</h2>
+                <footer>
+                    <em><a href="http://www.ikdoeict.be/">ikdoeict.be</a> &mdash; <a href="mailto:joris.maervoet@odisee.be">joris.maervoet@odisee.be</a></em>
+                </footer>
+            </section>
+            <section>
+                <h2>Sources</h2>
+                <ul>
+                    <li><a href="http://www.phptherightway.com/#virtualization">PHP: The Right Way on Virtualization</a></li>
+                    <li><a href="https://docs.docker.com/engine/docker-overview/">Docker docs: overview</a></li>
+                    <li><a href="https://docker-curriculum.com/">A Docker tutorial for beginners</a></li>
+                    <li><a href="https://docs.docker.com/compose/overview/#compose-documentation">Docker docs: Docker compose</a></li>
+                </ul>
+            </section>
+        </section>
+
+    </div>
+
+</div>
+
+<script src="dist/reveal.js"></script>
+<script src="plugin/zoom/zoom.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/search/search.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+
+    // Also available as an ES module, see:
+    // https://revealjs.com/initialization/
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: true,
+        hash: true,
+        slideNumber: true,
+
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight ]
+    });
+
+</script>
+
+</body>
+</html>

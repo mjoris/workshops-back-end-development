@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>W&amp;M Server-side – Course materials</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/black.css" id="theme">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+    <style>
+        .reveal .slides {
+            font-size: 70%;
+        }
+        code {
+            background: rgba(255,255,255,0.3);
+            font-size: 0.55em;
+        }
+        .has-light-background code {
+            background: rgba(0,0,255,0.2);
+        }
+        code.hljs {
+            font-size: 100%;
+        }
+        :not(.current-fragment).hide-when-not-current {
+            display: none;
+        }
+        .slide-background-content {
+            opacity: 0.3;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+
+        <section data-background="#b5533c" > <!-- wposad color #4d7e65 -->
+            <h3>Web &amp; Mobile Server-side <small>[OGI03q]</small></h3>
+            <h1>00. Cursusintro</h1>
+        </section>
+
+
+
+
+            <section data-markdown>
+                <script type="text/template">
+                    ## Web &amp; Mobile Server-side [OGI03q]
+                    *  Ontwikkelen van webapplicaties op de webserver in **PHP**
+
+                    *  Concepten die het makkelijker maken om grote professionele webapplicaties te ontwikkelen in PHP
+
+                    *  12 s.p., verdiepend
+                </script>
+            </section>
+            <section>
+                <h2>Docenten W&amp;MSS</h2>
+
+                <figure style="float: left;margin-right: 1em;">
+                    <img src="assets/00/lecturer_pieter.png" alt="" width="200">
+                    <figcaption>P. Van Peteghem</figcaption>
+                </figure>
+
+                <figure style="float: left;margin-right: 1em;">
+                    <img src="assets/00/Laurens.png" alt="" width="200">
+                    <figcaption>L. De Cock</figcaption>
+                </figure>
+                <figure style="float: left;margin-right: 1em;">
+                    <img src="assets/00/Matthias.png" alt="" width="200">
+                    <figcaption>M. De Schoenmacker</figcaption>
+                </figure>
+                <figure style="float: left;">
+                    <img src="assets/00/lecturer_joris.jpg" alt="" width="200">
+                    <figcaption>J. Maervoet</figcaption>
+                </figure>
+
+            </section>
+            <section data-markdown data-background="https://pbs.twimg.com/media/DJhGhFFXcAAkeFy.jpg">
+                <script type="text/template">
+                    ## Activiteiten W&amp;MSS (14 lesweken)
+                    *  **online** workshops (1,5u / week)
+
+                    *  labo's **op de campus** (4u / week)
+                    * telkens Toledo-toets over de laatste workshop
+                    * incl. 2 individuele labo's
+
+                    *  **online** co-workingsessies: extra begeleiding / groepswerk / coachingsgesprekken
+
+                    *  groepsproject: wordt gelanceerd &plusmn; week 6
+
+                    *  logboekformulier: in te vullen wanneer we het vragen
+
+                </script>
+
+            </section>
+            <section data-markdown data-background="#b5533c">
+                <script type="text/template">
+                    ## Evaluatie W&amp;MSS
+                    * korte tests aan het begin van elke labosessie (20%)
+                    * permanente evaluatie (opvolgen logboek/portfolio, proces en eindresultaat van de groepsopdracht, aanwezigheid en medewerking labo’s) (30%)
+                    * 2 individuele labo’s (50%)
+
+                    !! minstens 8/20 op laatste onderdeel !!
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## Weekplanning W&amp;MSS
+                    1. Intro & Docker
+                    2. PHP basissyntax
+                    3. PHP geavanceerde syntax
+                    4. Formulieren
+                    5. Composer en werken met databanken
+                    6. Templates
+                    7. URL design en routers
+                    8. Cookies, sessies en authenticatie
+                    9. *indiv. labo*
+                    10. Web APIs
+                    11. ORM
+                    12. MVC en (micro)frameworks
+                    13. E-mail en notifcatie
+                    14. *indiv. labo*
+                </script>
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                    ## Software W&amp;MSS
+                    * Docker Desktop (installeer tijdig !)
+                    * git
+                    * een PHP-specifieke IDE
+                       * PhpStorm (licentie voor odisee-studs), Visual Code, Netbeans, &hellip;
+                       * Een teksteditor met (*)
+                            * Syntax Highlighting
+                            * Autocompletion
+                            * PHPDoc Integration
+                            * On-the-fly syntax check
+
+                    (*) [Waarom?](https://www.codelord.net/2010/02/16/stop-coding-in-the-middle-ages/)
+                </script>
+            </section>
+            <section>
+                <h2>Over deze interactieve slides</h2>
+                <ul>
+                    <li>Gecodeerd in <a href="https://revealjs.com/">reveal.js</a></li>
+                    <li>Werkende PHP-codefragmenten indien gestart met Docker</li>
+                    <li>Installatie-instructies: <a href="https://github.com/mjoris/workshops-wmss">github.com/mjoris/workshops-wmss</a></li>
+                    <li>Update regelmatig!</li>
+                </ul>
+            </section>
+
+
+
+    </div>
+
+</div>
+
+<script src="dist/reveal.js"></script>
+<script src="plugin/zoom/zoom.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/search/search.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+
+    // Also available as an ES module, see:
+    // https://revealjs.com/initialization/
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: true,
+        hash: true,
+        slideNumber: true,
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight ]
+    });
+
+</script>
+
+</body>
+</html>

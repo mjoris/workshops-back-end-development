@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>W&amp;M Server-side – Course materials</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/black.css" id="theme">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+    <style>
+        .reveal .slides {
+            font-size: 70%;
+        }
+        code {
+            background: rgba(255,255,255,0.3);
+            font-size: 0.55em;
+        }
+        .has-light-background code {
+            background: rgba(0,0,255,0.2);
+        }
+        code.hljs {
+            font-size: 100%;
+        }
+        :not(.current-fragment).hide-when-not-current {
+            display: none;
+        }
+        .slide-background-content {
+            opacity: 0.3;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="reveal">
+
+    <div class="slides">
+        <section data-background="#b5533c" > <!-- wposad color #4d7e65 -->
+            <h3>Web &amp; Mobile Server-side <small>[OGI03q]</small></h3>
+            <h1>01. Recap: the webserver, HTTP, PHP</h1>
+            <footer>What you have learned from <em>Web &amp; Mobile 1</em></footer>
+
+        </section>
+
+
+
+        <section >
+            <section>
+                <h2>01.1<br>The client-server model</h2>
+            </section>
+
+
+            <section data-background="#fdfdfd">
+                <h2>The client-server model (1)</h2>
+                <p><img src="assets/01/clientserver.png" alt="" width="700"></p>
+            </section>
+
+            <section>
+                <h2>The client-server model (2)</h2>
+                <ul>
+                    <li>Client: a piece of software</li>
+                    <li>Server: a piece of software</li>
+                    <li>Multiple client communicate with 1 server</li>
+                    <li>The client asks a question and the server answers</li>
+                </ul>
+            </section>
+
+            <section data-background="#fdfdfd">
+                <h2>Example: browsing a web page</h2>
+                <p><img src="assets/01/clientserver2.png" alt="" width="800"></p>
+            </section>
+
+            <section data-background="#fdfdfd">
+                <h2>Client-server communication</h2>
+                <p><img src="assets/01/clientserver3.png" alt="" width="200"></p>
+                <ul>
+                    <li>client sends a <strong>request</strong> (initiator)</li>
+                    <li>server sends back a <strong>response</strong></li>
+                    <li>communication over a <strong>protocol</strong> (for web traffic: HTTP over TCP/IP)</li>
+                    <li>server is <em>listening</em> on a TCP port (HTTP: port 80) for incoming requests </li>
+                </ul>
+
+            </section>
+
+
+        </section>
+
+        <section >
+            <section>
+                <h2>01.2<br>The webserver and HTTP</h2>
+            </section>
+
+
+
+            <section data-background="#fdfdfd">
+                <h2>So what is a webserver?</h2>
+
+                <ul style="width: 18em;float: left;font-size: 90%">
+                    <li>&hellip; a piece of software that answers an HTTP request ASAP by an HTTP response</li>
+                    <li>An HTTP request symbolizes <strong>a request for a file or document</strong>. When this document is available, it is sent in the HTTP response.</li>
+                    <li>HTTP request methods
+                        <ul>
+                            <li>GET: asking for information</li>
+                            <li>POST: sending information</li>
+                        </ul>
+                    </li>
+                    <li>HTTP status codes
+                        <ul>
+                            <li>2xx: succes</li>
+                            <li>3xx: redirection</li>
+                            <li>4xx: request error</li>
+                            <li>5xx: server error</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p><img src="assets/01/webservercom.png" alt="" width="250"></p>
+
+            </section>
+
+            <section data-background="#fdfdfd">
+                <h2>HTTP/2.0 </h2>
+                <ul style="width: 16em;float: left;font-size: 90%">
+                    <li>HTTP request
+                        <ul>
+                            <li>HEADERS (request method, HTTP version, path, &hellip;)</li>
+                            <li>DATA (e.g. file upload)</li>
+                        </ul>
+                    </li>
+                    <li>HTTP response
+                        <ul>
+                            <li>HEADERS (status code, info about the server/document &hellip;)</li>
+                            <li>DATA (e.g. the document itself)</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p><img src="assets/01/http20.png" alt="" width="500"></p>
+
+            </section>
+
+            <section data-background="#fdfdfd">
+                <h2>DevTools(F12): the network tab</h2>
+                <p><img src="assets/01/devtools.png" alt=""></p>
+
+            </section>
+
+            <section>
+                <h2>Browsing the webserver by URL</h2>
+                <p><img src="assets/01/url.png" alt="" width="100%"></p>
+                <ul>
+                    <li>subdomain + domain &rarr; IP address e.g. <code>http://134.58.64.12/</code></li>
+                    <li>domain ev. followed by port number (default 80) e.g. <code>www.ikdoeict.be:8080</code></li>
+                    <li>file path: identify a document in the server's folder structure</li>
+                    <li>file path: sent in the HTTP request's header</li>
+                </ul>
+
+            </section>
+
+            <section>
+                <h2>Terminology</h2>
+                <ul>
+                    <li><strong>Document root</strong>: (server disk) folder where the webserver starts to look up documents upon an incoming request</li>
+                    <li><strong>Default page</strong>: when the URL's path is a folder, the webserver looks for <code>index.html</code> or <code>index.php</code> in this folder.
+                        <br> If not available, it might show a directory listing.</li>
+                </ul>
+            </section>
+        </section>
+
+        <section >
+            <section>
+                <h2>01.3<br>Server-side code</h2>
+            </section>
+
+            <section>
+                <h2>Server-side code</h2>
+                <ul>
+                    <li>enables web application where visitors can log in, register for an event, publish blog posts, &hellip;</li>
+                    <li>PHP: scripts/code is executed on the webserver. Typically, this code communicates with a DBMS in order to consult/store data.</li>
+                    <li>Only the code fragments between <code>&lt;?php</code> and <code>?&gt;</code> are executed, only when the file's extension is <code>.php</code> </li>
+                </ul>
+            </section>
+
+
+
+            <section>
+                <h2>Code example</h2>
+<pre><code class="hljs php" data-trim data-line-numbers>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Combining HTML and PHP&lt;/title&gt;
+    &lt;meta charset=&quot;UTF-8&quot; /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;p&gt;I am HTML&lt;/p&gt;
+	&lt;?php echo '&lt;p&gt;I am HTML, generated by PHP&lt;/p&gt;'; ?&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+                <small style="float: right;"><a href="assets/01/examples/html_and_php.php" target="_blank">&rarr; run PHP-code</a></small>
+            </section>
+
+            <section data-background="#fdfdfd">
+                <h2>Overview </h2>
+                <p><img src="assets/01/parsing2.png" alt=""></p>
+            </section>
+
+
+        </section>
+
+        <!-- The END -->
+        <section>
+            <section>
+                <h2>Questions?</h2>
+                <footer>
+                    <em><a href="http://www.ikdoeict.be/">ikdoeict.be</a> &mdash; <a href="mailto:joris.maervoet@odisee.be">joris.maervoet@odisee.be</a></em>
+                </footer>
+            </section>
+        </section>
+
+
+
+    </div>
+
+</div>
+
+<script src="dist/reveal.js"></script>
+<script src="plugin/zoom/zoom.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/search/search.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+
+    // Also available as an ES module, see:
+    // https://revealjs.com/initialization/
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: true,
+        hash: true,
+        slideNumber: true,
+
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight ]
+    });
+
+</script>
+
+</body>
+</html>

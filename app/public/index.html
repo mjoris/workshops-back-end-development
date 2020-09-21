@@ -1,40 +1,93 @@
 <!doctype html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<html lang="en">
 
-		<title>reveal.js</title>
+<head>
+	<meta charset="utf-8">
 
-		<link rel="stylesheet" href="dist/reset.css">
-		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css" id="theme">
+	<title>W&amp;M Server-side – Course materials</title>
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/theme/black.css" id="theme">
+
+	<!-- Theme used for syntax highlighting of code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+</head>
+<style>
+	.r-hstack .minislide {
+		width: 6em;
+		height: 4em;
+		border-width: 0.05em;
+		border-style: solid;
+		margin: 0.25em;
+		padding: 0.25em;
+		background-color: rgba(255, 255, 255, 0.15);
+		font-weight: 600;
+		text-transform: uppercase;
+	}
+	.r-hstack a .minislide {
+		color: #fff;
+	}
+</style>
+
+<body>
+
+<div class="reveal">
+
+	<!-- Any section element inside of this container is displayed as a slide -->
+	<div class="slides">
+		<section data-background="#b5533c" > <!-- wposad color #4d7e65 -->
+			<h3>Web &amp; Mobile Server-side  [OGI03q] 	</h3>
+			<p>
+				<small>Course materials &mdash; update your slides regularly</small>
+			</p>
+			<div class="r-hstack">
+				<a href="00.course.intro.html">
+					<p class="minislide">
+						<small><br>00. Course intro<br>- in dutch -<br><br>week 1</small>
+					</p>
+				</a>
+				<a href="01.recap.webserver.html">
+					<p class="minislide">
+						<small><br>01. Recap:<br>webserver HTTP PHP<br><br>week 1</small>
+					</p>
+				</a>
+				<a href="02.docker.html">
+					<p class="minislide">
+						<small><br>02. Docker<br><br><br>week 1</small>
+					</p>
+				</a>
 			</div>
-		</div>
+		</section>
+	</div>
+</div>
 
-		<script src="dist/reveal.js"></script>
-		<script src="plugin/notes/notes.js"></script>
-		<script src="plugin/markdown/markdown.js"></script>
-		<script src="plugin/highlight/highlight.js"></script>
-		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
+<script src="dist/reveal.js"></script>
+<script src="plugin/zoom/zoom.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/search/search.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
 
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
-			});
-		</script>
-	</body>
+	// Also available as an ES module, see:
+	// https://revealjs.com/initialization/
+	Reveal.initialize({
+		controls: true,
+		progress: true,
+		center: true,
+		hash: true,
+
+		// Learn about plugins: https://revealjs.com/plugins/
+		plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight ]
+	});
+
+</script>
+
+</body>
 </html>
