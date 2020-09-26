@@ -17,3 +17,95 @@ code.hljs {
 .slide-background-content {
     opacity: 0.3;
 }
+
+/*********************************************
+ * TABLE OF CONTENTS
+ *********************************************/
+
+.reveal .toc {
+    display: block;
+    position: fixed;
+    left: 0;
+    top: -4px;
+    z-index: 1000;
+}
+
+.reveal .toc nav {
+    padding: 10px;
+    width: 280px;
+    max-height: 545px;
+    max-height: 100vh;
+    overflow-y: auto;
+    z-index: 99999;
+    background: #555a5f;
+    letter-spacing: 0.5px;
+    opacity: 0.3;
+    white-space: nowrap;
+    color: #fff;
+}
+
+.reveal .toc nav a {
+    color: #ffffff;;
+}
+
+.reveal .toc nav a:hover {
+    color: #d7d0cf;
+}
+
+.reveal .toc nav:hover {
+    opacity: 0.97;
+    background: hsl(11, 50%, 47%);
+    box-shadow: 3px 3px 7px #1c1e20;
+}
+
+.reveal .toc nav > p {
+    font-size: 14px;
+    padding: 3px;
+    line-height: 20px;
+    cursor: pointer;
+    margin: 0;
+}
+
+.reveal .toc nav > ul {
+    line-height: 20px;
+    display: none;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.reveal .toc nav > ul > li {
+    padding: 5px 0;
+    font-size: 16px;
+    padding-left: 5px;
+    position: relative;
+    list-style: none;
+}
+
+.reveal .toc nav > ul > li > ul {
+    margin: 0;
+    padding: 4px 0 0 20px;
+    opacity: 0.7;
+}
+
+.reveal .toc nav > ul > li > ul > li {
+    font-size: 12px;
+    position: relative;
+    list-style: none;
+}
+
+.reveal .toc nav:hover ul {
+    display: block;
+}
+
+.reveal .toc nav .pagenr {
+    position: absolute;
+    top: 2px;
+    right: 5px;
+    color: #ccc;
+}
+
+.reveal .toc nav > ul > li > ul > li a {
+    border-bottom: 1px dotted #ccc;
+}
+
