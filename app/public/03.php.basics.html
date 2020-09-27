@@ -1,0 +1,2411 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>WPoSaD – Course materials</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/black.css" id="theme">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+
+<div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+        <section data-background="#b5533c">
+            <h3>Web &amp; Mobile Server-side <small>[OGI03q]</small></h3>
+            <h1>03. PHP Basics</h1>
+        </section>
+
+
+        <!-- PHP & Running PHP -->
+        <section>
+            <section>
+                <h2>03.1<br>PHP Introduction</h2>
+            </section>
+
+            <section>
+                <h2>PHP</h2>
+                <ul>
+                    <li>
+                        Short for <em>PHP: Hypertext Preprocessor</em>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Scripting language
+                        <ul>
+                            <li>Loose syntax</li>
+                            <li>
+                                Not compiled for distribution (cfr. Java), but interpreted at runtime
+                                <ul>
+                                    <li>Therefore it's slower than compiled languages</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Very popular on the internet
+                        <ul>
+                            <li>One of the first Serverside Scripting Languages (° 1995)</li>
+                            <li>PHP plugins exist for nearly all web servers and OSes</li>
+                            <li>e.g. Wordpress, Facebook, Wikipedia, etc.</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Suffers from historical cruft &amp; syntax inconsistencies
+                    </li>
+                </ul>
+            </section>
+
+            <section data-background="#fdfdfd">
+                <h2>PHP Versions</h2>
+
+                <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 970 228" width="970" height="228">
+                    <style type="text/css">
+                        <![CDATA[
+
+
+                        text {
+                            fill: #333;
+                            font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
+                            font-size: 16px;
+                        }
+
+                        g.eol rect,
+                        .branches rect.eol {
+                            fill: #f33;
+                        }
+
+                        g.eol text {
+                            fill: white;
+                        }
+
+                        g.security rect,
+                        .branches rect.security {
+                            fill: #f93;
+                        }
+
+                        g.stable rect,
+                        .branches rect.stable {
+                            fill: #9c9;
+                        }
+
+                        .branch-labels text {
+                            dominant-baseline: central;
+                            text-anchor: middle;
+                        }
+
+                        .today line {
+                            stroke: #f33;
+                            stroke-dasharray: 7,7;
+                            stroke-width: 3px;
+                        }
+
+                        .today text {
+                            fill: #f33;
+                            text-anchor: middle;
+                        }
+
+                        .years line {
+                            stroke: black;
+                        }
+
+                        .years text {
+                            text-anchor: middle;
+                        }
+                        ]]>
+                    </style>
+
+                    <!-- Branch labels -->
+                    <g class="branch-labels">
+                        <g class="eol">
+                            <rect x="0" y="24" width="40" height="30" />
+                            <text x="20" y="39">
+                                5.6				</text>
+                        </g>
+                        <g class="eol">
+                            <rect x="0" y="54" width="40" height="30" />
+                            <text x="20" y="69">
+                                7.0				</text>
+                        </g>
+                        <g class="eol">
+                            <rect x="0" y="84" width="40" height="30" />
+                            <text x="20" y="99">
+                                7.1				</text>
+                        </g>
+                        <g class="security">
+                            <rect x="0" y="114" width="40" height="30" />
+                            <text x="20" y="129">
+                                7.2				</text>
+                        </g>
+                        <g class="stable">
+                            <rect x="0" y="144" width="40" height="30" />
+                            <text x="20" y="159">
+                                7.3				</text>
+                        </g>
+                        <g class="stable">
+                            <rect x="0" y="174" width="40" height="30" />
+                            <text x="20" y="189">
+                                7.4				</text>
+                        </g>
+                    </g>
+
+                    <!-- Branch blocks -->
+                    <g class="branches">
+                        <rect class="stable" x="80" y="24" width="5.9139196145001" height="30" />
+                        <rect class="security" x="85.9139196145" y="24" width="233.59982477275" height="30" />
+                        <rect class="stable" x="80" y="54" width="120.90680100756" height="30" />
+                        <rect class="security" x="200.90680100756" y="54" width="121.89245427664" height="30" />
+                        <rect class="stable" x="80" y="84" width="229.65721169642" height="30" />
+                        <rect class="security" x="309.65721169642" y="84" width="119.92114773847" height="30" />
+                        <rect class="stable" x="189.40751286825" y="114" width="239.84229547695" height="30" />
+                        <rect class="security" x="429.2498083452" y="114" width="120.24969882817" height="30" />
+                        <rect class="stable" x="311.29996714489" y="144" width="240.17084656664" height="30" />
+                        <rect class="security" x="551.47081371153" y="144" width="119.92114773847" height="30" />
+                        <rect class="stable" x="428.59270616581" y="174" width="240.17084656664" height="30" />
+                        <rect class="security" x="668.76355273245" y="174" width="119.92114773847" height="30" />
+                    </g>
+
+                    <!-- Year lines -->
+                    <g class="years">
+                        <line x1="80" y1="24" x2="80" y2="204" />
+                        <text x="80" y="19.2">
+                            1 Jan 2017			</text>
+                        <line x1="199.92114773847" y1="24" x2="199.92114773847" y2="204" />
+                        <text x="199.92114773847" y="19.2">
+                            1 Jan 2018			</text>
+                        <line x1="319.84229547695" y1="24" x2="319.84229547695" y2="204" />
+                        <text x="319.84229547695" y="19.2">
+                            1 Jan 2019			</text>
+                        <line x1="439.76344321542" y1="24" x2="439.76344321542" y2="204" />
+                        <text x="439.76344321542" y="19.2">
+                            1 Jan 2020			</text>
+                        <line x1="560.01314204359" y1="24" x2="560.01314204359" y2="204" />
+                        <text x="560.01314204359" y="19.2">
+                            1 Jan 2021			</text>
+                        <line x1="679.93428978206" y1="24" x2="679.93428978206" y2="204" />
+                        <text x="679.93428978206" y="19.2">
+                            1 Jan 2022			</text>
+                        <line x1="799.85543752053" y1="24" x2="799.85543752053" y2="204" />
+                        <text x="799.85543752053" y="19.2">
+                            1 Jan 2023			</text>
+                        <line x1="919.77658525901" y1="24" x2="919.77658525901" y2="204" />
+                        <text x="919.77658525901" y="19.2">
+                            1 Jan 2024			</text>
+                    </g>
+
+                    <!-- Today -->
+                    <g class="today">
+                        <line x1="528.14368634323" y1="24" x2="528.14368634323" y2="204" />
+                        <text x="528.14368634323" y="223.2">
+                            Today		</text>
+                    </g>
+                </svg>
+                <div>
+                    <small>
+                        <span style="background: #9c9;color: #333;">&nbsp;Active support&nbsp;</span> &nbsp;
+                        <span style="background: #f93;color: #333;">&nbsp;Security fixes only&nbsp;</span> &nbsp;
+                        <span style="background: #f33;color: #fff;">&nbsp;End of life&nbsp;</span> 		&nbsp;
+                    </small>
+                </div>
+                <ul style="width: 100%;">
+
+                    <li>
+                        Current versions:
+                        <ul>
+                            <li>7.3.22 (till 6 Dec 2020)</li>
+                            <li>7.4.10</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Our code is PHP 7.3+ compliant
+                    </li>
+                </ul>
+
+            </section>
+
+            <section>
+                <h2>PHP CLI (1)</h2>
+                <ul>
+                    <li>
+                        Run the PHP interpreter from the command line
+                        <ul>
+                            <li>
+                                Run <code>php -r &quot;<em>one line of PHP code</em>&quot;</code> to run a single line of PHP code
+                                <pre class="bigger"><code class="hljs php">$ php -r &quot;echo 'hello' . PHP_EOL;&quot;
+hello
+$</code></pre>
+                            </li>
+                            <li>
+                                Better: run <code>php <em>file.php</em></code> to &ldquo;execute&rdquo; a file that contains PHP code
+                                <ul>
+                                    <li>You must wrap your PHP code between <code>&lt;?php</code> and <code>?&gt;</code></li>
+                                    <li>The closing <code>?&gt;</code> is optional.</li>
+                                </ul>
+                                <pre class="bigger"><code class="hljs php">&lt;?php
+	echo 'hello' . PHP_EOL;
+?&gt;</code></pre>
+                                <pre class="bigger"><code class="hljs php">$ php cli-example.php
+hello
+$</code></pre>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>PHP CLI (2)</h2>
+                <ul>
+                    <li>
+                        Run the PHP interpreter from the command line <em>(continued)</em>
+                        <ul>
+                            <li>Run <code>php -a</code> to get an interactive shell at which you can type in PHP statements
+                                <ul>
+                                    <li>cfr. the MySQL shell where you type in SQL statements (queries)</li>
+                                    <li>A <code>;</code> ends a statement</li>
+                                    <li>Type <code>quit</code> or <code>exit</code> to leave the shell</li>
+                                </ul>
+                                <pre class="bigger"><code class="hljs php">$ php -a
+Interactive shell
+
+php &gt; echo 'hello';
+hello
+php &gt; quit
+$</code></pre>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>PHP on a webserver (1)</h2>
+
+                <ul>
+                    <li>Give your file a <code>.php</code> extension and the PHP interpreter will interpret the file
+                        <ul>
+                            <li>The webserver must of course be configured to do so e.g.
+                                <ul>
+                                    <li>Apache with PHP extension</li>
+                                    <li>nginx with PHP-FPM</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>All PHP code must be enclosed by <code>&lt;?php</code> and <code>?&gt;</code></li>
+                    <li style="margin-top: 0.5em;">
+                        <em>By default</em> the webserver sends an HTTP response containing
+                        <ul>
+                            <li>status code <strong style="color: greenyellow;">200 OK</strong> (headers)</li>
+                            <li>the parsed code (data envelope)</li>
+                        </ul>
+                    </li>
+
+
+                </ul>
+
+            </section>
+
+            <section>
+                <h2>PHP on a webserver (2)</h2>
+                <ul>
+                    <li>Text residing outside <code>&lt;?php</code> and <code>?&gt;</code> does not result in an error but just is not parsed</li>
+
+                            <li>
+                                &rarr; It is perfectly possible to combine HTML and PHP
+                                <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/html_and_php.php">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Combining HTML and PHP&lt;/title&gt;
+    &lt;meta charset=&quot;UTF-8&quot; /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;p&gt;I am HTML&lt;/p&gt;
+	&lt;?php echo '&lt;p&gt;I am HTML, generated by PHP&lt;/p&gt;'; ?&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                            </li>
+
+
+                </ul>
+            </section>
+
+            <section style="font-size: 85%">
+                <h2>Installing PHP</h2>
+                <ul>
+                    <li>
+                        PHP CLI can be downloaded from <a href="https://www.php.net/downloads.php">http://php.net</a>.
+                        <ul>
+                            <li>Does NOT include a <em>real</em> webserver nor a database server</li>
+                            <li>Ships with a built-in webserver which can be started from anywhere
+                            <pre class="bigger"><code>php -S localhost:8080</code></pre>
+                            <ul>
+                                <li>All PHP files in that folder will be served</li>
+                                <li>For testing and demo purposes only!</li>
+                            </ul>
+                        </li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;"><strong>*AMP stack</strong>: a preconfigured software bundle installing Apache, MySQL and PHP on your system
+                        <ul>
+                            <li>Examples: <a href="http://wampserver.aviatechno.net/">Aviatechno's Wampserver</a>, <a href="http://mamp.info/en">MAMP</a>, <a href="https://en.wikipedia.org/wiki/LAMP_(software_bundle)">LAMP stack</a></li>
+                            <li>PHP CLI: add the <code>bin</code> directory to the system's <code>PATH</code> variable</li>
+                        </ul>
+
+                    </li>
+
+                    <li style="margin-top: 1em;">
+                        Best choice: set up a virtual environment with <a href="https://www.docker.com/products/docker-engine">Docker</a>
+                        <ul>
+                            <li>Example: the MCE provided with <em>these</em> course materials</li>
+                            <li>PHP CLI: <code>docker exec</code> into the container which has PHP available from the command line</li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </section>
+
+            <section>
+                <h2>Development vs. production</h2>
+                <ul>
+                    <li>
+                        <strong>Development</strong>
+                        <ul>
+                            <li>Programming and testing your web application in some <strong>local</strong> server environment</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        <strong>Production</strong>
+                        <ul>
+                            <li>Transfer your project (<code>*.php</code>, <code>css</code>, <code>img</code>, &hellip;) to web server on the internet</li>
+                            <li><strong>Don't mess around</strong>: publish safe and stable versions only</li>
+                            <li><em>Shared hosting</em>: multiple accounts on 1 machine</li>
+                            <li>File transfer typically over SSH (clients like <a href="https://winscp.net/eng/docs/lang:nl">WinSCP</a>)</li>
+                            <li>Your own <code>voornaamachternaam.ikdoeict.be/</code> website? Look <a href="https://ikdoeict.freshdesk.com/support/solutions/articles/31000137675-webspaces-gebruik-van-php-webspaces">here</a>. </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Configuring PHP: php.ini</h2>
+                <ul>
+                    <li>
+                        PHP can be configured via a file named <code>php.ini</code>
+                    </li>
+                    <li style="margin-top: 1em">We'll take a closer look at this file when it's needed</li>
+                    <li style="margin-top: 1em">Note: the <code>php.ini</code> shipped with our MCE is configured for development:
+                        error reporting is enabled</li>
+                </ul>
+            </section>
+        </section>
+
+
+        <!-- PHP Syntax: Variables/Arrays/Casting, -->
+        <section>
+            <section>
+                <h2>03.2<br>PHP Variables</h2>
+            </section>
+
+            <section>
+                <h2>Before we dive in</h2>
+                <ul>
+                    <li>
+                        Strings are enclosed by <code>'</code> or <code>&quot;</code>
+                    </li>
+                    <li>
+                        Use <code>echo</code> to output something onscreen.
+                        <pre class="bigger"><code class="hljs php">$ php -a
+Interactive shell
+
+php &gt; echo 'hello';
+hello
+php &gt; echo('hello');
+hello </code></pre>
+                        <ul>
+                            <li>The first example is the preferred syntax</li>
+                        </ul>
+                    </li>
+                    <li>
+                        Statements end in a <code>;</code>
+                        <pre class="bigger"><code class="hljs php">php &gt; echo 'hello'
+php &gt; ;
+hello</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Name, Value &amp; Type</h2>
+                <ul>
+                    <li>
+                        Variables have a <em>name</em> and a <em>value</em>
+                        <ul>
+                            <li>Variable names start with a <code>$</code></li>
+                        </ul>
+                        <pre class="bigger"><code class="hljs php">php &gt; $a = 3;
+php &gt; echo $a;
+3</code></pre>
+                    </li>
+                    <li>
+                        Variables are of a certain type
+                        <ul>
+                            <li>Primitive types: boolean, integer, float <em>(aka double)</em>, string</li>
+                            <li>Combined types: array, object</li>
+                            <li>Special types: resource, NULL</li>
+                            <li>Pseudo types: mixed, number, callback, array|object, void, ..., iterable</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>A few pointers (1)</h2>
+                <ul style="width: 100%">
+                    <li>
+                        PHP is case sensitive
+                        <ul>
+                            <li>
+                                <code>$firstName</code> and <code>$firstname</code> are not the same!
+                                <pre class="bigger"><code class="hljs php">php &gt; $firstName = 'Bramus';
+php &gt; echo $firstName;
+Bramus
+php &gt; echo $firstname;
+
+Notice: Undefined variable: firstname in php shell code on line 1</code></pre>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        Use square brackets to access the characters of a string
+                        <ul>
+                            <li>
+                                When <code>$word</code> is a string, <code>$word[1]</code> is again a string!
+                                <pre class="bigger"><code class="hljs php">php &gt; $firstName = 'Joris';
+php &gt; $firstName[0] = 'B';
+php &gt; echo $firstName;
+Boris
+php &gt; echo $firstName[-1]; // since PHP 7.1
+s</code></pre>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+
+            </section>
+
+            <section>
+                <h2>A few pointers (2)</h2>
+                <ul style="font-size: 90%">
+                    <li style="margin-top: 1em">
+                        To concatenate strings, you must use a <code>.</code>
+                        <ul>
+                            <li>
+                                When using a <code>+</code>, PHP will think you're adding numbers
+                                <pre class="bigger"><code class="hljs php">php &gt; $firstName = 'Bramus';
+php &gt; $lastName = 'Van Damme';
+php &gt; echo $firstName . ' ' . $lastName;
+Bramus Van Damme
+php &gt; echo $firstName + ' ' + $lastName;
+Warning: A non-numeric value encountered in php shell code on line 1
+Warning: A non-numeric value encountered in php shell code on line 1
+Warning: A non-numeric value encountered in php shell code on line 1
+0</code></pre>
+                            </li>
+                            <li>
+                                Strings are accepted for numeric operations, but preferably <em>well formed</em>
+                                <pre class="bigger"><code class="hljs php">php &gt; echo '5' + '6';
+11
+php &gt; echo '5' * '6k';
+Notice: A non well formed numeric value encountered in php shell code on line 1
+30</span></code></pre>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </section>
+
+            <section>
+                <h2>Dynamic &amp; Weak typing (1)</h2>
+                <ul>
+                    <li>PHP is dynamically typed
+                        <ul>
+                            <li>When &quot;declaring&quot; a variable, you cannot specify the type. Only at runtime, the type of a variable is known.</li>
+                        </ul>
+
+                    <pre class="bigger"><code class="hljs php">php &gt; $a = 3;
+php &gt; echo gettype($a);
+integer
+php &gt; $a = 'Hello';
+php &gt; echo gettype($a);
+string</code></pre>
+                    </li>
+                    <li>PHP is weakly typed
+                        <ul>
+                            <li>PHP converts the type <small>(of an evaluated expression)</small> when it is not appropriate for an operator
+                                <ul>
+                                    <li>This phenomenon is known as <em>implicit type conversion</em> or <em>coercion</em></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <pre class="bigger"><code class="hljs php">php &gt; echo gettype('12' + '50') . ('12' + '50');
+integer62</code></pre>
+                    </li>
+
+                </ul>
+
+
+            </section>
+
+            <section>
+                <h2>Dynamic &amp; Weak typing (2)</h2>
+                <ul style="width: 100%">
+                    <li>Dynamic &amp; weak typing give rise to <em>type juggling</em>
+                        <pre class="bigger"><code class="hljs php">php &gt; $foo = '0';  // $foo is a string
+php &gt; $foo += 2;   // $foo is now an integer (2)
+php &gt; $foo = $foo + 1.3;  // $foo is now a float (3.3)
+php &gt; $foo .= ' piggies'; // $foo is now a string ('3.3 piggies')
+</code></pre>
+                        <ul>
+                            <li>Is it <a href="https://www.quora.com/What-is-type-juggling-on-PHP">a feature or a flaw</a>?</li>
+                            <li>Use type casting ...</li>
+                        </ul>
+                    </li>
+
+                </ul>
+
+
+        </section>
+
+            <section>
+                <h2>Type casting</h2>
+                <ul>
+                    <li>
+                        To enforce a variable being of a certain type, you must explicitly cast it to that type
+                        <pre class="bigger"><code class="hljs php">php &gt; $a = 3;
+php &gt; echo gettype($a);
+integer
+php &gt; $a = (string) $a;
+php &gt; echo gettype($a);
+string</code></pre>
+                    </li></ul>
+            </section>
+
+
+
+            <section>
+                <h2>Interpolation</h2>
+                <ul>
+                    <li>
+                        Also known as <em>Variable Substitution</em>
+                    </li>
+                    <li>
+                        When enclosed between <code>&quot;</code>, PHP will try to substitute any string that could resemble a variable
+                        <pre class="bigger"><code class="hljs php">php &gt; $firstName = 'Bramus';
+php &gt; echo "variable: $firstName\n";
+variable: Bramus
+php &gt; echo "variable: \$firstName\n";
+variable: $firstName
+php &gt; echo 'variable: $firstName\n';
+variable: $firstName\n
+php &gt; echo 'variable: \$firstName\n';
+variable: \$firstName\n
+php &gt; echo 'variable: ' . $firstName . '\n';
+variable: Bramus\n
+php &gt; echo 'variable: ' . $firstName . "\n";
+variable: Bramus
+php &gt; echo 'variable: ' . $firstName . PHP_EOL;
+variable: Bramus</code></pre>
+                        <ul>
+                            <li>Course convention: use <code>'</code> where possible</li>
+                            <li>Course convention: always use <code>PHP_EOL</code> instead of <code>&quot;\n&quot;</code></li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Arrays (1)</h2>
+                <pre class="bigger"><code class="hljs php">php &gt; $arr = []; // shorthand for: $arr = array();
+php &gt; $arr[] = 'se7en';
+php &gt; $arr[] = 123;
+php &gt; $arr[] = true;
+php &gt; echo $arr[1];
+123</code></pre>
+                <ul>
+                    <li>Explicit array creation isn't mandatory but attests a good coding style</li>
+                    <li>Mixing of types forms no problem</li>
+                    <li>Automatic indexing</li>
+                    <li>Index is numeric and sequential. We call this type of array a <em>sequential array</em></li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Arrays (2)</h2>
+                <ul style="width: 100%">
+                    <li>It's possible to set the start index</li>
+                </ul>
+                <pre class="bigger"><code class="hljs php">php &gt; $arr = []; // shorthand for: $arr = array();
+php &gt; $arr[2] = 'se7en';
+php &gt; $arr[] = 123;
+php &gt; $arr[] = true;
+php &gt; echo $arr[3];
+123</code></pre>
+            </section>
+
+            <section>
+                <h2>Arrays (3)</h2>
+                <ul style="width: 100%">
+                    <li>
+                        It's possible to set the indices/keys yourself
+                        <pre class="bigger"><code class="hljs php">php &gt; $arr = []; // shorthand for: $arr = array();
+php &gt; $arr[2] = 'se7en';
+php &gt; $arr[8] = 123;
+php &gt; $arr[4] = true;
+php &gt; echo $arr[8];
+123</code></pre>
+                    </li>
+                    <li style="margin-top: 1em">
+                        Indices/keys can be strings too
+                        <pre class="bigger"><code class="hljs php">php &gt; $arr = [];
+php &gt; $arr['BE'] = 'Belgium';
+php &gt; $arr['NL'] = 'The Netherlands';
+php &gt; $arr['FR'] = 'France';
+php &gt; echo $arr['BE'];
+Belgium</code></pre>
+                    </li>
+                    <li>We call these <em>associative array</em>s</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Arrays (4)</h2>
+                <ul>
+                    <li>You can even mix integer and string keys, but it's bad practice</li>
+                    <li>Technically speaking there is no difference between sequential and associative arrays in PHP</li>
+                    <li style="margin-top: 1em">Internally, an array comes with a <a href="https://en.wikipedia.org/wiki/Hash_table">hash table</a> index
+                        <ul>
+                            <li>More space in memory, slower inserts but faster key lookups</li>
+                            <li>Multifunctional use: array, dictionary, list, set, ...</li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </section>
+
+            <section>
+                <h2>Arrays (5)</h2>
+                <ul style="width: 100%">
+                    <li>
+                        It's possible to declare and initialize an array in one go
+                        <div><pre class="bigger"><code class="hljs php">php &gt; $arr1 = array('Brussels', 'Ghent', 'Antwerp');</code></pre></div>
+                        <div><pre class="bigger"><code class="hljs php">php &gt; $arr2 = array('NL' => 'The Netherlands', 'BE' => 'Belgium');</code></pre></div>
+                        <pre class="bigger"><code class="hljs php">php &gt; $arr2 = array(
+php ( 'NL' => 'The Netherlands',
+php ( 'BE' => 'Belgium'
+php ( );</code></pre>
+                    </li>
+                    <li style="margin-top: 1em">
+                        Shorthand notation:
+                        <div><pre class="bigger"><code class="hljs php">php &gt; $arr1 = ['Brussels', 'Ghent', 'Antwerp'];</code></pre></div>
+                        <div><pre class="bigger"><code class="hljs php">php &gt; $arr2 = ['NL' => 'The Netherlands', 'BE' => 'Belgium'];</code></pre></div>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>(Un)setting variables</h2>
+                <ul>
+                    <li>
+                        <a href="http://php.net/manual/en/function.isset.php">isset</a> determines wether a variable is set and not null
+                        <pre class="bigger"><code class="hljs php">php &gt; $a = 0;
+php &gt; $b = null;
+
+php &gt; var_dump(isset($a));
+bool(true)
+php &gt; var_dump(isset($b));
+bool(false)
+php &gt; var_dump(isset($c)); // does not cause a notice !
+bool(false)
+
+php &gt; $c; // this is nonsense ! You don't set anything at all.
+</code></pre>
+                    </li>
+                    <li style="margin-top: 0.5em">
+                        <a href="http://php.net/manual/en/function.unset.php">unset</a> unsets a variable
+                        <pre class="bigger"><code class="hljs php">php &gt; $a = 'foo';
+php &gt; unset($a);
+php &gt; echo $a;
+
+Notice: Undefined variable: a in php shell code on line 1
+php &gt; var_dump(isset($a));
+bool(false)</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>(Un)setting array elements</h2>
+                <ul>
+                    <li>
+                        You can use <a href="http://php.net/manual/en/function.isset.php">isset</a> or <a href="http://php.net/manual/en/function.array-key-exists.php">array_key_exists</a> to check whether the element exists
+                        <pre class="bigger"><code class="hljs php">php &gt; $arr = ['BE' => 'Belgium', 'NL' => null];
+
+php &gt; var_dump(array_key_exists('BE', $arr));
+bool(true)
+php &gt; var_dump(array_key_exists('NL', $arr));
+bool(true)
+php &gt; var_dump(array_key_exists('FR', $arr));
+bool(false)
+php &gt; var_dump(isset($arr['NL']));
+bool(false)
+</code></pre>
+                    </li>
+                    <li style="margin-top: 0.5em">
+                        <a href="http://php.net/manual/en/function.unset.php">unset</a> unsets an array element
+                        <pre class="bigger"><code class="hljs php">php &gt; $arr = array(8, 9, 10);
+php &gt; unset($arr[1]);
+php &gt; echo $arr[1];
+
+Notice: Undefined offset: 1 in php shell code on line 1
+php &gt; echo $arr[2];
+10</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+        </section>
+
+
+
+
+
+        <!-- Selections/Iterations/Operators -->
+        <section>
+            <section>
+                <h2>03.3<br>Control Structures</h2>
+            </section>
+
+            <section>
+                <h2>Code Comments</h2>
+                <ul style="width: 100%">
+                    <li>
+                        Same as in Java
+                        <pre class="bigger"><code class="hljs php">// Single line comment
+
+/* Multi
+line
+comment
+*/
+
+/**
+ * Preferred way
+ * to layout
+ * multi-line
+ * comments
+ */</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Selections (1)</h2>
+                <ul style="width: 100%">
+                    <li>
+                        Same as in Java
+                        <pre class="bigger"><code class="hljs php">&lt;?php
+
+    if ($condition) {
+        // do something
+    }
+
+    if ($condition) {
+        // do something
+    } else {
+        // do something else
+    }
+
+    switch ($var) {
+
+        case $value1:
+            // do something
+            break;
+
+        case $value2:
+            // do something
+            break;
+
+        default:
+            // do something
+
+    }</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2 style="width: 100%">Selections (2)</h2>
+                <ul>
+                    <li>
+                        Example
+                        <pre class="bigger"><code class="hljs php">&lt;?php
+    $a = 7;
+    if ($a &lt; 9) {
+        echo '$a is less than 9';
+    } else {
+        echo '$a is greater than 9';
+    }</code></pre>
+                        <ul>
+                            <li>Course convention: always place curly brackets</li>
+                            <li>Course convention: place the curly brackets on the same line</li>
+                            <li>Course convention: indent one <code>TAB</code> inside curly brackets</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Selections (3)</h2>
+                <ul>
+                    <li>
+                        When possible, use the ternary operator
+                        <pre class="bigger"><code class="hljs php">&lt;?php
+    $a = 7;
+    echo (($a &lt; 9) ? '$a is less than 9' : '$a is greater than 9');</code></pre>
+                    </li>
+                    <li>
+                        The Elvis operator:
+                        <pre class="bigger"><code class="hljs php">&lt;?php
+    echo $nickName ?: $firstName;</code></pre>
+                        <ul>
+                            <li>If <code>$nickName</code> is <em>truthy</em> then it will be outputted. If not <code>$firstName</code> will.</li>
+                            <li><code>0</code> is not <em>truthy</em>, neither is <code>'0'</code> (<em>loose comparison</em>, see further) </li>
+                        </ul>
+                    </li>
+                    <li>
+                        The <em>null coalesce operator</em> <code>??</code> applies <a href="http://php.net/manual/en/function.isset.php">isset</a> to the first operand
+                        <pre class="bigger"><code class="hljs php">&lt;?php
+    echo $temperature ?? 'unknown';</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Iterations (1)</h2>
+                <ul style="width: 100%">
+                    <li>
+                        Same as in Java, except <code>foreach</code>
+                        <pre class="bigger"><code class="hljs php">&lt;?php
+
+	while ($condition) {
+		// do something
+	}
+
+	do {
+		// do something
+	} while ($condition);
+
+	for ($x = 0; $x &lt; 5; $x++) {
+		// do something
+	}
+
+	foreach ($arr as $value) {
+		// do something
+	}
+
+	foreach ($arr as $key => $value) {
+		// do something
+	}</code></pre>
+                        <ul>
+                            <li>Also possible to use <code>break;</code> and <code>continue;</code></li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Iterations (2)</h2>
+                <ul style="width: 100%">
+                    <li>
+                        Example
+                        <pre class="bigger"><code class="hljs php">php &gt; for ($x = 1; $x &lt;= 6; $x++) {
+php { echo 'Hello 2ICT' . $x . PHP_EOL;
+php { }
+Hello 2ICT1
+Hello 2ICT2
+Hello 2ICT3
+Hello 2ICT4
+Hello 2ICT5
+Hello 2ICT6</code></pre>
+                    </li>
+                    <li>
+                        Example
+                        <pre class="bigger"><code class="hljs php">php &gt; $countries = ['BE' => 'Belgium', 'NL' => 'The Netherlands'];
+php &gt; foreach ($countries as $key =&gt; $value) {
+php { echo $key . ' = ' . $value . PHP_EOL;
+php { }
+BE = Belgium
+NL = The Netherlands</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Operators</h2>
+                <ul>
+                    <li>
+                        Same as in Java
+                        <ul>
+                            <li>Comparison operators: <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code></li>
+                            <li>Logical &amp; bitwise operators: <code>&amp;&amp;</code>, <code>||</code>, <code>!</code>, <code>&amp;</code>, <code>|</code></li>
+                            <li>Post/pre- in/de-crement: <code>$var--</code>, <code>$var++</code>, <code>--$var</code>, <code>++$var</code></li>
+                            <li>Math shorthands: <code>+=</code>, <code>*=</code>, &hellip;</li>
+                        </ul>
+                    </li>
+                    <li>
+                        Caution! Identical operators: check for both type and value to be equal
+                        <div><pre class="bigger"><code class="hljs php">php &gt; $a = 13; // integer
+php &gt; $b = 13.0; // double
+php &gt; echo ($a == $b) ? 'equal' : 'not equal';
+equal
+php &gt; echo ($a === $b) ? 'equal' : 'not equal';
+not equal</code></pre></div>
+                    </li>
+                </ul>
+            </section>
+
+            <section data-background="#fdfdfd">
+                <h2>Comparison and weak typing (1)</h2>
+                <table id="types.comparisions-loose" class="doctable table" style="font-size:65%;">
+                    <caption><strong>Loose comparisons with <em>==</em></strong></caption>
+
+                    <thead>
+                    <tr>
+                        <th> </th>
+                        <th>true</th>
+                        <th>false</th>
+                        <th><em>1</em></th>
+                        <th><em>0</em></th>
+                        <th><em>-1</em></th>
+                        <th><em>'1'</em></th>
+                        <th><em>'0'</em></th>
+                        <th><em>'-1'</em></th>
+                        <th>null</th>
+                        <th><em>array()</em></th>
+                        <th><em>'php'</em></th>
+                        <th><em>''</em></th>
+                    </tr>
+
+                    </thead>
+
+                    <tbody class="tbody">
+                    <tr>
+                        <td style="background: #eee">true</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                    </tr>
+
+                    <tr>
+                        <td style="background: #eee">false</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                    </tr>
+
+                    <tr>
+                        <td style="background: #eee"><em>1</em></td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                    </tr>
+
+                    <tr>
+                        <td style="background: #eee"><em>0</em></td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td style="background: #480">true</td>
+                    </tr>
+
+                    <tr>
+                        <td style="background: #eee"><em>-1</em></td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                    </tr>
+
+                    <tr>
+                        <td style="background: #eee"><em>'1'</em></td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                    </tr>
+
+                    <tr>
+                        <td style="background: #eee"><em>'0'</em></td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                    </tr>
+
+                    <tr>
+                        <td style="background: #eee"><em>'-1'</em></td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                    </tr>
+
+                    <tr>
+                        <td style="background: #eee">null</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                    </tr>
+
+                    <tr>
+                        <td style="background: #eee"><em>array()</em></td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td>false</td>
+                    </tr>
+
+                    <tr>
+                        <td style="background: #eee"><em>'php'</em></td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                    </tr>
+
+                    <tr>
+                        <td style="background: #eee"><em>''</em></td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                    </tr>
+
+                    </tbody>
+
+                </table>
+            </section>
+            <section data-background="#fdfdfd">
+                <h2>Comparison and weak typing (2)</h2>
+                <table id="type.comparisons-strict" class="doctable table" style="font-size:65%;">
+                    <caption><strong>Strict comparisons with <em>===</em></strong></caption>
+
+                    <thead>
+                    <tr>
+                        <th> </th>
+                        <th>true</th>
+                        <th>false</th>
+                        <th><em>1</em></th>
+                        <th><em>0</em></th>
+                        <th><em>-1</em></th>
+                        <th><em>'1'</em></th>
+                        <th><em>'0'</em></th>
+                        <th><em>'-1'</em></th>
+                        <th>null</th>
+                        <th><em>array()</em></th>
+                        <th><em>'php'</em></th>
+                        <th><em>''</em></th>
+                    </tr>
+
+                    </thead>
+
+                    <tbody class="tbody">
+                    <tr>
+                        <td style="background: #eee">true</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                    </tr>
+
+                    <tr>
+                        <td style="background: #eee">false</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                    </tr>
+
+                    <tr>
+                        <td style="background: #eee"><em>1</em></td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                    </tr>
+
+                    <tr>
+                        <td style="background: #eee"><em>0</em></td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                    </tr>
+
+                    <tr>
+                        <td style="background: #eee"><em>-1</em></td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                    </tr>
+
+                    <tr>
+                        <td style="background: #eee"><em>'1'</em></td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                    </tr>
+
+                    <tr>
+                        <td style="background: #eee"><em>'0'</em></td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                    </tr>
+
+                    <tr>
+                        <td style="background: #eee"><em>'-1'</em></td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                    </tr>
+
+                    <tr>
+                        <td style="background: #eee">null</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                    </tr>
+
+                    <tr>
+                        <td style="background: #eee"><em>array()</em></td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                        <td>false</td>
+                    </tr>
+
+                    <tr>
+                        <td style="background: #eee"><em>'php'</em></td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                        <td>false</td>
+                    </tr>
+
+                    <tr>
+                        <td style="background: #eee"><em>''</em></td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td>false</td>
+                        <td style="background: #480">true</td>
+                    </tr>
+
+                    </tbody>
+
+                </table>
+            </section>
+
+            <section>
+                <h2>Comparison and weak typing (3)</h2>
+                <ul>
+                    <li>Good practice: use <code>===</code> and <code>!==</code> to check equality
+                        <div><pre class="bigger"><code class="hljs php">php &gt; $temperature = 0;
+php &gt; echo ($temperature == null) ? 'unavailable' : $temperature . '&deg;'; // bad practice
+unavailable
+php &gt; echo ($temperature === null) ? 'unavailable' : $temperature . '&deg;'; // good practice
+0&deg;
+
+php &gt; $temperature = null;
+php &gt; echo ($temperature < 5) ? 'cold' : 'something else'; // bad practice
+cold
+php &gt; echo (($temperature !== null) && ($temperature < 5)) ? 'cold' : 'something else'; // good practice
+something else
+
+php &gt; $productId = '';
+php &gt; echo $productId ?: 'zero, empty or n/a'; // ok if you REALLY know what you're doing
+zero, empty or n/a
+</code></pre></div>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Recap: efficient coding with arrays</h2>
+                <ul style="width: 100%;">
+                    <li><strong>Key</strong> lookups are fast, <strong>value</strong> lookups are slow</li>
+                    <li><strong>Keys</strong> are unique</li>
+                    <li>
+                        Compare the execution time of both programs
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/manyrandoms1.php" style="font-size: 95%; line-height: 1;">&lt;?php
+
+    $selection = array();
+    while (count($selection) < 50000) {
+        $random = mt_rand(0, 500000);
+        if (! in_array($random, $selection)) { // slow look-up !
+            $selection[] = $random;
+        }
+    }
+    echo ("Computed 50000 unique random numbers.");</code></pre>
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/manyrandoms2.php" style="font-size: 95%; line-height: 1;">    $selection = array();
+    while (count($selection) < 50000) {
+        $random = mt_rand(0, 500000);
+        $selection[$random] = 1;
+    }
+    echo ("Computed 50000 unique random numbers.");</code></pre>
+                    </li>
+                </ul>
+                <footer><small>In general, solutions with <a href="http://php.net/manual/en/function.array-key-exists.php">array_key_exists</a> are more efficient than those with <a href="http://php.net/manual/en/function.in-array.php">in_array</a></small></footer>
+            </section>
+
+
+        </section>
+
+        <!-- Functions: Built-in PHP Functions, Roll your own functions -->
+        <section>
+            <section>
+                <h2>03.4<br>Functions & Objects</h2>
+            </section>
+
+            <section>
+                <h2>String functions</h2>
+                <ul>
+                    <li>PHP has a lot of built-in functions</li>
+                    <li>
+                        A few <a href="http://php.net/manual/en/ref.strings.php">string-related functions</a>
+                        <ul>
+                            <li><code>addslashes</code>/<code>stripslashes</code> &mdash; <em>see 04.forms</em></li>
+                            <li><code>ltrim</code>/<code>rtrim</code>/<code>trim</code> &mdash; strips leading/trailing/enclosing whitespace</li>
+                            <li><code>str_replace</code> &mdash; replaces a part of a string with an other value</li>
+                            <li><code>strip_tags</code> &mdash; strips html from a string</li>
+                            <li><code>strlen</code> &mdash; returns the length of a string</li>
+                            <li><code>strtolower</code>/<code>strtoupper</code> &mdash; convert a string to uppercase/lowercase</li>
+                            <li><code>substr</code> &mdash; extract a part of a string</li>
+                            <li>...</li>
+                        </ul>
+                    </li>
+                </ul>
+                <footer>How to use: see <code>http://php.net/<em>nameofthefunction</em></code>
+                    <br /><small>Note: in PHP &ge; 7.1, <strong>negative</strong> string offsets are counted from the end of the string</small></footer>
+            </section>
+
+            <section>
+                <h2>Math functions</h2>
+                <ul>
+                    <li>
+                        A few <a href="http://php.net/manual/en/ref.math.php">math-related functions</a>
+                        <ul>
+                            <li><code>ceil</code> &mdash; round numerical values up</li>
+                            <li><code>floor</code> &mdash; round numerical values down</li>
+                            <li><code>round</code> &mdash; round numerical values mathematically</li>
+                            <li><code>rand</code>/<code>mt_rand</code> &mdash; generate a random number</li>
+                            <li><code>sqrt</code> &mdash; calculate the square root of a number</li>
+                            <li>...</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Array functions</h2>
+                <ul>
+                    <li>
+                        A few <a href="http://php.net/manual/en/ref.array.php">array-related functions</a>
+                        <ul>
+                            <li><code>sizeof</code>/<code>count</code> &mdash; get the size of an array</li>
+                            <li><code>sort</code> &mdash; sort an array</li>
+                            <li><code>asort</code> &mdash; sort an associative array</li>
+                            <li><code>explode</code> &mdash; split a string on a given delimiter and get an array</li>
+                            <li><code>implode</code> &mdash; opposite of <code>explode</code></li>
+                            <li><code>array_push</code> &mdash; push an element onto an array</li>
+                            <li><code>array_pop</code> &mdash; get an element off the end of an array</li>
+                            <li><code>array_key_exists</code> &mdash; check if a key in an associative array exists</li>
+                            <li>...</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Custom functions (1)</h2>
+                <ul>
+                    <li>
+                        Use the keyword <code>function</code> - PHP does not require type declarations
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/functions-chopstringend1.php">&lt;?php
+
+    // Our chopStringEnd function
+    function chopStringEnd($str, $len, $ending) {
+        if (strlen($str) &lt; $len) {
+            return $str;
+        } else {
+            return substr($str, 0, $len - strlen($str)) . $ending;
+        }
+    }
+
+    // Our variables
+    $origStr = '/Users/bramus/Dropbox/Kaho/Lesactiviteiten/Webscripting1';
+    $cutoffLength = 40;
+    $endStr	= '...';
+
+    // Go!
+    echo chopStringEnd($origStr, $cutoffLength, $endStr);</code></pre>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>Custom functions (2)</h2>
+                <ul style="width: 100%">
+                    <li>
+                        Course convention: we will use type declarations
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/functions-chopstringend1b.php">&lt;?php
+
+    // Our chopStringEnd function - $ending has a nullable type
+    function chopStringEnd(string $str, int $len, ?string $ending) : string {
+        if (strlen($str) &lt; $len) {
+            return $str;
+        } else {
+            return substr($str, 0, $len - strlen($str)) . $ending;
+        }
+    }
+
+    // Our variables
+    $origStr = '/Users/bramus/Dropbox/Kaho/Lesactiviteiten/Webscripting1';
+    $cutoffLength = 40;
+    $endStr	= '...';
+
+    // Go!
+    echo chopStringEnd($origStr, $cutoffLength, $endStr);</code></pre>
+                    </li>
+                </ul>
+                <footer><small>Conflicting types will result in a <a href="https://www.php.net/manual/en/class.typeerror.php"><code>TypeError</code></a>
+                    <br> <code>void</code> is allowed as return type<br>Well-formed numeric strings will pass numeric declarations</small></footer>
+            </section>
+
+            <section>
+                <h2>Custom functions (3)</h2>
+                <ul style="width: 100%">
+                    <li>
+                        Possible to define default values for function arguments
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/functions-chopstringend2.php">&lt;?php
+
+    // Our chopStringEnd function
+    function chopStringEnd(string $str, int $len = 30, string $ending = '---') : string {
+        if (strlen($str) &lt; $len) {
+            return $str;
+        } else {
+            return substr($str, 0, $len - strlen($str)) . $ending;
+        }
+    }
+
+    // Our variables
+    $origStr = '/Users/bramus/Dropbox/Kaho/Lesactiviteiten/Webscripting1';
+    $cutoffLength = 40;
+    $endStr = '...';
+
+    // Go!
+    echo chopStringEnd($origStr, $cutoffLength, $endStr) . PHP_EOL;
+    echo chopStringEnd($origStr, $cutoffLength) . PHP_EOL;
+    echo chopStringEnd($origStr);</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Custom functions (4)</h2>
+                <ul style="width: 100%">
+                    <li>
+                        Provide <a href="http://manual.phpdoc.org/HTMLSmartyConverter/PHP/phpDocumentor/tutorial_tags.pkg.html">PHPDoc</a>-style comments
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/functions-chopstringend3.php">&lt;?php
+
+    /**
+     * Chops a string at the given length with the given ending
+     *
+     * @param	string 	$str 	The initial String
+     * @param	int 	$len 	The length to chop off at
+     * @param	string 	$ending	The ending to add
+     *
+     * @return	string 	The circumcised up string
+     */
+    function chopStringEnd(string $str, int $len = 30, string $ending = '---') : string {
+        if (strlen($str) &lt; $len) {
+            return $str;
+        } else {
+            return substr($str, 0, $len - strlen($str)) . $ending;
+        }
+    }
+
+&hellip;</code></pre>
+                    </li>
+                </ul>
+                <footer><small>This way your IDE will tell you which params are needed, what type they need to be, etc.</small></footer>
+            </section>
+
+
+
+            <section>
+                <h2>Custom functions (5)</h2>
+                <ul style="width: 100%">
+                    <li>You cannot use <em>function overloading</em></li>
+                    <li>By the way: passing too many arguments is just fine &hellip;
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/functions-chopstringend4.php">&lt;?php
+
+    // Our chopStringEnd function
+    function chopStringEnd(string $str, int $len) : string {
+        if (strlen($str) &lt; $len) {
+            return $str;
+        } else {
+            return substr($str, 0, $len - strlen($str)) . '---';
+        }
+    }
+
+    // Our variables
+    $origStr = '/Users/bramus/Dropbox/Kaho/Lesactiviteiten/Webscripting1';
+
+    // Go!
+    echo chopStringEnd($origStr, 40, '...');</code></pre>
+                    </li>
+                </ul>
+                <footer>
+                    <small>Note: passing <strong>too few</strong> arguments launches an <code>ArgumentCountError</code>.</small></footer>
+            </section>
+
+            <section>
+                <h2>Custom functions (6)</h2>
+                <ul style="width: 100%">
+                    <li>Caution: strings and arrays are also passed by value!
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/functions-chopstringend5.php">&lt;?php
+    // Our chopStringEnd function
+    function chopStringEnd(string $str, int $len, string $ending) : void {
+        if (strlen($str) &gt; $len) {
+            $str = substr($str, 0, $len - strlen($str)) . $ending;
+        }
+    }
+
+    // Our variables
+    $origStr = '/Users/bramus/Dropbox/Kaho/Lesactiviteiten/Webscripting1';
+    $cutoffLength = 40;
+    $endStr	= '...';
+
+    // Go!
+    chopStringEnd($origStr, $cutoffLength, $endStr);
+    echo $origStr;</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Custom functions (7)</h2>
+                <ul style="width: 100%">
+                    <li>Unless an &amp; is placed before the function argument
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/functions-chopstringend6.php">&lt;?php
+    // Our chopStringEnd function
+    function chopStringEnd(string &$str, int $len, string $ending) : void {
+        if (strlen($str) &gt; $len) {
+            $str = substr($str, 0, $len - strlen($str)) . $ending;
+        }
+    }
+
+    // Our variables
+    $origStr = '/Users/bramus/Dropbox/Kaho/Lesactiviteiten/Webscripting1';
+    $cutoffLength = 40;
+    $endStr	= '...';
+
+    // Go!
+    chopStringEnd($origStr, $cutoffLength, $endStr);
+    echo $origStr;</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Anonymous functions</h2>
+                <ul style="width: 100%">
+                    <li>
+                        Use the <code>use</code> keyword to inject a variable into a function
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/scoping6.php">&lt;?php
+
+    $host = 'http://www.myhost.com/';
+
+    $absUrl = function (string $relUrl) use ($host) {
+        return $host . $relUrl;
+    };
+
+    echo $absUrl('files/uploads/me.jpg');</code></pre>
+                    </li>
+                    <li style="margin-top: 1em">
+                        This example comes with an <a href="http://docs.php.net/manual/da/functions.anonymous.php">anonymous function</a>. It is mostly used when working with callback functions.
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Constants (1)</h2>
+                <ul style="width: 100%">
+                    <li>
+                        Function <code>define()</code> - constants do not start with <code>$</code>
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/scoping5.php">&lt;?php
+
+    define('HOST', 'http://www.myhost.com/');
+
+    function absUrl(string $relUrl) {
+        return HOST . $relUrl;
+    }
+
+    echo absUrl('files/uploads/me.jpg');</code></pre>
+                    </li>
+                    <li>
+                        Course convention: never ever use the <code>global</code> keyword !!!
+                    </li>
+                </ul>
+            </section>
+
+
+            <section>
+                <h2>Constants (2)</small></h2>
+                <ul style="width: 100%">
+                    <li>
+                        Keyword <code>const</code>
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/scoping7.php">&lt;?php
+
+    const HOST = 'http://www.myhost.com/';
+
+    function absUrl(string $relUrl) {
+        return HOST . $relUrl;
+    }
+
+    echo $absUrl('files/uploads/me.jpg');</code></pre>
+                    </li>
+                    <li style="margin-top: 1em">
+                        <code>const</code> works at compile-time; <code>define()</code> works at run-time
+
+                    </li>
+                    <li>
+                        With <code>const</code> you get nicer code but it comes with <a href="http://stackoverflow.com/questions/2447791/define-vs-const">more restrictions</a>
+
+                    </li>
+                    <li>
+                        Course convention: never ever use the <code>global</code> keyword !!!
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+
+                <h2>Object orientation (1)</h2>
+                <ul style="width: 100%">
+                    <li>PHP is fully OO</li>
+                </ul>
+
+                <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/weight.php">&lt;?php
+
+    class Weight {
+
+        private float $weight;
+        private string $unit;
+
+        public function __construct(float $weight, string $unit) {
+            $this-&gt;weight = $weight;
+            $this-&gt;unit = $unit;
+        }
+
+        public function __toString() : string {
+            return $this-&gt;weight . ' ' . $this-&gt;unit;
+        }
+    }
+
+    $myWeight = new Weight(82.5, 'kg');
+    echo($myWeight); // requires magic method __toString(); fatal error otherwise </code></pre>
+            </section>
+
+            <section>
+
+                <h2>Object orientation (2)</h2>
+                <ul style="width: 100%">
+                    <li><em>Until further notice</em>, we will focus on using existing classes</li>
+                    <li>An example with <a href="https://www.php.net/manual/en/class.datetime.php"><code>DateTime</code></a> and
+                        <a href="https://www.php.net/manual/en/class.datetimezone.php"><code>DateTimeZone</code></a> &hellip;</li>
+                </ul>
+
+                <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/oodemo.php">&lt;?php
+    $zone = new DateTimeZone('Europe/Brussels'); // object construction
+    $myDateOfBirth = new DateTime('1979-04-29 11:30', $zone);
+    echo ($myDateOfBirth-&gt;getTimestamp() . '&lt;br&gt;' . PHP_EOL); // method call
+
+    $w3cFormat = DateTime::W3C; // class constant
+    echo ($myDateOfBirth-&gt;format($w3cFormat) . '&lt;br&gt;' . PHP_EOL);
+
+    $date = DateTime::createFromFormat('j-M-Y', '28-Sep-2020'); // static method call
+    $duration = $date-&gt;diff($myDateOfBirth);
+    echo ($duration-&gt;days); // accessing a property</code></pre>
+
+                <ul style="width: 100%">
+                    <li>PHP history: <strong>old</strong> PHP modules are <strong>functional</strong>; <strong>more recent</strong> modules are <strong>object oriented</strong></li>
+                    <li>Many PHP functionality coexists in both functional and OO format</li>
+                </ul>
+            </section>
+
+
+
+        </section>
+
+
+
+
+
+        <!-- Errors and debugging: @, dump() -->
+        <section>
+            <section>
+                <h2>03.5<br>Errors and debugging</h2>
+            </section>
+
+            <section>
+                <h2>Before we dive in</h2>
+                <ul style="width: 100%">
+                    <li>When developing, make sure errors are shown on screen</li>
+                    <li style="margin-top: 1em">
+                        If this is not the case, put this at the very top of your code:
+                        <div><pre class="bigger"><code class="hljs php">&lt;?php
+
+	error_reporting(E_ALL); // Report all errors
+	ini_set('display_errors', 'on'); // Show the errors on screen
+	</code></pre></div>
+                    </li>
+                    <li style="margin-top: 1em">
+                        These settings can also be set in the <code>php.ini</code> file
+                        <div><pre class="bigger"><code>error_reporting = E_ALL
+display_errors = On</code></pre></div>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Basic mechanisms (1)</h2>
+                <ul style="font-size: 90%;">
+                    <li>
+                        <em>Plain</em> PHP errors
+                        <ul>
+                            <li>
+                                Different levels of severity: <code>E_ERROR</code>, <code>E_NOTICE</code>, <code>E_WARNING</code>, &hellip;
+                            </li>
+                            <li>
+                               With <a href="http://php.net/manual/en/function.error-reporting.php">error_reporting</a> you can set a filter on the reporting level
+                            </li>
+                            <li>
+                                Only by fatal run-time errors (level <code>E_ERROR</code>) the script is halted. This does not occur that often!
+                            </li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em">
+                        Exceptions
+                        <ul>
+                            <li>
+                                When an Exception is thrown and not caught (with <code>try</code> and <code>catch</code>), the script is halted.
+                            </li>
+                            <li>
+                                Older functions and frameworks don't work with Exceptions (they just return <code>true</code> or <code>false</code> or something else )
+                            </li>
+                            <li>Exception is class and <a href="https://www.php.net/manual/en/class.exception.php#122324">some more specific exceptions inherit from Exception</a></li>
+                            <li>
+                                With <a href="http://php.net/manual/en/class.errorexception.php">ErrorException</a> you can auto-convert errors into exceptions
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </section>
+
+            <section>
+                <h2>Basic mechanisms (2)</h2>
+                <ul style="font-size: 90%;">
+                    <li>
+                        Errors (as in: instances of the class <a href="https://www.php.net/manual/en/class.error.php"><code>Error</code></a>)
+                        <ul>
+                            <li>
+                                When an Error is thrown and not caught (with <code>try</code> and <code>catch</code>), the script is halted.
+                            </li>
+                            <li>
+                                However, Error does not inherit from Exception
+                            </li>
+                            <li>
+                                Errors are meant to be critical (e.g. <code>TypeError</code>), and are in practice less often intercepted with <code>try</code> / <code>catch</code>
+                            </li>
+                            <li>
+                                Errors are only generated from more recent functions and frameworks
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </section>
+
+            <section>
+                <h2>Suppress plain errors with @</h2>
+                <ul>
+                    <li>
+                        It's possible, but it's not recommended as it even disables reporting of critical errors
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/errors1.php">&lt;?php
+
+    function divide($numerator, $denominator) {
+        return $numerator / $denominator;
+    }
+
+    echo divide(1, 2) . PHP_EOL;	// 0.5
+    echo divide(1, 0) . PHP_EOL;	// "Warning: Division by zero" INF
+    echo @divide(1, 0) . PHP_EOL;	// INF
+    echo divide(1, 2) . PHP_EOL;	// 0.5</code></pre>
+                    </li>
+                    <li style="margin-top: 1em">
+                        Course convention: never use <code>@</code> unless you have no other option
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Debugging helper functions</h2>
+                <ul>
+                    <li>
+                        This won't work
+                        <pre class="bigger"><code class="hljs php">php &gt; $arr = array('one', 'two', 'three');
+php &gt; echo $arr;
+Array</code></pre>
+                    </li>
+                    <li>
+                        Use <code>print_r()</code> and <code>var_dump()</code> instead to inspect variables
+                        <pre class="bigger"><code class="hljs php">php &gt; print_r($arr);
+Array
+(
+    [0] => one
+    [1] => two
+    [2] => three
+)
+php &gt; var_dump($arr);
+array(3) {
+  [0]=>
+  string(3) "one"
+  [1]=>
+  string(3) "two"
+  [2]=>
+  string(5) "three"
+}</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Real debugging</h2>
+                <ul>
+                    <li>
+                        Using <code>print_r()</code> and <code>var_dump()</code> is no real debugging
+                    </li>
+                    <li style="margin-top: 1em">
+                        Real debugging is possible with
+                        <ul>
+                            <li>Built-in IDE debugger</li>
+                            <li><a href="https://xdebug.org/">Xdebug</a> is a PHP extension which can be linked to your IDE</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+        </section>
+
+
+        <!-- More CLI: Lint a file, check the config -->
+        <section>
+            <section>
+                <h2>03.6<br>More CLI goodness</h2>
+            </section>
+
+            <section>
+                <h2>CLI Arguments</h2>
+                <ul style="width: 100%">
+                    <li>
+                        The CLI allows arguments being passed in
+                    </li>
+                    <li>
+                        PHP automatically populates two vars: <code>$argc</code> and <code>$argv</code>
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/cli-args1.php">&lt;?php
+    echo 'Number of arguments ' . $argc . PHP_EOL;
+    foreach ($argv as $key =&gt; $value) {
+        echo 'Argument #' . $key . ' : ' . $value . PHP_EOL;
+    }</code></pre>
+                        <pre class="bigger"><code class="hljs bash">$ php cli-args1.php foo bar baz
+Number of arguments 4
+Argument #0 : args1.php
+Argument #1 : foo
+Argument #2 : bar
+Argument #3 : baz</code></pre>
+                    </li>
+                </ul>
+                <footer>Beware: <code>$argc</code> and <code>$argv</code> only available in CLI mode!</footer>
+            </section>
+
+            <section>
+                <h2>Check a file syntax</h2>
+                <ul>
+                    <li>
+                        Check a file for syntax errors with <code>php -l faulty.php</code>
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/faulty.php">&lt;?php
+    echo $foo;
+    for ($x = 0; $x &lt; 5; x++) {
+        echo $x;
+    }</code></pre>
+                    </li>
+                    <li>
+                        PHP will tell you what went wrong and where
+                        <pre class="bigger"><code class="hljs bash">$ php -l faulty.php
+
+Parse error: syntax error, unexpected '++' (T_INC), expecting ')' in faulty.php on line 7
+Errors parsing faulty.php</code></pre>
+                    </li>
+                    <li>Handy if you link this to a precommit hook in Git to prevent you from committing faulty code</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Check your PHP config</h2>
+                <ul>
+                    <li>
+                        Check your PHP config by running <code>php -i</code>
+                        <pre class="bigger"><code class="hljs php">$ php -i
+phpinfo()
+PHP Version => 7.4.10
+
+System => Linux 907dbd23dd78 4.19.76-linuxkit #1 SMP Thu Oct 17 19:31:58 UTC 2019 x86_64
+Build Date => Sep 10 2020 13:49:31
+Configure Command =>  './configure'  '--build=x86_64-linux-gnu'
+&hellip;</code></pre>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        If you don't have access to the shell of the machine, upload a file with these contents to it and load it via the browser
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/phpinfo.php">&lt;?php
+    phpinfo();</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Other command options</h2>
+                <ul>
+                    <li>
+                        Know your PHP version by running <code>php -v</code>
+                        <pre class="bigger"><code class="hljs php">$ php -v
+PHP 7.4.10 (cli) (built: Sep 10 2020 13:50:32) ( NTS )
+Copyright (c) The PHP Group
+Zend Engine v3.4.0, Copyright (c) Zend Technologies</code></pre>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Convert a PHP file to a syntax highlighted HTML file with <code>php -s file.php</code>
+                    </li>
+                </ul>
+            </section>
+
+        </section>
+
+        <!-- Programming PHP on the webserver -->
+        <section>
+
+            <section>
+                <h2>03.7<br>PHP in a Web Context</h2>
+            </section>
+
+
+            <section>
+                <h2>Whitespace in the browser (1)</h2>
+                <ul>
+                    <li>
+                        Echo'ing a <code>PHP_EOL</code> to the browser does not result in a newline on the screen (but it does in the source code)
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/whitespace_01.php">&lt;?php
+    for ($i = 0; $i &lt; 5; $i++) {
+        echo $i+1 . PHP_EOL;
+    }</code></pre>
+                    </li>
+                    <li>
+                        You'll also need to output a <code>&lt;br /&gt;</code>
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/whitespace_02.php">&lt;?php
+    for ($i = 0; $i &lt; 5; $i++) {
+        echo $i+1 . '&lt;br /&gt;' . PHP_EOL;
+    }</code></pre>
+                    </li>
+                </ul>
+
+            </section>
+
+            <section>
+                <h2>Whitespace in the browser (2)</h2>
+                <ul style="width: 100%;">
+                    <li>
+                        What about <code>var_dump()</code> or <code>print_r()</code>?
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/whitespace_03.php">&lt;?php
+    var_dump($_SERVER);</code></pre>
+                    </li>
+                    <li>
+                        No single-line way to convert the newlines to <code>&lt;br /&gt;</code>
+                        <ul>
+                            <li>
+                                &rarr; Luckily HTML provides us with the <code>&lt;pre&gt;</code> element
+                                <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/whitespace_04.php">&lt;?php
+    function dump($var) {
+        echo '&lt;pre&gt;';
+        var_dump($var);
+        echo '&lt;/pre&gt;';
+    }
+
+    dump($_SERVER);</code></pre>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <footer><small>When Xdebug 2 is enabled, <code>var_dump()</code> is <a href="https://xdebug.org/docs/display">HTML formatted</a> by default<br>Note: <code>$_SERVER</code> is a superglobal holding information about the server and execution environment</small></footer>
+            </section>
+
+            <section>
+                <h2>HTTP status code</h2>
+                <ul>
+                    <li>It's possible to manipulate the HTTP status code sent via the <strong>HTTP response head</strong> from within PHP</li>
+                    <li>
+                        Just use the <code>http_response_code()</code> function
+                        <pre class="bigger"><code class="hljs php">&lt;?php
+
+// Tell the browser this page was not found on the server
+http_response_code(404);
+
+?&gt;&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Oops&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Oops&lt;/h1&gt;
+  &lt;p&gt;The page you were looking for was not found on this server.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </li>
+
+                </ul>
+            </section>
+
+            <section>
+                <h2>Headers (1)</h2>
+                <ul>
+                    <li>It's possible to manipulate the headers sent via the <strong>HTTP response head</strong> from within PHP</li>
+                    <li>
+                        Just use the <code>header()</code> function
+                        <pre class="bigger"><code class="hljs php">&lt;?php
+
+    // Instruct the browser to redirect to ikdoeict.be
+    header('Location: http://www.ikdoeict.be');
+    // @note: example is not complete (yet)</code></pre>
+                    </li>
+                    <li>When you specify the <code>Location</code> header, PHP automatically changes the status code into <span style="color:orange;">302</span></li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Headers (2)</h2>
+                <ul>
+                    <li>
+                        When redirecting <em>(e.g. in a scenario not being logged in for example)</em> you <strong>MUST</strong> stop the script executing further to prevent the content from being transmitted to the user
+                    </li>
+                    <li style="margin-top: 1em">
+                        Scripts can be stopped prematurely via <code>exit()</code> or <code>die()</code>
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/redirect.php">&lt;?php
+
+    // Instruct the browser to redirect to ikdoeict.be
+    header('Location: http://www.ikdoeict.be');
+    exit();
+
+    echo 'This line will be ignored';</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Headers (3)</h2>
+                <ul>
+                    <li>
+                        As per protocol spec, the <em>response head</em> must be sent before <em>response body</em>
+                    </li>
+                    <li style="margin-top: 1em">
+                        Put differently: once you've started sending the <em>response body</em>, it's impossible to manipulate the <em>response head</em>
+
+                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/redirect_fail.php">&lt;?php
+
+    echo 'Will it blend?';
+
+    header('Location: http://www.ikdoeict.be');
+    exit();</code></pre></div>
+
+                        <div style="width: 100%;float:right;"><pre class="bigger"><code class="hljs bash">Warning: Cannot modify header information - headers already sent by (output started at
+assets/03/examples/redirect_fail.php:3) in
+assets/03/examples/redirect_fail.php on line 5</code></pre></div>
+                    </li>
+                </ul>
+                <footer><em>Note: with outbut buffering enabled in your <strong>php.ini</strong> file, this might work, depending on the buffer size</em></footer>
+            </section>
+
+
+
+            <section>
+                <h2>Headers (4)</h2>
+                <ul style="width: 100%;">
+                    <li>
+                        Changing the document type and forcing the download<pre><code class="hljs php">&lt;?php
+
+    // We'll be outputting a PDF
+    header('Content-Type: application/pdf');
+
+    // It will be called downloaded.pdf
+    header('Content-Disposition: attachment; filename="downloaded.pdf"');
+
+    // The PDF source is in original.pdf
+    readfile('original.pdf');</code></pre>
+                        </li>
+                </ul>
+
+
+
+            </section>
+        </section>
+
+        <!-- Conventions: code style -->
+        <section>
+            <section>
+                <h2>Closing note: course conventions</h2>
+            </section>
+            <section>
+                <h2>Course conventions (1)</h2>
+                <ul>
+                    <li>Code in English</li>
+                    <li>Use the full PHP open tag <code>&lt;?php</code>. The closing tag may be omitted</li>
+                    <li>Develop with <code>error_reporting()</code> set to <code>E_ALL</code> and <code>display_errors</code> set to <code>On</code></li>
+                    <li>
+                        Basics
+                        <ul>
+                            <li>Correctly indent code blocks</li>
+                            <li>Always use <code>{</code> after control structures, on the same line as the keyword </li>
+                            <li>Spaces: after <code>,</code>, <code>if</code>, <code>else</code>, <code>while</code>, &hellip; ; before <code>{</code> ; at both sides of operators</li>
+                        </ul>
+                        <pre><code class="hljs php">&lt;?php
+    if (($a < 3) && ($b > 4)) {
+        $answer = implode('#', [1, 2, 3]);
+        $capacity = (3 + 6) . 'k';
+    }</code></pre>
+                    </li>
+                    <li>
+                        Comment your code properly
+                        <ul>
+                            <li>Think of the code checking your code afterwards</li>
+                            <li>Use PHPDoc-compliant comments</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>Course conventions (2)</h2>
+                <ul>
+                    <li>Use single quotes to delimit strings</li>
+                    <li>
+                        Give variables and functions a clear name and use camelCasing
+                        <ul>
+                            <li>e.g. <code>$numArticles</code>, <code>$firstName</code>, <code>calculateDistance()</code>, etc.</li>
+                            <li>Exception: counters in loops such as <code>$x</code>, <code>$y</code></li>
+                        </ul>
+                    </li>
+                    <li>
+                        Use <code>===</code> when comparing variables/values with booleans or <code>null</code>
+                    </li>
+                    <li>
+                        When necessary cast variables to prevent stupid errors
+                    </li>
+                    <li>Use <strong>type declaration</strong> for function parameters, function return types and class properties</li>
+                    <li>Only use <code>@</code> when you have no other option</li>
+                    <li>
+                        Never use <code>global</code> nor <code>$_REQUEST</code> (see 04.forms)
+                    </li>
+                    <li>
+                        When in doubt: ask your lecturer
+                    </li>
+                </ul>
+            </section>
+        </section>
+
+
+        <!-- The END -->
+        <section>
+            <section>
+                <h2>Questions?</h2>
+                <footer>
+                    <em><a href="mailto:joris.maervoet@odisee.be">joris.maervoet@odisee.be</a></em>
+                </footer>
+            </section>
+            <section>
+                <h2>Sources</h2>
+                <ul>
+                    <li><a href="http://www.bram.us/2012/06/19/php-cli-the-other-sapi/">PHP CLI, the other SAPI</a> by <a href="https://twitter.com/ThijsFeryn">Thijs Feryn</a></li>
+                    <li><a href="http://php.net/manual/en/language.types.type-juggling.php">PHP Manual - Type juggling</a></li>
+                    <li><a href="http://php.net/manual/en/types.comparisons.php">PHP Manual - PHP type comparison tables</a></li>
+                    <li><a href="http://www.phptherightway.com/#errors">PHP: The Right Way</a></li>
+                </ul>
+            </section>
+        </section>
+
+    </div>
+
+</div>
+
+<script src="dist/reveal.js"></script>
+<script src="plugin/zoom/zoom.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/search/search.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+
+    // Also available as an ES module, see:
+    // https://revealjs.com/initialization/
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: true,
+        hash: true,
+        slideNumber: true,
+
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight ]
+    });
+
+</script>
+<script src="toc.js"></script>
+<script src="overlay.js"></script>
+
+</body>
+</html>
