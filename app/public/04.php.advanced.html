@@ -1,0 +1,1387 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>W&amp;M Server-side – Course materials</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/black.css" id="theme">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+
+<div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+        <section data-background="#b5533c">
+            <h3>Web &amp; Mobile Server-side <small>[OGI03q]</small></h3>
+            <h1>04. PHP Advanced</h1>
+        </section>
+
+
+        <!-- PHP & Running PHP -->
+        <section>
+            <section>
+                <h2>04.1<br>Object Orientation</h2>
+            </section>
+
+
+            <section>
+                <h2>Basic Class</h2>
+
+                <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/oo01.php">&lt;?php
+
+class Product {
+
+	private float $price;
+	protected int $stock;
+	public string $name;
+
+	public function __construct(float $price, ?int $stock, string $name = 'unknown') {
+		$this-&gt;price = $price;
+		$this-&gt;stock = $stock;
+		$this-&gt;name = $name;
+	}
+
+	public function lowerPrice() : void {
+		$this-&gt;price *= 0.9;
+	}
+
+	public function getPrice() : float {
+		return $this-&gt;price;
+	}
+
+}
+
+$can = new Product(0.60, 820, 'Can Coke 33ml' );
+echo $can-&gt;name . PHP_EOL;
+$can-&gt;lowerPrice();
+
+echo $can-&gt;getPrice();</code></pre>
+                <footer style="margin-top: 0.8em;">Course convention: always use type declarations <small>(although not mandatory in PHP)</small><br>Only supported in recent versions &bullet; update to PHP 7.4</footer>
+            </section>
+
+            <section>
+                <h2>Constants</h2>
+
+                <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/oo02.php">&lt;?php
+
+class BasicClass {
+
+    public const CLASS_CONSTANT = 12.7;
+
+    public function multiply(float $x) : float {
+        return $x * self::CLASS_CONSTANT;
+    }
+
+}
+
+echo BasicClass::CLASS_CONSTANT . PHP_EOL;
+
+$inst = new BasicClass();
+echo $inst-&gt;multiply(3) . PHP_EOL;</code></pre>
+
+            </section>
+
+            <section>
+                <h2>Static Variables &amp; Static Methods</h2>
+
+                <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/oo03.php">&lt;?php
+
+class BasicClass {
+
+    static string $staticVariable;
+
+    public function __construct(string $name) {
+        self::$staticVariable = $name;
+    }
+
+    public static function staticFunction(string $ohai) : void {
+        echo $ohai . PHP_EOL;
+    }
+
+}
+
+BasicClass::staticFunction('O Hi');
+
+$inst = new BasicClass('foo');
+$inst2 = new BasicClass('bar');
+
+echo BasicClass::$staticVariable . PHP_EOL;
+echo BasicClass::$staticVariable . PHP_EOL;</code></pre>
+            </section>
+
+            <section>
+                <h2>Inheritance (1)</h2>
+
+                <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/oo04.php">&lt;?php
+
+class Animal {
+
+    private string $name;
+
+    public function __construct(string $name) {
+        $this-&gt;name = $name;
+    }
+
+    protected function say(string $what) : string {
+        return $what;
+    }
+
+}
+
+class Dog extends Animal {
+
+    public function bark() : void {
+        echo $this-&gt;say('WOOF!');
+    }
+
+}
+
+$dog = new Dog('Sparky');
+$dog-&gt;bark();</code></pre>
+            </section>
+
+            <section>
+                <h2>Inheritance (2)</h2>
+
+                <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/oo05.php">&lt;?php
+
+class Animal {
+
+	private string $name;
+
+	public function __construct(string $name) {
+		$this-&gt;name = $name;
+	}
+
+	final function getName() : string { // cannot be overridden!
+		return $this-&gt;name;
+	}
+}
+
+class Dog extends Animal {
+
+    public function __construct(string $name) {
+        echo 'Yo dawg!' . PHP_EOL;
+        parent::__construct($name); // call parent function
+    }
+
+}
+
+$dog = new Dog('Sparky');
+echo $dog-&gt;getName() . PHP_EOL;</code></pre>
+            </section>
+
+            <section>
+                <h2>Inheritance (3)</h2>
+
+                <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/oo06.php">&lt;?php
+
+abstract class Animal {
+
+    private string $name;
+
+    public function __construct(string $name) {
+        $this-&gt;name = $name;
+    }
+
+    abstract public function doTrick() : string;
+
+}
+
+class Dog extends Animal {
+
+    private array $tricks = ['jump', 'lay down', 'roll over', 'play dead'];
+
+    public function doTrick() : string {
+        return $this-&gt;tricks[rand(0, sizeof($this-&gt;tricks) - 1)];
+    }
+
+}
+
+
+$dog = new Dog('Sparky');
+echo $dog-&gt;doTrick();</code></pre>
+            </section>
+            <section>
+                <h2>Printing Objects</h2>
+
+                <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/oo07.php">&lt;?php
+
+class Weight {
+
+    private float $weight;
+    private string $unit;
+
+    public function __construct(float $weight, string $unit) {
+        $this-&gt;weight = $weight;
+        $this-&gt;unit = $unit;
+    }
+
+    public function __toString() : string {
+        return $this-&gt;weight . ' ' . $this-&gt;unit;
+    }
+}
+
+$myWeight = new Weight(82.5, 'kg');
+var_dump($myWeight);
+print_r($myWeight);
+echo($myWeight); // requires magic method __toString(); fatal error otherwise </code></pre>
+            </section>
+
+            <section>
+                <h2>Comparing Objects</h2>
+
+                <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/oo08.php">&lt;?php
+
+class Weight {
+
+    private $weight;
+    private $unit;
+
+    public function __construct($weight, $unit) {
+        $this-&gt;weight = $weight;
+        $this-&gt;unit = $unit;
+    }
+}
+
+$myWeight = new Weight(82.5, 'kg');
+$samePointer = $myWeight;
+$myWeight2 = new Weight(82.5, 'kg');
+$otherWeight = new Weight(11, 'stones');
+
+echo('&lt;br&gt;' . '$myWeight == $myWeight2' . '&lt;br/&gt;');
+var_dump($myWeight == $myWeight2);
+echo('&lt;br&gt;' . '$myWeight == $otherWeight' . '&lt;br/&gt;');
+var_dump($myWeight == $otherWeight);
+echo('&lt;br&gt;' . '$myWeight === $samePointer' . '&lt;br/&gt;');
+var_dump($myWeight === $samePointer);
+echo('&lt;br&gt;' . '$myWeight === $myWeight2' . '&lt;br/&gt;');
+var_dump($myWeight === $myWeight2);
+echo('&lt;br&gt;' . '$myWeight === $otherWeight' . '&lt;br/&gt;');
+var_dump($myWeight === $otherWeight); </code></pre>
+            </section>
+
+
+
+            <section>
+                <h2>Summary</h2>
+                <div style="width:0.1em; height: 10em;"></div>
+                <ul style="width: 100%;margin-top: -10em;" class="fragment hide-when-not-current">
+                    <li>
+                        Class basics
+                        <ul>
+                            <li>Define a class with the <code>class</code> keyword</li>
+                            <li>Create an instance with the <code>new</code> keyword</li>
+                        </ul>
+                    </li>
+                    <li>
+                        Variables / methods
+                        <ul>
+                            <li>Define a method with the <code>function</code> keyword</li>
+                            <li>Defining a variable requires no specific keyword</li>
+                            <li>Scope is <code>public</code>, <code>protected</code>, or <code>private</code></li>
+                            <li>Accessible/Callable via <code>$this-&gt;dataMember</code> <em>(internal)</em> or <br /><code>$instance->dataMember</code> <em>(external, if scope allows it)</em></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul style="width: 100%;margin-top: -10em;" class="fragment hide-when-not-current">
+                    <li>
+                        Constructor and destructor are <em>Magic Methods</em>
+                        <ul>
+                            <li><code>__construct()</code> and <code>__destruct()</code></li>
+                        </ul>
+                    </li>
+                    <li>
+                        Class constants
+                        <ul>
+                            <li>Use the <code>const</code> keyword and immediately assign a value</li>
+                            <li>No <code>$</code> for name and ALLCAPS</li>
+                            <li>Accessible via <code>self::SOME_CONSTANT</code> (internal) or <code>ClassName::SOME_CONSTANT</code> (external)</li>
+                            <li>Value cannot be changed at runtime</li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul style="width: 100%;margin-top: -10em;" class="fragment hide-when-not-current">
+                    <li>
+                        Static variables and methods
+                        <ul>
+                            <li>Use the (extra) <code>static</code> keyword</li>
+                            <li>Static variables' value shared amongst instances</li>
+                            <li>Static methods callable without an instance</li>
+                            <li>Accessible/Callable via <code>ClassName::$someStaticVariable</code> / <code>ClassName::someStaticMethod()</code></li>
+                        </ul>
+                    </li>
+                    <li>
+                        Inheritance
+                        <ul>
+                            <li>Defined with the <code>extends</code> keyword</li>
+                            <li>Overriding methods must have the same, or a less restrictive scope</li>
+                            <li>Call parent class methods with <code>parent::nameOfTheMethod()</code> <em>(even if it's a non-static method!)</em></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul style="width: 100%;margin-top: -10em;" class="fragment hide-when-not-current">
+
+                    <li>
+                        Final classes and methods
+                        <ul>
+                            <li>Cannot be extended / overridden</li>
+                            <li>Defined with the (extra) <code>final</code> keyword</li>
+                        </ul>
+                    </li>
+                    <li>
+                        Abstract classes and methods
+                        <ul>
+                            <li>Defined with the (extra) <code>abstract</code> keyword</li>
+                            <li>Cannot be instantiated / called; Must be implemented in the derivative class / methods</li>
+                            <li>If a class contains an abstract method, the class itself must be abstract too</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+
+            <section>
+                <h2>More OO Goodies (1)</h2>
+                <ul>
+                    <li>
+                        <a href="https://www.php.net/manual/en/language.oop5.interfaces.php">Interfaces</a>
+                        <ul>
+                            <li>Define an interface with the <code>interface</code> keyword</li>
+                            <li>A class can implement an interface via the <code>implements</code> keyword</li>
+                            <li>A class can implement multiple interfaces</li>
+                            <li>An interface itself cannot be instantiated</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="http://php.net/manual/en/language.oop5.traits.php">Traits</a>
+                        <ul>
+                            <li>Reducing some limitations of single inheritance</li>
+                            <li>Define a <strong>a set of methods</strong> via the <code>trait</code> keyword e.g. <code>trait Example {</code></li>
+                            <li>Reuse this set of methods by putting <code>use Example;</code> inside the class</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="http://php.net/manual/en/language.namespaces.php">Namespaces</a>
+                        <ul>
+                            <li>Provides a way to group related classes, interfaces, functions and constants &rightarrow; <em>we'll see this later on</em></li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </section>
+
+            <section>
+                <h2>More OO Goodies (2)</h2>
+                <ul>
+                    <li>
+                        Changing the expected behaviour of certain OO aspects
+                        <ul>
+                            <li>
+                                The behaviour of inaccessible properties (<code>-&gt;</code>) with <a href="http://php.net/manual/en/language.oop5.overloading.php">property overloading</a>
+                                <ul>
+                                    <li><code>__set()</code> is called when writing to non-existing properties with <code>-></code></li>
+                                    <li><code>__get()</code> is called when reading non-existing properties with <code>-></code></li>
+                                </ul>
+                            </li>
+                            <li style="margin-top: 1em;">
+                                Making an object iteratable (<code>foreach</code>) with the <a href="http://php.net/manual/en/class.iterator.php">Iterator interface</a>
+                                <ul>
+                                    <li>your class <code>implements Iterator</code></li>
+                                    <li>you implement the methods <code>current()</code>, <code>next()</code>, &hellip; </li>
+                                </ul>
+                            </li>
+                            <li style="margin-top: 1em;">
+                                Enabling an object's array access (<code>[]</code>) with the <a href="http://php.net/manual/en/class.arrayaccess.php">ArrayAccess interface</a>
+                                <ul>
+                                    <li>your class <code>implements ArrayAccess</code></li>
+                                    <li>you implement the methods <code>offsetGet()</code>, <code>offsetSet()</code>, &hellip;</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+        </section>
+
+
+        <!-- Dates in PHP: epoch, time functions, params -->
+        <section>
+            <section>
+                <h2>04.2<br>Dates in PHP</h2>
+            </section>
+
+            <section>
+                <h2>Timestamps</h2>
+                <ul>
+                    <li>
+                        <em>Epoch time</em>
+                        <ul style="font-size: 80%;">
+                            <li>
+                                Numerical value: number of seconds since the epoch
+                                <ul>
+                                    <li>epoch = Midnight January 1st, 1970 (GMT)</li>
+                                    <li>Not counting leap seconds</li>
+                                </ul>
+                            </li>
+                            <li>Also known as <em>Unix time</em> or <em>Posix time</em></li>
+                            <li>Dates expressed in Unix time are called <em>timestamps</em></li>
+                        </ul>
+                    </li>
+                    <li>
+                        Allow one to precisely indicate a given point in time
+                        <ul style="font-size: 80%;">
+                            <li><code>0</code> = January 1 1970, 00:00:00 GMT</li>
+                            <li><code>86400</code> = January 2 1970, 00:00:00 GMT</li>
+                            <li><code>31536000</code> = January 1 1971, 00:00:00 GMT</li>
+                            <li><code>440423100</code> = December 26 1983, 11:45:00 GMT</li>
+                            <li><code>946684800</code> = January 1 2000, 00:00:00 GMT</li>
+                            <li><code>1234567890</code> = February 13 2009, 23:31:30 GMT</li>
+                            <li>&hellip;</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+
+            <section>
+                <h2>Some history</h2>
+                <ul>
+                    <li>
+                        Oldskool PHP functions
+                        <ul>
+                            <li><code>time()</code> returns the current timestamp</li>
+                            <li><code>mktime()</code> builds a timestamp</li>
+
+                            <li>
+                                <code>strtotime()</code> converts a string to a timestamp
+
+                            </li>
+                            <li>
+                                <code>date()</code> converts a timestamp to properly formatted date (string)
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <footer style="color: red;">We will not use these functions anymore !!!</footer>
+            </section>
+
+            <section>
+                <h2>The <code>DateTime</code> class</h2>
+                <ul>
+                    <li><code>DateTime</code> objects encapsulate a timestamp</li>
+                    <li>
+                        Constructor <code>DateTime([string $time, [DateTimeZone $zone]])</code>
+                        <ul>
+                            <li><code>$time</code> is something like <code>2012-24-09</code> but can also be <code>next friday</code>, a timestamp, &hellip;</li>
+                            <li><code>$time</code> default is <code>now</code></li>
+                            <li>Second (optional) param is the time zone (ignored when implied by <code>$time</code>)</li>
+                            <li>Time zone default is <code>UTC</code>, can be overruled by <code>php.ini</code></li>
+                            <li>Launches an <code>Exception</code> when <code>$time</code> could not be parsed</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">Method <code>getTimestamp()</code>: read the timestamp </li>
+                    <li>Methods <code>add()</code>, <code>diff()</code>, <code>sub()</code>: calculate with <code>TimeInterval</code> objects</li>
+                    <li>Method <code>format(string $format)</code>: return the date string according to the given <code>$format</code></li>
+                </ul>
+
+            </section>
+
+
+            <section data-background="#fdfdfd">
+                <h2>Date Format</h2>
+                <ul>
+                    <li>
+                        The <code>$format</code> param needs to be built manually
+                        <table style="font-size: 60%;">
+                            <thead>
+                            <tr>
+                                <th>format character</th>
+                                <th>Description</th>
+                                <th>Example returned values</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><em>d</em></td>
+                                <td>Day of the month, 2 digits with leading zeros</td>
+                                <td><em>01</em> to <em>31</em></td>
+                            </tr>
+                            <tr>
+                                <td><em>D</em></td>
+                                <td>A textual representation of a day, three letters</td>
+                                <td><em>Mon</em> through <em>Sun</em></td>
+                            </tr>
+                            <tr>
+                                <td><em>l</em> (lowercase 'L')</td>
+                                <td>A full textual representation of the day of the week</td>
+                                <td><em>Sunday</em> through <em>Saturday</em></td>
+                            </tr>
+                            <tr>
+                                <td><em>w</em></td>
+                                <td>Numeric representation of the day of the week</td>
+                                <td><em>0</em> (for Sunday) through <em>6</em> (for Saturday)</td>
+                            </tr>
+                            <tr>
+                                <td><em>F</em></td>
+                                <td>A full textual representation of a month, such as January or March</td>
+                                <td><em>January</em> through <em>December</em></td>
+                            </tr>
+                            <tr>
+                                <td><em>m</em></td>
+                                <td>Numeric representation of a month, with leading zeros</td>
+                                <td><em>01</em> through <em>12</em></td>
+                            </tr>
+                            <tr>
+                                <td><em>M</em></td>
+                                <td>A short textual representation of a month, three letters</td>
+                                <td><em>Jan</em> through <em>Dec</em></td>
+                            </tr>
+                            <tr>
+                                <td><em>Y</em></td>
+                                <td>A full numeric representation of a year, 4 digits</td>
+                                <td>Examples: <em>1999</em> or <em>2003</em></td>
+                            </tr>
+                            <tr>
+                                <td><em>y</em></td>
+                                <td>A two digit representation of a year</td>
+                                <td>Examples: <em>99</em> or <em>03</em></td>
+                            </tr>
+                            <tr>
+                                <td><em>H</em></td>
+                                <td>24-hour format of an hour with leading zeros</td>
+                                <td><em>00</em> through <em>23</em></td>
+                            </tr>
+                            <tr>
+                                <td><em>i</em></td>
+                                <td>Minutes with leading zeros</td>
+                                <td><em>00</em> to <em>59</em></td>
+                            </tr>
+                            <tr>
+                                <td><em>s</em></td>
+                                <td>Seconds, with leading zeros</td>
+                                <td><em>00</em> through <em>59</em></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </li>
+                </ul>
+                <footer>Note: this is only a fragment. Full list at <a href="https://www.php.net/manual/en/datetime.format.php">php.net/manual/en/datetime.format.php</a></footer>
+            </section>
+
+
+            <section>
+                <h2>Date Example</h2>
+                <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/datetime.php">&lt;?php
+    $zone = new DateTimeZone('Europe/Brussels');
+    $myDateOfBirth = new DateTime('1979-04-29 11:30', $zone);
+    echo ($myDateOfBirth-&gt;getTimestamp() . '&lt;br&gt;&lt;br&gt;' . PHP_EOL);
+    echo 'm.d.y H:i:s' . '&lt;br&gt;' . PHP_EOL;
+    echo ($myDateOfBirth-&gt;format('m.d.y H:i:s') . '&lt;br&gt;&lt;br&gt;' . PHP_EOL);
+
+    $w3cFormat = DateTime::W3C;
+    echo ($w3cFormat . '&lt;br&gt;' . PHP_EOL);
+    echo ($myDateOfBirth-&gt;format($w3cFormat) . '&lt;br&gt;&lt;br&gt;' . PHP_EOL);
+
+    $date = DateTime::createFromFormat('j-M-Y', '28-Sep-2020');
+    $duration = $date-&gt;diff($myDateOfBirth);
+    echo ($duration-&gt;days);</code></pre>
+            </section>
+
+
+        </section>
+
+
+        <section>
+
+            <section>
+                <h2>04.3<br>Files &amp; folders</h2>
+            </section>
+
+            <section data-background="#fdfdfd">
+                <h2>Settings: Permissions (1)</h2>
+                <ul>
+                    <li>
+                        In order to manipulate files/folders, the webserver needs permission
+                        <ul>
+                            <li>Linux and the like: <code>chmod</code></li>
+                            <li>
+                                Windows: NTFS permissions <em>(disable simple file sharing!)</em>
+                                <div>
+                                    <img src="assets/04/windows-simplefilesharing.png" height="350" alt="" title="" class="noborder" />
+                                    <img src="assets/04/windows-permissions.png" height="350"  alt="" title="" class="noborder" />
+                                </div>
+
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section data-background="#fdfdfd">
+                <h2>Settings: Permissions (2)</h2>
+                <ul>
+                    <li>
+                        File/folder permission troubleshooting with Apache
+                        <ul>
+                            <li>Linux/MacOS:</li>
+                            <ul>
+                                <li>Apache runs with the <code>www-data</code>/<code>_www</code> account (member of the <code>www-data</code>/<code>_www</code> group)</li>
+                                <li>Check the owner and the associated group of the file/folder (change? <code>chown</code> and <code>chgrp</code>)</li>
+                                <li>Set permissions with <code>chmod</code></li>
+                            </ul>
+                            <li>
+                                Windows
+                                <ul>
+                                    <li>Go to Services and check the account associated with the Apache service (default: SYSTEM)</li>
+                                    <li>Set the file/folder permissions for the account or the account's group(s) </li>
+                                    <li>Think about permission inheritance</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Settings: open_basedir</h2>
+                <ul>
+                    <li>
+                        PHP can restrict which directories you can access
+                        <ul>
+                            <li>E.g. Websites residing in <code>C:\mce\app\public</code> have no business in <code>C:\</code> (but might have access to <code>C:\mce\app</code>)
+                        </ul>
+                    </li>
+                    <li>In <code>php.ini</code> the <code>open_basedir</code> setting limits this</li>
+                    <li>
+                        If you try to read in a non-allowed path, PHP will tell you:
+
+                    </li>
+                </ul>
+                <pre ><code>warning: file_get_contents() [function.file-get-contents]: open_basedir restriction in effect. File(/tmp/../a) is not within the allowed path(s): (/home/:/usr/lib/php:/usr/local/lib/php:/tmp) in /home/public_html/test.php on line 14.</code></pre>
+            </section>
+
+            <section>
+                <h2>Predefined Constants</h2>
+                <ul>
+                    <li>
+                        <code>DIRECTORY_SEPARATOR</code> is a predefined constant containing the directory separator
+                        <ul>
+                            <li><code>\</code> on Windows, <code>/</code> on *nix</li>
+                            <li>Use of it is not mandatory as <code>/</code> works fine on Windows too</li>
+                            <li>So: always please use <code>/</code> - never ever use <code>\</code></li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Magic Constants</h2>
+                <ul style="width: 100%;">
+                    <li>
+                        Getting to know the current directory of the PHP file
+                        <ul>
+                            <li>
+                                <code>./</code> = current working directory <small>(*)</small>
+                                <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/magic_constants.php">$myBaseDir = './';</code></pre>
+                            </li>
+                            <li>
+                                <code>__FILE__</code> = The full path and filename of the PHP file.
+                                <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/magic_constants.php">$myBaseDir = dirname(__FILE__);</code></pre>
+                            </li>
+                            <li>
+                                <code>__DIR__</code> = The full path of the PHP file.
+                                <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/magic_constants.php">$myBaseDir = __DIR__;</code></pre>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>&rarr; Use <code>__DIR__</code></li>
+                </ul>
+                <footer><small>(*) For now consider this to be the relative path of the PHP file <em>(but that's not always true)</em></small>
+
+                </footer>
+            </section>
+
+
+            <section>
+                <h2>Some history</h2>
+
+                <ul>
+                    <li>
+                        Oldskool file traversal
+                        <ul style="font-size: 80%;">
+                            <li><code>fopen()</code> &mdash; Opens file or URL, returns a file pointer on success</li>
+                            <li><code>fread()</code> &mdash; Binary-safe file read</li>
+                            <li><code>fwrite()</code> &mdash; Binary-safe file write</li>
+                            <!--li><code>fgets()</code> &mdash; Gets line from file pointer</li>
+                            <li><code>fseek()</code> &mdash; Seeks on a file pointer</li>
+                            <li><code>feof()</code> &mdash; Tests for end-of-file on a file pointer</li>
+                            <li><code>rewind()</code> &mdash; Rewind the position of a file pointer</li>
+                            <li><code>fclose()</code> &mdash; Closes an open file pointer</li-->
+                            <li>&hellip;</li>
+                        </ul>
+                    </li>
+                    <li>
+                        Oldskool file system functions
+                        <ul style="font-size: 80%;">
+                            <li><code>file()</code> &mdash; Get all lines of a file in an array</li>
+                            <li><code>file_exists()</code> &mdash; Check whether a file/dir exists</li>
+                            <li><code>filemtime()</code> &mdash; Get a file's modification timestamp</li>
+                            <li><code>is_dir()</code> &mdash; Check whether a path is a dir</li>
+                            <li><code>is_file()</code> &mdash; Check whether a path is a dir</li>
+                            <li><code>opendir()</code> &mdash; Open a directory <em>handle</em></li>
+                            <li><code>readdir()</code> &mdash; Read path name from directory <em>handle</em></li>
+                            <li>&hellip;</li>
+                        </ul>
+                    </li>
+
+                </ul>
+                <footer style="color: red;">We will not use these functions anymore !!!</footer>
+            </section>
+
+            <section>
+                <h2>Oldskool File Content Manipulation</h2>
+
+                <ul style="width: 100%;">
+                    <li>
+                        Get the entire file contents using 1 command
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/fileread_04.php">&lt;?php
+    echo file_get_contents(__DIR__ . '/testfile.txt');</code></pre>
+                    </li>
+                    <li>
+                        Or just use <code>file_put_contents()</code>
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/filewrite_01.php">&lt;?php
+
+    file_put_contents(__DIR__ . '/testfile2.txt', 'hello!' . PHP_EOL);</code></pre>
+                        <ul>
+                            <li>
+                                To update a file use <code>file_put_contents()</code> with a <em>flag</em>
+                                <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/filewrite_02.php">&lt;?php
+
+    file_put_contents(
+        __DIR__ . '/testfile2.txt',
+        'hello!' . PHP_EOL,
+        FILE_APPEND
+    );</code></pre>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </section>
+
+
+            <section>
+                <h2>Oldskool File Manipulation</h2>
+
+                <ul style="width: 100%;">
+                    <li>
+                        Example
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/filemanipulation.php">&lt;?php
+
+    // Copy file
+    copy(__DIR__ . '/testfile.txt', __DIR__ . '/copiedfile.txt');
+
+    // Rename file
+    // @note if the path differs you can move a file with this function!
+    rename(__DIR__ . '/copiedfile.txt', __DIR__ . '/testfile2.txt');
+
+    // Delete file
+    unlink(__DIR__ . '/testfile2.txt');</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+
+            <section>
+                <h2>Oldskool Dealing with Errors</h2>
+
+                <ul style="width: 100%;">
+                    <li>
+                        Suppress errors with <code>@</code> and handle return values
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/dealing.php">&lt;?php
+
+    $result = @copy(__DIR__ . '/i.do.not.exist.txt', __DIR__ . '/copiedfile.txt');
+
+    if ($result !== false) {
+        // proceed ...
+
+    } else {
+        echo ('Oops... copy has failed.');
+
+    }</code></pre>
+                    </li>
+                </ul>
+                <footer style="line-height: 1.2em">Best practice: always place an <code>@</code> before functions that can generate an error message (see documentation)</footer>
+            </section>
+
+            <section>
+                <h2>SPL</h2>
+                <ul>
+                    <li>SPL = Standard PHP Library</li>
+                    <li>A collection of interfaces and classes that are meant to solve standard problems</li>
+                    <li>
+                        Designed to traverse aggregate structures (anything you want to loop over)
+                        <ul>
+                            <li>... such as the lines of a file or directories</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>SPL and files (1)</h2>
+                <ul >
+                    <li>SPL contains a <code>SPLFileInfo</code> class, an object oriented interface to information for an individual file <em>(<a href="http://www.php.net/manual/en/class.splfileinfo.php">phpdocs</a>)</em></li>
+                    <li>SPL contains a <code>SplFileObject</code> class &mdash; which extends <code>SPLFileInfo</code> &mdash; an object oriented interface for an individual file <em>(<a href="http://www.php.net/manual/en/class.splfileobject.php">phpdocs</a>)</em></li>
+                </ul>
+                <p style="text-align: left">&rarr; Instead of using the oldskool functions, create an instance of this class and access the datamembers/ functions on it</p>
+            </section>
+
+            <section>
+                <h2>SPL and files (2)</h2>
+                <ul style="width: 100%;">
+                    <li>Example (file info)</li>
+                </ul>
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/spl_fileproperties.php">&lt;?php
+
+    $filename = __DIR__ . '/testfile.txt';
+    $fi = new SplFileInfo($filename);
+
+    echo '&lt;p&gt;The file ' . $fi-&gt;getFileName() . ' was last modified on ' . date('Y-m-d H:i:s', $fi-&gt;getMTime()) . '&lt;/p&gt;' . PHP_EOL;
+
+    echo '&lt;p&gt;The file ' . $fi-&gt;getFileName() . ' is ' . ($fi-&gt;isDir() ? '' : 'not') . ' a directory&lt;/p&gt;' . PHP_EOL;
+
+    echo '&lt;p&gt;The file ' . $fi-&gt;getFileName() . ' is ' . ($fi-&gt;isFile() ? '' : 'not') . ' a file&lt;/p&gt;' . PHP_EOL;
+
+    echo '&lt;p&gt;The file ' . $fi-&gt;getFileName() . ' is ' . ($fi-&gt;isLink() ? '' : 'not') . ' a shortcut&lt;/p&gt;' . PHP_EOL;
+
+// EOF</code></pre>
+            </section>
+
+            <section>
+                <h2>SPL and files (3)</h2>
+                <ul style="width: 100%;">
+                    <li>Example (file read)
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/spl_fileread.php">&lt;?php
+
+    $lines = new SPLFileObject(__DIR__ . '/testfile.txt');
+
+    // Loop through the file contents, show line and line numbers too.
+    foreach ($lines as $line_num =&gt; $line) {
+        echo '&lt;strong&gt;#' . $line_num . ':&lt;/strong&gt; ' . $line . '&lt;br /&gt;' . PHP_EOL;
+    }
+
+// EOF</code></pre></li>
+                </ul>
+                <footer style="line-height: 1.2em">Note 1: looping works because <code>SplFileObject</code> implements the <code>Iterator</code> interface
+                    <br>Note 2: if you have other plans with the file: <code>$lines = null;</code> closes the file handle </footer>
+            </section>
+
+            <section>
+                <h2>SPL Byte-oriented File Traversal (1)</h2>
+
+                <ul>
+                    <li>
+                        Methods of <code>SPLFileObject</code>
+                        <ul style="font-size: 90%;">
+
+                            <li><code>fread()</code> &mdash; Binary-safe file read</li>
+                            <li><code>fwrite()</code> &mdash; Binary-safe file write</li>
+                            <li><code>fgets()</code> &mdash; Gets line from the file pointer</li>
+                            <li><code>fseek()</code> &mdash; Repositions the file pointer</li>
+                            <li><code>eof()</code> &mdash; Tests for end-of-file on the file pointer</li>
+                            <li><code>rewind()</code> &mdash; Rewind the position of the file pointer</li>
+                            <li>&hellip;</li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </section>
+
+
+            <section>
+                <h2>SPL Byte-oriented File Traversal (2)</h2>
+
+                <ul style="width: 100%;">
+                    <li>
+                        Example
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/fileread_01.php">&lt;?php
+
+    // path to file (relative from this PHP file)
+    $filename = __DIR__ . '/testfile.txt';
+
+    // open the file in read mode
+    // @see http://php.net/fopen for other modes (r, r+, w, w+, a, a+, ...)
+    $file = new SplFileObject($filename, 'r');
+
+    // read as much bytes as the file size
+    $contents = $file-&gt;fread($file->getSize());
+
+    // close the file handle
+    $file = null;
+
+    // output the fetched contents
+    echo $contents;
+
+// EOF</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>SPL Byte-oriented File Traversal (3)</h2>
+
+                <ul style="width: 100%;">
+                    <li>
+                        Example 2
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/fileread_02.php">&lt;?php
+    $filename = __DIR__ . '/testfile.txt';
+
+    $file = new SplFileObject($filename, 'r');
+
+    while (! $file-&gt;eof()) {
+        $buffer = $file->fread(20);
+        echo $buffer . '&lt;br /&gt;' . PHP_EOL;
+    }
+
+    $file = null;
+
+// EOF</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+
+            <section>
+                <h2>SPL and directories</h2>
+                <ul>
+                    <li>SPL contains a <code>DirectoryIterator</code> class &mdash; which extends <code>SPLFileInfo</code> (!) &mdash; a simple interface for viewing the contents of filesystem directories <em>(<a href="http://www.php.net/manual/en/class.directoryiterator.php">phpdocs</a>)</em></li>
+                    <li>
+                        Example
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/spl_dirread.php">&lt;?php
+
+    $myBaseDir = __DIR__;
+    $di = new DirectoryIterator($myBaseDir);
+
+    foreach ($di as $file) {
+        // exclude . and .. + we don't want directories
+        if (!$file-&gt;isDot() &amp;&amp; !$file-&gt;isDir()) {
+            echo $file . '&lt;br /&gt;' . PHP_EOL;
+        }
+    }
+
+// EOF</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>SPL Dealing with Errors</h2>
+                <ul>
+                    <li>
+                        If you try to access a file/folder that doesn't exist using the SPL classes, PHP will throw an <code>Exception</code>
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/spl_exception_01.php">&lt;?php
+
+    $di = new DirectoryIterator('/this/path/does/not/exist');
+
+// EOF</code></pre>
+                    </li>
+                    <li>
+                        Use a <code>try</code>/<code>catch</code> to properly handle it
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/spl_exception_02.php">&lt;?php
+
+    try {
+        $di = new DirectoryIterator('/this/path/does/not/exist');
+    } catch (RuntimeException $e) {
+        echo 'There was an error: &lt;br /&gt;' . $e->getMessage();
+    }
+
+// EOF</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <!--section>
+                <h2>Summary / What to use when?</h2>
+
+                <ul>
+                    <li>
+                        Use the SPL classes for
+                        <ul>
+                            <li>Looping directories &rarr; <code>DirectoryIterator</code></li>
+                            <li>Fetching file info &rarr; <code>SplFileInfo</code> and <code>SplFileObject</code></li>
+                            <li>Reading file contents line by line or char by char, Reading CSV files &rarr; <code>SplFileObject</code></li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Use the oldskool functions for
+                        <ul>
+                            <li>Deleting files &rarr; <code>unlink()</code></li>
+                            <li>Copying files &rarr; <code>copy()</code></li>
+                            <li>Renaming/Moving files &rarr; <code>rename()</code></li>
+                            <li>Fetching/Manipulating file contents (in its entirety) &rarr; <code>file_get_contents()</code> and <code>file_put_contents()</code></li>
+                        </ul>
+                    </li>
+                </ul>
+            </section-->
+
+        </section>
+
+
+        <section>
+
+            <section>
+                <h2>04.4<br>Code Organization</h2>
+            </section>
+
+            <section>
+                <h2>Include</h2>
+                <ul>
+                    <li>
+                        Include the contents of one PHP file into another PHP file with the <code>include</code> keyword
+                        <ul>
+                            <li>
+                                Contents <code>01_include.php</code>
+                                <pre class="bigger"><code class="hljs php">&lt;?php
+
+    $x++;</code></pre>
+                            </li>
+                            <li>
+                                Contents <code>01.php</code>
+                                <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/co01.php">&lt;?php
+
+    $x = 0;
+
+    include '01_include.php';
+    include '01_include.php';
+
+    echo $x;</code></pre>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <footer style="line-height: 1.2em">Note: there is an <code>include_path</code> setting in the php.ini config file</footer>
+            </section>
+
+            <section>
+                <h2>Include once</h2>
+                <ul>
+                    <li>
+                        Include the contents of one PHP file <em>only once</em> into another PHP file with the <code>include_once</code> keyword
+                        <ul>
+                            <li>
+                                Contents <code>01b.php</code>
+                                <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/co01b.php">&lt;?php
+
+    $x = 0;
+
+    include_once '01_include.php';
+    include_once '01_include.php';
+
+    echo $x;</code></pre>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Include #fail</h2>
+                <ul>
+                    <li>
+                        If an included file does not exist, you'll get a warning
+                        <ul>
+                            <li>
+                                Contents <code>01c.php</code>
+                                <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/co01c.php">&lt;?php
+
+    $x = 0;
+
+    include '01_nonexistent.php';
+    include '01_include.php';
+
+    echo $x;</code></pre>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>require &amp; require_once</h2>
+                <ul>
+                    <li>
+                        <code>require</code> does the same as <code>include</code> yet it results in a fatal error and stops the process
+                        <ul>
+                            <li>
+                                Contents <code>02.php</code>
+                                <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/co02.php">&lt;?php
+
+	$x = 0;
+
+	require '02_nonexistent.php';
+
+	echo $x;</code></pre>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>I bet you can guess what <code>require_once</code> does</li>
+                    <li>
+                        Best practice: always use <code>require</code> or <code>require_once</code> instead of <code>include*</code>
+                    </li>
+                </ul>
+            </section>
+
+
+
+            <section>
+                <h2>DRY.</h2>
+                <ul>
+                    <li>
+                        DRY = Don't Repeat Yourself
+                        <ul>
+                            <li>&ldquo;<em>Every piece of knowledge must have a single, unambiguous, authoritative representation within a system</em>&rdquo;</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        If you have two files in your project which contain the same function/value you're not DRY, but WET <em>(Write Everything Twice)</em>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        One of the ways to remain DRY is to work with includes
+                    </li>
+                </ul>
+            </section>
+
+            <!--section>
+                <h2>What needs to be DRY?</h2>
+                <ol>
+                    <li>
+                        Projectwide variables
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Recurring functionality
+                    </li>
+                </ol>
+            </section-->
+
+            <section>
+                <h2>DRY: Projectwide variables</h2>
+
+                <ul>
+                    <li>
+                        A variable that is constant and used throughout the project, yet is specific to the very project
+                        <ul>
+                            <li>The mailserver to use when sending an e-mail</li>
+                            <li>The target mailaddress to send the various forms to</li>
+                            <li>The database configuration data (server, username, password, databasename)</li>
+                            <li>The API keys your website uses</li>
+                            <li>...</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        &rarr; You might also call this the configuration data
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>How to?</h2>
+
+                <ul>
+                    <li>
+                        Create a config file and <code>define</code> all variables into it
+                        <pre class="bigger"><code class="hljs php">&lt;?php
+
+define('MAIL_SERVER', 'localhost');
+define('MAIL_PORT', 25);
+
+define('DB_HOST', 'localhost');
+define('DB_USER', 'root');
+define('DB_PASS', 'Azerty123');
+define('DB_NAME', 'world');
+
+// EOF</code></pre>
+                        <ul>
+                            <li>
+                                Include this file everywhere, as the very first file to include and use the defined constants
+                            </li>
+                            <li>
+                                Or even group your settings in seperate database, mail, &hellip; config files
+                            </li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        This file is the only file that may be changed when publishing a site onto a server
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>FYI: OO Alternative</h2>
+
+                <ul>
+                    <li>
+                        Create a config class file and use <code>const</code>
+                        <pre class="bigger"><code class="hljs php">&lt;?php
+class Config {
+    const DB_HOST = 'localhost';
+    const DB_USER = 'root';
+    const DB_PASS = 'Azerty123';
+    const DB_NAME = 'world';
+}
+
+// EOF</code></pre>
+
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>DRY: Recurring Functionality</h2>
+                <ul>
+                    <li>
+                        Say you have a function <code>isValidImageExtension()</code> that checks whether a filename ends in <code>.jpg</code>/<code>.jpeg</code>/<code>.gif</code>
+                        <ul>
+                            <li>It'd be stupid to define this function in every file where you need it</li>
+                            <li>What if you want to check for <code>.png</code> too? You'll edit all files?</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        A class definition &mdash; which itself is a step towards becoming DRY &mdash; only needs to be defined once
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>How to?</h2>
+                <ul>
+                    <li>
+                        Define a class in a separate file on disk
+                        <ul>
+                            <li>Include the file when necessary, as the very first file to include and use the defined constants</li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </section>
+
+
+            <section>
+                <h2>Code Organization on disk</h2>
+
+                <ul>
+                    Folders of your <code>app</code> (cf. <em>boilerplate</em>)
+                    <ul>
+                        <li>
+                            <code>bin</code> &mdash; contains your PHP CLI scripts
+                        </li>
+                        <li>
+                            <code>config</code> &mdash; contains your config files
+                        </li>
+                        <li>
+                            <code>public</code> &mdash; the document root: only the files that need to be publicly served
+                            <ul>
+                                <li>containing the main <code>php</code> files</li>
+                                <li><code>css</code></li>
+                                <li><code>img</code></li>
+                                <li><code>js</code></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <code>resources</code> &mdash; raw and uncompiled assets (e.g. templates, language files, &hellip;)
+                        </li>
+                        <li>
+                            <code>src</code> &mdash; class files
+                        </li>
+                        <li>
+                            <code>vendor</code> &mdash; contains installed libraries (we'll see this later on)
+                        </li>
+                    </ul>
+
+                </ul>
+
+            </section>
+
+
+        </section>
+
+
+
+        <!-- The END -->
+        <section>
+            <section>
+                <h2>Questions?</h2>
+                <footer>
+                    <em><a href="mailto:joris.maervoet@odisee.be">joris.maervoet@odisee.be</a></em>
+                </footer>
+            </section>
+
+            <section>
+                <h2>Sources</h2>
+                <ul>
+                    <li><a href="http://php.net/manual/en/language.oop5.static.php">http://php.net/manual/en/language.oop5.static.php</a></li>
+                    <li><a href="http://php.net/manual/en/ini.core.php#ini.open-basedir">http://php.net/manual/en/ini.core.php#ini.open-basedir</a></li>
+                    <li><a href="http://php.net/manual/en/ini.core.php#ini.upload-max-filesize">http://php.net/manual/en/ini.core.php#ini.upload-max-filesize</a></li>
+                    <li><a href="http://php.net/manual/en/ini.core.php#ini.post-max-size">http://php.net/manual/en/ini.core.php#ini.post-max-size</a></li>
+                    <li><a href="http://php.net/manual/en/book.spl.php">http://php.net/manual/en/book.spl.php</a></li>
+                    <li><a href="http://www.php.net/manual/en/class.splfileinfo.php">http://www.php.net/manual/en/class.splfileinfo.php</a></li>
+                    <li><a href="http://www.php.net/manual/en/class.splfileobject.php">http://www.php.net/manual/en/class.splfileobject.php</a></li>
+                    <li><a href="http://www.php.net/manual/en/class.directoryiterator.php">http://www.php.net/manual/en/class.directoryiterator.php</a></li>
+                    <li><a href="http://php.net/manual/en/language.constants.predefined.php">http://php.net/manual/en/language.constants.predefined.php</a></li>
+                </ul>
+            </section>
+        </section>
+
+
+
+
+
+    </div>
+
+</div>
+
+<script src="dist/reveal.js"></script>
+<script src="plugin/zoom/zoom.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/search/search.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+
+    // Also available as an ES module, see:
+    // https://revealjs.com/initialization/
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: true,
+        hash: true,
+        slideNumber: true,
+
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight ]
+    });
+
+</script>
+<script src="toc.js"></script>
+<script src="overlay.js"></script>
+
+</body>
+</html>
