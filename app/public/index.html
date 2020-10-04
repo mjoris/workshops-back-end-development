@@ -19,15 +19,20 @@
 	<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
 </head>
 <style>
+	.r-hstack a {
+		width: 5em;
+	}
+
 	.r-hstack .minislide {
-		width: 4.5em;
-		height: 3.5em;
+		/*width: 5em;*/
+		height: 3.7em;
 		border-width: 0.05em;
 		border-style: solid;
 		margin: 0.25em;
 		padding: 0.25em;
 		background-color: rgba(255, 255, 255, 0.15);
 		font-weight: 600;
+		font-size: 80%;
 		text-transform: uppercase;
 	}
 	.r-hstack .minislide small {
@@ -35,6 +40,10 @@
 	}
 	.r-hstack a .minislide {
 		color: #fff;
+	}
+	.r-hstack .week {
+		font-size: 70%;
+		font-weight: 300;
 	}
 </style>
 
@@ -52,22 +61,22 @@
 			<div class="r-hstack">
 				<a href="00.course.intro.html">
 					<p class="minislide">
-						<small><br>00. Cursusintro<br><br><br>week 1</small>
+						<small><br>00. Cursusintro<br><br><br><span class="week">week 1</span></small>
 					</p>
 				</a>
 				<a href="01.recap.webserver.html">
 					<p class="minislide">
-						<small><br>01. Recap: the<br>webserver, HTTP, PHP<br>week 1</small>
+						<small><br>01. Recap: the web<br>server, HTTP, PHP<br><span class="week">week 1</span></small>
 					</p>
 				</a>
 				<a href="02.docker.html">
 					<p class="minislide">
-						<small><br>02. Docker<br><br><br>week 1</small>
+						<small><br>02. Docker<br><br><br><span class="week">week 1</span></small>
 					</p>
 				</a>
 				<a href="03.php.basics.html">
 					<p class="minislide">
-						<small><br>03. PHP basics<br><br><br>week 2</small>
+						<small><br>03. PHP basics<br><br><br><span class="week">week 2</span></small>
 					</p>
 				</a>
 			</div>

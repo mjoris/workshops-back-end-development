@@ -1,23 +1,53 @@
-.reveal .slides {
+/* Reveal lay-out changes */
+.reveal .slides { /* change the font-size */
     font-size: 70%;
 }
+
+code.hljs { /* but restore the font-size of the code blocks */
+    font-size: 100%;
+}
+
+.slide-background-content {  /* make background images transparent for readability */
+    opacity: 0.3;
+}
+
+/* introducing hide-when-not-current class for disappearing fragments */
+:not(.current-fragment).hide-when-not-current {
+    display: none;
+}
+
+/* custom code elements */
 code {
     background: rgba(255,255,255,0.3);
     font-size: 0.55em;
 }
+
 .has-light-background code {
     background: rgba(0,0,255,0.2);
 }
-code.hljs {
-    font-size: 100%;
-}
-:not(.current-fragment).hide-when-not-current {
-    display: none;
-}
-.slide-background-content {
-    opacity: 0.3;
+
+del code, code.nok {
+    color: #C55;
 }
 
+ins code, code.ok {
+    color: #5C5;
+}
+
+/* zoomable components */
+.zoomable-12:hover {
+    transform: scale(1.2);
+}
+
+.zoomable-15:hover {
+    transform: scale(1.5);
+}
+
+.zoomable-20:hover {
+    transform: scale(2);
+}
+
+/* quick fixes */
 .reveal table.doctable th, .reveal table.doctable td {
     text-align: center;
     width: 2em;
@@ -58,7 +88,7 @@ code.hljs {
 
 .reveal .toc nav:hover {
     opacity: 0.97;
-    background: hsl(11, 50%, 47%);
+    background: #4d7e65;
     box-shadow: 3px 3px 7px #1c1e20;
 }
 
@@ -113,7 +143,6 @@ code.hljs {
     border-bottom: 1px dotted #ccc;
 }
 
-
 /*********************************************
  * OVERLAY
  *********************************************/
@@ -141,4 +170,63 @@ code.hljs {
 .reveal code.hljs + input[type=submit] {
     float: right;
 
+}
+
+/*********************************************
+ * TOOLTIP
+ *********************************************/
+
+.reveal .hastooltip {
+    position: relative;
+}
+
+.reveal .hastooltip .tooltip {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background-image: url('assets/comments.png');
+    background-position: bottom right;
+    background-repeat: no-repeat;
+    width: 60px;
+    height: 60px;
+    z-index: 110;
+}
+
+.reveal .tooltip div {
+    display: none;
+    position: absolute;
+    bottom: 30px;
+    right: 40px;
+    font-size: 50%;
+    line-height: 1.48;
+    min-width: 420px;
+    opacity: 0.9;
+    border: 2px solid #ccc;
+    padding: 20px;
+    background-color: #ffc;
+    background-image: -webkit-linear-gradient(rgba(255,255,255,.5), rgba(255,255,180,0));
+    background-image: -moz-linear-gradient(rgba(255,255,255,.5), rgba(255,255,180,0));
+    background-image: -ms-linear-gradient(rgba(255,255,255,.5), rgba(255,255,180,0));
+    background-image: -o-linear-gradient(rgba(255,255,255,.5), rgba(255,255,180,0));
+    background-image: linear-gradient(rgba(255,255,255,.5), rgba(255,255,180,0));
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.5) inset;
+    text-shadow: 0 1px 0 rgba(255,255,255,.4);
+    color: #333;
+}
+
+.reveal .tooltip:hover div {
+    display: block;
+}
+
+.reveal .tooltip ul {
+    margin: 5px 5px 5px 15px;
+}
+
+.reveal .tooltip ul li {
+    margin-left: 10px;
+}
+
+.reveal .tooltip div *:last-child {
+    margin-bottom: 0;
 }
