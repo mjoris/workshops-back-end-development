@@ -16,7 +16,7 @@
 
 		// exclude . and .. + we don't want directories
 		if (!$file->isDot() && !$file->isDir()) {
-			echo $file . '<br />' . PHP_EOL;
+			echo $file . '<br />' . PHP_EOL; // $file is converted to string
 		}
 
 	}

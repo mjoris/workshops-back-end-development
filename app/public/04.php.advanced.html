@@ -863,8 +863,9 @@ var_dump($myWeight === $otherWeight); </code></pre>
 
     $filename = __DIR__ . '/testfile.txt';
     $fi = new SplFileInfo($filename);
+    $modTime = new DateTime('@' . $fi-&gt;getMTime()); // use @ to pass timestamps
 
-    echo '&lt;p&gt;The file ' . $fi-&gt;getFileName() . ' was last modified on ' . date('Y-m-d H:i:s', $fi-&gt;getMTime()) . '&lt;/p&gt;' . PHP_EOL;
+    echo '&lt;p&gt;The file ' . $fi-&gt;getFileName() . ' was last modified on ' .  $modTime-&gt;format('Y-m-d H:i:s') . '&lt;/p&gt;' . PHP_EOL;
 
     echo '&lt;p&gt;The file ' . $fi-&gt;getFileName() . ' is ' . ($fi-&gt;isDir() ? '' : 'not') . ' a directory&lt;/p&gt;' . PHP_EOL;
 
@@ -983,7 +984,7 @@ var_dump($myWeight === $otherWeight); </code></pre>
     foreach ($di as $file) {
         // exclude . and .. + we don't want directories
         if (!$file-&gt;isDot() &amp;&amp; !$file-&gt;isDir()) {
-            echo $file . '&lt;br /&gt;' . PHP_EOL;
+            echo $file . '&lt;br /&gt;' . PHP_EOL; // $file is converted to string
         }
     }
 
