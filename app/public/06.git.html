@@ -1,0 +1,1555 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+
+	<title>W&amp;M Server-side – Course materials</title>
+
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/theme/black.css" id="theme">
+
+	<!-- Theme used for syntax highlighting of code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+	<link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+
+<div class="reveal">
+
+	<!-- Any section element inside of this container is displayed as a slide -->
+	<div class="slides">
+		<section data-background="#b5533c">
+			<h3>Web &amp; Mobile Server-side <small>[OGI03q]</small></h3>
+			<h1>06. Git</h1>
+		</section>
+
+
+
+
+
+				<section>
+					<section>
+						<h2>06.1 Intro</h2>
+
+						<p><img src="assets/06/git-logo-white.png" width="447" alt="" class="noborder" style="margin-top: 1em;" /></p>
+
+						<p class="fragment" style="position: absolute; top: 25%; left: 10%; right: 10%; bottom: 10%; transform: rotate(-2deg) scale(1.5,1.5);"><img src="assets/06/barfing-rainbow.gif" alt="What you guys think of it" class="noborder" /></p>
+
+						<p class="fragment" style="position: absolute; top: 25%; left: 10%; right: 10%; bottom: 10%; transform: rotate(2deg) scale(1.5,1.5);"><img src="assets/06/obama-not-bad.png" alt="What I think of it" class="noborder" /></p>
+
+					</section>
+
+					<section>
+						<h2>What is Git?</h2>
+						<blockquote>Git is a free and open source distributed version control system designed to handle everything from small to very large projects with speed and efficiency.</blockquote>
+						<ul style="font-size: 90%;">
+							<li style="margin-top: 0.5em;">
+								Version control system
+								<ul>
+									<li>Tell it to keep track of certain files</li>
+									<li>Save the state of files in a <strong style="text-decoration: underline;">historical timeline</strong> <em>(<strong>repository</strong>)</em></li>
+								</ul>
+							</li>
+							<li style="margin-top: 0.5em;">
+								Distributed
+								<ul>
+									<li>Works on your local system</li>
+									<li>
+										Several users have their own separate file history
+										<ul>
+											<li>These can later on be <strong>merged</strong></li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Installation &amp; Basic Configuration</h2>
+						<ul>
+							<li>
+								Download the Git binary from <a href="http://git-scm.com">git-scm.com</a>
+								<ul>
+									<li>On Windows, choose <em>&ldquo;Run Git and included Linux tools from the Windows Command Prompt&rdquo;</em> during installation</li>
+								</ul>
+							</li>
+							<li style="margin-top: 1em;">
+								Once installed, tell Git who you are
+								<pre class="bigger"><code class="hljs bash">$ git config --global user.name "Lorem Ipsum"
+$ git config --global user.email lorem@ips.um</code></pre>
+							</li>
+							<li style="margin-top: 1em;">
+								Let's also ask for colors while we're at it
+								<pre class="bigger"><code class="hljs bash">$ git config --global color.ui true</code></pre>
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Git GUIs</h2>
+						<ul>
+							<li>
+								Git is shipped with some <em>(very)</em> basic GUI tools
+								<ul>
+									<li><code>gitk</code>, <code>git-gui</code></li>
+								</ul>
+							</li>
+							<li style="margin-top: 1em;">
+								Other Git GUIs also exist
+								<ul>
+									<li>Windows: <a href="http://www.sourcetreeapp.com/">Sourcetree</a>, TortoiseGit, SmartGit, etc.</li>
+									<li>OS X: <a href="http://www.sourcetreeapp.com/">Sourcetree</a>, <a href="http://www.git-tower.com/">Tower</a> <em>(paid)</em>, etc.</li>
+								</ul>
+							</li>
+							<li style="margin-top: 1em;">
+								All major IDEs (PhpStorm, Visual Code, &hellip;) have Git integrated
+								<ul>
+									<li>Although beware: some commands might not be supported, be combined or renamed</li>
+								</ul>
+							</li>
+						</ul>
+						<footer style="margin-top: 0.5em;"><small>You need to install GIT first.<br>You can use multiple tools on one project at the same time!</small></footer>
+					</section>
+
+				</section>
+
+				<section>
+
+					<section>
+						<h2>06.2 Getting started</h2>
+						<p><img src="assets/06/futurama-max.png" width="447" alt="" class="noborder" /></p>
+						<q>
+							Thank you, thank you. Let's get started. Max, play me over.<br />
+							(gasps) Looks like someone forgot to feed Max!
+						</q>
+					</section>
+
+					<section data-background="#fdfdfd">
+						<h2>git-gui: Demo Time! (1)</h2>
+						<img src="assets/06/git-gui.png" alt="git-gui interface">
+					</section>
+
+
+					<section>
+						<h2>git-gui: Demo Time! (2)</h2>
+						<ul>
+							<li>Create a remote (private) repo on <a href="https://git.ikdoeict.be/">git.ikdoeict.be</a></li>
+							<li><strong>Clone</strong> the repo on your local system
+								<ul style="font-size: 70%;">
+									<li>&rightarrow; git will track any file in this directory</li>
+									<li>Git automatically creates a (hidden) <code>.git</code> folder containing
+										<ul>
+											<li>Meta information</li>
+											<li>The entire history</li>
+											<li>&hellip;</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li>Rescan: git checks which files have changed in the repo
+								<ul style="font-size: 70%;">
+									<li>&rightarrow; Git compares the current state of the <strong>working directory</strong> to the last state stored in the history</li>
+								</ul>
+							</li>
+							<li>To save the changes into the history timeline
+								<ol style="font-size: 70%;">
+									<li><strong>Staging</strong>: select which changed files you want to save</li>
+									<li><strong>Committing</strong>: actually save them (a <em>delta</em>)</li>
+								</ol>
+							</li>
+							<li>Visualize history</li>
+						</ul>
+					</section>
+
+					<section data-background="#fdfdfd">
+						<h2>Command line equivalents</h2>
+						<ul>
+							<li>Initialize empty git repo: <code>git init</code> (not in the demo)</li>
+							<li>Clone a repo: <code>git clone &lt;remote URL&gt; &lt;local directory&gt;</code></li>
+							<li>Visualize changes (tracked/untracked): <code>git status</code> / <code>git diff</code></li>
+							<li>Staging
+								<ul>
+									<li><code>git add &lt;file/subfolder/pattern&gt;</code></li>
+									<li>stage all: <code>git add .</code></li>
+									<li>stage deletion: <code>git rm &lt;filename&gt;</code></li>
+									<li>unstage: <code>git reset &lt;file/subfolder/pattern&gt;</code></li>
+								</ul>
+							</li>
+							<li>Committing: <code>git commit -m "&lt;message&gt;"</code></li>
+							<li>Check the commit history: <code>git commit log</code>
+								<ul>
+									<li>Press <code>q</code> to exit the commit log</li>
+									<li>Use <code>git log --oneline</code> to get a concise output</li>
+									<li>Filter commits by &hellip; author <code>$ git log --author=name</code></li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+
+
+
+
+					<section>
+						<h2>Create atomic commits</h2>
+						<ul>
+							<li>
+								Write good commit messages
+								<ul>
+									<li>English</li>
+									<li>Present tense</li>
+								</ul>
+							</li>
+							<li style="margin-top: 0.5em">
+								One commit = one set of changes
+								<ul>
+									<li>Don't commit 2 features/bugfixes/etc at once</li>
+									<li>At the other hand, a commit should not break your application's functionality</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Flow</h2>
+						<figure style="margin-top: 0.5em;">
+							<img src="assets/06/git-add-reset-commit.png" width="700" alt="" class="noborder" />
+							<figcaption><small>Visual representation of staging, unstaging and committing in Git</small></figcaption>
+						</figure>
+					</section>
+
+					<section>
+						<h2>Git Ignore File</h2>
+
+						<ul>
+							<li>
+								Git will track all files in the working directory for changes
+							</li>
+							<li style="margin-top: 1em">
+								Ignore certain files by placing their name in <code>.gitignore</code>
+								<pre class="bigger"><code class="hljs bash">Thumbs.db
+app.db
+*.log
+vendor/*
+node_modules/*
+config.php</code></pre>
+							</li>
+							<li style="margin-top: 1em">
+								<code>.gitignore</code> must be committed into the repository
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Config files</h2>
+
+						<ul>
+							<li>
+								Don't commit config files such as <code>config.php</code>
+							</li>
+							<li style="margin-top: 1em">
+								Add <code>config.php</code> to <code>.gitignore</code> and provide a <code>config.sample.php</code> instead
+							</li>
+						</ul>
+						<footer><em>Don't believe me? Check <a href="https://www.bram.us/2015/01/04/the-2375-amazon-aws-mistake/">The $2375 Amazon AWS mistake</a>.</em></footer>
+					</section>
+					
+				</section>
+
+				<section>
+					<section>
+						<h2>06.3 Don't lose your HEAD!</h2>
+						<p style="margin-top: 1.2em;"><img src="assets/06/futurama-head-museum.jpg" width="500" alt="" class="noborder" /></p>
+						<q>Welcome to the Head Museum. I'm Leonard Nimoy.</q>
+					</section>
+
+					<section>
+						<h2>Commit history</h2>
+						<ul>
+							<li>
+								The entire commit history can be visualized as a timeline
+							</li>
+						</ul>
+						<figure>
+							<img src="assets/06/git-timeline.png" alt="" title="" width="700" />
+						</figure>
+
+						<ul>
+							<li>
+								Such a timeline is called a <strong>branch</strong>
+								<ul>
+									<li>More than one branch can exist <em>(see further)</em></li>
+									<li>The default branch is called the <strong>master</strong></li>
+								</ul>
+							</li>
+						</ul>
+						<figure>
+							<img src="assets/06/git-timeline-master.png" alt="" title="" width="700" />
+						</figure>
+					</section>
+
+					<section>
+						<h2>HEAD</h2>
+						<ul>
+							<li>
+								The <strong>HEAD</strong> is a pointer pointing towards the currently checked out <em style="font-size: 75%">(= active)</em> <strong>revision</strong> <em style="font-size: 75%">(= commit)</em>
+							</li>
+						</ul>
+						<figure>
+							<img src="assets/06/git-timeline-master-head.png" alt="" title="" width="700" />
+						</figure>
+					</section>
+
+					<section>
+						<h2>Moving the HEAD</h2>
+						<ul>
+							<li>
+								The <strong>HEAD</strong> can be moved by <strong>checking out</strong> a <em>revision</em>
+								<pre class="bigger"><code class="hljs bash" style="max-height: 380px;">$ git lg
+* c53f9b6 - (HEAD, master) Hello (15 hours ago) &lt;Bramus&gt;
+* 1d7a184 - Deleted test2.txt (16 hours ago) &lt;Bramus&gt;
+* f1c6883 - Start tracking test2 (17 hours ago) &lt;Bramus&gt;
+* 9c43f96 - Start tracking test.txt (22 hours ago) &lt;Bramus&gt;
+
+$ git checkout 1d7a184
+Note: checking out '1d7a184'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by performing another checkout.
+
+HEAD is now at 1d7a184... Deleted test2.txt
+
+$ git lg
+* 1d7a184 - (HEAD) Deleted test2.txt (16 hours ago) &lt;Bramus&gt;
+* f1c6883 - Start tracking test2 (17 hours ago) &lt;Bramus&gt;
+* 9c43f96 - Start tracking test.txt (22 hours ago) &lt;Bramus&gt;
+
+$ git checkout f1c6883
+Previous HEAD position was 1d7a184... Deleted test2.txt
+HEAD is now at f1c6883... Start tracking test2
+
+$ git lg
+* f1c6883 - (HEAD) Start tracking test2 (17 hours ago) &lt;Bramus&gt;
+* 9c43f96 - Start tracking test.txt (22 hours ago) &lt;Bramus&gt;
+
+$  git checkout master
+Previous HEAD position was f1c6883... Start tracking test2
+Switched to branch 'master'
+
+$ git lg
+* c53f9b6 - (HEAD, master) Hello (15 hours ago) &lt;Bramus&gt;
+* 1d7a184 - Deleted test2.txt (16 hours ago) &lt;Bramus&gt;
+* f1c6883 - Start tracking test2 (17 hours ago) &lt;Bramus&gt;
+* 9c43f96 - Start tracking test.txt (22 hours ago) &lt;Bramus&gt;
+
+$ </code></pre>
+								<ul>
+									<li>
+										When checking out a revision the files in your working directory change to the state of the selected revision
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Visualization</h2>
+						<figure class="zoomable-15">
+							<img src="assets/06/git-movinghead-1.png" width="450" alt="" class="noborder" /><br />
+							<img src="assets/06/git-movinghead-2.png" width="450" alt="" class="noborder" /><br />
+							<img src="assets/06/git-movinghead-3.png" width="450" alt="" class="noborder" />
+							<figcaption>Visual representation of moving the <code>HEAD</code> using <code>git checkout</code></figcaption>
+						</figure>
+					</section>
+
+					<section>
+						<h2>Unstaging revisited</h2>
+
+						<ul style="width: 100%;">
+							<li>
+								Unstage one file
+								<pre class="bigger"><code class="hljs bash">$ git reset filename</code></pre>
+							</li>
+							<li style="margin-top: 1em;">
+								Unstage all files
+								<pre class="bigger"><code class="hljs bash">$ git reset HEAD</code></pre>
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Discarding changes</h2>
+
+						<ul style="font-size: 85%;">
+							<li>
+								Unstaged changes can be discarded
+								<pre class="bigger"><code class="hljs bash">$ git checkout -- filename</code></pre>
+								<ul>
+									<li>The selected file will go back to the last committed state</li>
+								</ul>
+							</li>
+							<li style="margin-top: 0.5em;">
+								Unstage all + discard all changes
+								<pre class="bigger"><code class="hljs bash">$ git reset HEAD --hard</code></pre>
+								<ul>
+									<li>The <em>entire working directory</em> will go back to the last committed state</li>
+									<li>Cannot be undone (!!)</li>
+								</ul>
+							</li>
+							<li style="margin-top: 0.5em;">
+								Unstage all + stash all changes
+								<pre class="bigger"><code class="hljs bash">$ git stash</code></pre>
+								<ul>
+									<li>The <em>entire working directory</em> will go back to the last committed state</li>
+									<li>Can be undone as the state is saved in a <strong>stash</strong> <small><a href="https://git-scm.com/book/en/v2/Git-Tools-Stashing-and-Cleaning">&#9873;</a></small> (<em>messy state</em>)</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>06.4 Remotes</h2>
+						<p><img src="assets/06/futurama-zoidberg-entirely-scared.jpg" width="580" alt="" class="noborder" /><!-- Attack of the killer app S06E03 --></p>
+						<q>Well, let's at least throw this TV away,<br />the batteries in the remote are gettin' low.</q>
+					</section>
+
+					<section>
+						<h2>Remotes</h2>
+
+						<ul style="margin-bottom: 0;">
+							<li>
+								A repository can be synched with a server
+								<ul>
+									<li>In Git this is called a <strong>remote</strong></li>
+									<li>A remote is identified by a name, defaulting to <strong>origin</strong>, and a URL</li>
+									<li>Keep a local copy in sync with the remote by <strong>pushing</strong> and <strong>pulling</strong></li>
+									<li>Several users can push/pull to/from the same remote</li>
+									<li>Possible to define more than one remote <em>(distributed)</em></li>
+								</ul>
+							</li>
+							<li style="margin-top: 1em;">
+								Visualization
+							</li>
+						</ul>
+						<figure class="zoomable-15">
+							<img src="assets/06/git-remote.png" width="800" alt="" class="noborder" /><br />
+							<figcaption>Visual representation of a Git remote</figcaption>
+						</figure>
+					</section>
+
+					<section>
+						<h2>Setting up a repo, revisited</h2>
+
+						<ul>
+							<li>
+								If a local copy of a repository doesn't exist yet
+								<ul>
+									<li>
+										Clone the repository locally using <code>git clone <em>url</em></code>
+									</li>
+									<li>
+										A local copy of the master + <em>the entire commit history</em> is created
+									</li>
+								</ul>
+
+								<ul>
+									<li>Clone a repo in the current directory using <code>git clone <em>url</em> .</code></li>
+								</ul>
+							</li>
+
+							<li style="margin-top: 1em;">
+								If a local copy of a repository already exists
+								<ul>
+									<li>
+										Tell the repo where to find the remote: <code>git remote add <em>name</em> <em>url</em></code>
+									</li>
+									<li>
+										If the remote repository is empty, push your master to it
+									</li>
+								</ul>
+
+								<ul>
+									<li>
+										If the remote repository is not empty &hellip; <em>(see further)</em>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Push &amp; Pull</h2>
+						<ul>
+							<li>
+								Publish locally committed changes
+								<pre class="bigger"><code class="hljs bash">$ git push origin master</code></pre>
+								<ul>
+									<li>Use <code>git push</code> and it'll default to <code>origin</code> and <code>master</code></li>
+								</ul>
+							</li>
+							<li>
+								Pull changes from the server
+								<pre class="bigger"><code class="hljs bash">$ git pull</code></pre>
+								<ul>
+									<li>
+										Will fetch the changes of the <em>tracked branch</em> and merge them into the <em>locally active branch</em>
+										<ul>
+											<li>In this example: <code>origin/master</code> &rarr; <code>master</code></li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Inspecting remotes</h2>
+						<ul style="width: 100%;">
+							<li>
+								List all remotes
+								<pre class="bigger"><code class="hljs bash" style="max-height: 300px;">$ git remote show
+origin</code></pre>
+							</li>
+							<li>
+								Inspect one remote
+								<pre class="bigger"><code class="hljs bash" style="max-height: 300px;">$ git remote show origin
+* remote origin
+  Fetch URL: git@github.com:bramus/git-demo.git
+  Push  URL: git@github.com:bramus/git-demo.git
+  HEAD branch: master
+  Remote branch:
+    master tracked
+  Local ref configured for 'git push':
+    master pushes to master (up to date)</code></pre>
+							</li>
+						</ul>
+					</section>
+				</section>
+
+				<!--section>
+					<section>
+						<h2>Branching</h2>
+						<p style="margin-top: 1.2em;"><img src="assets/06/bttf2-timeline.jpg" width="580" alt="" class="noborder" /></p>
+						<q>Imagine that this line represents time. At some point in the past, the timeline skewed into this tangent creating an alternate 1985.</q>
+					</section>
+
+					<section>
+						<h2>Branches</h2>
+
+						<ul>
+							<li>
+								The default branch is the <code>master</code>
+							</li>
+							<li style="margin-top: 0.5em;">
+								List all branches
+								<pre class="bigger"><code class="hljs bash">$ git branch</code></pre>
+							</li>
+							<li style="margin-top: 0.5em;">
+								Create other branches to develop experimental features
+								<pre class="bigger"><code class="hljs bash">$ git branch experimental</code></pre>
+								<ul>
+									<li>Branches are created locally</li>
+								</ul>
+							</li>
+							<li style="margin-top: 0.5em;">
+								Activate <em>(checkout)</em> a branch
+								<pre class="bigger"><code class="hljs bash">$ git checkout experimental</code></pre>
+								<ul>
+									<li>The <code>head</code> will be moved to the new branch</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Branching off</h2>
+
+						<ul>
+							<li>
+								Creating an <code>experiment</code> branch based on the <code>master</code>
+								<pre class="bigger fragment"><code class="hljs bash" style="max-height: 380px; overflow: scroll;"><span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
+$ git branch</span>
+<span class="fragment dontunfragment">* <span style="background-color: #AA3; color: #333;">master</span>
+
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">git branch experiment</span>
+<span class="fragment dontunfragment">
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">git branch</span>
+<span class="fragment dontunfragment">  <span style="color: #AA3;">experiment</span>
+* <span style="background-color: #AA3; color: #333;">master</span>
+
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">git checkout experiment</span>
+<span class="fragment dontunfragment">Switched to branch 'experiment'
+
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on experiment</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">git branch</span>
+<span class="fragment dontunfragment">* <span style="background-color: #AA3; color: #333;">experiment</span>
+  <span style="color: #AA3;">master</span>
+
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
+$ </span></code></pre>
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Visualization</h2>
+						<figure class="fragment zoomable-15">
+							<img src="assets/06/git-branching-1.png" width="450" alt="" class="noborder" /><br />
+							<img src="assets/06/git-branching-2.png" width="450" alt="" class="noborder" /><br />
+							<img src="assets/06/git-branching-3.png" width="450" alt="" class="noborder" />
+							<figcaption>Visual representation of creating and switching to a branch</figcaption>
+						</figure>
+					</section>
+
+					<section>
+						<h2>Committing changes</h2>
+						<ul>
+							<li>
+								Changes are committed on the active branch
+								<pre class="bigger fragment"><code class="hljs bash" style="max-height: 380px; overflow: scroll;"><span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on experiment</span>
+$ <span class="fragment dontunfragment" style="color: #FFF;">touch exp.txt</span>
+<span class="fragment dontunfragment">
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on experiment*</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">git add .</span>
+<span class="fragment dontunfragment">
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on experiment*</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">git commit -m 'Start tracking exp.txt'</span>
+<span class="fragment dontunfragment">[experiment a65b9d7] Start tracking exp.txt
+ 0 files changed
+ create mode 100644 exp.txt
+
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on experiment</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">git lg</span>
+<span class="fragment dontunfragment">* <span style="color: #F55;">a65b9d7</span> - <span style="color: #AA3;">(HEAD, experiment)</span> Start tracking exp.txt (7 seconds ago) <span style="color: #55F;">&lt;Bramus&gt;</span>
+* <span style="color: #F55;">c53f9b6</span> - <span style="color: #AA3;">(origin/master, master)</span> Hello <span style="color: #5F5;">(15 hours ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
+* <span style="color: #F55;">1d7a184</span> - Deleted test2.txt <span style="color: #5F5;">(16 hours ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
+* <span style="color: #F55;">f1c6883</span> - Start tracking test2 <span style="color: #5F5;">(17 hours ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
+* <span style="color: #F55;">9c43f96</span> - Start tracking test.txt <span style="color: #5F5;">(22 hours ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
+
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on experiment</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">git checkout master</span>
+<span class="fragment dontunfragment">Switched to branch 'master'
+
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
+$ </span><span class="fragment dontunfragment">ls</span>
+<span class="fragment dontunfragment">drwxr-xr-x   4 bramus  staff  136 Mar 20 20:19 <span style="color: #55F;">.</span>
+drwxr-xr-x  11 bramus  staff  374 Mar 20 15:53 <span style="color: #55F;">..</span>
+drwxr-xr-x  14 bramus  staff  476 Mar 20 20:19 <span style="color: #55F;">.git</span>
+-rw-r--r--   1 bramus  staff    6 Mar 20 14:38 test.txt
+
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">echo 'on the master right now' &gt;&gt; test.txt</span>
+<span class="fragment dontunfragment">
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master*</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">git add .</span>
+<span class="fragment dontunfragment">
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master*</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">git commit -m 'on the master'</span>
+<span class="fragment dontunfragment">[master 0ea8dd4] on the master
+ 1 file changed, 1 insertion(+)
+
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">git lg</span>
+<span class="fragment dontunfragment">* <span style="color: #F55;">0ea8dd4</span> - <span style="color: #AA3;">(HEAD, master)</span> on the master (2 seconds ago) <span style="color: #55F;">&lt;Bramus&gt;</span>
+* <span style="color: #F55;">c53f9b6</span> - <span style="color: #AA3;">(origin/master)</span> Hello <span style="color: #5F5;">(15 hours ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
+* <span style="color: #F55;">1d7a184</span> - Deleted test2.txt <span style="color: #5F5;">(16 hours ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
+* <span style="color: #F55;">f1c6883</span> - Start tracking test2 <span style="color: #5F5;">(17 hours ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
+* <span style="color: #F55;">9c43f96</span> - Start tracking test.txt <span style="color: #5F5;">(22 hours ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
+
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
+$ </span></code></pre>
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Visualization</h2>
+						<figure class="fragment zoomable-20">
+							<img src="assets/06/git-branch-1-commitexp.png" width="300" alt="" class="noborder" /><br />
+							<img src="assets/06/git-branch-2-switch.png" width="300" alt="" class="noborder" /><br />
+							<img src="assets/06/git-branch-3-commitmaster.png" width="300" alt="" class="noborder" />
+							<figcaption>Visual representation of committing on different branches</figcaption>
+						</figure>
+					</section>
+
+					<section>
+						<h2>Merging changes</h2>
+						<ul>
+							<li>
+								Include changes from an other branch with <code>git merge</code>
+								<ul>
+									<li>
+										Changes made <code>otherbranch</code> are <strong>merged</strong> into the <code>HEAD</code>
+										<ul>
+											<li>Three way merge between common ancestor and two last branch snapshots</li>
+										</ul>
+									</li>
+									<li>A merge commit is created</li>
+								</ul>
+								<pre class="bigger fragment"><code class="hljs bash" style="max-height: 360px; overflow: scroll;"><span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
+$ <span class="fragment dontunfragment" style="color: #FFF;">git merge experiment</span>
+<span class="fragment dontunfragment">Merge made by the 'recursive' strategy.
+ 0 files changed
+ create mode 100644 exp.txt
+
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">git lg</span>
+<span class="fragment dontunfragment">*   <span style="color: #F55;">965d016</span> - <span style="color: #AA3;">(HEAD, master)</span> Merge branch 'experiment' <span style="color: #5F5;">(5 seconds ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
+<span style="color: #F55;">|</span><span style="color: #5F5;">\</span>
+<span style="color: #F55;">|</span> * <span style="color: #F55;">a65b9d7</span> - <span style="color: #AA3;">(experiment)</span> Start tracking exp.txt <span style="color: #5F5;">(6 minutes ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
+* <span style="color: #5F5;">|</span> <span style="color: #F55;">0ea8dd4</span> - on the master <span style="color: #5F5;">(2 minutes ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
+<span style="color: #5F5;">|/</span>
+* <span style="color: #F55;">c53f9b6</span> - <span style="color: #AA3;">(origin/master)</span> Hello <span style="color: #5F5;">(22 hours ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
+* <span style="color: #F55;">1d7a184</span> - Deleted test2.txt <span style="color: #5F5;">(23 hours ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
+* <span style="color: #F55;">f1c6883</span> - Start tracking test2 <span style="color: #5F5;">(24 hours ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
+* <span style="color: #F55;">9c43f96</span> - Start tracking test.txt <span style="color: #5F5;">(28 hours ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
+
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
+$ </span></code></pre>
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Visualization</h2>
+						<figure>
+							<img src="assets/06/git-merge.png" width="700" alt="" class="noborder" /><br />
+							<figcaption>Visual representation of merging changes</figcaption>
+						</figure>
+					</section>
+
+					<section>
+						<h2>Cleaning up</h2>
+						<ul>
+							<li>
+								Delete branches you don't need anymore
+								<pre class="bigger"><code class="hljs bash">$ git branch -d <em>branchname</em></code></pre>
+								<ul>
+									<li>If a branch hasn't been merged yet, Git will warn you</li>
+									<li>Override warning using <code>-D</code> instead of <code>-d</code></li>
+								</ul>
+								<pre class="bigger fragment"><code class="hljs bash" style="max-height: 360px; overflow: scroll;"><span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
+$ <span class="fragment dontunfragment" style="color: #FFF;">git branch -d otherbranch</span>
+<span class="fragment dontunfragment">error: The branch 'otherbranch' is not fully merged.
+If you are sure you want to delete it, run 'git branch -D otherbranch'.
+
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">git branch -D otherbranch</span>
+<span class="fragment dontunfragment">Deleted branch otherbranch (was e079840).
+
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
+$ </span></code></pre>
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Handling Conflicts</h2>
+
+						<div>
+							<p style="position: absolute; top: 20%; left: 10%; right: 10%; bottom: 10%; transform: rotate(-2deg);"><img src="assets/06/barfing-rainbow.gif" width="600" alt="" class="noborder" /></p>
+
+							<footer>Hold tight!</footer>
+						</div>
+
+					</section>
+
+					<section>
+						<h2>Handling conflicts (1)</h2>
+						<ul>
+							<li>
+								When merging, things can go wrong
+								<ul>
+									<li>e.g. the same line of code has been edited</li>
+									<li>When a <strong>merge conflict</strong> occurs, the merge will pause</li>
+									<li>Manual intervention <em>(choosing which version to keep)</em> is needed</li>
+								</ul>
+								<pre class="bigger fragment"><code class="hljs bash" style="max-height: 280px; overflow: scroll;"><span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
+$ <span class="fragment dontunfragment" style="color: #FFF;">echo 'something for exp' >> exp.txt</span>
+<span class="fragment dontunfragment">
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master*</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">git add .</span>
+<span class="fragment dontunfragment">
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master*</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">git commit -m 'change exp.txt'</span>
+<span class="fragment dontunfragment">[master babbcd3] change exp.txt
+ 1 file changed, 1 insertion(+)
+
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">git checkout experiment </span>
+<span class="fragment dontunfragment">Switched to branch 'experiment'
+
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on experiment</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">echo 'a different line for exp.txt' >> exp.txt</span>
+<span class="fragment dontunfragment">
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on experiment*</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">git add .</span>
+<span class="fragment dontunfragment">
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on experiment*</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">git commit -m 'change exp.txt (from experiment)'</span>
+<span class="fragment dontunfragment">[experiment 2925064] change exp.txt (from experiment)
+ 1 file changed, 1 insertion(+)
+
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on experiment</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">git checkout master</span>
+<span class="fragment dontunfragment">Switched to branch 'master'
+
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">git merge experiment</span>
+<span class="fragment dontunfragment">Auto-merging exp.txt
+CONFLICT (content): Merge conflict in exp.txt
+Automatic merge failed; fix conflicts and then commit the result.
+
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master*</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">git status</span>
+<span class="fragment dontunfragment"># On branch master
+# Unmerged paths:
+#   (use &quot;git add/rm &lt;file&gt;...&quot; as appropriate to mark resolution)
+#
+#	<span style="color: #F55;">both modified:      exp.txt</span>
+#
+
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master*</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">cat exp.txt </span>
+<span class="fragment dontunfragment">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+something for exp
+=======
+a different line for exp.txt
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; experiment
+
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master*</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">subl exp.txt</span>
+<span class="fragment dontunfragment">
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master*</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">git add exp.txt</span>
+<span class="fragment dontunfragment">
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master*</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">git commit</span>
+<span class="fragment dontunfragment">[master 80de07c] Merge branch 'experiment'
+
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
+$ </span></code></pre>
+								<ul>
+									<li>&rarr; Fix the conflict, stage the file and commit</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Handling conflicts (2)</h2>
+						<ul>
+							<li>
+								Conflicted file contents
+								<pre class="bigger"><code class="hljs bash">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+something for exp
+=======
+a different line for exp.txt
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; experiment</code></pre>
+								<ul>
+									<li>
+										Resolve manually in a text editor
+									</li>
+									<li>
+										Choose version from <code>HEAD</code>
+										<pre class="bigger"><code class="hljs bash">$ git checkout --ours <em>conflictedfile</em></code></pre>
+									</li>
+									<li>
+										Choose version from <code>otherbranch</code>
+										<pre class="bigger"><code class="hljs bash">$ git checkout --theirs <em>conflictedfile</em></code></pre>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Rebasing (1)</h2>
+						<ul>
+							<li>
+								Next to merging one can also <strong>rebase</strong>
+							</li>
+							<li style="margin-top: 1em">
+								No three way merge but
+								<ol>
+									<li>Rewinds to the common ancestor</li>
+									<li>Forwards to the last commit of the branch</li>
+									<li>Applies the commits of the current branch on top of that state</li>
+									<li>That final state is saved as the original branch</li>
+								</ol>
+							</li>
+							<li style="margin-top: 1em">
+								Roughly translated: inject the changes made on another branch into your branch to stay up-to-date.
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Rebasing (3)</h2>
+						<ul>
+							<li>
+								Rule #1 of rebasing
+								<ul>
+									<li>Don't rebase onto a branch that is shared with others</li>
+									<li>Put differently: only rebase on local featurebranches</li>
+									<li>Put differently, again: <strong>don't ever rebase onto your master</strong></li>
+								</ul>
+							</li>
+							<li style="margin-top: 1em;">
+								Rebase often to prevent potential merge conflicts
+							</li>
+							<li style="margin-top: 1em;">
+								If the <code>featurebranch</code> is completed, merge it into the <code>master</code>
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Rebasing Example</h2>
+
+						<pre class="bigger fragment"><code class="hljs bash" style="max-height: 380px; overflow: scroll;"><span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
+$ <span class="fragment dontunfragment" style="color: #FFF;">git lg</span>
+<span class="fragment dontunfragment">* <span style="color: #F55;">1e7f02e</span> - <span style="color: #AA3;">(HEAD, master)</span> A change comtd on master <span style="color: #5F5;">(12 seconds ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
+* <span style="color: #F55;">80de07c</span> - First commit! <span style="color: #5F5;">(2 minutes ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
+
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">git checkout experiment</span>
+<span class="fragment dontunfragment">Switched to branch 'experiment'
+
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on experiment</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">git lg</span>
+<span class="fragment dontunfragment"><span style="white-space: nowrap;">* <span style="color: #F55;">669ae62</span> - <span style="color: #AA3;">(HEAD, experiment)</span> A 2nd change comtd on experiment <span style="color: #5F5;">(34 seconds ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span></span>* <span style="color: #F55;">a9bdacb</span> - A change comtd on experiment<span style="color: #5F5;">(69 seconds ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
+* <span style="color: #F55;">80de07c</span> - First commit! <span style="color: #5F5;">(2 minutes ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
+
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on experiment</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">git rebase master</span>
+<span class="fragment dontunfragment">First, rewinding head to replay your work on top of it...
+Applying: A change comtd on experiment
+Applying: A 2nd change comtd on experiment
+
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on experiment</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">git lg</span>
+<span class="fragment dontunfragment"><span style="white-space: nowrap;">* <span style="color: #F55;">dba0673</span> - <span style="color: #AA3;">(HEAD, experiment)</span> A 2nd change comtd on experiment <span style="color: #5F5;">(2 seconds ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span></span>* <span style="color: #F55;">84484e4</span> - A change comtd on experiment<span style="color: #5F5;">(2 seconds ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
+* <span style="color: #F55;">1e7f02e</span> - <span style="color: #AA3;">(master)</span> A change comtd on master <span style="color: #5F5;">(54 seconds ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
+* <span style="color: #F55;">80de07c</span> - First commit! <span style="color: #5F5;">(3 minutes ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
+
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on experiment</span>
+$ </span></code></pre>
+							<footer><em>New commit hashes are generated as the patches are applied on top of the rewind/ffwd!</em></footer>
+					</section>
+
+					<section>
+						<h2>Visualization</h2>
+						<figure class="fragment zoomable-15">
+							<img src="assets/06/git-rebase-1.png" width="550" alt="" class="noborder" /><br />
+							<img src="assets/06/git-rebase-2.png" width="550" alt="" class="noborder" />
+							<figcaption>Visual representation of <code>git rebase</code></figcaption>
+						</figure>
+					</section>
+
+					<section>
+						<h2>Visualization bis</h2>
+						<figure class="fragment zoomable-15" style="margin-top: 2em;">
+							<img src="assets/06/git-rebase.png" width="800" alt="" class="noborder" />
+							<figcaption>Alternate visual representation of <code>git rebase</code></figcaption>
+						</figure>
+					</section>
+
+					<section>
+						<h2>Rebase conflicts</h2>
+						<ul>
+							<li>
+								About the same scenario as when a <em>merge conflict</em> happens
+								<ul>
+									<li>Fix the conflict manually</li>
+									<li>
+										Add the fixed file
+										<pre class="bigger"><code class="hljs bash">$ git add <em>conflictedfile</em></code></pre>
+									</li>
+									<li>
+										Continue the rebase
+										<pre class="bigger"><code class="hljs bash">$ git rebase --continue</code></pre>
+										<ul>
+											<li>
+												Aborting the rebase is also possible
+												<pre class="bigger"><code class="hljs bash">$ git rebase --abort</code></pre>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Publishing/Pulling branches</h2>
+						<ul>
+							<li>
+								Publish a branch
+								<pre class="bigger"><code class="hljs bash">$ git push origin <em>localbranch</em>:<em>remotebranch</em></code></pre>
+							</li>
+							<li style="margin-top: 1em;">
+								Delete a remote branch
+								<pre class="bigger"><code class="hljs bash">$ git push origin :<em>remotebranch</em></code></pre>
+							</li>
+							<li style="margin-top: 1em;">
+								Create local branch based on remote branch
+								<pre class="bigger"><code class="hljs bash">$ git checkout -b <em>localbranch</em> remote/<em>remotebranch</em></code></pre>
+							</li>
+							<li style="margin-top: 1em;">
+								Update remote branch list
+								<pre class="bigger"><code class="hljs bash">$ git remote update</code></pre>
+							</li>
+						</ul>
+					</section>
+
+				</section>
+
+				<section>
+					<section>
+						<h2>Collaboration</h2>
+						<p><img src="assets/06/futurama-bender-fight.jpg" width="600" alt="" class="noborder" /></p>
+						<q>Yes, we have to work together, and not<br />have this fight I was definitely winning.</q>
+					</section>
+
+					<section>
+						<h2>Collaboration</h2>
+
+						<p style="position: absolute; top: 25%; left: 10%; right: 10%; bottom: 10%; transform: rotate(0deg);"><img src="assets/06/futurama-notsureif.png" width="447" alt="" class="" /></p>
+
+						<p style="position: absolute; top: 25%; left: 10%; right: 10%; bottom: 10%; transform: rotate(-2deg);"><img src="assets/06/futurama-semi-sure-if.png" width="447" alt="" class="" /></p>
+
+						<p style="position: absolute; top: 25%; left: 10%; right: 10%; bottom: 10%; transform: rotate(2deg);"><img src="assets/06/futurama-sureif.png" width="447" alt="" class="" /></p>
+
+					</section>
+
+					<section>
+						<h2>Collaboration</h2>
+
+						<ul>
+							<li>Knowing how to branch != knowing how to collaborate</li>
+							<li>
+								When collaborating, maintain this flow
+								<pre class="bigger"><code class="hljs bash" style="max-height: 380px; overflow: scroll;"><span class="fragment dontunfragment"># 1. Make sure the master is up-to-date
+<span style="opacity: 0.75;">     $ git checkout master
+     $ git pull</span></span>
+
+<span class="fragment dontunfragment"># 2. Create a featurebranch based on the master
+<span style="opacity: 0.75;">     $ git checkout -b featurebranch</span></span>
+
+<span class="fragment dontunfragment"># 3. Develop, stage, and commit your feature on the featurebranch.
+     When finished continue to step 4</span>
+
+<span class="fragment dontunfragment"># 4. Make sure the master is still up-to-date
+<span style="opacity: 0.75;">     $ git checkout master
+     $ git pull</span></span>
+
+<span class="fragment dontunfragment"># 5. Rebase the master onto the featurebranch
+     (skip this step if master remained unchanged since step 1)
+<span style="opacity: 0.75;">     $ git checkout featurebranch
+     $ git rebase master</span></span>
+
+<span class="fragment dontunfragment"># 6. Merge the featurebranch onto the master
+<span style="opacity: 0.75;">     $ git checkout master
+     $ git merge featurebranch</span></span>
+
+<span class="fragment dontunfragment"># 7. Push the master
+<span style="opacity: 0.75;">     $ git push origin master</span></span>
+
+<span class="fragment dontunfragment"># 8. Clean up
+<span style="opacity: 0.75;">     $ git branch -d featurebranch</span></span>
+
+<span class="fragment dontunfragment"># 9. Rinse. Repeat</span></code></pre>
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Few pointers</h2>
+
+						<ul>
+							<li>
+								Don't ever develop on the <code>master</code>, but on <em>featurebranches</em>
+								<ul>
+									<li>In case that happens use <code>git pull --rebase</code> to minimize the situation and keep the master clean (<a href="http://cdn.kentnguyen.com/wp-content/uploads/2012/01/git_rebase.png">#</a>). From then on create a featurebranch and continue</li>
+								</ul>
+							</li>
+							<li style="margin-top: 1em;">The <code>master</code> must at all times contain deployable code </li>
+							<li style="margin-top: 1em;">Keep your featurebranches local</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Undoing commits</h2>
+
+						<ul>
+							<li>
+								Undo last commit
+								<pre class="bigger"><code class="hljs bash">$ git revert HEAD~1</code></pre>
+								<ul>
+									<li>Creates a new <em>undo commit</em> &rarr; the faulty commit will always be accessible by checking out that commithash!</li>
+								</ul>
+							</li>
+							<li style="margin-top: 1em;">
+								Possible to undo a commit without keeping it in the history <strong>only if it hasn't been pushed yet</strong> <em>(two methods)</em>
+								<pre class="bigger"><code class="hljs bash">$ git rebase -i commithash</code></pre>
+								<pre class="bigger"><code class="hljs bash">$ git rebase -i HEAD~2</code></pre>
+								<ul>
+									<li>Alternatively checkout the commithash before the faulty one and branch off</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+
+				</section>
+
+				<section>
+					<section>
+						<h2 style="visibility: hidden;">Github</h2>
+						<p style="margin-top: 1.5em;"><img src="assets/06/github.png" width="800" alt="" class="noborder" /></p>
+					</section>
+
+					<section>
+						<h2>Github</h2>
+
+						<figure><img src="assets/06/github-screenshot.png" alt="" title="" width="700" class="noborder" /></figure>
+
+					</section>
+
+					<section>
+						<h2>Github is &hellip;</h2>
+
+						<ol>
+							<li>
+								A website to browse Git repos
+								<ul>
+									<li>Browse branches</li>
+									<li>Inspect commmits (<a href="https://github.com/bramus/ws2-sws-course-materials/commit/01a54d00633ca8627c717bdec442d322e45e67e8">example</a>)</li>
+									<li>Issues</li>
+									<li>Pull Requests</li>
+									<li>&hellip;</li>
+								</ul>
+							</li>
+							<li style="margin-top: 1em;">
+								A graphical Git client
+								<ul>
+									<li>Both <a href="http://mac.github.com/">Mac</a> &amp; <a href="http://windows.github.com/">Windows</a></li>
+									<li>Personal opinion: not recommended</li>
+								</ul>
+							</li>
+						</ol>
+					</section>
+
+					<section>
+						<h2>Github is &hellip;</h2>
+						<ol start="3">
+							<li>
+								A remote to push your repositories to
+								<ul>
+									<li>Public / Private (paid account)</li>
+								</ul>
+							</li>
+							<li style="margin-top: 1em;">
+								Embraced by the open-source community
+							</li>
+						</ol>
+						<div class="fragment warning" style="margin-top: 2em"><p>PLEASE NOTE: GITHUB IS NOT GIT!</p></div>
+						<div class="fragment warning" style="margin-top: 0.5em"><p>AGAIN: GITHUB IS NOT GIT!</p></div>
+					</section>
+
+					<section>
+						<h2>Forking</h2>
+
+						<blockquote style="margin-top: 1em;">If you don't like my code, Fork off!</blockquote>
+
+						<ul>
+							<li style="margin-top: 1em;">
+								Clone a repo from one github account to an other one
+							</li>
+							<li style="margin-top: 1em;">
+								Create forks to develop your own features/your own version of the project
+								<ul>
+									<li>Develop on a local <code>featurebranch</code></li>
+									<li>Publish <code>featurebranch</code> when ready to your own github remote</li>
+									<li>Do a <a href="https://help.github.com/articles/using-pull-requests">pull request</a> to see your changes implemented in the original project repo</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Forking Flow</h2>
+
+						<pre class="bigger"><code class="hljs bash" style="max-height: 380px; overflow: scroll;"><span class="fragment dontunfragment"># 1. Create a fork on GitHub
+<span style="opacity: 0.75;">     e.g. clone fabpot/Silex to bramus/Silex</span></span>
+
+<span class="fragment dontunfragment"># 2. Clone your repo locally
+<span style="opacity: 0.75;">     $ git clone git@github.com:bramus/Silex.git</span></span>
+
+<span class="fragment dontunfragment"># 3. Create a featurebranch based on the master
+<span style="opacity: 0.75;">     $ git checkout -b featurebranch</span></span>
+
+<span class="fragment dontunfragment"># 4. Develop, stage, and commit your feature on the featurebranch.
+     When finished continue to step 5</span>
+
+<span class="fragment dontunfragment"># 5. Publish your featurebranch on Github
+<span style="opacity: 0.75;">     $ git push origin <em>localbranch</em>:<em>remotebranch</em></span></span>
+
+<span class="fragment dontunfragment"># 6. Do a pull request via Github and await merging</span>
+
+<span class="fragment dontunfragment"># 7. Rinse. Repeat.
+<span style="opacity: 0.75;">     Make sure your master is in sync with the original master one!
+     (add the original repo as remote and `git fetch` and `git rebase original/master`)</span></span></code></pre>
+     						<footer><em>Or, alternatively, <a href="https://help.github.com/articles/using-pull-requests/#sending-the-pull-request">do it via the Github website</a> ;-)</em></footer>
+					</section>
+
+					<section>
+						<h2>Merging Pull Requests</h2>
+						<pre class="bigger fragment"><code class="hljs bash" style="max-height: 380px; overflow: scroll;"><span class="fragment dontunfragment"># 1. Checkout your master branch
+<span style="opacity: 0.75;">     $ git checkout master</span></span>
+
+<span class="fragment dontunfragment"># 2. Add a new remote named 'otherdude'
+<span style="opacity: 0.75;">     $ git remote add otherdude git://github.com/otherdude/Project.git</span></span>
+
+<span class="fragment dontunfragment"># 3. Fetch information about all branches on the 'otherdude' remote
+<span style="opacity: 0.75;">     $ git fetch otherdude</span></span>
+
+<span class="fragment dontunfragment"># 4. Merge 'otherdude/featurebranch' into your master
+<span style="opacity: 0.75;">     $ git merge otherdude/featurebranch</span></span>
+
+<span class="fragment dontunfragment"># 5. Push your newly-merged branch back to GitHub
+<span style="opacity: 0.75;">     $ git push origin master</span></span></code></pre>
+     					<footer><em>Or, alternatively, <a href="https://help.github.com/articles/merging-a-pull-request/">do it via the Github website</a> ;-)</em></footer>
+					</section>
+
+					<section>
+						<h2>git.ikdoeict.be</h2>
+						<ul>
+							<li>
+								&ldquo;Our own private Github&rdquo;, powered by GitLab
+								<ul>
+									<li>
+										Log on to <a href="https://git.ikdoeict.be">the web interface</a> using <a href="http://helpdesk.ikdoeict.be/index.php?/Knowledgebase/Article/View/2/7/info-kaho-account">your Odisee Account</a>
+									</li>
+									<li>
+										Note: push/pull possible via <code>https://</code>, or <code>git://</code>
+									</li>
+								</ul>
+							</li>
+						</ul>
+						<figure class="fragment zoomable-30">
+							<img src="assets/06/git-ikdoeict-be-1.png" width="250" alt="" class="noborder" />
+							<img src="assets/06/git-ikdoeict-be-2.png" width="250" alt="" class="noborder" />
+							<img src="assets/06/git-ikdoeict-be-3.png" width="250" alt="" class="noborder" />
+							<figcaption>Screenshots of git.ikdoeict.be</figcaption>
+						</figure>
+					</section>
+
+				</section>
+
+				<section>
+					<section>
+						<h2>A few more things</h2>
+						<p><img src="assets/06/futurama-mutant-march.png" width="600" alt="" class="noborder" /></p>
+						<q>Let's go. If I say one more thing,<br />I might say it with my evening boot.</q>
+					</section>
+
+
+
+					<section>
+						<h2>Partially staging files</h2>
+
+						<ul>
+							<li>
+								Commits must contain only one set of changes
+							</li>
+							<li>
+								In case of several changes, choose which changes may be staged in <a href="http://git-scm.com/book/en/v2/Git-Tools-Interactive-Staging#Staging-Patches">Patch Mode</a> using <code>git add -p file</code>
+							</li>
+						</ul>
+						<pre class="bigger fragment"><code class="hljs bash" style="max-height: 330px; overflow: scroll;"><span style="opacity: 0.75;">bramus in ~/ikdoeict/ikdoeict-website on master*</span>
+$ <span class="fragment dontunfragment" style="color: #FFF;">git add -p index.html</span>
+<span class="fragment dontunfragment"><span style="color: #AA3">diff --git a/index.html b/index.html
+index 3fc8413..d7af84e 100644
+--- a/index.html
++++ b/index.html</span>
+<span style="color: #F5F">@@ -1,6 +1,6 @@</span>
+ &lt;!DOCTYPE html&gt;
+ &lt;head>
+<span style="color: #F55">-	&lt;title&gt;Home | Ikdoeict.BE&lt;/title&gt;</span>
+<span style="color: #5F5">+	&lt;title&gt;Home | IkdoeICT.BE&lt;/title&gt;</span>
+ 	&lt;meta charset="utf-8" /&gt;
+ 	&lt;link rel="stylesheet" href="css/normalize.css" /&gt;
+<span style="color: #55F">Stage this hunk [y,n,q,a,d,/,j,J,g,e,?]?</span></span> <span class="fragment dontunfragment">y</span>
+
+<span class="fragment dontunfragment"><span style="color: #F5F">@@ -176,7 +176,7 @@</span>
+     &lt;/section&gt;
+     &lt;footer&gt;
+<span style="color: #F55">-	&lt;p&gt;Copyright (c) 2012 IkdoeICT.be&lt;/p&gt;</span>
+<span style="color: #5F5">+	&lt;p&gt;Copyright (c) 2013 IkdoeICT.be&lt;/p&gt;</span>
+     &lt;/footer&gt;
+ &lt;/div&gt;
+ <span style="color: #55F">Stage this hunk [y,n,q,a,d,/,j,J,g,e,?]?</span></span> <span class="fragment dontunfragment">n</span>
+<span class="fragment dontunfragment">
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/ikdoeict-website on master*</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">git status</span>
+<span class="fragment dontunfragment"># On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#	<span style="color: #AA3">modified:   index.html</span>
+#
+# Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#   (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
+#
+#	<span style="color: #5F5">modified:   index.html</span>
+#
+
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/ikdoeict-website on master*</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">git commit -m 'title casing'</span>
+<span class="fragment dontunfragment">[master fc91e11] title casing
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/ikdoeict-website on master*</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">git diff index.html</span>
+<span class="fragment dontunfragment"><span style="color: #AA3">diff --git a/index.html b/index.html
+index 7602651..d7af84e 100644
+--- a/index.html
++++ b/index.html</span>
+<span style="color: #F5F">@@ -176,7 +176,7 @@</span>
+     &lt;/section&gt;
+     &lt;footer&gt;
+<span style="color: #F55">-	&lt;p&gt;Copyright (c) 2012 IkdoeICT.be&lt;/p&gt;</span>
+<span style="color: #5F5">+	&lt;p&gt;Copyright (c) 2013 IkdoeICT.be&lt;/p&gt;</span>
+     &lt;/footer&gt;
+ &lt;/div&gt;
+
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/ikdoeict-website on master*</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">git add .</span>
+<span class="fragment dontunfragment">
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/ikdoeict-website on master*</span>
+$ </span><span class="fragment dontunfragment" style="color: #FFF;">git commit -m 'copyright 2013 instead of 2012'</span>
+<span class="fragment dontunfragment">[master c36c7be] copyright 2013 instead of 2012
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+<span style="opacity: 0.75;">bramus in ~/ikdoeict/ikdoeict-website on master</span>
+$ </span></code></pre>
+					</section>
+
+					<section>
+						<h2>Automatic publishing</h2>
+
+						<ul>
+							<li>
+								Oldskool flow: uploaded changed files via FTP and run SQL updates through PHPMyAdmin
+							</li>
+							<li style="margin-top: 1em">
+								Thanks to Git some things can be automated
+								<ul>
+									<li style="margin-top: 0.5em;">
+										<a href="http://www.bram.us/2012/07/18/automatic-website-publishing-with-git-ftp-py-on-mac-os-x/">Automatic uploading of changes via FTP using <code>git-ftp.py</code></a><br />&mdash; Just run <code>python git-ftp.py</code>
+									</li>
+									<li style="margin-top: 0.5em;">
+										Deploy (and rollback) your code and database changes to your own servers using <a href="http://en.wikipedia.org/wiki/Capistrano">Capistrano</a><br />&mdash; Just run <code>cap deploy</code>
+									</li>
+									<li style="margin-top: 0.5em;">
+										Deploy to PaaS services such as <a href="http://www.heroku.com/">Heroku</a> by adding a remote<br />&mdash; Just run <code>git push heroku master</code>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Automatic publishing</h2>
+						<p style="position: absolute; top: 25%; left: 10%; right: 10%; bottom: 10%; transform: rotate(2deg);"><img src="assets/06/obama-not-bad.png" width="447" alt="" class="noborder" /></p>
+					</section>
+
+					<section>
+						<h2>Practice!</h2>
+
+						<ul>
+							<li>
+								I learned Git by just going for it. You should too.
+								<ul>
+									<li>
+										Create a local Git repo for your next project
+									</li>
+									<li>
+										Use some of the online courses/tools
+										<ul>
+											<li><a href="http://try.github.com/">Codeshool: Try Git</a></li>
+											<li><a href="http://pcottle.github.com/learnGitBranching/?NODEMO">Learn Git Branching</a> <em>(Definitely try out merging and rebasing!)</em></li>
+										</ul>
+									</li>
+									</li>
+								</ul>
+							</li>
+							<li style="margin-top: 1em">
+								I stil have much to learn about Git
+								<ul>
+									<li>&hellip; but I know how to Google when in need</li>
+									<li>&hellip; but I know how to read (<a href="http://git-scm.com/book/en/">a free book on Git</a>)</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Want more?!</h2>
+
+						<ul>
+							<li>
+								Stashing
+							</li>
+							<li>
+								Tagging
+							</li>
+							<li>
+								Cherry Picking
+							</li>
+							<li>
+								Continuous Integration
+							</li>
+							<li>
+								Commit hooks
+							</li>
+							<li>
+								&hellip;
+							</li>
+						</ul>
+					</section>
+
+				</section-->
+
+				<!-- The END -->
+				<section>
+					<section>
+						<h2>Questions?</h2>
+
+						<p style="margin-top: 5.5em; opacity: 0.35;"><em>(Press &darr; to see some frequently asked ones)</em></p>
+
+						<footer>
+							<em><a href="http://www.ikdoeict.be/">ikdoeict.be</a> &mdash; <a href="mailto:joris.maervoet@odisee.be">joris.maervoet@odisee.be</a></em>
+						</footer>
+					</section>
+
+					<section>
+						<h2>Why not just use Dropbox?</h2>
+						<ul>
+							<li>Yes, your files will be synced</li>
+							<li>
+								But &hellip;
+								<ul>
+									<li>No proper collaboration <em>(changes can be overwritten by others)</em></li>
+									<li>No all-of-the-time deployable code <em>(mid development you cannot deploy your code)</em></li>
+									<li>No experimental features <em>(you cannot start an experiment on a separate branch)</em></li>
+									<li>No author information <em>(who broke what?)</em></li>
+									<li>No going back in time <em>(limited to a few days in Dropbox)</em></li>
+									<li>No proper timeline <em>(what, you're gonna zip up your files per feature developed? &rarr; That's versioning!)</em></li>
+								</ul>
+							</li>
+							<li style="margin-top: 1em;">
+								And oh: don't ever share a folder that is a git repo
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Do I have to remember all those commands?</h2>
+
+						<ul>
+							<li>No, sometimes I have to lookup one too.<br />That's perfectly fine.</li>
+							<li style="margin-top: 1em;">It's allowed to use a GUI but you should have a (vague) idea of what is happening in the background</li>
+							<li style="margin-top: 1em;">Know the basic concepts (stage, commit, push, pull, merge, rebase)</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>I'll be fine without Git, right?</h2>
+
+						<ul>
+							<li>
+								Alas, no dice. Whether you like it or not you'll have to use Git if you're ever going to do something in software/web
+								<ul>
+									<li>Above that it's a requirement for some of our courses</li>
+								</ul>
+							</li>
+							<li style="margin-top: 1em;">
+								We know it's tough, but hang on until you get the gist of it
+								<ul>
+									<li>There's memory in repetition. There's memory in repetition</li>
+									<li>Truth be told, it took me over a year to get to know the commands I know right now, but I persevered.</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+
+				</section>
+
+
+
+				<!-- Sources -->
+				<section id="sources">
+					<section>
+						<h2>Sources</h2>
+						<ul>
+							<li><a href="http://learn.github.com/">http://learn.github.com/</a></li>
+							<li><a href="https://julianscorner.com/wiki/programming/git/visualguide">https://julianscorner.com/wiki/programming/git/visualguide</a></li>
+							<li><a href="http://irradiated.net/articles/2010/git-cheat-sheet-overview-tutorial/">http://irradiated.net/articles/2010/git-cheat-sheet-overview-tutorial/</a></li>
+							<li><a href="http://learn.github.com/">http://learn.github.com/</a></li>
+							<li><a href="http://git-scm.com/book/ch3-1.html">http://git-scm.com/book/ch3-1.html</a></li>
+							<li><a href="http://www.youtube.com/watch?v=Wl0NfWYrvlY">http://www.youtube.com/watch?v=Wl0NfWYrvlY</a></li>
+						</ul>
+					</section>
+				</section>
+
+
+
+
+	</div>
+
+</div>
+
+<script src="dist/reveal.js"></script>
+<script src="plugin/zoom/zoom.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/search/search.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+
+	// Also available as an ES module, see:
+	// https://revealjs.com/initialization/
+	Reveal.initialize({
+		controls: true,
+		progress: true,
+		center: true,
+		hash: true,
+		slideNumber: true,
+
+
+		// Learn about plugins: https://revealjs.com/plugins/
+		plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight ]
+	});
+
+</script>
+<script src="toc.js"></script>
+<script src="overlay.js"></script>
+
+</body>
+</html>
