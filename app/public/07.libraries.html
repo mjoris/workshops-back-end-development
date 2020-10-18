@@ -1,0 +1,1084 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>W&amp;M Server-side – Course materials</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/black.css" id="theme">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+
+<div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+        <section data-background="#b5533c">
+            <h3>Web &amp; Mobile Server-side <small>[OGI03q]</small></h3>
+            <h1>07. Libraries &amp; Composer</h1>
+        </section>
+        
+        <!-- Libraries -->
+        <section>
+            <section>
+                <h2>07.1<br>Libraries &amp; Frameworks</h2>
+            </section>
+
+            <section>
+                <h2>Library?</h2>
+                <ul>
+                    <li>
+                        Set of one or more PHP Classes which you can use in your own project
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Provide in one or several functionalities
+                        <div class="columns">
+                            <div class="column column-12">
+                                <ul>
+                                    <li>Sending e-mail</li>
+                                    <li>Templating</li>
+                                    <li>Working with PDF or Word or Excel documents</li>
+                                    <li>Working with Files &amp; Folders</li>
+                                    <li>Tools: logging, timing, PHP ext polyfills, promises, deep copy, &hellip;</li>
+                                </ul>
+                            </div>
+                            <div class="column column-12">
+                                <ul>
+                                    <li>Caching</li>
+                                    <li>Data Generation</li>
+                                    <li>Database Access</li>
+                                    <li>Validation</li>
+                                    <li>etc.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- section>
+                <h2>Properties of a library</h2>
+                <ul>
+                    <li>
+                        Core properties
+                        <ul>
+                            <li>Build on top of the existing PHP core functions (or an other library)</li>
+                            <li>Include it in your own code in order to get it to work</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Optional properties
+                        <ul class="twocolled">
+                            <li>Standalone</li>
+                            <li>Structured</li>
+                            <li>Documentation provided</li>
+                            <li>Unit Tested</li>
+                            <li>Extensible</li>
+                            <li>PSR-X Compliant<br /><em>(more on that later)</em></li>
+                        </ul>
+                    </li>
+                </ul>
+                <footer><em>Tip: you can identify a well-written library if it has most (it not all!) of the optional properties</em></footer>
+            </section -->
+
+            <section>
+                <h2>Example Libraries</h2>
+                <ul>
+                    <li>
+                        Specific Libraries
+                        <ul>
+                            <li>Templating: Twig, Smarty, &hellip;</li>
+                            <li>Sending e-mail: PHPMailer, SwiftMailer, &hellip;</li>
+                            <li>Working with PDF files: TCPDF, FPDI, &hellip;</li>
+                            <li>Manipulate Office Files: PHPSpreadsheet, PHPWord, &hellip;</li>
+                            <li>Database and ORM: Doctrine, illuminate/database, Propel, Redbean, &hellip;</li>
+                            <li>Routing: Klein, Nette, nikic/fast-route, bramus/router, &hellip;</li>
+                            <li>&hellip; <em>(#lmgtfy)</em></li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        General Libraries
+                        <ul>
+                            <li>The Symfony Components</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Beware though!</h2>
+                <ul>
+                    <li>
+                        Not all codebases are created equally! Lots of cruft out there.
+                        <ul>
+                            <li>Bad quality</li>
+                            <li>No proper abstraction</li>
+                            <li>PHP 5.* code; PHP 7 incompatible code</li>
+                            <li>No documentation</li>
+                            <li>&hellip;</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Framework?</h2>
+                <ul>
+                    <li>
+                        Framework &gt; Library
+                        <ul>
+                            <li>Defines a structure to follow</li>
+                            <li>Your project must follow that structure</li>
+                            </li>
+                            <li>Internally, a framework will most likely contain/use a library</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Examples
+                        <div class="columns">
+                            <div class="column column-12">
+                                <ul>
+                                    <li>Laravel</li>
+                                    <li>Symfony</li>
+                                    <li>Zend Framework</li>
+
+                                    <li>CodeIgniter</li>
+                                    <li>CakePHP</li>
+
+                                </ul>
+                            </div>
+                            <div class="column column-12">
+                                <ul>
+                                    <li>FuelPHP</li>
+                                    <li>YII 2</li>
+                                    <li>Phalcon</li>
+                                    <li>Slim</li>
+                                    <li>etc.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+
+            <section data-background="assets/07/splash-oldskool.jpg">
+                <h2>PHP History (1)</h2>
+                <ul>
+                    <li>Oldskool obtaining a library
+                        <ol>
+                            <li>Look up the library on the internet</li>
+                            <li>Download it</li>
+                            <li>Extract it</li>
+                            <li>Put the correct folder somewhere in your project</li>
+                            <li>Include the necessary classes</li>
+                            <li>Use it</li>
+                        </ol>
+                    </li>
+                </ul>
+
+            </section>
+
+            <section data-background="assets/07/splash-oldskool.jpg">
+                <h2>PHP History (2)</h2>
+                <ul>
+                    <li>Oldskool updating a library
+                        <ol>
+                            <li>Look up the website of the library again</li>
+                            <li>Download the new version</li>
+                            <li>Extract it</li>
+                            <li>Drop it in your project</li>
+                            <li>Cross your fingers and hope all still works (mostly: dependencies)</li>
+                        </ol>
+                    </li>
+                </ul>
+
+                <footer><em>(If you do keep your code up-to-date that is)</em></footer>
+            </section>
+
+            <!--section>
+                <h2>Example: JpGraph (1)</h2>
+
+                <ul>
+                    <li>
+                        Library to create charts
+                        <ul>
+                            <li>Website: <a href="https://jpgraph.net/">http://jpgraph.net/</a></li>
+                            <li>Documentation: <a href="https://jpgraph.net/download/manuals/">http://jpgraph.net/download/manuals/</a></li>
+                            <li>Ships with lots of examples in the <code>.zip</code></li>
+                            <li>Targetted towards PHP 7</li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </section>
+
+            <section>
+                <h2>Example: JpGraph (2)</h2>
+
+                <pre class="bigger"><code class="hljs php" data-overlay-example="assets/07/examples/sans-composer/1.jpgraph/index.php" style="max-height: 380px; overflow: scroll;">&lt;?php
+
+// Include needed classes
+require_once ('jpgraph/jpgraph.php');
+require_once ('jpgraph/jpgraph_pie.php');
+
+// Our data
+$data = array(78, 22);
+
+// Create the Pie Graph
+$graph = new PieGraph(350, 300, 'auto');
+$graph-&gt;SetShadow();
+
+// Set A title for the plot + disable the border
+$graph-&gt;title-&gt;Set(&quot;Percentage of chart which resembles Pac-man&quot;);
+$graph-&gt;SetFrame(false);
+
+// Create the pieplot
+$pieplot = new PiePlot($data);
+$pieplot-&gt;SetCenter(0.5, 0.5);
+$pieplot-&gt;SetStartAngle(39);
+$pieplot-&gt;SetLegends(array('Pac-man', 'Not Pac-Man'));
+
+// Add the pieplot to the graph
+$graph-&gt;Add($pieplot);
+
+// JpGraph Bug: one must add the pieplot before setting colors
+$pieplot-&gt;SetSliceColors(array('#FFFF00','#FF0000'));
+
+// Style the Legend
+$graph-&gt;legend-&gt;SetFrameWeight(0);
+$graph-&gt;legend-&gt;Pos(0.5, 0.90, 'center', 'top');
+$graph-&gt;legend-&gt;SetFillColor('white');
+$graph-&gt;legend-&gt;SetColumns(2);
+
+// Display the graph
+$graph-&gt;Stroke();</code></pre>
+            </section>
+
+            <section>
+                <h2>Example: Twig 1.x</h2>
+
+                <ul>
+                    <li>
+                        Remember how we have been using Twig?
+                        <pre class="bigger"><code class="hljs php">require_once __DIR__ . '/includes/Twig/Autoloader.php';
+Twig_Autoloader::register();
+
+$loader = new Twig_Loader_Filesystem(__DIR__ . '/templates');
+$twig = new Twig_Environment($loader);
+
+// &hellip;
+$tpl = $twig->load('main.twig');
+echo $tpl->render(array('title' => $title));</code></pre>
+                    </li>
+
+                    <li style="margin-top: 0.5em;">
+                        Why is this an interesting example?
+                        <ul>
+                            <li>
+                                Comes with an <em>autoloader</em>
+                                <ul>
+                                    <li>Just include the autoloader and whenever you use one of the Twig classes, it'll automatically <code>require</code> it.</li>
+                                    <li>Having an autoloader mostly attests being <strong>well-structured</strong></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <footer><em>Note: Twig 2.x does not support this way of including autoloaders anymore.</em></footer>
+            </section-->
+
+        </section>
+
+        <section>
+            <section>
+                <h2>07.2 Autoloaders &amp; Namespaces</h2>
+                <p><img src="assets/07/splash-namespaces.jpg" width="600" alt="" style="margin-top: 1em;" /></p>
+            </section>
+
+            <section>
+                <h2>Autoloaders (1)</h2>
+
+                <ul style="font-size: 90%;">
+                    <li>An autoloader is a function that loads a PHP class that is not available in the current scope (e.g. not yet included via <code>include</code> or <code>require</code>).
+                        <ul>
+                            <li>The function takes one argument: the name of the requested class</li>
+                            <li>Function then translates the classname to an actual file to include</li>
+                            <li>Easy to write, if you keep your naming and structure consistent</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        You need to tell PHP to use that function for autoloading with <code>spl_autoload_register</code>
+                        <pre class="bigger"><code class="hljs php">function simple_autoloader($class) {
+    include 'classes/' . $class . '.class.php';
+}
+
+spl_autoload_register('simple_autoloader');</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Autoloaders (2)</h2>
+                <ul>
+                    <li>
+                        Example: Twig 1.x's autoloader (stripped down)
+                        <pre class="bigger"><code class="hljs php">function autoload($class) {
+	if (0 !== strpos($class, 'Twig_')) { //Don't interfere w other autoloaders
+		return;
+	}
+
+	$path = __DIR__ . '/' . str_replace('_', '/', $class) . '.php';
+
+	if (!file_exists($path)) return;
+
+	require $path;
+}</code></pre>
+                        <ul>
+                            <li>When using <code>Twig_Loader_Filesystem</code> it'll include <code>/path/to/twig/Twig/Loader/Filesystem.php</code></li>
+                        </ul>
+                    </li>
+                </ul>
+                <footer><small>Note: Twig 1.x is obsolete</small></footer>
+            </section>
+
+            <section>
+                <h2>Namespaces (1)</h2>
+
+                <ul style="font-size: 90%;">
+                    <li>
+                        Namespaces allow you to logically group and name your classes
+                        <ul>
+                            <li>No more lengthy classnames such as <code>Swift_Encoder_Base64Encoder</code></li>
+                            <li>&hellip; but a class <code>Base64Encoder</code> in the <code>\Swift\Encoder</code> namespace</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Howto
+                        <ul>
+                            <li>Define a class <code>Baz</code> within a namespace: start with <code>namespace Ikdoeict\Demo;</code>
+                                <ul>
+                                    <li>Refer to other classes of the same namespace: just by their base name</li>
+                                </ul>
+                            </li>
+                            <li>How to refer to <code>Baz</code> when you're outside the namespace?
+                                <ul>
+                                    <li>By the fully qualified name: <code>\Ikdoeict\Demo\Baz</code></li>
+                                    <li>Or: first import the namespace by <code>use \Ikdoeict\Demo\Baz;</code> and just use <code>Baz</code> after that</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Namespaces (2) &mdash; Demo time!</h2>
+
+                <div class="hastooltip">
+
+                    <figure><img src="assets/07/namespaces.png" alt="" title="" width="580" class="noborder" /></figure>
+
+                    <p style="font-size: 75%">Let's take a look at the files in  <code>assets/07/examples/namespaces/</code> <a href="assets/07/examples/namespaces/">&rarr;</a></p>
+
+                    <div class="tooltip">
+                        <div style="width: 600px;">
+                            <ul>
+                                <li>
+                                    Define a namespace for your class at the very top of the file
+                                    <pre><code class="hljs php">namespace Ikdoeict\Demo;
+class Foo { ... }</code></pre>
+                                </li>
+                                <li style="margin-top: 1em;">
+                                    Refer to a class with its full namespace.
+                                    <pre><code class="hljs php">$foo = new \Ikdoeict\Demo\Foo('hello-foo');</code></pre>
+                                </li>
+                                <li style="margin-top: 1em;">
+                                    If you don't use the full namespace, PHP will look in the current active namespace and the &ndash; via <code>use</code> &ndash; imported namespaces.
+                                    <pre><code class="hljs php">namespace Ikdoeict\Demo;
+class Bar extends Foo { ... } // = extends Ikdoeict\Demo\Foo</code></pre>
+                                    <pre><code class="hljs php">use \Ikdoeict\Demo\Baz;
+$baz = new Baz('hello-baz'); // = \Ikdoeict\Demo\Baz</code></pre>
+                                </li>
+                                <li style="margin-top: 1em;">
+                                    The global namespace is <code>\</code>
+                                    <pre><code class="hljs php">$di = new \DirectoryIterator(__DIR__);</code></pre>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <section>
+                <h2>PSR-0</h2>
+
+                <ul>
+                    <li>
+                        <a href="http://www.php-fig.org/psr/psr-0/">PSR-0</a> is <em>&ldquo;a standard describing mandatory requirements for autoloader interoperability&rdquo;</em>
+                        <ul>
+                            <li>
+                                Defines how to namespace your code:<br />
+                                <code>\&lt;VendorName&gt;\(&lt;Namespace&gt;\)*&lt;ClassName&gt;</code></li>
+                            <li>
+                                Defines how that namespace translates to an organization on disk<br />
+                                <code>/path/to/project/vendor/Vendorname/Namespace/ClassName.php</code>
+                            </li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        In other words: Adhering to this folder structure makes your library play nice with <a href="https://gist.github.com/jwage/221634">the PSR-0 autoloader</a>.
+                    </li>
+                </ul>
+                <footer><small>Beware: Use the exact casing on disk as some file systems are Case Sensitive!</small></footer>
+            </section>
+
+            <section>
+                <h2>PSR-4</h2>
+
+                <ul>
+                    <li>
+                        <a href="http://www.php-fig.org/psr/psr-4/">PSR-4</a> is <em>&ldquo;a specification for autoloading classes from file paths&rdquo;</em>
+                        <ul>
+                            <li>PSR-4 is the <em>relative path</em> version of PSR-0</li>
+                            <li>
+                                Affords a more concise folder structure. Example:
+                                <ul>
+                                    <li>Given: a name space prefix <code>Acme\Log\Writer</code></li>
+                                    <li>Given: a base dir <code>./acme-log-writer/lib/</code></li>
+                                    <li>Class <code>\Acme\Log\Writer\File_Writer</code> &rarr; path <code>./acme-log-writer/lib/File_Writer.php</code></li>
+
+                                </ul>
+                            </li>
+                            <li>PSR-0 paths are PSR-4 compliant</li>
+                        </ul>
+                    </li>
+                    <!--li style="margin-top: 1em;">
+                        Roughly translated: PSR-4 = PSR-0, redux.
+                    </li-->
+                </ul>
+            </section>
+        </section>
+
+        <section>
+            <section>
+                <h2>07.3 Managing Libraries<br />with Composer</h2>
+                <p><img src="assets/07/splash-composer.png" width="500" alt="" style="margin-top: 1em;" /></p>
+            </section>
+
+            <section data-background="#fdfdfd">
+                <h2>Composer</h2>
+
+                <div class="columns clearfix">
+                    <div class="column column-13">
+                        <figure><img src="assets/07/logo-composer-transparent.png" width="200" class="noborder" title="Composer" /></figure>
+                    </div>
+                    <div class="column column-23" style="width: 66.666666%">
+                        <blockquote style="width: 100%; margin-top: 1em;">Composer is a tool for dependency management in PHP. It allows you to declare the dependent libraries your project needs and it will install them in your project for you.</blockquote>
+                    </div>
+                </div>
+
+                <ul>
+                    <li>
+                        Roughly translated: this tool will save you lots of headaches
+                        <ul>
+                            <li>Just tell composer which package and which version <em>(specific, or &ldquo;the latest&rdquo;)</em> of a library you need and it will install/update it for you</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section data-background="#fdfdfd">
+                <h2>Packagist</h2>
+                <ul>
+                    <li>
+                        Composer is worthless without <a href="https://packagist.org/">Packagist</a>:
+                        <ul style="font-size: 75%">
+                            <li>Composer = command line tool which downloads and installs the packages</li>
+                            <li>Packagist = website aggregating all installable packages and their versions</li>
+                        </ul>
+                        <div style="text-align: center;">
+                            <figure><img src="assets/07/packagist-2018.png" alt="" title="" width="580" class="noborder" /></figure>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Why Composer and not X?</h2>
+
+                <ul>
+                    <li>
+                        Composer is a <strong>project specific</strong> dependency manager
+                        <ul>
+                            <li>Packages are installed on a per project basis (<code>vendor</code> subfolder), not system-wide (cfr. PEAR)</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Composer is <strong>clever</strong>
+                        <ul>
+                            <li>Composer finds out which versions of which packages (and which versions of its dependencies) need to be installed, and installs them.</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Installed packages can be <strong>autoloaded</strong>
+                        <ul>
+                            <li>Plays nice with PSR-0 and PSR-4 compliant packages</li>
+                            <li>Composer will generate one single autoloader for all dependencies</li>
+                        </ul>
+                    </li>
+                </ul>
+                <footer style="bottom: 0;"><em>Told you: it saves lots of headaches! ;-)</em></footer>
+            </section>
+
+            <section>
+                <h2>Installing Composer</h2>
+
+                <ul style="width:100%;">
+                    <li>
+                        Unix / OS X
+                        <pre class="bigger"><code>$ curl -s https://getcomposer.org/installer | php
+$ sudo mkdir /usr/local/bin/
+$ mv composer.phar /usr/local/bin/composer</code></pre>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Windows: <a href="https://getcomposer.org/Composer-Setup.exe">Download &amp; Run the installer</a>
+                    </li>
+                </ul>
+                <footer><strong style="color: red;">In a Docker MCE, composer might already been installed. ALWAYS run composer from the web or workspace container (<code style="color: white;">docker exec &hellip;</code>)</strong></footer>
+            </section>
+
+            <section>
+                <h2>Installing packages: Automatic</h2>
+                <ul>
+                    <li>
+                        Run <code>composer require vendor/package version</code> on the CLI
+                        <ul>
+                            <li>e.g. <code>$ composer require swiftmailer/swiftmailer 6.*</code></li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Composer will:
+                        <ol>
+                            <li>
+                                Check with packagist for its existence
+                            </li>
+                            <li>
+                                Write down that package requirement in <code>composer.json</code>
+                                <div><pre class="bigger"><code class="language-js dontrun">{
+    &quot;require&quot;: {
+        &quot;swiftmailer/swiftmailer&quot;: &quot;6.*&quot;
+    }
+}</code></pre></div>
+                            </li>
+                            <li>Download the package into <code>./vendor/<em>vendorname</em>/<em>packagename</em></code></li>
+                            <li>Generate an autoloader for all installed packages</li>
+                            <li>Generate a lock file <code>composer.lock</code> (= list of the exact versions installed + dependency hierarchy)</li>
+                        </ol>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Installing packages: Manual</h2>
+                <ul>
+                    <li>
+                        Create a file named <code>composer.json</code> in your project root to declare your dependencies in
+                        <div><pre class="bigger"><code class="language-js dontrun">{
+    &quot;require&quot;: {
+        &quot;swiftmailer/swiftmailer&quot;: &quot;6.*&quot;
+    }
+}</code></pre></div>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Run <code>composer install</code> and composer will:
+                        <ol>
+                            <li>
+                                Check with packagist for its existence
+                            </li>
+                            <li>Download the package into <code>./vendor/<em>vendorname</em>/<em>packagename</em></code></li>
+                            <li>Generate an autoloader for all installed packages</li>
+                            <li>Generate a lock file <code>composer.lock</code></li>
+                        </ol>
+                    </li>
+                </ul>
+                <footer style="bottom: 0;"><em>(note: this scenario assumes no lock file is present yet)</em></footer>
+            </section>
+
+            <section>
+                <h2>Using the installed packages</h2>
+                <ul>
+                    <li>
+                        Include the Composer generated autoloader instead of the one from the package or manually including all required filed
+                        <pre class="bigger"><code class="hljs php">require_once __DIR__ . '/vendor/autoload.php';</code></pre>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Swiftmailer example
+                        <pre class="bigger"><code class="hljs php"  style="max-height: 240px;">&lt;?php
+
+// Require composer autoloader
+require_once __DIR__ . '/vendor/autoload.php';
+
+// Create the Transport
+$transport = (new Swift_SmtpTransport('relay.odisee.be', 25))
+    -&gt;setUsername('your username')
+    -&gt;setPassword('your password');
+
+// Create the Mailer using your created Transport
+$mailer = new Swift_Mailer($transport);
+
+// Create a message
+$message = (new Swift_Message('Wonderful Subject'))
+    -&gt;setFrom(['john@doe.com' =&gt; 'John Doe'])
+    -&gt;setTo(['receiver@domain.org', 'other@domain.org' =&gt; 'A name'])
+    -&gt;setBody('Here is the message itself');
+
+// Send the message
+$result = $mailer-&gt;send($message);</code></pre>
+                    </li>
+                </ul>
+
+            </section>
+
+            <section>
+                <h2>About the Lock File</h2>
+                <ul>
+                    <li>
+                        <code>composer.lock</code> has precedence over <code>composer.json</code>.
+                        <ul>
+                            <li>
+                                When running <code>composer install</code> it will look for <code>composer.lock</code>.<br />If not found, it will fall back to <code>composer.json</code>.
+                            </li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Put Differently: It locks the project to those specific versions
+                        <ul>
+                            <li>
+                                Successive runs of <code>composer install</code> will use the lock file, even if you've changed <code>composer.json</code>
+                            </li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        The lock file ensures all devs/servers use the same dependency versions
+                        <ul>
+                            <li>Just clone the source and run <code>composer install</code></li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Updating packages</h2>
+                <ul>
+                    <li>
+                        Automatic:
+                        <ul>
+                            <li>
+                                Run <code>composer require vendor/package newversion</code> on the CLI
+                            </li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Manual:
+                        <ul>
+                            <li>
+                                Update <code>composer.json</code>
+                            </li>
+                            <li>
+                                Run <code>composer update</code>
+                            </li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        In both cases a new <code>composer.lock</code> file will be generated.
+                        <ul>
+                            <li>When stuff is verified to still work, commit the lock file into version control</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Specifying Package Versions (1)</h2>
+                <ul>
+                    <li>
+                        Latest commit: <code>&quot;dev-master&quot;</code>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Exact version: <code>&quot;4.2.1&quot;</code>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Range: <code>&quot;&gt;=4.1.6,&lt;=5.0&quot;</code>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Wildcard: <code>&quot;4.1.*&quot;</code>
+                        <ul>
+                            <li>= equivalent of <code>&gt;=4.1.0,&lt;4.2.0</code></li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Specifying Package Versions (2)</h2>
+                <ul>
+                    <li>
+                        Tilde Operator: <code>&quot;~4.1&quot;</code>
+                        <ul>
+                            <li>= equivalent of <code>&gt;=4.1,&lt;5.0</code></li>
+                            <li>
+                                &rarr; Useful for projects respecting <a href="http://semver.org/">semantic versioning</a>
+                                (Laravel <a href="https://medium.com/@vinkla/laravel-packages-and-semantic-versioning-f62dc5accee5">didn't</a> but
+                                <a href="https://www.techiediaries.com/semantic-versioning/">does from v6</a>,
+                                Twig <a href="https://github.com/memio/twig-template-engine/blob/master/VERSIONING.md">does</a>)
+                            </li>
+                            <li>however <code>&quot;~4.1.1&quot;</code> means <code>&gt;=4.1.1,&lt;4.2.0</code></li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Caret Operator: <code>&quot;^4.1&quot;</code> and <code>&quot;^4.1.1"</code>
+                        <ul>
+                            <li>= equivalent of <code>&gt;=4.1,&lt;5.0</code> and <code>&gt;=4.1.1,&lt;5.0.0</code></li>
+                            <li>acts differently for <em>pre-1.0 versions</em> (security)</li>
+                            <li>
+                                &rarr; Recommended for projects respecting <a href="http://semver.org/">semantic versioning</a> especially to exclude insecure early releases
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Composer vs. Git</h2>
+                <ul>
+                    <li>
+                        A few important notes:
+                        <div class="warning" style="margin-top: 0.25em;">Don't ever add the <code>vendor/</code> folder to version control!</div>
+                        <div class="warning" style="margin-top: 0.25em;">Don't ever change the contents of the <code>vendor/</code> folder!</div>
+                        <div class="warning" style="margin-top: 0.25em;">Do add <code>composer.json</code> to version control!</div>
+                        <div class="warning" style="margin-top: 0.25em;">Do add <code>composer.lock</code> to version control!</div>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Composer vs. PHP version (+ env)</h2>
+                <ul>
+                    <li>
+                        A few important notes:
+                        <div class="warning" style="margin-top: 0.25em;">PHP version is a depency too !</div>
+                        <div class="warning" style="margin-top: 0.25em;">Run composer with the PHP executable used by the webserver</div>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Docker + Git + Composer = &#128165;</h2>
+                <ul style="font-size: 85%;">
+                    <li>During <strong>development</strong>:
+                        <ul>
+                            <li style="color: purple;">Remember: the PHP version of composer and web server container should match</li>
+                            <li>Most Docker MCEs provide a container which has composer installed
+                                <ul>
+                                    <li>often the web server container, or</li>
+                                    <li>a separate <em>workspace</em> container, which the devs can use for any CLI operation</li>
+                                </ul>
+                            </li>
+                            <li>So ALWAYS run <code>composer</code> from the dedicated container (<code>docker exec &hellip;</code>)</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">When providing a MCE on Git
+                        <ul>
+                            <li style="color: purple;">Remember: the <code style="color: white;">vendor/</code> folder is not on git</li>
+                            <li>You want to have everything up and running when <code>docker-compose up</code></li>
+                            <li>You add a <a href="https://hub.docker.com/_/composer">composer</a> service to <code>docker-compose.yml</code>
+                            <ul>
+                                <li><code>command: install</code></li>
+                                <li>This is a <strong>temporary</strong> container: i.e. it runs a command and then it exits</li>
+                                <li>It runs the command <code>composer install</code> from your code root</li>
+                            </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+        </section>
+
+
+        <!--section>
+            <section>
+                <h2>Library Close-up: Twig</h2>
+
+                <p><img src="assets/07/splash-twig.jpg" width="580" alt="" /></p>
+            </section>
+
+            <section>
+                <h2>Twig</h2>
+                <ul>
+                    <li>
+                        Templating library which we used in WS
+                        <ul>
+                            <li>Website: <a href="https://twig.symfony.com/">https://twig.symfony.com/</a></li>
+                            <li>Documentation: <a href="https://twig.symfony.com/doc/2.x/">https://twig.symfony.com/doc/2.x/</a></li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Installation:
+                        <ul>
+                            <li>
+                                New project, not yet requiring it via Composer:
+                                <div><pre class="bigger"><code class="dontrun">composer require twig/twig ^2.4</code></pre></div>
+                            </li>
+                            <li>
+                                Existing project, already requiring it via Composer:
+                                <div><pre class="bigger"><code class="dontrun">composer install</code></pre></div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Demo time!</h2>
+
+                <div class="hastooltip">
+                    <figure><img src="assets/07/twig.png" alt="" title="" width="580" class="noborder" /></figure>
+
+                    <p style="font-size: 75%; padding-bottom: 2em;">Let's take a look at the files in  <code>assets/07/examples/with-composer/2.twig/</code> <a href="assets/07/examples/with-composer/2.twig/">&rarr;</a></p>
+
+                    <div class="tooltip">
+                        <div>
+                            <ul>
+                                <li>Requirements already defined in <code>composer.json</code>/<code>composer.lock</code></li>
+                                <li>Run <code>composer install</code></li>
+                                <li>Require composer's <code>autoloader.php</code></li>
+                                <li>Use Twig as we did before</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+
+        </section-->
+
+
+        <!--section>
+            <section>
+                <h2>Library Close-up: Doctrine DBAL</h2>
+
+                <p><img src="assets/07/splash-doctrine.jpg" width="421" alt="" style="margin-top: 4em;" /></p>
+            </section>
+
+            <section>
+                <h2>Doctrine DBAL</h2>
+                <ul>
+                    <li>
+                        Database Abstraction Layer from the Doctrine Project
+                        <ul>
+                            <li>Website: <a href="http://www.doctrine-project.org/projects/dbal.html">http://www.doctrine-project.org/projects/dbal.html</a></li>
+                            <li>Documentation: <a href="http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/index.html">http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/index.html</a></li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Installation:
+                        <ul>
+                            <li>
+                                New project, not yet requiring it via Composer:
+                                <pre class="bigger"><code class="dontrun">composer require doctrine/dbal ~2.5</code></pre>
+                            </li>
+                            <li>
+                                Existing project, already requiring it via Composer:
+                                <pre class="bigger"><code class="dontrun">composer install</code></pre>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <footer><em>Note: Don't confuse Doctrine DBAL with <a href="http://www.doctrine-project.org/projects/orm.html">Doctrine ORM</a> (which we won't be using)</em></footer>
+            </section>
+
+            <section>
+                <h2>Demo time!</h2>
+
+                <figure><img src="assets/07/doctrine.png" alt="" title="" width="580" class="noborder" /></figure>
+
+                <p style="font-size: 75%">Let's take a look at the files in  <code>assets/07/examples/with-composer/3.doctrine/</code> <a href="assets/07/examples/with-composer/3.doctrine/">&rarr;</a></p>
+
+            </section>
+
+            <section>
+                <h2>Demo Recap</h2>
+
+                <ul>
+                    <li><a href="http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/configuration.html#getting-a-connection">Establishing a connection</a></li>
+                    <li><a href="http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/data-retrieval-and-manipulation.html#executeupdate">Executing Updates</a> <em>(queries that yield no resultset)</em></li>
+                    <li><a href="http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/data-retrieval-and-manipulation.html#executequery">Executing Queries</a> <em>(queries that yield a resultset)</em></li>
+                    <li><a href="http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/data-retrieval-and-manipulation.html#fetchall">Fetching data</a></li>
+                </ul>
+
+                <p class="warning">Don't forget the <code>utf8mb4</code> charset on the connection!</p>
+
+                <footer>&rarr; From now on, we'll be using Doctrine DBAL</footer>
+
+            </section>
+
+        </section-->
+
+
+        <section>
+            <section>
+                <h2>07.4<br>Epilogue</h2>
+            </section>
+            <section>
+                <h2>Demo: Carbon (1)</h2>
+                <ul>
+                    <li>
+                        A DateTime extension <em>supporting 281 languages</em>
+                        <ul>
+                            <li>Website: <a href="https://carbon.nesbot.com/">https://carbon.nesbot.com/</a></li>
+                            <li>Documentation: <a href="https://carbon.nesbot.com/docs/">https://carbon.nesbot.com/docs/</a></li>
+                            <li>Central class: <code>Carbon</code>, which inherits from PHP's <code>DateTime</code> class</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Installation:
+                        <ul>
+                            <li>
+                                New project, not yet requiring it via Composer:
+                                <div><pre class="bigger"><code class="dontrun">composer require nesbot/carbon ^2.41</code></pre></div>
+                            </li>
+                            <li>
+                                Existing project, already requiring it via Composer:
+                                <div><pre class="bigger"><code class="dontrun">composer install</code></pre></div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>Demo: Carbon (2)</h2>
+                <pre class="bigger"><code class="hljs php" data-overlay-example="assets/07/examples/with-composer/4.carbon/">&lt;?php
+
+// Require autoloader
+require_once __DIR__ . '/vendor/autoload.php';
+
+use Carbon\Carbon;
+
+// set global locale to Dutch (-&gt; displaying dates/times)
+setlocale(LC_TIME, 'nl_NL');
+$dt = Carbon::now();
+echo $dt-&gt;formatLocalized('%A %d %B %Y');
+echo '&lt;br&gt;';
+
+// set Carbon locale to Dutch (-&gt; displaying time differences)
+Carbon::setLocale('nl');
+$dt-&gt;endOfYear();
+echo ('Oudjaar is ' . $dt-&gt;diffForHumans()); </code></pre>
+<footer><small>Note: this example requires that the Dutch locale has been installed on the web server's OS</small></footer>
+            </section>
+            <section>
+                <h2>What's next?</h2>
+                <ul>
+                    <li>The next days, weeks, &hellip; we'll use the following libraries:
+                        <ul>
+                            <li><a href="https://twig.symfony.com/">Twig</a></li>
+                            <li><a href="http://www.doctrine-project.org/projects/dbal.html">Doctrine DBAL</a></li>
+                            <li><em>some</em> router library</li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </section>
+            <section>
+                <h2>Other libraries worth checking out</h2>
+                <ul>
+                    <li><a href="https://swiftmailer.symfony.com/docs/introduction.html">Swift Mailer</a> &mdash; Sending e-mails</li>
+                    <li><a href="http://guzzlephp.org/">Guzzle</a> &mdash; PHP HTTP client</li>
+                    <li><a href="http://image.intervention.io/">Intervention</a> &mdash; Image manipulation</li>
+                    <li><a href="https://github.com/Seldaek/monolog">Monolog</a> &mdash; Logging</li>
+                    <li><a href="http://geocoder-php.org/">Geocoder</a> &mdash; Geocoding manipulations</li>
+                    <li><a href="https://github.com/fzaninotto/Faker">Faker</a> &mdash; Generate fake data</li>
+                    <li>&hellip;</li>
+                </ul>
+            </section>
+        </section>
+
+        <!-- The END -->
+        <section>
+            <section>
+                <h2>Questions?</h2>
+                <footer>
+                    <em><a href="http://www.ikdoeict.be/">ikdoeict.be</a> &mdash; <a href="mailto:joris.maervoet@odisee.be">joris.maervoet@odisee.be</a></em>
+                </footer>
+            </section>
+
+            <section>
+                <h2>Sources</h2>
+                <ul>
+                    <li><a href="http://coding.smashingmagazine.com/2011/10/17/getting-started-with-php-templating/">http://coding.smashingmagazine.com/2011/10/17/getting-started-with-php-templating/</a></li>
+                    <li><a href="twig.sensiolabs.org/pdf/Twig.pdf">twig.sensiolabs.org/pdf/Twig.pdf</a></li>
+                    <li><a href="https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md">https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md</a></li>
+                    <li><a href="http://www.php-fig.org/psr/psr-0/">http://www.php-fig.org/psr/psr-0/</a></li>
+                    <li><a href="http://getcomposer.org/doc/00-intro.md">http://getcomposer.org/doc/00-intro.md</a></li>
+                    <li><a href="http://nelm.io/blog/2011/12/composer-part-1-what-why/">http://nelm.io/blog/2011/12/composer-part-1-what-why/</a></li>
+                    <li><a href="https://packagist.org/">https://packagist.org/</a></li>
+                    <li><a href="https://speakerdeck.com/hhamon/useful-php-libraries">https://speakerdeck.com/hhamon/useful-php-libraries</a></li>
+                </ul>
+            </section>
+        </section>
+
+
+
+
+
+
+
+    </div>
+
+</div>
+
+<script src="dist/reveal.js"></script>
+<script src="plugin/zoom/zoom.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/search/search.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+
+    // Also available as an ES module, see:
+    // https://revealjs.com/initialization/
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: true,
+        hash: true,
+        slideNumber: true,
+
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight ]
+    });
+
+</script>
+<script src="toc.js"></script>
+<script src="overlay.js"></script>
+
+</body>
+</html>

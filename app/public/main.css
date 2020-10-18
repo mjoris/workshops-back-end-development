@@ -47,6 +47,29 @@ ins code, code.ok {
     transform: scale(2);
 }
 
+/* slides with columns */
+.columns .column {
+    float: left;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.columns .column img {
+    max-width: 100%;
+}
+
+.columns .column-12 {
+    width: 50%;
+}
+
+.columns .column-13 {
+    width: 33.333%;
+}
+
+/* warnings */
+/* TODO */
+
 /* quick fixes */
 .reveal table.doctable th, .reveal table.doctable td {
     text-align: center;

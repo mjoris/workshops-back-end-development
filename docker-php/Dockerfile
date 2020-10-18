@@ -5,6 +5,7 @@ RUN a2enmod rewrite
 RUN docker-php-ext-install pdo_mysql
 RUN apt-get update && apt-get install -y libmcrypt-dev && pecl install mcrypt-1.0.3 && docker-php-ext-enable mcrypt
 RUN apt-get install -y libzip-dev zip && docker-php-ext-install zip
+RUN apt-get install -y locales locales-all
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 WORKDIR /var/www
 VOLUME /usr/local/etc/php
