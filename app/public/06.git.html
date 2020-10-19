@@ -536,9 +536,9 @@ origin</code></pre>
 					</section>
 				</section>
 
-				<!--section>
+				<section>
 					<section>
-						<h2>Branching</h2>
+						<h2>06.5 Branching</h2>
 						<p style="margin-top: 1.2em;"><img src="assets/06/bttf2-timeline.jpg" width="580" alt="" class="noborder" /></p>
 						<q>Imagine that this line represents time. At some point in the past, the timeline skewed into this tangent creating an alternate 1985.</q>
 					</section>
@@ -577,36 +577,36 @@ origin</code></pre>
 						<ul>
 							<li>
 								Creating an <code>experiment</code> branch based on the <code>master</code>
-								<pre class="bigger fragment"><code class="hljs bash" style="max-height: 380px; overflow: scroll;"><span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
-$ git branch</span>
-<span class="fragment dontunfragment">* <span style="background-color: #AA3; color: #333;">master</span>
+								<pre class="bigger"><code class="hljs bash" style="max-height: 380px;">bramus in ~/ikdoeict/git-demo on master
+$ git branch
+* master
 
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">git branch experiment</span>
-<span class="fragment dontunfragment">
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">git branch</span>
-<span class="fragment dontunfragment">  <span style="color: #AA3;">experiment</span>
-* <span style="background-color: #AA3; color: #333;">master</span>
+bramus in ~/ikdoeict/git-demo on master
+$ git branch experiment
 
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">git checkout experiment</span>
-<span class="fragment dontunfragment">Switched to branch 'experiment'
+bramus in ~/ikdoeict/git-demo on master
+$ git branch
+  experiment
+* master
 
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on experiment</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">git branch</span>
-<span class="fragment dontunfragment">* <span style="background-color: #AA3; color: #333;">experiment</span>
-  <span style="color: #AA3;">master</span>
+bramus in ~/ikdoeict/git-demo on master
+$ git checkout experiment
+Switched to branch &#39;experiment&#39;
 
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
-$ </span></code></pre>
+bramus in ~/ikdoeict/git-demo on experiment
+$ git branch
+* experiment
+  master
+
+bramus in ~/ikdoeict/git-demo on master
+$ </code></pre>
 							</li>
 						</ul>
 					</section>
 
 					<section>
 						<h2>Visualization</h2>
-						<figure class="fragment zoomable-15">
+						<figure class="zoomable-15">
 							<img src="assets/06/git-branching-1.png" width="450" alt="" class="noborder" /><br />
 							<img src="assets/06/git-branching-2.png" width="450" alt="" class="noborder" /><br />
 							<img src="assets/06/git-branching-3.png" width="450" alt="" class="noborder" />
@@ -616,68 +616,68 @@ $ </span></code></pre>
 
 					<section>
 						<h2>Committing changes</h2>
-						<ul>
+						<ul style="width: 100%;">
 							<li>
 								Changes are committed on the active branch
-								<pre class="bigger fragment"><code class="hljs bash" style="max-height: 380px; overflow: scroll;"><span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on experiment</span>
-$ <span class="fragment dontunfragment" style="color: #FFF;">touch exp.txt</span>
-<span class="fragment dontunfragment">
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on experiment*</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">git add .</span>
-<span class="fragment dontunfragment">
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on experiment*</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">git commit -m 'Start tracking exp.txt'</span>
-<span class="fragment dontunfragment">[experiment a65b9d7] Start tracking exp.txt
+								<pre class="bigger"><code class="hljs bash" style="max-height: 380px;">bramus in ~/ikdoeict/git-demo on experiment
+$ touch exp.txt
+
+bramus in ~/ikdoeict/git-demo on experiment*
+$ git add .
+
+bramus in ~/ikdoeict/git-demo on experiment*
+$ git commit -m &#39;Start tracking exp.txt&#39;
+[experiment a65b9d7] Start tracking exp.txt
  0 files changed
  create mode 100644 exp.txt
 
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on experiment</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">git lg</span>
-<span class="fragment dontunfragment">* <span style="color: #F55;">a65b9d7</span> - <span style="color: #AA3;">(HEAD, experiment)</span> Start tracking exp.txt (7 seconds ago) <span style="color: #55F;">&lt;Bramus&gt;</span>
-* <span style="color: #F55;">c53f9b6</span> - <span style="color: #AA3;">(origin/master, master)</span> Hello <span style="color: #5F5;">(15 hours ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
-* <span style="color: #F55;">1d7a184</span> - Deleted test2.txt <span style="color: #5F5;">(16 hours ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
-* <span style="color: #F55;">f1c6883</span> - Start tracking test2 <span style="color: #5F5;">(17 hours ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
-* <span style="color: #F55;">9c43f96</span> - Start tracking test.txt <span style="color: #5F5;">(22 hours ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
+bramus in ~/ikdoeict/git-demo on experiment
+$ git lg
+* a65b9d7 - (HEAD, experiment) Start tracking exp.txt (7 seconds ago) Bramus
+* c53f9b6 - (origin/master, master) Hello (15 hours ago) Bramus
+* 1d7a184 - Deleted test2.txt (16 hours ago) Bramus
+* f1c6883 - Start tracking test2 (17 hours ago) Bramus
+* 9c43f96 - Start tracking test.txt (22 hours ago) Bramus
 
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on experiment</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">git checkout master</span>
-<span class="fragment dontunfragment">Switched to branch 'master'
+bramus in ~/ikdoeict/git-demo on experiment
+$ git checkout master
+Switched to branch &#39;master&#39;
 
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
-$ </span><span class="fragment dontunfragment">ls</span>
-<span class="fragment dontunfragment">drwxr-xr-x   4 bramus  staff  136 Mar 20 20:19 <span style="color: #55F;">.</span>
-drwxr-xr-x  11 bramus  staff  374 Mar 20 15:53 <span style="color: #55F;">..</span>
-drwxr-xr-x  14 bramus  staff  476 Mar 20 20:19 <span style="color: #55F;">.git</span>
+bramus in ~/ikdoeict/git-demo on master
+$ ls
+drwxr-xr-x   4 bramus  staff  136 Mar 20 20:19 .
+drwxr-xr-x  11 bramus  staff  374 Mar 20 15:53 ..
+drwxr-xr-x  14 bramus  staff  476 Mar 20 20:19 .git
 -rw-r--r--   1 bramus  staff    6 Mar 20 14:38 test.txt
 
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">echo 'on the master right now' &gt;&gt; test.txt</span>
-<span class="fragment dontunfragment">
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master*</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">git add .</span>
-<span class="fragment dontunfragment">
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master*</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">git commit -m 'on the master'</span>
-<span class="fragment dontunfragment">[master 0ea8dd4] on the master
+bramus in ~/ikdoeict/git-demo on master
+$ echo &#39;on the master right now&#39;  test.txt
+
+bramus in ~/ikdoeict/git-demo on master*
+$ git add .
+
+bramus in ~/ikdoeict/git-demo on master*
+$ git commit -m &#39;on the master&#39;
+[master 0ea8dd4] on the master
  1 file changed, 1 insertion(+)
 
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">git lg</span>
-<span class="fragment dontunfragment">* <span style="color: #F55;">0ea8dd4</span> - <span style="color: #AA3;">(HEAD, master)</span> on the master (2 seconds ago) <span style="color: #55F;">&lt;Bramus&gt;</span>
-* <span style="color: #F55;">c53f9b6</span> - <span style="color: #AA3;">(origin/master)</span> Hello <span style="color: #5F5;">(15 hours ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
-* <span style="color: #F55;">1d7a184</span> - Deleted test2.txt <span style="color: #5F5;">(16 hours ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
-* <span style="color: #F55;">f1c6883</span> - Start tracking test2 <span style="color: #5F5;">(17 hours ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
-* <span style="color: #F55;">9c43f96</span> - Start tracking test.txt <span style="color: #5F5;">(22 hours ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
+bramus in ~/ikdoeict/git-demo on master
+$ git lg
+* 0ea8dd4 - (HEAD, master) on the master (2 seconds ago) Bramus
+* c53f9b6 - (origin/master) Hello (15 hours ago) Bramus
+* 1d7a184 - Deleted test2.txt (16 hours ago) Bramus
+* f1c6883 - Start tracking test2 (17 hours ago) Bramus
+* 9c43f96 - Start tracking test.txt (22 hours ago) Bramus
 
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
-$ </span></code></pre>
+bramus in ~/ikdoeict/git-demo on master
+$ </code></pre>
 							</li>
 						</ul>
 					</section>
 
 					<section>
 						<h2>Visualization</h2>
-						<figure class="fragment zoomable-20">
+						<figure class="zoomable-20">
 							<img src="assets/06/git-branch-1-commitexp.png" width="300" alt="" class="noborder" /><br />
 							<img src="assets/06/git-branch-2-switch.png" width="300" alt="" class="noborder" /><br />
 							<img src="assets/06/git-branch-3-commitmaster.png" width="300" alt="" class="noborder" />
@@ -699,26 +699,26 @@ $ </span></code></pre>
 									</li>
 									<li>A merge commit is created</li>
 								</ul>
-								<pre class="bigger fragment"><code class="hljs bash" style="max-height: 360px; overflow: scroll;"><span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
-$ <span class="fragment dontunfragment" style="color: #FFF;">git merge experiment</span>
-<span class="fragment dontunfragment">Merge made by the 'recursive' strategy.
+								<pre class="bigger"><code class="hljs bash" style="max-height: 360px;">bramus in ~/ikdoeict/git-demo on master
+$ git merge experiment
+Merge made by the &#39;recursive&#39; strategy.
  0 files changed
  create mode 100644 exp.txt
 
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">git lg</span>
-<span class="fragment dontunfragment">*   <span style="color: #F55;">965d016</span> - <span style="color: #AA3;">(HEAD, master)</span> Merge branch 'experiment' <span style="color: #5F5;">(5 seconds ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
-<span style="color: #F55;">|</span><span style="color: #5F5;">\</span>
-<span style="color: #F55;">|</span> * <span style="color: #F55;">a65b9d7</span> - <span style="color: #AA3;">(experiment)</span> Start tracking exp.txt <span style="color: #5F5;">(6 minutes ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
-* <span style="color: #5F5;">|</span> <span style="color: #F55;">0ea8dd4</span> - on the master <span style="color: #5F5;">(2 minutes ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
-<span style="color: #5F5;">|/</span>
-* <span style="color: #F55;">c53f9b6</span> - <span style="color: #AA3;">(origin/master)</span> Hello <span style="color: #5F5;">(22 hours ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
-* <span style="color: #F55;">1d7a184</span> - Deleted test2.txt <span style="color: #5F5;">(23 hours ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
-* <span style="color: #F55;">f1c6883</span> - Start tracking test2 <span style="color: #5F5;">(24 hours ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
-* <span style="color: #F55;">9c43f96</span> - Start tracking test.txt <span style="color: #5F5;">(28 hours ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
+bramus in ~/ikdoeict/git-demo on master
+$ git lg
+*   965d016 - (HEAD, master) Merge branch &#39;experiment&#39; (5 seconds ago) Bramus
+|\
+| * a65b9d7 - (experiment) Start tracking exp.txt (6 minutes ago) Bramus
+* | 0ea8dd4 - on the master (2 minutes ago) Bramus
+|/
+* c53f9b6 - (origin/master) Hello (22 hours ago) Bramus
+* 1d7a184 - Deleted test2.txt (23 hours ago) Bramus
+* f1c6883 - Start tracking test2 (24 hours ago) Bramus
+* 9c43f96 - Start tracking test.txt (28 hours ago) Bramus
 
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
-$ </span></code></pre>
+bramus in ~/ikdoeict/git-demo on master
+$ </code></pre>
 							</li>
 						</ul>
 					</section>
@@ -733,39 +733,29 @@ $ </span></code></pre>
 
 					<section>
 						<h2>Cleaning up</h2>
-						<ul>
+						<ul style="width: 100%;">
 							<li>
 								Delete branches you don't need anymore
-								<pre class="bigger"><code class="hljs bash">$ git branch -d <em>branchname</em></code></pre>
+								<pre class="bigger"><code class="hljs bash">$ git branch -d &lt;branchname&gt;</code></pre>
 								<ul>
 									<li>If a branch hasn't been merged yet, Git will warn you</li>
 									<li>Override warning using <code>-D</code> instead of <code>-d</code></li>
 								</ul>
-								<pre class="bigger fragment"><code class="hljs bash" style="max-height: 360px; overflow: scroll;"><span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
-$ <span class="fragment dontunfragment" style="color: #FFF;">git branch -d otherbranch</span>
-<span class="fragment dontunfragment">error: The branch 'otherbranch' is not fully merged.
-If you are sure you want to delete it, run 'git branch -D otherbranch'.
+								<pre class="bigger"><code class="hljs bash" style="max-height: 360px;">bramus in ~/ikdoeict/git-demo on master
+$ git branch -d otherbranch
+error: The branch &#39;otherbranch&#39; is not fully merged.
+If you are sure you want to delete it, run &#39;git branch -D otherbranch&#39;.
 
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">git branch -D otherbranch</span>
-<span class="fragment dontunfragment">Deleted branch otherbranch (was e079840).
+bramus in ~/ikdoeict/git-demo on master
+$ git branch -D otherbranch
+Deleted branch otherbranch (was e079840).
 
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
-$ </span></code></pre>
+bramus in ~/ikdoeict/git-demo on master
+$ </code></pre>
 							</li>
 						</ul>
 					</section>
 
-					<section>
-						<h2>Handling Conflicts</h2>
-
-						<div>
-							<p style="position: absolute; top: 20%; left: 10%; right: 10%; bottom: 10%; transform: rotate(-2deg);"><img src="assets/06/barfing-rainbow.gif" width="600" alt="" class="noborder" /></p>
-
-							<footer>Hold tight!</footer>
-						</div>
-
-					</section>
 
 					<section>
 						<h2>Handling conflicts (1)</h2>
@@ -777,71 +767,71 @@ $ </span></code></pre>
 									<li>When a <strong>merge conflict</strong> occurs, the merge will pause</li>
 									<li>Manual intervention <em>(choosing which version to keep)</em> is needed</li>
 								</ul>
-								<pre class="bigger fragment"><code class="hljs bash" style="max-height: 280px; overflow: scroll;"><span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
-$ <span class="fragment dontunfragment" style="color: #FFF;">echo 'something for exp' >> exp.txt</span>
-<span class="fragment dontunfragment">
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master*</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">git add .</span>
-<span class="fragment dontunfragment">
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master*</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">git commit -m 'change exp.txt'</span>
-<span class="fragment dontunfragment">[master babbcd3] change exp.txt
+								<pre class="bigger"><code class="hljs bash" style="max-height: 280px;">bramus in ~/ikdoeict/git-demo on master
+$ echo &#39;something for exp&#39; &gt;&gt; exp.txt
+
+bramus in ~/ikdoeict/git-demo on master*
+$ git add .
+
+bramus in ~/ikdoeict/git-demo on master*
+$ git commit -m &#39;change exp.txt&#39;
+[master babbcd3] change exp.txt
  1 file changed, 1 insertion(+)
 
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">git checkout experiment </span>
-<span class="fragment dontunfragment">Switched to branch 'experiment'
+bramus in ~/ikdoeict/git-demo on master
+$ git checkout experiment
+Switched to branch &#39;experiment&#39;
 
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on experiment</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">echo 'a different line for exp.txt' >> exp.txt</span>
-<span class="fragment dontunfragment">
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on experiment*</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">git add .</span>
-<span class="fragment dontunfragment">
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on experiment*</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">git commit -m 'change exp.txt (from experiment)'</span>
-<span class="fragment dontunfragment">[experiment 2925064] change exp.txt (from experiment)
+bramus in ~/ikdoeict/git-demo on experiment
+$ echo &#39;a different line for exp.txt&#39; >> exp.txt
+
+bramus in ~/ikdoeict/git-demo on experiment*
+$ git add .
+
+bramus in ~/ikdoeict/git-demo on experiment*
+$ git commit -m &#39;change exp.txt (from experiment)&#39;
+[experiment 2925064] change exp.txt (from experiment)
  1 file changed, 1 insertion(+)
 
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on experiment</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">git checkout master</span>
-<span class="fragment dontunfragment">Switched to branch 'master'
+bramus in ~/ikdoeict/git-demo on experiment
+$ git checkout master
+Switched to branch &#39;master&#39;
 
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">git merge experiment</span>
-<span class="fragment dontunfragment">Auto-merging exp.txt
+bramus in ~/ikdoeict/git-demo on master
+$ git merge experiment
+Auto-merging exp.txt
 CONFLICT (content): Merge conflict in exp.txt
 Automatic merge failed; fix conflicts and then commit the result.
 
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master*</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">git status</span>
-<span class="fragment dontunfragment"># On branch master
+bramus in ~/ikdoeict/git-demo on master*
+$ git status
+# On branch master
 # Unmerged paths:
-#   (use &quot;git add/rm &lt;file&gt;...&quot; as appropriate to mark resolution)
+#   (use git add/rm file... as appropriate to mark resolution)
 #
-#	<span style="color: #F55;">both modified:      exp.txt</span>
+#	both modified:      exp.txt
 #
 
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master*</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">cat exp.txt </span>
-<span class="fragment dontunfragment">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+bramus in ~/ikdoeict/git-demo on master*
+$ cat exp.txt
+ HEAD
 something for exp
 =======
 a different line for exp.txt
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; experiment
+ experiment
 
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master*</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">subl exp.txt</span>
-<span class="fragment dontunfragment">
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master*</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">git add exp.txt</span>
-<span class="fragment dontunfragment">
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master*</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">git commit</span>
-<span class="fragment dontunfragment">[master 80de07c] Merge branch 'experiment'
+bramus in ~/ikdoeict/git-demo on master*
+$ subl exp.txt
 
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
-$ </span></code></pre>
+bramus in ~/ikdoeict/git-demo on master*
+$ git add exp.txt
+
+bramus in ~/ikdoeict/git-demo on master*
+$ git commit
+[master 80de07c] Merge branch &#39;experiment&#39;
+
+bramus in ~/ikdoeict/git-demo on master
+$ </code></pre>
 								<ul>
 									<li>&rarr; Fix the conflict, stage the file and commit</li>
 								</ul>
@@ -851,7 +841,7 @@ $ </span></code></pre>
 
 					<section>
 						<h2>Handling conflicts (2)</h2>
-						<ul>
+						<ul style="width: 100%;">
 							<li>
 								Conflicted file contents
 								<pre class="bigger"><code class="hljs bash">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
@@ -865,11 +855,11 @@ a different line for exp.txt
 									</li>
 									<li>
 										Choose version from <code>HEAD</code>
-										<pre class="bigger"><code class="hljs bash">$ git checkout --ours <em>conflictedfile</em></code></pre>
+										<pre class="bigger"><code class="hljs bash">$ git checkout --ours &lt;conflictedfile&gt;</code></pre>
 									</li>
 									<li>
 										Choose version from <code>otherbranch</code>
-										<pre class="bigger"><code class="hljs bash">$ git checkout --theirs <em>conflictedfile</em></code></pre>
+										<pre class="bigger"><code class="hljs bash">$ git checkout --theirs &lt;conflictedfile&gt;</code></pre>
 									</li>
 								</ul>
 							</li>
@@ -898,7 +888,7 @@ a different line for exp.txt
 					</section>
 
 					<section>
-						<h2>Rebasing (3)</h2>
+						<h2>Rebasing (2)</h2>
 						<ul>
 							<li>
 								Rule #1 of rebasing
@@ -920,49 +910,49 @@ a different line for exp.txt
 					<section>
 						<h2>Rebasing Example</h2>
 
-						<pre class="bigger fragment"><code class="hljs bash" style="max-height: 380px; overflow: scroll;"><span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
-$ <span class="fragment dontunfragment" style="color: #FFF;">git lg</span>
-<span class="fragment dontunfragment">* <span style="color: #F55;">1e7f02e</span> - <span style="color: #AA3;">(HEAD, master)</span> A change comtd on master <span style="color: #5F5;">(12 seconds ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
-* <span style="color: #F55;">80de07c</span> - First commit! <span style="color: #5F5;">(2 minutes ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
+						<pre class="bigger"><code class="hljs bash" style="max-height: 380px;">bramus in ~/ikdoeict/git-demo on master
+$ git lg
+* 1e7f02e - (HEAD, master) A change comtd on master (12 seconds ago) Bramus
+* 80de07c - First commit! (2 minutes ago) Bramus
 
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on master</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">git checkout experiment</span>
-<span class="fragment dontunfragment">Switched to branch 'experiment'
+bramus in ~/ikdoeict/git-demo on master
+$ git checkout experiment
+Switched to branch &#39;experiment&#39;
 
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on experiment</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">git lg</span>
-<span class="fragment dontunfragment"><span style="white-space: nowrap;">* <span style="color: #F55;">669ae62</span> - <span style="color: #AA3;">(HEAD, experiment)</span> A 2nd change comtd on experiment <span style="color: #5F5;">(34 seconds ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span></span>* <span style="color: #F55;">a9bdacb</span> - A change comtd on experiment<span style="color: #5F5;">(69 seconds ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
-* <span style="color: #F55;">80de07c</span> - First commit! <span style="color: #5F5;">(2 minutes ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
+bramus in ~/ikdoeict/git-demo on experiment
+$ git lg
+* 669ae62 - (HEAD, experiment) A 2nd change comtd on experiment (34 seconds ago) Bramus* a9bdacb - A change comtd on experiment(69 seconds ago) Bramus
+* 80de07c - First commit! (2 minutes ago) Bramus
 
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on experiment</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">git rebase master</span>
-<span class="fragment dontunfragment">First, rewinding head to replay your work on top of it...
+bramus in ~/ikdoeict/git-demo on experiment
+$ git rebase master
+First, rewinding head to replay your work on top of it...
 Applying: A change comtd on experiment
 Applying: A 2nd change comtd on experiment
 
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on experiment</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">git lg</span>
-<span class="fragment dontunfragment"><span style="white-space: nowrap;">* <span style="color: #F55;">dba0673</span> - <span style="color: #AA3;">(HEAD, experiment)</span> A 2nd change comtd on experiment <span style="color: #5F5;">(2 seconds ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span></span>* <span style="color: #F55;">84484e4</span> - A change comtd on experiment<span style="color: #5F5;">(2 seconds ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
-* <span style="color: #F55;">1e7f02e</span> - <span style="color: #AA3;">(master)</span> A change comtd on master <span style="color: #5F5;">(54 seconds ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
-* <span style="color: #F55;">80de07c</span> - First commit! <span style="color: #5F5;">(3 minutes ago)</span> <span style="color: #55F;">&lt;Bramus&gt;</span>
+bramus in ~/ikdoeict/git-demo on experiment
+$ git lg
+* dba0673 - (HEAD, experiment) A 2nd change comtd on experiment (2 seconds ago) Bramus* 84484e4 - A change comtd on experiment(2 seconds ago) Bramus
+* 1e7f02e - (master) A change comtd on master (54 seconds ago) Bramus
+* 80de07c - First commit! (3 minutes ago) Bramus
 
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/git-demo on experiment</span>
-$ </span></code></pre>
+bramus in ~/ikdoeict/git-demo on experiment
+$ </code></pre>
 							<footer><em>New commit hashes are generated as the patches are applied on top of the rewind/ffwd!</em></footer>
 					</section>
 
-					<section>
+					<!--section>
 						<h2>Visualization</h2>
 						<figure class="fragment zoomable-15">
 							<img src="assets/06/git-rebase-1.png" width="550" alt="" class="noborder" /><br />
 							<img src="assets/06/git-rebase-2.png" width="550" alt="" class="noborder" />
 							<figcaption>Visual representation of <code>git rebase</code></figcaption>
 						</figure>
-					</section>
+					</section-->
 
 					<section>
-						<h2>Visualization bis</h2>
-						<figure class="fragment zoomable-15" style="margin-top: 2em;">
+						<h2>Visualization</h2>
+						<figure class="zoomable-15" style="margin-top: 2em;">
 							<img src="assets/06/git-rebase.png" width="800" alt="" class="noborder" />
 							<figcaption>Alternate visual representation of <code>git rebase</code></figcaption>
 						</figure>
@@ -977,7 +967,7 @@ $ </span></code></pre>
 									<li>Fix the conflict manually</li>
 									<li>
 										Add the fixed file
-										<pre class="bigger"><code class="hljs bash">$ git add <em>conflictedfile</em></code></pre>
+										<pre class="bigger"><code class="hljs bash">$ git add &lt;conflictedfile&gt;</code></pre>
 									</li>
 									<li>
 										Continue the rebase
@@ -999,15 +989,15 @@ $ </span></code></pre>
 						<ul>
 							<li>
 								Publish a branch
-								<pre class="bigger"><code class="hljs bash">$ git push origin <em>localbranch</em>:<em>remotebranch</em></code></pre>
+								<pre class="bigger"><code class="hljs bash">$ git push origin &lt;localbranch&gt;:&lt;remotebranch&gt;</code></pre>
 							</li>
 							<li style="margin-top: 1em;">
 								Delete a remote branch
-								<pre class="bigger"><code class="hljs bash">$ git push origin :<em>remotebranch</em></code></pre>
+								<pre class="bigger"><code class="hljs bash">$ git push origin :&lt;remotebranch&gt;</code></pre>
 							</li>
 							<li style="margin-top: 1em;">
 								Create local branch based on remote branch
-								<pre class="bigger"><code class="hljs bash">$ git checkout -b <em>localbranch</em> remote/<em>remotebranch</em></code></pre>
+								<pre class="bigger"><code class="hljs bash">$ git checkout -b &lt;localbranch&gt; remote/&lt;remotebranch&gt;</code></pre>
 							</li>
 							<li style="margin-top: 1em;">
 								Update remote branch list
@@ -1020,7 +1010,7 @@ $ </span></code></pre>
 
 				<section>
 					<section>
-						<h2>Collaboration</h2>
+						<h2>06.6 Collaboration</h2>
 						<p><img src="assets/06/futurama-bender-fight.jpg" width="600" alt="" class="noborder" /></p>
 						<q>Yes, we have to work together, and not<br />have this fight I was definitely winning.</q>
 					</section>
@@ -1028,51 +1018,40 @@ $ </span></code></pre>
 					<section>
 						<h2>Collaboration</h2>
 
-						<p style="position: absolute; top: 25%; left: 10%; right: 10%; bottom: 10%; transform: rotate(0deg);"><img src="assets/06/futurama-notsureif.png" width="447" alt="" class="" /></p>
-
-						<p style="position: absolute; top: 25%; left: 10%; right: 10%; bottom: 10%; transform: rotate(-2deg);"><img src="assets/06/futurama-semi-sure-if.png" width="447" alt="" class="" /></p>
-
-						<p style="position: absolute; top: 25%; left: 10%; right: 10%; bottom: 10%; transform: rotate(2deg);"><img src="assets/06/futurama-sureif.png" width="447" alt="" class="" /></p>
-
-					</section>
-
-					<section>
-						<h2>Collaboration</h2>
-
-						<ul>
+						<ul style="width: 100%;">
 							<li>Knowing how to branch != knowing how to collaborate</li>
 							<li>
 								When collaborating, maintain this flow
-								<pre class="bigger"><code class="hljs bash" style="max-height: 380px; overflow: scroll;"><span class="fragment dontunfragment"># 1. Make sure the master is up-to-date
-<span style="opacity: 0.75;">     $ git checkout master
-     $ git pull</span></span>
+								<pre class="bigger"><code class="hljs bash" style="max-height: 380px;"># 1. Make sure the master is up-to-date
+     $ git checkout master
+     $ git pull
 
-<span class="fragment dontunfragment"># 2. Create a featurebranch based on the master
-<span style="opacity: 0.75;">     $ git checkout -b featurebranch</span></span>
+# 2. Create a featurebranch based on the master
+     $ git checkout -b featurebranch
 
-<span class="fragment dontunfragment"># 3. Develop, stage, and commit your feature on the featurebranch.
-     When finished continue to step 4</span>
+# 3. Develop, stage, and commit your feature on the featurebranch.
+     When finished continue to step 4
 
-<span class="fragment dontunfragment"># 4. Make sure the master is still up-to-date
-<span style="opacity: 0.75;">     $ git checkout master
-     $ git pull</span></span>
+# 4. Make sure the master is still up-to-date
+     $ git checkout master
+     $ git pull
 
-<span class="fragment dontunfragment"># 5. Rebase the master onto the featurebranch
+# 5. Rebase the master onto the featurebranch
      (skip this step if master remained unchanged since step 1)
-<span style="opacity: 0.75;">     $ git checkout featurebranch
-     $ git rebase master</span></span>
+     $ git checkout featurebranch
+     $ git rebase master
 
-<span class="fragment dontunfragment"># 6. Merge the featurebranch onto the master
-<span style="opacity: 0.75;">     $ git checkout master
-     $ git merge featurebranch</span></span>
+# 6. Merge the featurebranch onto the master
+     $ git checkout master
+     $ git merge featurebranch
 
-<span class="fragment dontunfragment"># 7. Push the master
-<span style="opacity: 0.75;">     $ git push origin master</span></span>
+# 7. Push the master
+     $ git push origin master
 
-<span class="fragment dontunfragment"># 8. Clean up
-<span style="opacity: 0.75;">     $ git branch -d featurebranch</span></span>
+# 8. Clean up
+     $ git branch -d featurebranch
 
-<span class="fragment dontunfragment"># 9. Rinse. Repeat</span></code></pre>
+# 9. Rinse. Repeat</code></pre>
 							</li>
 						</ul>
 					</section>
@@ -1092,7 +1071,7 @@ $ </span></code></pre>
 						</ul>
 					</section>
 
-					<section>
+					<!--section>
 						<h2>Undoing commits</h2>
 
 						<ul>
@@ -1112,22 +1091,23 @@ $ </span></code></pre>
 								</ul>
 							</li>
 						</ul>
-					</section>
+					</section-->
 
 				</section>
 
 				<section>
 					<section>
-						<h2 style="visibility: hidden;">Github</h2>
-						<p style="margin-top: 1.5em;"><img src="assets/06/github.png" width="800" alt="" class="noborder" /></p>
+						<h2>06.7 A few more things</h2>
+						<p><img src="assets/06/futurama-mutant-march.png" width="600" alt="" class="noborder" /></p>
+						<q>Let's go. If I say one more thing,<br />I might say it with my evening boot.</q>
 					</section>
 
-					<section>
+					<!--section>
 						<h2>Github</h2>
 
 						<figure><img src="assets/06/github-screenshot.png" alt="" title="" width="700" class="noborder" /></figure>
 
-					</section>
+					</section-->
 
 					<section>
 						<h2>Github is &hellip;</h2>
@@ -1190,50 +1170,50 @@ $ </span></code></pre>
 						</ul>
 					</section>
 
-					<section>
+					<!--section>
 						<h2>Forking Flow</h2>
 
-						<pre class="bigger"><code class="hljs bash" style="max-height: 380px; overflow: scroll;"><span class="fragment dontunfragment"># 1. Create a fork on GitHub
-<span style="opacity: 0.75;">     e.g. clone fabpot/Silex to bramus/Silex</span></span>
+						<pre class="bigger"><code class="hljs bash" style="max-height: 380px;"># 1. Create a fork on GitHub
+     e.g. clone fabpot/Silex to bramus/Silex
 
-<span class="fragment dontunfragment"># 2. Clone your repo locally
-<span style="opacity: 0.75;">     $ git clone git@github.com:bramus/Silex.git</span></span>
+# 2. Clone your repo locally
+     $ git clone git@github.com:bramus/Silex.git
 
-<span class="fragment dontunfragment"># 3. Create a featurebranch based on the master
-<span style="opacity: 0.75;">     $ git checkout -b featurebranch</span></span>
+# 3. Create a featurebranch based on the master
+     $ git checkout -b featurebranch
 
-<span class="fragment dontunfragment"># 4. Develop, stage, and commit your feature on the featurebranch.
-     When finished continue to step 5</span>
+# 4. Develop, stage, and commit your feature on the featurebranch.
+     When finished continue to step 5
 
-<span class="fragment dontunfragment"># 5. Publish your featurebranch on Github
-<span style="opacity: 0.75;">     $ git push origin <em>localbranch</em>:<em>remotebranch</em></span></span>
+# 5. Publish your featurebranch on Github
+     $ git push origin localbranch:remotebranch
 
-<span class="fragment dontunfragment"># 6. Do a pull request via Github and await merging</span>
+# 6. Do a pull request via Github and await merging
 
-<span class="fragment dontunfragment"># 7. Rinse. Repeat.
-<span style="opacity: 0.75;">     Make sure your master is in sync with the original master one!
-     (add the original repo as remote and `git fetch` and `git rebase original/master`)</span></span></code></pre>
+# 7. Rinse. Repeat.
+     Make sure your master is in sync with the original master one!
+     (add the original repo as remote and `git fetch` and `git rebase original/master`)</code></pre>
      						<footer><em>Or, alternatively, <a href="https://help.github.com/articles/using-pull-requests/#sending-the-pull-request">do it via the Github website</a> ;-)</em></footer>
 					</section>
 
 					<section>
 						<h2>Merging Pull Requests</h2>
-						<pre class="bigger fragment"><code class="hljs bash" style="max-height: 380px; overflow: scroll;"><span class="fragment dontunfragment"># 1. Checkout your master branch
-<span style="opacity: 0.75;">     $ git checkout master</span></span>
+						<pre class="bigger fragment"><code class="hljs bash" style="max-height: 380px;"># 1. Checkout your master branch
+     $ git checkout master
 
-<span class="fragment dontunfragment"># 2. Add a new remote named 'otherdude'
-<span style="opacity: 0.75;">     $ git remote add otherdude git://github.com/otherdude/Project.git</span></span>
+# 2. Add a new remote named &#39;otherdude&#39;
+     $ git remote add otherdude git://github.com/otherdude/Project.git
 
-<span class="fragment dontunfragment"># 3. Fetch information about all branches on the 'otherdude' remote
-<span style="opacity: 0.75;">     $ git fetch otherdude</span></span>
+# 3. Fetch information about all branches on the &#39;otherdude&#39; remote
+     $ git fetch otherdude
 
-<span class="fragment dontunfragment"># 4. Merge 'otherdude/featurebranch' into your master
-<span style="opacity: 0.75;">     $ git merge otherdude/featurebranch</span></span>
+# 4. Merge &#39;otherdude/featurebranch&#39; into your master
+     $ git merge otherdude/featurebranch
 
-<span class="fragment dontunfragment"># 5. Push your newly-merged branch back to GitHub
-<span style="opacity: 0.75;">     $ git push origin master</span></span></code></pre>
+# 5. Push your newly-merged branch back to GitHub
+     $ git push origin master</code></pre>
      					<footer><em>Or, alternatively, <a href="https://help.github.com/articles/merging-a-pull-request/">do it via the Github website</a> ;-)</em></footer>
-					</section>
+					</section-->
 
 					<section>
 						<h2>git.ikdoeict.be</h2>
@@ -1250,7 +1230,7 @@ $ </span></code></pre>
 								</ul>
 							</li>
 						</ul>
-						<figure class="fragment zoomable-30">
+						<figure class="zoomable-30">
 							<img src="assets/06/git-ikdoeict-be-1.png" width="250" alt="" class="noborder" />
 							<img src="assets/06/git-ikdoeict-be-2.png" width="250" alt="" class="noborder" />
 							<img src="assets/06/git-ikdoeict-be-3.png" width="250" alt="" class="noborder" />
@@ -1258,18 +1238,11 @@ $ </span></code></pre>
 						</figure>
 					</section>
 
-				</section>
-
-				<section>
-					<section>
-						<h2>A few more things</h2>
-						<p><img src="assets/06/futurama-mutant-march.png" width="600" alt="" class="noborder" /></p>
-						<q>Let's go. If I say one more thing,<br />I might say it with my evening boot.</q>
-					</section>
 
 
 
-					<section>
+
+					<!--section>
 						<h2>Partially staging files</h2>
 
 						<ul>
@@ -1280,77 +1253,77 @@ $ </span></code></pre>
 								In case of several changes, choose which changes may be staged in <a href="http://git-scm.com/book/en/v2/Git-Tools-Interactive-Staging#Staging-Patches">Patch Mode</a> using <code>git add -p file</code>
 							</li>
 						</ul>
-						<pre class="bigger fragment"><code class="hljs bash" style="max-height: 330px; overflow: scroll;"><span style="opacity: 0.75;">bramus in ~/ikdoeict/ikdoeict-website on master*</span>
-$ <span class="fragment dontunfragment" style="color: #FFF;">git add -p index.html</span>
-<span class="fragment dontunfragment"><span style="color: #AA3">diff --git a/index.html b/index.html
+						<pre class="bigger fragment"><code class="hljs bash" style="max-height: 330px;">bramus in ~/ikdoeict/ikdoeict-website on master*
+$ git add -p index.html
+diff --git a/index.html b/index.html
 index 3fc8413..d7af84e 100644
 --- a/index.html
-+++ b/index.html</span>
-<span style="color: #F5F">@@ -1,6 +1,6 @@</span>
++++ b/index.html
+@@ -1,6 +1,6 @@
  &lt;!DOCTYPE html&gt;
- &lt;head>
-<span style="color: #F55">-	&lt;title&gt;Home | Ikdoeict.BE&lt;/title&gt;</span>
-<span style="color: #5F5">+	&lt;title&gt;Home | IkdoeICT.BE&lt;/title&gt;</span>
- 	&lt;meta charset="utf-8" /&gt;
- 	&lt;link rel="stylesheet" href="css/normalize.css" /&gt;
-<span style="color: #55F">Stage this hunk [y,n,q,a,d,/,j,J,g,e,?]?</span></span> <span class="fragment dontunfragment">y</span>
+ &lt;head&gt;
+-	&lt;title&gt;Home | Ikdoeict.BE&lt;/title&gt;
++	&lt;title&gt;Home | IkdoeICT.BE&lt;/title&gt;
+ 	&lt;meta charset=&#34;utf-8&#34; /&gt;
+ 	&lt;link rel=&#34;stylesheet&#34; href=&#34;css/normalize.css&#34; /&gt;
+Stage this hunk [y,n,q,a,d,/,j,J,g,e,?]? y
 
-<span class="fragment dontunfragment"><span style="color: #F5F">@@ -176,7 +176,7 @@</span>
+@@ -176,7 +176,7 @@
      &lt;/section&gt;
      &lt;footer&gt;
-<span style="color: #F55">-	&lt;p&gt;Copyright (c) 2012 IkdoeICT.be&lt;/p&gt;</span>
-<span style="color: #5F5">+	&lt;p&gt;Copyright (c) 2013 IkdoeICT.be&lt;/p&gt;</span>
+-	&lt;p&gt;Copyright (c) 2012 IkdoeICT.be&lt;/p&gt;
++	&lt;p&gt;Copyright (c) 2013 IkdoeICT.be&lt;/p&gt;
      &lt;/footer&gt;
  &lt;/div&gt;
- <span style="color: #55F">Stage this hunk [y,n,q,a,d,/,j,J,g,e,?]?</span></span> <span class="fragment dontunfragment">n</span>
-<span class="fragment dontunfragment">
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/ikdoeict-website on master*</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">git status</span>
-<span class="fragment dontunfragment"># On branch master
+ Stage this hunk [y,n,q,a,d,/,j,J,g,e,?]? n
+
+bramus in ~/ikdoeict/ikdoeict-website on master*
+$ git status
+# On branch master
 # Changes to be committed:
-#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#   (use git reset HEAD file... to unstage)
 #
-#	<span style="color: #AA3">modified:   index.html</span>
+#	modified:   index.html
 #
 # Changes not staged for commit:
-#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
-#   (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
+#   (use git add file... to update what will be committed)
+#   (use git checkout -- file... to discard changes in working directory)
 #
-#	<span style="color: #5F5">modified:   index.html</span>
+#	modified:   index.html
 #
 
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/ikdoeict-website on master*</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">git commit -m 'title casing'</span>
-<span class="fragment dontunfragment">[master fc91e11] title casing
+bramus in ~/ikdoeict/ikdoeict-website on master*
+$ git commit -m &#39;title casing&#39;
+[master fc91e11] title casing
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/ikdoeict-website on master*</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">git diff index.html</span>
-<span class="fragment dontunfragment"><span style="color: #AA3">diff --git a/index.html b/index.html
+bramus in ~/ikdoeict/ikdoeict-website on master*
+$ git diff index.html
+diff --git a/index.html b/index.html
 index 7602651..d7af84e 100644
 --- a/index.html
-+++ b/index.html</span>
-<span style="color: #F5F">@@ -176,7 +176,7 @@</span>
++++ b/index.html
+@@ -176,7 +176,7 @@
      &lt;/section&gt;
      &lt;footer&gt;
-<span style="color: #F55">-	&lt;p&gt;Copyright (c) 2012 IkdoeICT.be&lt;/p&gt;</span>
-<span style="color: #5F5">+	&lt;p&gt;Copyright (c) 2013 IkdoeICT.be&lt;/p&gt;</span>
+-	&lt;p&gt;Copyright (c) 2012 IkdoeICT.be&lt;/p&gt;
++	&lt;p&gt;Copyright (c) 2013 IkdoeICT.be&lt;/p&gt;
      &lt;/footer&gt;
  &lt;/div&gt;
 
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/ikdoeict-website on master*</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">git add .</span>
-<span class="fragment dontunfragment">
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/ikdoeict-website on master*</span>
-$ </span><span class="fragment dontunfragment" style="color: #FFF;">git commit -m 'copyright 2013 instead of 2012'</span>
-<span class="fragment dontunfragment">[master c36c7be] copyright 2013 instead of 2012
+bramus in ~/ikdoeict/ikdoeict-website on master*
+$ git add .
+
+bramus in ~/ikdoeict/ikdoeict-website on master*
+$ git commit -m &#39;copyright 2013 instead of 2012&#39;
+[master c36c7be] copyright 2013 instead of 2012
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-<span style="opacity: 0.75;">bramus in ~/ikdoeict/ikdoeict-website on master</span>
-$ </span></code></pre>
-					</section>
+bramus in ~/ikdoeict/ikdoeict-website on master
+$ </code></pre>
+					</section-->
 
-					<section>
+					<!--section>
 						<h2>Automatic publishing</h2>
 
 						<ul>
@@ -1372,12 +1345,12 @@ $ </span></code></pre>
 								</ul>
 							</li>
 						</ul>
-					</section>
+					</section-->
 
-					<section>
+					<!--section>
 						<h2>Automatic publishing</h2>
 						<p style="position: absolute; top: 25%; left: 10%; right: 10%; bottom: 10%; transform: rotate(2deg);"><img src="assets/06/obama-not-bad.png" width="447" alt="" class="noborder" /></p>
-					</section>
+					</section-->
 
 					<section>
 						<h2>Practice!</h2>
@@ -1409,7 +1382,7 @@ $ </span></code></pre>
 						</ul>
 					</section>
 
-					<section>
+					<!--section>
 						<h2>Want more?!</h2>
 
 						<ul>
@@ -1432,9 +1405,9 @@ $ </span></code></pre>
 								&hellip;
 							</li>
 						</ul>
-					</section>
+					</section-->
 
-				</section-->
+				</section>
 
 				<!-- The END -->
 				<section>
