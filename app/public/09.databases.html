@@ -1,0 +1,1349 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>W&amp;M Server-side – Course materials</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/black.css" id="theme">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+
+<div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+        <section data-background="#b5533c">
+            <h3>Web &amp; Mobile Server-side <small>[OGI03q]</small></h3>
+            <h1>09. PHP Databases</h1>
+        </section>
+        
+        <section>
+            <section>
+                <h2>09.1<br>Introduction</h2>
+            </section>
+
+            <section>
+                <h2>Before we start</h2>
+                <ul>
+                    <li>
+                        Database naming conventions
+                        <ul>
+                            <li>
+                                Table names: plural, lower case, underscores
+                                <ul>
+                                    <li><code>tasks</code>,<code>users</code>, <code>uploaded_images</code></li>
+                                </ul>
+                            </li>
+                            <li>
+                                Column names: singular, lower case, underscores
+                                <ul>
+                                    <li><code>id</code></li>
+                                    <li><code>name</code>, <code>email</code>, <code>date_of_birth</code></li>
+                                    <li>column with foreign key constraint: <code>task_id</code>, <code>user_id</code></li>
+                                </ul>
+                            </li>
+                            <li>
+                                Pivot table names (implied by many-to-many relationship)
+                                <ul>
+                                    <li>
+                                        Preferably 2 singulars in alphabetic order: <code>task_user</code> (not mandatory)
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        Let Docker import your DB dump (<em>demo</em>)
+                    </li>
+
+
+                </ul>
+            </section>
+
+            <section data-background="#fdfdfd">
+                <h2>PhpMyAdmin: Demo time!</h2>
+
+                <figure><img src="assets/09/phpmyadmin.png" alt="" title="" width="600" /></figure>
+
+            </section>
+
+            <section>
+                <h2>Database extensions</h2>
+
+                <ul>
+                    <li>
+                        Connecting to a database server from PHP possible by means of an extension
+                    </li>
+                    <li>
+                        Extensions are available for most database servers
+                        <ul>
+                            <li>MySQL, MS SQL, Oracle, &hellip;</li>
+                        </ul>
+                    </li>
+                    <li>
+                        To connect to a MySQL server, 3 extensions exist
+                        <ul>
+                            <li><code><s>mysql</s></code> (removed in PHP 7.0) &mdash; Classic extension, procedural (= based on methods)</li>
+                            <li><code>mysqli</code> &mdash; Improved version of the <code>mysql</code> extension. Supports Prepared Statements, Multiple Statements, Transactions, etc. Both OO and procedural</li>
+                            <li><code>pdo_mysql</code> &mdash; <em>PHP Data Objects</em>; OO based; plays nice with multiple DBMS's such as MSSQL, PostgreSQL, etc.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>We'll choose</h2>
+
+                <ul>
+                    <li>
+                        DBMS? &rarr; MySQL
+                        <ul>
+                            <li>We've already worked with this</li>
+                            <li>Free</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Library? &rarr; Doctrine DBAL
+                        <ul>
+                            <li>Doctrine Database Abstraction &amp; Access layer (DBAL)</li>
+                            <li>
+                                Built upon the PDO extension (wrapper)
+                            </li>
+                            <li>
+                                Object oriented
+                            </li>
+                            <li>
+                                Extensible and additional features such as caching and schema introspection and manipulation
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <footer><small>Note: the PDO extension is <a href="https://www.php.net/manual/en/pdo.installation.php">installed by default</a> on most systems</small></footer>
+            </section>
+
+            <section>
+                <h2>Doctrine DBAL</h2>
+                <ul>
+                    <li>
+                        Database Abstraction Layer from the Doctrine Project
+                        <ul style="font-size: 80%;">
+                            <li>Website: <a href="http://www.doctrine-project.org/projects/dbal.html">http://www.doctrine-project.org/projects/dbal.html</a></li>
+                            <li>Documentation: <a href="http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/index.html">http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/index.html</a></li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Installation:
+                        <ul>
+                            <li>
+                                New project, not yet requiring it via Composer:
+                                <pre class="bigger"><code class="dontrun">composer require doctrine/dbal ^2.12</code></pre>
+                            </li>
+                            <li>
+                                Existing project, already requiring it via Composer:
+                                <pre class="bigger"><code class="dontrun">composer install</code></pre>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <footer><small>Note: Don't confuse Doctrine DBAL with <a href="http://www.doctrine-project.org/projects/orm.html">Doctrine ORM</a> (which we won't be using by now)</small></footer>
+            </section>
+
+
+        </section>
+
+
+
+
+        <section>
+
+            <section>
+                <h2>09.2<br>Connecting &amp; Catching Errors</h2>
+            </section>
+
+            <section>
+                <h2>First of all</h2>
+
+                <ul>
+                    <li>
+                        We'll use a <code>config.php</code> to store our credentials
+
+                        <pre class="bigger"><code class="hljs php">&lt;?php
+
+    define('DB_HOST', 'mysqldb'); // specify an IP address, localhost or a computer name here
+    define('DB_USER', 'root');
+    define('DB_PASS', 'Azerty123');
+
+    define('DB_NAME_FF', 'fotofactory');
+    define('DB_NAME_STATUS', 'status');
+
+//EOF</code></pre>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        The config is used throughout the next code examples
+                        <ul>
+                            <li>Edit the file if needed (location: <code>/assets/09/examples</code>)</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Connecting (1)</h2>
+
+                <ul>
+                    <li>
+                        Connect by creating a new instance of <code>\Doctrine\DBAL\Connection</code> with params
+                    </li>
+                </ul>
+                <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/01.php">&lt;?php
+    require_once 'vendor/autoload.php';
+    require_once 'config.php';
+
+    $connectionParams = [
+        'host' =&gt; DB_HOST,
+        'dbname' =&gt; DB_NAME_FF,
+        'user' =&gt; DB_USER,
+        'password' =&gt; DB_PASS,
+        'driver' =&gt; 'pdo_mysql',
+        'charset' =&gt; 'utf8mb4'
+    ];
+
+    // getConnection() doesn't actually connect
+    $connection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
+
+    // connect() is for testing, and NOT required before querying
+    // connect() returns    TRUE if the connection was successfully established
+    //                      FALSE if the connection is already open
+    $result = $connection-&gt;connect();
+    if ($result) {
+        echo 'Connection was successfully established';
+    }
+
+    // ... your query magic here
+</code></pre></div>
+                <footer><em>(More on that charset later)</em></footer>
+            </section>
+
+            <section>
+                <h2>Connecting (2)</h2>
+
+                <ul style="width: 100%;">
+                    <li>
+                        Or, shorter, using a <a href="https://en.wikipedia.org/wiki/Data_source_name">DSN</a> connection string
+                    </li>
+                </ul>
+                <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/01.php">&lt;?php
+    require_once 'vendor/autoload.php';
+    require_once 'config.php';
+
+    $connectionParams = [
+        'url' =&gt; 'mysql://' . DB_USER . ':' . DB_PASS . '@' . DB_HOST . '/' . DB_NAME_FF
+    ];
+
+    // getConnection() doesn't actually connect
+    $connection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
+
+    // connect() is for testing, and NOT required before querying
+    $result = $connection-&gt;connect();
+    if ($result) {
+        echo 'Connection was successfully established';
+    }
+
+    // ... your query magic here
+</code></pre></div>
+                <footer><em>(More on that charset later)</em></footer>
+            </section>
+
+            <section>
+                <h2>Disconnecting?</h2>
+
+                <ul>
+                    <li>
+                        Not needed
+                        <ul>
+                            <li>When the script has finished, the variable dies with it</li>
+                            <li>Unless you're in a PHP process that takes a long time (e.g. a daemon) and <em>really</em> want to disconnect before the end of the script:<br/> <code>$connection-&gt;close()</code> </li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </section>
+
+
+
+
+            <section>
+                <h2>Let's break things</h2>
+
+                <ul style="width: 100%;">
+                    <li>PHP will tell you if something went wrong</li>
+                </ul>
+
+
+
+							<pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/02.php">&lt;?php
+    require_once 'vendor/autoload.php';
+    require_once 'config.php';
+
+    $connectionParams = [
+        'url' =&gt; 'mysql://' . DB_USER . ':' . DB_PASS . '@' . DB_HOST . '/' . 'does_not_exist'
+    ];
+
+    // getConnection() doesn't actually connect
+    $connection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
+
+    // connect() is for testing, and NOT required before querying
+    $result = $connection-&gt;connect();
+    if ($result) {
+        echo 'Connection was successfully established';
+    }
+
+    // ... your query magic here
+</code></pre>
+
+
+                <footer><small><em>(password included in exception message)</em></small></footer>
+            </section>
+
+            <section>
+                <h2>Don't show errors on screen!</h2>
+                <ul>
+                    <li>
+                        Showing errors on screen is a huge security issue!
+                        <ul>
+                            <li>Users can get a glimpse of your DB credentials</li>
+                            <li>Users can get a glimpse of your DB layout</li>
+                            <li>Users know the physical location of your website</li>
+                        </ul>
+                    </li>
+                </ul>
+                <div><figure class="zoomable-20"><img src="assets/09/tomorrowland.jpg" alt="" title="" width="300" /><figcaption>Example: Tomorrowland website</figcaption></figure></div>
+            </section>
+
+            <section>
+                <h2>Catching Errors</h2>
+                <ul>
+                    <li>
+                        An exception will be thrown when PDO cannot connect to the database server or access database.
+                        <ul>
+                            <li>&rarr; Use a <code>try/catch</code> struct</li>
+                        </ul>
+
+                        <div>
+
+							<pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/02b.php">try {
+    $connection-&gt;connect();
+} catch (\Doctrine\DBAL\Exception\ConnectionException $e) {
+    exit('Could not connect to database server or access database');
+}</code></pre>
+
+                        </div>
+
+                    </li>
+                    <li>
+                        Safer, as we don't expose our DB credentials to potential hackers anymore
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Userfriendly error messages</h2>
+                <ul style="width: 100%;">
+                    <li>
+                        Better: Show user-friendly messages on screen
+
+                        <div>
+
+									<pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/02c.php">&lt;?php
+
+    function showDbError(string $type) : void {
+        header('location: error.php?type=db&amp;detail=' . $type);
+        exit();
+    }
+
+    &hellip;
+
+    try {
+        $connection-&gt;connect();
+    } catch (\Doctrine\DBAL\Exception\ConnectionException $e) {
+        showDbError('connect');
+    }
+
+//EOF</code></pre>
+
+                        </div>
+
+                    </li>
+                </ul>
+            </section>
+
+            <!--section>
+                <h2>Logging errors</h2>
+                <ul>
+                    <li>
+                        As a developer I'm not interested in a userfriendly error message, I want to see the actual error in a logfile
+                        <ul>
+                            <li>&rarr; Pass the Exception message into <code>showDbError()</code> and log it in a file/db</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div>
+
+							<pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/02d.php">&lt;?php
+
+    function showDbError($type, $msg) {
+        file_put_contents(
+            __DIR__ . '/error_log_mysql',
+            PHP_EOL . (new DateTime())->format('Y-m-d H:i:s') . ' : ' . $msg,
+            FILE_APPEND
+        );
+        header('location: error.php?type=db&amp;detail=' . $type);
+        exit();
+    }
+
+    try {
+        $db = new PDO('mysql:host=' . DB_HOST .';dbname=does_not_exist;charset=utf8mb4', DB_USER, DB_PASS);
+    } catch (PDOException $e) {
+        showDbError('connect', $e->getMessage());
+    }</code></pre>
+
+                </div>
+
+            </section>
+
+            <section>
+                <h2>Summary / Course Convention</h2>
+                <ul>
+                    <li>
+                        Never ever show errors on screen on a published site
+                        <ul>
+                            <li>Log them for the developer</li>
+                            <li>Present the user a userfriendly error message, in an understandable language and preferably in the layout of the site</li>
+                        </ul>
+                    </li>
+            </section-->
+
+        </section>
+
+
+
+
+        <section>
+
+            <section>
+                <h2>09.3<br>Executing Queries</h2>
+            </section>
+
+            <section>
+                <h2>Types of Queries</h2>
+
+                <ul>
+                    <li>
+                        Essentially, we have two types of queries. Queries that:
+                        <ol>
+                            <li>Yield a resultset (e.g. <code>SELECT</code>, <code>SHOW</code>, <code>DESCRIBE</code>, <code>EXPLAIN</code>, &hellip;)</li>
+                            <li>Yield no resultset (e.g. <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>, <code>DROP</code>, &hellip;)</li>
+                        </ol>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Oldskool Executing Queries</h2>
+                <ul>
+                    <li>
+                        Depending on the type of query, use one of these functions
+                        <div>
+                            <ol style="margin-top: 1em;">
+                                <li>Use <code><s>query()</s></code><small><!--a href="http://www.php.net/manual/en/pdo.query.php">&#9873;</a--></small> for queries that yield a resultset</li>
+                            </ol>
+                            <pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/03.php">$stmt = $connection->query('SELECT * FROM collections WHERE user_id = 2');
+var_dump($stmt);</code></pre>
+                        </div>
+                        <div>
+                            <ol start="2">
+                                <li>Use <code><s>exec()</s></code><small><!--a href="http://www.php.net/manual/en/pdo.exec.php">&#9873;</a--></small> for queries that yield no resultset</li>
+                            </ol>
+                            <pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/03b.php">$result = $connection->exec('DELETE FROM collections WHERE user_id = 10');
+var_dump($result);</code></pre>
+                        </div>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Depending on the type of query, we'll need to do some more things to get an actual result we can use <em>(See further)</em>
+                    </li>
+                </ul>
+            </section>
+
+        </section>
+
+
+
+
+        <section>
+
+            <section>
+                <h2>09.4<br>Working with query parameters</h2>
+            </section>
+
+            <section>
+                <h2>Working with query parameters</h2>
+
+                <ul>
+                    <li>When using user input as parameters for a query, don't pass it in directly, <strong>always</strong> secure the passed in data first</li>
+                    <li style="margin-top: 1em;">
+                        If you don't, users can perform SQL Injection
+                        <ul>
+                            <li>Just as XSS, <a href="http://blogs.msdn.com/b/ie/archive/2012/09/10/xss-trends-and-internet-explorer.aspx">SQL Injection is a real world and big problem</a>!</li>
+                            <li><em>&ldquo;SQL injection is the most pernicious vulnerability in human computer history&rdquo;</em> (<a href="http://blog.imperva.com/2011/09/sql-injection-by-the-numbers.html">source</a>)</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Let's take a closer look on the next few slides &hellip;
+                    </li>
+                </ul>
+
+                <footer><em style="color: #F55;">You prevent SQL Injection in the lab and the project</em></footer>
+
+            </section>
+
+            <section>
+                <h2>(Insecure) Example</h2>
+
+                <ul style="width: 100%;">
+                    <li>
+                        Detailpage of a collection. Url: <code>detail.php?id=X</code>
+
+                        <pre class="bigger"><code class="hljs php">&lt;?php
+
+&hellip;
+
+    // Get ID from URL
+    $id = isset($_GET['id']) ? $_GET['id'] : 0;
+
+    // Get collection from database
+    $stmt = $connection->query('SELECT * FROM collections WHERE id = ' . $id);
+
+    // Handle result
+
+&hellip;
+</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Problem #1</h2>
+
+                <ul>
+                    <li>
+                        Changing the URL param to a string will break the query
+                        <ul>
+                            <li>When visiting <code>detail.php?id=test</code> the query will become broken: <code class="nok" style="white-space: nowrap;">SELECT * FROM collections WHERE id = test</code> is an invalid query</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Fix: add quotes in your query around the value
+                        <ul>
+                            <li><code class="ok">SELECT * FROM products WHERE id = &quot;test&quot;</code> is a valid query</li>
+                        </ul>
+                        <div>
+                            <pre class="bigger"><code class="hljs php">$stmt = $connection->query('SELECT * FROM collections WHERE user_id = &quot;' . $id . '&quot;');</code></pre>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Problem #2</h2>
+
+                <ul>
+                    <li>
+                        Changing the URL param to a string containing a quote breaks the query
+                        <ul>
+                            <li>When visiting <code>detail.php?id=te&quot;st</code> the query will become broken: <code class="nok" style="white-space: nowrap;">SELECT * FROM products WHERE id = &quot;te&quot;st&quot;</code> is an invalid query</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 0.5em;">
+                        Possible fix: use <code>addslashes()</code>
+                        <ul>
+                            <li><code class="ok">SELECT * FROM products WHERE id = &quot;te\&quot;st&quot;</code> is a valid query</li>
+                        </ul>
+
+                        <div>
+                            <pre class="bigger"><code class="hljs php">$stmt = $connection->query('SELECT * FROM collections WHERE user_id = &quot;' . addslashes($id) . '&quot;');</code></pre>
+                        </div>
+                    </li>
+                    <li style="margin-top: 0.5em;">
+                        Possible fix: cast <code>$id</code> to an integer
+                        <div>
+                            <pre class="bigger"><code class="hljs php">$stmt = $connection->query('SELECT * FROM collections WHERE id = ' . (int) $id);</code></pre>
+                        </div>
+                        <ul>
+                            <li>Won't work if you expect a string though!</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Problem #2 (variant)</h2>
+                <div class="hastooltip">
+                <ul>
+                    <li>
+                        Changing the URL param to a <em>dangerous</em> string that resembles SQL results in <strong>SQL injection</strong>
+                        <div style="text-align: center; padding-top: 20px">
+                            <figure class="zoomable-20">
+                                <img src="assets/09/littlebobbytables.jpg" alt="" title="" width="400" />
+                                <figcaption><a href="http://xkcd.com/327/">XKCD: Exploits of a mom</a></figcaption>
+                            </figure>
+                        </div>
+                    </li>
+                    <li>
+                        Fix: use <code>addslashes()</code>? No it is <strong>unsafe:</strong>
+                    </li>
+                </ul>
+                <div class="tooltip">
+                    <div>
+                        <ul>
+                            <li>
+                                PHP's <code>addslashes()</code> does not recognize the multibyte char <code>0xbf27</code> (&#xBF27;) and treats it as two single bytes: <code>0xBF</code> (&#xBF;) and <code>0x27</code> (&#x27;) &rarr; PHP will escape that <code>0x27</code> with a backslash (<code>0x5c</code>) and we end up with the char sequence <code>0xbf5c27</code>
+                            </li>
+                            <li>
+                                MySQL with a GBK charset connection recognizes <code>0xbf5c</code> (&#xBF5C;) as a multibyte char, leaving an unescaped <code>0x27</code> in the query (!) &rarr; Boom, you've just injected a single quote.
+                            </li>
+                        </ul></div>
+                </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>What now?</h2>
+
+                <ul>
+                    <li>
+                        Sanitize the parameters using the MySQL connection
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Two options
+                        <ol>
+                            <li>Manually escape all parameters</li>
+                            <li>Use prepared statements</li>
+                        </ol>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Manually escaping parameters</h2>
+                <ul style="width: 100%;">
+                    <li>
+                        Use <code>Connection::quote()</code><small><!--a href="http://www.php.net/manual/en/pdo.quote.php">&#9873;</a--></small> to escape a parameter properly
+
+                    </li>
+                </ul>
+                <pre class="bigger"><code class="hljs php">$stmt = $connection->query('SELECT * FROM collections WHERE id = ' . $connection->quote($userId, 'integer'));</code></pre>
+                <ul style="width: 100%;">
+                    <li>
+                        Note
+                        <ul>
+                            <li>
+                                <code>Connection::quote()</code> will add quotes around the value where needed
+
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <pre class="bigger"><code class="hljs php">$stmt = $connection->query('SELECT * FROM collections WHERE name = ' . $connection->quote($name, 'string'));</code></pre>
+            </section>
+
+            <section>
+                <h2>Prepared Statements (1)</h2>
+                <ul>
+                    <li>
+                        Mingling parameters into your query will become confusing when having lots of parameters
+                        <ul>
+                            <li>
+                                &rarr; Prepared statements overcome this
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        Prepared statements also prevent SQL Injection, but only if
+                        <ul>
+                            <li>
+                                <strong>you use them properly</strong>
+                            </li>
+                            <!--li>
+                                At least 1 of the following conditions is true (<a href="http://stackoverflow.com/questions/134099/are-pdo-prepared-statements-sufficient-to-prevent-sql-injection#12202218" target="_blank">why?</a>): <small style="background-color: #f00;border-radius: 10px;">FYI</small>
+                                <ul>
+                                    <li>
+                                        MySQL version &ge; 5.5 AND you set the connection encoding charset in the DSN (= not with an SQL query <code class="language-sql">SET NAMES</code>)
+                                    </li>
+                                    <li>
+                                        You use a safe connection encoding charset: <code>utf8</code>, <code>utf8mb4</code>, <code>ascii</code>, <code>latin1</code>, &hellip;
+                                    </li>
+                                    <li>
+                                        You enable MySQL's <code>NO_BACKSLASH_ESCAPES</code> mode
+                                    </li>
+                                </ul>
+                            </li-->
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Prepared Statements (2)</h2>
+                <ul>
+                    <li>
+                        Use <code>Connection::prepare()</code><small><!--a href="http://www.php.net/manual/en/pdo.quote.php">&#9873;</a--></small> to <em>prepare</em> a query with placeholders
+                        <pre class="bigger"><code class="hljs php">$stmt = $connection->prepare('SELECT * FROM collections WHERE id = ?');</code></pre>
+                        <ul>
+                            <li>Everywhere you would add a parameter in the query, replace it by a <code>?</code></li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em">
+                        The result is an instance of <code>/Doctrine/DBAL/Statement</code><small><!--a href="http://www.php.net/manual/en/class.pdostatement.php">&#9873;</a--></small>. Use this stament to:
+                        <ul>
+                            <li>Bind values onto the placeholders</li>
+                            <li>Execute it</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Using Prepared Statements (1)</h2>
+                <ul style="width: 100%;">
+                    <li>
+                        Bind values onto the placeholders using <code>Statement::bindValue()</code><small><!--a href="http://www.php.net/manual/en/pdostatement.bindvalue.php">&#9873;</a--></small>
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/04b.php">$stmt = $connection->prepare('SELECT * FROM collections WHERE id = ?');
+$stmt->bindValue(1, $id, 'integer');
+$stmt->execute();</code></pre>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Alternative: named placeholders
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/04c.php">$stmt = $connection->prepare('SELECT * FROM collections WHERE id = :id');
+$stmt->bindValue(':id', $id, 'integer');
+$stmt->execute();</code></pre>
+                    </li>
+                </ul>
+                <footer><small>Note: You call execute on the statement, not on <code>$connection</code><br>Note: the default binding type is <code>'string'</code></small></footer>
+            </section>
+
+            <section>
+                <h2>Using Prepared Statements (2)</h2>
+                <ul style="width: 100%;">
+                    <li>
+                        Also possible <em>(shorter, preferred)</em>:
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/04d.php">$stmt = $connection->prepare('SELECT * FROM collections WHERE id = ?');
+$stmt-&gtexecute([$id]);</code></pre>
+                        <ul>
+                            <li>Returns the executed statement</li>
+                            <li>Cannot be used with named placeholders</li>
+                            <li>Optional 3rd parameter: array of parameter types</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        The same goes for queries that yield no result set:
+                        <pre class="bigger"><code class="hljs php">$stmt = $connection->prepare('INSERT INTO collections (name, user_id) VALUES (?, ?)');
+$rows = $stmt-&gtexecute(['test', 4]);</code></pre>
+                    </li>
+                </ul>
+
+            </section>
+
+            <section>
+                <h2>Summary</h2>
+
+                <ul>
+                    <li>
+                        <strong>Always</strong> sanitize &amp; escape user input when constructing queries to prevent SQL Injection
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Preference to using <em>prepared statements</em>
+                        <ul>
+                            <li>More readable code</li>
+                            <li><em>One function to rule them all &trade;</em></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <footer><em style="color: #F55;">!! Always prevent SQL Injection in the labs and in the project !!</em></footer>
+
+            </section>
+
+        </section>
+
+
+        <section>
+
+            <section>
+                <h2>09.5<br>Processing queries</h2>
+            </section>
+
+            <section>
+                <h2>Processing queries</h2>
+
+                <ul>
+                    <li>We can now properly write queries</li>
+                    <li style="margin-top: 1em;">
+                        As said before: depending on the type of query, we'll need to do some more things to get an actual result we can use
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Fetching an entire resultset</h2>
+                <ul style="width: 100%;">
+                    <li>
+                        Use <code>Statement::fetchAllAssociative()</code><small><!--a href="http://www.php.net/manual/en/pdostatement.fetchall.php">&#9873;</a--></small> to fetch the entire resultset into an array (of rows)
+                        <ul>
+                            <li>Each element is (again) an <strong>associative</strong> array of which the keys are the column labels</li>
+                        </ul>
+                    </li>
+                </ul>
+                <div>
+							<pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/05.php">$stmt = $connection->prepare('SELECT * FROM collections WHERE user_id = ? OR name = ?');
+$stmt->execute(array(2, 'russia'));
+$collections = $stmt->fetchAllAssociative();
+
+echo '&lt;pre&gt;';
+var_dump($collections);
+echo '&lt;/pre&gt;';</code></pre>
+                </div>
+                <ul style="width: 100%;">
+                    <li>
+                        Or even shorter with <code>Connection::fetchAllAssociative()</code>
+                    </li>
+                </ul>
+                <div>
+                    <pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/05b.php">$collections = $connection->fetchAllAssociative(
+    'SELECT * FROM collections WHERE user_id = ? OR name = ?',
+    array(2, 'russia'));</code></pre>
+                </div>
+            </section>
+
+            <section>
+                <h2>Fetching a single row</h2>
+                <ul style="width: 100%;">
+                    <li>
+                        Use <code>Statement::fetchAssociative()</code><small><!--a href="http://www.php.net/manual/en/pdostatement.fetch.php">&#9873;</a--></small> to fetch the returned rows one bye one
+                        <div>
+									<pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/05c.php">$stmt = $connection-&gt;prepare('SELECT * FROM collections WHERE user_id = ? OR name = ?');
+$stmt-&gt;execute(array(2, 'russia'));
+
+while ($collection = $stmt-&gt;fetchAssociative()) {
+    var_dump($collection);
+}</code></pre>
+                        </div>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Use case: queries that yield one row
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/05d.php">$stmt = $connection-&gt;prepare('SELECT * FROM collections WHERE id = ?');
+$stmt-&gt;execute(array(1));
+
+$collection = $stmt-&gt;fetchAssociative();
+var_dump($collection);</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Fetching a single field</h2>
+                <ul style="width: 100%;">
+                    <li>
+                        Use <code>Statement::fetchOne()</code><small><!--a href="http://www.php.net/manual/en/pdostatement.fetchColumn.php">&#9873;</a--></small> to fetch the value of a column from the first row
+                        <div>
+									<pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/05e.php">$stmt = $connection->prepare('SELECT name, user_id FROM collections WHERE id = ?');
+$stmt-&gt;execute([1]);
+var_dump($stmt-&gt;fetchOne());</code></pre>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Fetching meta information</h2>
+                <ul>
+                    <li>
+                        Use <code>Connection::lastInsertId()</code><small><!--a href="http://www.php.net/manual/en/pdo.lastinsertid.php">&#9873;</a--></small> to know the last inserted id (<code>AUTO_INCREMENT</code>) after executing an <code>INSERT</code> query
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/06.php">$stmt = $connection->prepare('INSERT INTO collections(name, user_id) VALUES (?,?)');
+$stmt-&gt;execute(['Trip to Amsterdam', 10]);
+
+echo 'Created album with ID ' . $connection->lastInsertId();</code></pre>
+                    </li>
+                    <li style="margin-top: 1em">
+                        Use <code>Statement::rowCount()</code><small><!--a href="http://www.php.net/manual/en/pdostatement.rowcount.php">&#9873;</a--></small> to know the number of affected rows made by <code>UPDATE</code> and <code>DELETE</code> queries
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/07.php">$stmt = $connection->prepare('DELETE FROM collections WHERE user_id = ?');
+$stmt->execute(array(10));
+
+echo 'Deleted ' . $stmt->rowCount() . ' rows';</code></pre>
+                        <ul>
+                            <li><em>Note: matched rows which aren't updated are not included in this count!</em></li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+
+        </section>
+
+
+
+
+        <section>
+
+            <section>
+                <h2>09.6<br>Best Practices</h2>
+            </section>
+
+
+            <section>
+                <h2>Best Practices?</h2>
+
+                <ul>
+                    <li>
+                        A set of often used methods / tips to help you working with databases
+                        <ol>
+                            <li>UTF-8</li>
+                            <li>Working with dates and time</li>
+                            <li>Joins over loops</li>
+                            <li>Passwords</li>
+                        </ol>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Best Practice #1<br /><br />UTF-8</h2>
+            </section>
+
+            <section>
+                <h2>Background information</h2>
+                <ul>
+                    <li>
+                        In general
+                        <ul>
+                            <li>
+                                <a href="https://en.wikipedia.org/wiki/Character_encoding">Character set encoding</a> e.g. <a href="https://en.wikipedia.org/wiki/ASCII">ASCII</a>, <a href="https://en.wikipedia.org/wiki/UTF-8#Description">UTF-8</a>
+                            </li>
+                            <li>
+                                <a href="https://en.wikipedia.org/wiki/Collation">(Automated) collation</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        Available <a href="http://dev.mysql.com/doc/refman/5.7/en/charset-charsets.html">charset and collations in MySQL</a>
+                        <ul>
+                            <li>
+                                Example charset: <code>utf8</code>
+                            </li>
+                            <li>
+                                Each charset comes with a list of collations e.g.
+                                <ul>
+                                    <li>
+                                        <code>utf8_bin</code> &mdash; binary order
+                                    </li>
+                                    <li>
+                                        <code>utf8_german2_ci</code> &mdash; German phone book order / case insensitive
+                                    </li>
+                                    <li>
+                                        <code>utf8_unicode_ci</code> &mdash; accurate multi-language Unicode order / case insensitive
+                                    </li>
+                                    <li>
+                                        <code>utf8_general_ci</code> &mdash; less accurate multi-language order / case insensitive
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                Apply to storage (columns of type <code>CHAR | VARCHAR | TEXT | ENUM | SET</code>) and communication (charset only)
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>UTF-8 best practices</h2>
+                <ul>
+                    <li>
+                        In short: Use <code>UTF-8</code>, everywhere.
+                        <ol>
+                            <li>
+                                DB Schema and Tables
+                            </li>
+                            <li>
+                                DB Connection
+                            </li>
+                            <li>
+                                HTML charset (or HTTP response header)
+                            </li>
+                        </ol>
+                    </li>
+                    <li style="margin-top: 1em">If you omit one of them, it will not work as expected.</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>UTF-8 everywhere</h2>
+                <ol style="width: 100%;">
+                    <li>
+                        DB Schema and Tables: use <code>utf8mb4</code>/<code>utf8mb4_unicode_ci</code>
+                        <pre class="bigger"><code>CREATE DATABASE `mydb`
+DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;</code></pre>
+                        <pre class="bigger"><code>CREATE TABLE IF NOT EXISTS `records` (
+    `id` INT(10) NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(255) NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;</code></pre>
+                    </li>
+                    <li>
+                        DB Connection
+                        <pre class="bigger"><code class="hljs php">'driver' => 'pdo_mysql',</code></pre>
+                    </li>
+                    <li>
+                        HTML charset
+                        <pre class="bigger"><code class="language-html dontrun">&lt;meta charset=&quot;utf-8&quot; /&gt;</code></pre>
+                        or HTTP response header
+                        <pre class="bigger"><code class="hljs php">header('Content-Type: text/html; charset=UTF-8');</code></pre>
+                    </li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>Sidenote (1)</h2>
+                <ul>
+                    <li>MySQL's <code>utf8</code> charset does <strong>not</strong> comply with the complete UTF-8 standard. It supports characters that need up to 3 bytes for encoding in stead of 4. For example, astral symbols <em>(= <a href="http://www.grumdrig.com/emoji-list/">emoji</a>)</em> require 4 byte encoding.</li>
+                    <li style="margin-top: 1em">Fixed in MySQL 5.5.3 by the addition of <code>utf8mb4</code> charset<br />&rarr; Always use <code>utf8mb4</code> (= full UTF-8)</li>
+                </ul>
+                <footer>More info: <a href="http://mathiasbynens.be/notes/mysql-utf8mb4">http://mathiasbynens.be/notes/mysql-utf8mb4</a></footer>
+            </section>
+
+            <section>
+                <h2>Sidenote (2) <small style="background-color: #f00;border-radius: 10px;">FYI</small></h2>
+                <ul>
+                    <li>When you create or manipulate strings with encodings &gt; 1 byte in PHP </li>
+                    <ul>
+                        <li>Make sure your PHP file has UTF-8 encoding</li>
+                        <li>Use <a href="http://php.net/manual/en/ref.mbstring.php">Multibyte String Functions</a> (extension!) such as <code>mb_strlen()</code> in stead of <em>classical</em> string functions</li>
+                    </ul>
+                </ul>
+                <footer>All UTF-8 instructions together: <a href="http://www.phptherightway.com/#php_and_utf8">http://www.phptherightway.com/#php_and_utf8</a></footer>
+            </section>
+
+            <section>
+                <h2>Best Practice #2<br /><br />Working with dates and time</h2>
+            </section>
+
+
+            <section>
+                <h2>Dates in MySQL</h2>
+
+                <ul>
+                    <li>
+                        Current timestamp accessible with <code>NOW()</code>
+                    </li>
+                    <li>
+                        From timestamp to a readable format with <code>date_format()</code>
+                        <ul>
+                            <li>
+                                Example
+                                <pre class="bigger"><code class="hljs php">SELECT date_format(&quot;%Y-%m-%d&quot;, publishTimestamp) AS readabledate FROM ...</code></pre>
+                            </li>
+                            <li>Most format directives the same as in PHP but with leading <code>%</code></li>
+                            <li>See <a href="http://dev.mysql.com/doc/refman/5.1/en/date-and-time-functions.html #function_date-format">mysql docs</a> for more info</li>
+                        </ul>
+                    </li>
+                    <li>
+                        From datestring to timestamp with <code>unix_timestamp()</code>
+                        <ul>
+                            <li>
+                                Example
+                                <pre class="bigger"><code class="hljs php">SELECT unix_timestamp(publishDateTime) AS timestamp FROM ...</code></pre>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+
+            <section>
+                <h2>Date &amp; time best practices (1)</h2>
+
+                <ul>
+                    <li>
+                        Never combine PHP and MySQL time
+                        <ul>
+                            <li>Funky situations where mysql server clock is ahead of webserver</li>
+                            <li>Our choice: let webserver (thus PHP) decide what time it is</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Store dates in a readable format in your database
+                        <ul>
+                            <li>
+                                Timestamps are not that readable when looking at raw dumps
+                            </li>
+                            <li>
+                                Use <code>datetime</code> as the field type
+                                <ul>
+                                    <li>Beware: does not contain timezone information!</li>
+                                    <li>Sidenote: If you ever were to make a timezone aware app store all dates/times as UTC in your DB</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+
+            <section>
+                <h2>Date &amp; time best practices (2)</h2>
+                <ul>
+                    <li>
+                        Convert dates in PHP, not in your queries (unless necessary)
+                        <ul>
+                            <li>
+                                Prevents complex queries
+                            </li>
+                            <li>
+                                Examples
+                                <ul>
+                                    <li>Storing dates: <code>$data['publish_date'] = (new Datetime())->format('Y-m-d H:i:s');</code><br>
+                                        However DBAL automatically converts when you specify the binding type: <code>$stmt-&gt;bindValue(1, new DateTime(), 'datetime');</code> </li>
+                                    <li>Displaying dates: <code>$month = (new Datetime($dbResult['publish_date']))->format('m')</code></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <!--li style="margin-top: 1em;">
+                        Don't be too specific when retrieving items after/before a given date. Bad example:
+                        <pre class="bigger"><code class="hljs php">$stmt = $db->prepare('SELECT * FROM blogposts WHERE publish_date > ?');
+$stmt->execute(array((new DateTime())->format('Y-m-d H:i:s')));</code></pre>
+                        <ul>
+                            <li>MySQL Query Cache won't cache this</li>
+                            <li>Fix: Round your dates to the minute or 5 minutes if the script allows it</li>
+                        </ul>
+                    </li-->
+                </ul>
+            </section>
+
+            <section>
+                <h2>Best Practice #3<br /><br />Joins over loops</h2>
+            </section>
+
+
+            <section>
+                <h2>Example</h2>
+
+                <ul>
+                    <li>
+                        Detailpage of a blogpost
+                        <ul>
+                            <li>Shows blogpost</li>
+                            <li>Allow comments on blogpost</li>
+                            <li>Author information stored separately in database</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+
+            <section>
+                <h2>Bad execution</h2>
+
+                <ul style="width: 100%;">
+                    <li>
+                        Execute queries inside a loop
+                        <pre class="bigger"><code class="hljs php">$id = (int) isset($_GET['id']) ? $_GET['id'] : 0;
+
+$stmt = $connection->prepare('SELECT id, title, content FROM blogs WHERE id = ?');
+$stmt->execute(array($id));
+$blogpost = $stmt->fetchAssociative();
+
+$stmt = $connection->prepare('SELECT id, blog_id, comment, publishdate, author_id
+                              FROM comments WHERE blog_id = ?');
+$stmt->execute(array($id));
+$comments = $stmt->fetchAssociative();
+
+foreach ($comments as $c) {
+    $stmt = $connection->prepare('SELECT * FROM authors WHERE id = ?');
+    $stmt->execute(array($c['author_id']));
+    $author = $stmt->fetchAssociative();
+
+    // &hellip; show comment + author info
+}</code></pre>
+                        <ul>
+                            <li>
+                                With 50 comments, 52 queries are executed
+                                <ul>
+                                    <li>1 x get blogpost, 1 x get comments, 50 x get authorinfo</li>
+                                </ul>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+
+            <section>
+                <h2>Proper execution</h2>
+
+                <ul style="width: 100%;">
+                    <li>
+                        Use a JOIN to minimize the number of executed queries
+                        <pre class="bigger"><code class="hljs php">$id = (int) isset($_GET['id']) ? $_GET['id'] : 0;
+
+$stmt = $connection->prepare('SELECT id, title, content FROM blogs WHERE id = ?');
+$stmt->execute(array($id));
+$blogpost = $stmt->fetchAssociative();
+
+$stmt = $connection->prepare('SELECT c.id, c.blog_id, c.comment, c.publishdate, c.author_id,
+                                     a.name, a.email, a.url FROM comments AS c
+                              INNER JOIN authors AS a ON c.author_id = a.id WHERE c.blog_id = ?');
+$stmt->execute(array($id));
+$comments = $stmt->fetchAssociative();
+
+foreach ($comments as $c) {
+    // &hellip; show comment + author info
+}</code></pre>
+                        <ul>
+                            <li>
+                                With 50 comments, 2 queries are executed
+                                <ul>
+                                    <li>1 x get blogpost, 1 x get comments with authorinfo</li>
+                                </ul>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Best Practice #4<br /><br />Encrypt passwords</h2>
+            </section>
+
+
+            <section>
+                <h2>Encrypt passwords (1)</h2>
+
+                <ul>
+                    <li>
+                        You must <strong>always</strong> encrypt stored passwords. Never store them as plaintext
+                        <ul>
+                            <li>If you don't, it's very easy for a hacker to steal lots of passwords if he ever got access to your database</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Beware of old code/examples:
+                        <ul>
+                            <li>
+                                <code>md5()</code><small><a href="http://php.net/md5">&#9873;</a></small> and <code>sha1()</code><small><a href="http://php.net/sha1">&#9873;</a></small> <a href="http://www.slideshare.net/ircmaxell/password-storage-and-attacking-in-php">are outdated/too weak</a>, don't use them
+                            </li>
+                            <li><code>crypt()</code><small><a href="http://php.net/crypt">&#9873;</a></small> strong but no long preferred</li>
+                        </uL>
+                    </li>
+                </ul>
+
+                <footer><em style="color: #F55;">!! Always encrypt passwords in the labs and in the project !!</em></footer>
+            </section>
+
+            <section>
+                <h2>Encrypt passwords (2)</h2>
+                <ul style="width: 100%;">
+                    <li>
+                        Use <code>password_hash()</code><small><a href="http://php.net/password_hash">&#9873;</a></small> and <code>password_verify()</code><small><a href="http://php.net/password_verify">&#9873;</a></small>
+                        <ul>
+                            <li>Uses a strong one-way hashing algorithm (<a href="https://en.wikipedia.org/wiki/Bcrypt">bcrypt</a>)</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em">
+                        Encrypting a password:
+                        <pre class="bigger"><code class="hljs php">echo password_hash('bramus', PASSWORD_DEFAULT); // store this into your DB</code></pre>
+                    </li>
+                    <li style="margin-top: 1em">
+                        Verifying a password:
+                        <pre class="bigger"><code class="hljs php">$pass = isset($_POST['password']) ? $_POST['password'] : '';
+// Value as stored in database
+$encrypted = '$2y$10$Ae/ZoEnFze9SZKcgbNBluOObABeejekNoJ2iNmyf4QM5IYSIyzFPe';
+
+if (password_verify($pass, $encrypted)) { &hellip; }</code></pre>
+                    </li>
+                </ul>
+                <footer style="line-height: 1;">PHP&ge;7.3: full support for the even safer Argon2 algorithm<br/><code>echo password_hash('bramus', PASSWORD_ARGON2ID);</code></footer>
+            </section>
+
+        </section>
+
+
+
+        <!-- The END -->
+        <section>
+            <section>
+                <h2>Questions?</h2>
+                <footer>
+                    <em><a href="mailto:joris.maervoet@odisee.be">joris.maervoet@odisee.be</a></em>
+                </footer>
+            </section>
+
+            <section>
+                <h2>Sources</h2>
+                <ul>
+                    <li><a href="http://wiki.hashphp.org/PDO_Tutorial_for_MySQL_Developers">http://wiki.hashphp.org/PDO_Tutorial_for_MySQL_Developers</a></li>
+                    <li><a href="http://net.tutsplus.com/tutorials/php/why-you-should-be-using-phps-pdo-for-database-access/">http://net.tutsplus.com/tutorials/php/why-you-should-be-using-phps-pdo-for-database-access/</a></li>
+                    <li><a href="http://www.kitebird.com/articles/php-pdo.html">http://www.kitebird.com/articles/php-pdo.html</a></li>
+                    <li><a href="http://shiflett.org/blog/2006/jan/addslashes-versus-mysql-real-escape-string">http://shiflett.org/blog/2006/jan/addslashes-versus-mysql-real-escape-string</a></li>
+                    <li><a href="http://www.toptal.com/php/a-utf-8-primer-for-php-and-mysql">http://www.toptal.com/php/a-utf-8-primer-for-php-and-mysql</a></li>
+                </ul>
+            </section>
+        </section>
+
+
+
+    </div>
+
+</div>
+
+<script src="dist/reveal.js"></script>
+<script src="plugin/zoom/zoom.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/search/search.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+
+    // Also available as an ES module, see:
+    // https://revealjs.com/initialization/
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: true,
+        hash: true,
+        slideNumber: true,
+
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight ]
+    });
+
+</script>
+<script src="toc.js"></script>
+<script src="overlay.js"></script>
+
+</body>
+</html>
