@@ -754,9 +754,8 @@ $stmt->execute();</code></pre>
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/04d.php">$stmt = $connection->prepare('SELECT * FROM collections WHERE id = ?');
 $stmt-&gtexecute([$id]);</code></pre>
                         <ul>
-                            <li>Returns the executed statement</li>
                             <li>Cannot be used with named placeholders</li>
-                            <li>Optional 3rd parameter: array of parameter types</li>
+                            <li>Optional 2rd parameter: array of parameter types</li>
                         </ul>
                     </li>
                     <li style="margin-top: 1em;">
