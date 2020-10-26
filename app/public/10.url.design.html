@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>W&amp;M Server-side – Course materials</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/black.css" id="theme">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+
+<div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+        <section data-background="#b5533c">
+            <h3>Web &amp; Mobile Server-side <small>[OGI03q]</small></h3>
+            <h1>10. URL Design &amp; Routers</h1>
+        </section>
+
+        
+        <!-- URL Design -->
+        <section>
+            <section>
+                <h2>10.1<br>URL Design</h2>
+            </section>
+
+            <section data-background="assets/10/picard-facepalm.jpg">
+                <h2>URLs in the olden days</h2>
+
+                <ul>
+                    <li>
+                        In the beginning
+                        <ul>
+                            <li><code>http://example.org/index.php?action=zomg&amp;page=lol</code></li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em">
+                        Then SEO and &ldquo;<em>nice urls</em>&rdquo; came along
+                        <ul>
+                            <li><code>http://example.org/zomg/lol</code></li>
+                            <li><code>http://example.org/videos/latest/hamburgers</code></li>
+                            <li><code>http://example.org/search/lolcats/pictures/yes/1/200</code></li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Why URL design?</h2>
+                <ul>
+                    <li>SEO (Search Engine Optimization)
+                    </li>
+                    <li style="margin-top: 1em">Usability
+                        <ul>
+                            <li>Users interact with URLs</li>
+                            <li>A good URL is clear, concise and understandable</li>
+                            <li>A good URL is <em>hackable</em></li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Constistency and Simplicity</h2>
+                <ul>
+                    <li>
+                        Many URL design systems and conventions exists
+                        <ul>
+                            <li>They are optimized for different goals</li>
+                            <li>There is a lot of debate on them</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em">
+                        The most important guidelines:
+                        <ul>
+                            <li>Be <strong>consistent</strong>: don't mix up systems</li>
+                            <li>Keep it <strong>simple</strong>: don't make long and complex URLs</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2 style="font-size:200%">Rule #1: Identification &amp; Hierarchy (1)</h2>
+                <ul>
+                    <li>
+                        Basic naming conventions
+                        <ul>
+                            <li>Verbs are bad, nouns are good</li>
+                            <li>You decide: use plurals <strong>everywhere</strong> or singulars <strong>everywhere</strong></li>
+                            <li>Respect the Hierarchy</li>
+                            <li>This does not apply to <em>&ldquo;normal pages&rdquo;</em></li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 0.7em">
+                        Examples
+                        <ul>
+                            <li><ins><code>/products</code></ins></li>
+                            <li><del><code>/product/1234</code></del> &rarr; <ins><code>/products/1234</code></ins></li>
+                            <li><del><code>/photos/product/1234</code></del> &rarr; <ins><code>/products/1234/photos</code></ins></li>
+                            <li><del><code>/photos/product/1234/5678</code></del> &rarr; <ins><code>/products/1234/photos/5678</code></ins></li>
+                            <li><del><code>/pages/85/contact</code></del> &rarr; <ins><code>/contact</code></ins></li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </section>
+
+            <section>
+                <h2 style="font-size:200%">Rule #1: Identification &amp; Hierarchy (2)</h2>
+                <ul>
+                    <li>
+                        Use concrete naming, yet don't be too specific
+                        <ul>
+                            <li><del><code>/things</code></del></li>
+                            <li><del><code>/animals</code></del></li>
+                            <li><code class="ok">/dogs</code></li>
+                            <li><del><code>/beagles</code></del></li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Example</h2>
+
+                <ul>
+                    <li><code>/</code></li>
+                    <li><code>/movies</code></li>
+                    <li><code>/movies/<em>{id}</em></code></li>
+                    <li><code>/movies/<em>{id}</em>/photos</code></li>
+                    <li><code>/actors</code></li>
+                    <li><code>/actors/<em>{id}</em></code></li>
+                    <li><code>/actors/<em>{id}</em>/movies</code></li>
+                    <li><code>/about</code></li>
+                    <li><code>/contact</code></li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Rule #2: Namespace prefix</h2>
+                <ul style="font-size: 90%;">
+                    <li>
+                        Consider a namespace prefix only
+                        <ul>
+                            <li>in order to indicate a separate section on your website, which is not the <em>main</em> section (in the future)</li>
+                            <li>or to avoid (future) URL conflicts</li>
+                            <li>for account settings (don't start with the user)</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 0.7em">
+                        Examples
+                        <ul>
+                            <li><ins><code>/blog</code></ins></li>
+                            <li><ins><code>/blog/posts/25</code></ins></li>
+                            <li>On a web store: <del><code>/shop/products/1234</code></del> &rarr; <ins><code>/products/1234</code></ins></li>
+                            <li>On a web store: <del><code>/categories/25/edit</code></del> &rarr; <ins><code>/admin/categories/25/edit</code></ins></li>
+                            <li><del><code>/users/66/account/address</code></del> &rarr; <ins><code>/account/address</code></ins></li>
+                        </ul>
+                    </li>
+                </ul>
+                <footer>Note: a username can be a namespace to but you'll need a blacklist</footer>
+            </section>
+
+            <section>
+                <h2>Rule #3: Forms with verbs (1)</h2>
+                <ul>
+                    <li>
+                        Don't be confused
+                        <ul>
+                            <li>A lot of URL specifications are on <strong>RESTful Web APIs</strong>
+                                <ul>
+                                    <li>They avoid verbs in the URL</li>
+                                    <li>They're using <strong>HTTP verbs/methods</strong> (<code>GET</code>, <code>PUT</code>, <code>DELETE</code>, &hellip;) to indicate the type of action</li>
+                                </ul>
+                            </li>
+                            <li>The current rule is on <strong>action related to forms</strong>
+                                <ul>
+                                    <li>Showing the form (<code>GET</code>)</li>
+                                    <li>Processing the action (<code>POST</code>)</li>
+                                    <li>No other <strong>HTTP methods</strong> allowed </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>Rule #3: Forms with verbs (2)</h2>
+                <ul style="font-size: 85%;">
+                    <li>
+                        Define a set of verbs for Create, Update and Delete actions of forms
+                        <ul>
+                            <li>Attach the verb at the end of the URL
+                            </li>
+                            <li>
+                                Respect your HTTP method: <code>GET</code> shows the form; <code>POST</code> processes the action
+                            </li>
+                            <li>
+                                Stick to your choice: use the same verbs and system everywhere!
+                            </li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em">
+                        Examples
+                        <ul style="font-size: 75%;">
+                            <li><code>GET&nbsp;&nbsp;/admin/products</code></li>
+                            <li><code>GET&nbsp;&nbsp;/admin/products/create</code></li>
+                            <li><code>POST /admin/products/create</code></li>
+                            <li><code>GET&nbsp;&nbsp;/admin/products/<em>{id}</em>/edit</code></li>
+                            <li><code>POST /admin/products/<em>{id}</em>/edit</code></li>
+                            <li><code>GET&nbsp;&nbsp;/admin/products/<em>{id}</em>/delete</code></li>
+                            <li><code>POST /admin/products/<em>{id}</em>/delete</code></li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Note #1: Slug</h2>
+                <ul>
+                    <li>
+                        Sometimes a <a href="https://en.wikipedia.org/wiki/Clean_URL#Slug">slug</a> is attached to the end of the URL
+                        <ul>
+                            <li>
+                                Slug = name of the resource in the form of human-readable keywords
+                            </li>
+                            <li>
+                                Example: <code>/products/1234/huawei-p10-lite-black</code></strong>
+                            </li>
+                            <li>
+                                SEO: keep it short and use hyphens (<code>-</code>), no underscores (<code>_</code>)
+                            </li>
+                            <li>
+                                Incorrect slug? Redirect!
+                            </li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em">
+                        Do we need IDs in URLs at all then?
+                        <ul>
+                            <li>
+                                It depends &#8482;
+                            </li>
+                            <li>
+                                No IDs is more SEO-friendly, but you need a performant <em>slug index</em> and URLs become invalid when the resource title changes
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Note #2: duplicate URLs</h2>
+
+                <ul>
+                    <li style="margin-top: 1em">
+                        Example
+                        <ul style="font-size: 75%;">
+                            <li><code>/products/1234</code></li>
+                            <li><code>/categories/15/products/1234</code></li>
+                            <li><code>/brands/9/products/1234</code></li>
+                        </ul>
+                    </li>
+                    <li>
+                        We call these <em>canonical</em> URLs
+                        <ul>
+                            <li>
+                                It means that the pages are about the same resource but might not be exact copies (e.g. think of the breadcrumb)
+                            </li>
+                            <li>
+                                You need to <a href="https://moz.com/blog/canonical-url-tag-the-most-important-advancement-in-seo-practices-since-sitemaps">hint</a> search engines about canonical URLs
+                            </li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em">
+                        Advise (not obligatory)
+                        <ul>
+                            <li>
+                                Avoid canonical paths and keep URLs short and simple
+                            </li>
+                            <li>
+                                Don't confuse URLs with breadcrumbs
+                            </li>
+                            <li>
+                                Strip the URL hierarchy to its essence
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+        </section>
+
+
+        <!-- Supporting Clean URLs -->
+        <section>
+            <section>
+                <h2>10.2<br>Supporting Clean URLs</h2>
+                
+            </section>
+
+            <section>
+                <h2>Supporting Clean URLs</h2>
+                <ol>
+                    <li>
+                        Let all requests to inexistent files/folders be processed by <code>index.php</code>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Build <code>index.php</code> in such a way so that it loads the requested content based upon the URL
+                    </li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>1. Howto: Apache</h2>
+                <ul>
+                    <li>
+                        Possible using the <code>mod_rewrite</code> Apache Module
+                        <ul>
+                            <li>Wampserver: not enabled by default (<a href="assets/10/wamp_url_rewrite.png">instructions</a>)</li>
+                            <li>MAMP Pro: enabled by default</li>
+                        </ul>
+                    </li>
+                    <li>
+                        Put a file named <code>.htaccess</code> in your root to <em>rewrite</em> requests to non-existing files to <code>index.php</code>
+                        <pre class="bigger"><code>&lt;IfModule mod_rewrite.c&gt;
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [L]
+&lt;/IfModule&gt;</code></pre>
+                    </li>
+                    <li>Better: include the rewrite rules in your <a href="https://stackoverflow.com/questions/10175513/mod-rewrite-in-vhosts-configuration">virtual hosts</a> config</li>
+                </ul>
+            </section>
+
+            <!--section>
+                <h2>1. Howto: IIS</h2>
+                <ul>
+                    <li>
+                        Possible using the <a href="http://www.iis.net/downloads/microsoft/url-rewrite">IIS Rewrite Module</a>
+                    </li>
+                    <li>
+                        Put a file named <code>web.config</code> in your root to redirect requests to non-existing files to <code>index.php</code>
+                        <pre class="bigger"><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;configuration&gt;
+&lt;system.webServer&gt;
+&lt;rewrite&gt;
+    &lt;rules&gt;
+        &lt;rule name=&quot;Main Rule&quot; stopProcessing=&quot;true&quot;&gt;
+            &lt;match url=&quot;.*&quot; /&gt;
+            &lt;conditions logicalGrouping=&quot;MatchAll&quot;&gt;
+                &lt;add input=&quot;{REQUEST_FILENAME}&quot; matchType=&quot;IsFile&quot; negate=&quot;true&quot; /&gt;
+                &lt;add input=&quot;{REQUEST_FILENAME}&quot; matchType=&quot;IsDirectory&quot; negate=&quot;true&quot; /&gt;
+            &lt;/conditions&gt;
+            &lt;action type=&quot;Rewrite&quot; url=&quot;index.php&quot; /&gt;
+        &lt;/rule&gt;
+    &lt;/rules&gt;
+&lt;/rewrite&gt;
+&lt;/system.webServer&gt;
+&lt;/configuration&gt;</code></pre>
+                    </li>
+                </ul>
+            </section-->
+
+            <section>
+                <h2>1. Howto: Built-in PHP server</h2>
+                <ul>
+                    <li>
+                        <strong>All</strong> requests route to <code>index.php</code> by default
+                        <ul>
+                            <li>You'll need to add some extra PHP code to <code>index.php</code> to force non-404 requests route to the correct file
+                            </li>
+                        </ul>
+                        <div><pre class="bigger"><code>&lt;?php
+
+$filename = __DIR__ . preg_replace('#(\?.*)$#', '', $_SERVER['REQUEST_URI']);
+if (php_sapi_name() === 'cli-server' &amp;&amp; is_file($filename)) {
+	return false;
+}
+
+// rest of your code here</code></pre></div>
+                    </li>
+                </ul>
+                <footer><em>Note: You can start a server by running <code>php -S localhost:8080</code> in your project www-root</em></footer>
+            </section>
+
+
+            <section>
+                <h2>2. Howto</h2>
+
+                <ul>
+                    <li>
+                        Write something yourself.
+                        <ul>
+                            <li>Use the value in <code>$_SERVER['REQUEST_URI']</code> to get started</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Install a <em>router</em> library that does this for you.
+                        <ul>
+                            <li><a href="https://github.com/chriso/klein.php">Klein</a></li>
+                            <li><a href="https://github.com/radiosilence/Ham">HAM</a></li>
+                            <li><a href="https://github.com/bramus/router">bramus/router</a></li>
+                            <li>The router that ships with the framework you're using</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+
+            <section>
+                <h2>2. Example</h2>
+
+                <pre class="bigger"><code class="hljs php">&lt;?php
+
+require __DIR__ . '/vendor/autoload.php';
+
+$router = new \Bramus\Router\Router();
+
+$router-&gt;get('/', function() {
+	echo 'index';
+});
+
+$router-&gt;get('/hello', function() {
+	echo 'hello';
+});
+
+$router-&gt;get('/hello/(\w+)', function($name) {
+	echo 'hello ' . htmlentities($name);
+});
+
+$router->run();</code></pre>
+            </section>
+
+            <section>
+                <h2>Linking your assets (1)</h2>
+                <ul>
+                    <li>
+                        Web assets
+                        <ul>
+                            <li>
+                                Images, stylesheets, &hellip; of your website
+                            </li>
+                            <li>
+                                Files consulted <strong>directly</strong> from the web server (not passing <code>index.php</code>)
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        Suppose <code>https://myshop.be/brands/7/products/9</code> generates the following HTML code
+                        &rarr; Problem
+                        <pre class="bigger"><code class="hljs html">&lt;!DOCTYPE html&gt;
+&lt;html lang="nl"&gt;
+&lt;head&gt;
+	&lt;title&gt;MyShop - Drilboor&lt;/title&gt;
+	&lt;meta charset="utf-8" /&gt;
+	&lt;link rel="stylesheet" href="css/start.css" /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&hellip; &lt;a href="contact"&gt;Contacteer ons&lt;/a&gt;
+	&hellip; &lt;img src="img/product9.jpg" alt="Productfoto drilboor"/&gt;
+&lt;/body&gt;
+&lt;/html&gt;								</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Linking your assets (2)</h2>
+                <ul>
+                    <li>
+                        Possible solutions
+                        <ul>
+                            <li>
+                                Best: write a PHP function that generates the correct <strong>relative</strong> (like <code>../css</code>) paths for you
+                                <ul>
+                                    <li>
+                                        In some frameworks this function is available (sometimes generating <strong>absolute</strong> URLs)
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                Just start any relative path with <code>/</code> (like <code>/css</code>) = the home slash
+                                <ul>
+                                    <li>
+                                        Disadvantage: your code is home path specific (e.g. <code>myshop.be/admin/</code>) on many places
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                Add <code>&lt;base href="https://myshop.be/"&gt;</code> to your HTML head
+                                <ul>
+                                    <li>
+                                        Disadvantage: your code is URL specific on a few places
+                                    </li>
+                                    <li>
+                                        Disadvantage: side-effects with <code>#</code> and <code>?</code> paths and with SEO and JavaScript
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+        </section>
+
+        <!-- The END -->
+        <section>
+            <section>
+                <h2>Questions?</h2>
+                <footer>
+                    <em><a href="http://www.ikdoeict.be/">ikdoeict.be</a> &mdash; <a href="mailto:joris.maervoet@odisee.be">joris.maervoet@odisee.be</a></em>
+                </footer>
+            </section>
+            <section>
+                <h2>Sources</h2>
+                <ul>
+                    <li><a href="http://martinfowler.com/articles/richardsonMaturityModel.html">http://martinfowler.com/articles/richardsonMaturityModel.html</a></li>
+                    <li><a href="https://www.creativebloq.com/design/design-perfect-url-1126509">https://www.creativebloq.com/design/design-perfect-url-1126509</a></li>
+
+                </ul>
+            </section>
+        </section>
+
+
+
+
+    </div>
+
+</div>
+
+<script src="dist/reveal.js"></script>
+<script src="plugin/zoom/zoom.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/search/search.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+
+    // Also available as an ES module, see:
+    // https://revealjs.com/initialization/
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: true,
+        hash: true,
+        slideNumber: true,
+
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight ]
+    });
+
+</script>
+<script src="toc.js"></script>
+<script src="overlay.js"></script>
+
+</body>
+</html>
