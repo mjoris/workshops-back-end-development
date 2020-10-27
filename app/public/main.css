@@ -31,7 +31,7 @@ del code, code.nok {
 }
 
 ins code, code.ok {
-    color: #5C5;
+    color: #008800;
 }
 
 /* zoomable components */

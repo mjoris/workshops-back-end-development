@@ -94,7 +94,7 @@
                 </ul>
             </section>
 
-            <section>
+            <section data-background="#fdfdfd">
                 <h2 style="font-size:200%">Rule #1: Identification &amp; Hierarchy (1)</h2>
                 <ul>
                     <li>
@@ -120,7 +120,7 @@
 
             </section>
 
-            <section>
+            <section data-background="#fdfdfd">
                 <h2 style="font-size:200%">Rule #1: Identification &amp; Hierarchy (2)</h2>
                 <ul>
                     <li>
@@ -151,7 +151,7 @@
                 </ul>
             </section>
 
-            <section>
+            <section data-background="#fdfdfd">
                 <h2>Rule #2: Namespace prefix</h2>
                 <ul style="font-size: 90%;">
                     <li>
@@ -318,7 +318,7 @@
                 <h2>Supporting Clean URLs</h2>
                 <ol>
                     <li>
-                        Let all requests to inexistent files/folders be processed by <code>index.php</code>
+                        Make <strong>your webserver</strong> (Apache, nginx, &hellip;) redirect all requests to inexistent files/folders to <code>index.php</code>
                     </li>
                     <li style="margin-top: 1em;">
                         Build <code>index.php</code> in such a way so that it loads the requested content based upon the URL
@@ -338,12 +338,10 @@
                     </li>
                     <li>
                         Put a file named <code>.htaccess</code> in your root to <em>rewrite</em> requests to non-existing files to <code>index.php</code>
-                        <pre class="bigger"><code>&lt;IfModule mod_rewrite.c&gt;
-RewriteEngine On
+                        <pre class="bigger"><code class="hljs htaccess">RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^ index.php [L]
-&lt;/IfModule&gt;</code></pre>
+RewriteRule . index.php [L]</code></pre>
                     </li>
                     <li>Better: include the rewrite rules in your <a href="https://stackoverflow.com/questions/10175513/mod-rewrite-in-vhosts-configuration">virtual hosts</a> config</li>
                 </ul>
@@ -378,7 +376,7 @@ RewriteRule ^ index.php [L]
                 </ul>
             </section-->
 
-            <section>
+            <!--section>
                 <h2>1. Howto: Built-in PHP server</h2>
                 <ul>
                     <li>
@@ -398,7 +396,7 @@ if (php_sapi_name() === 'cli-server' &amp;&amp; is_file($filename)) {
                     </li>
                 </ul>
                 <footer><em>Note: You can start a server by running <code>php -S localhost:8080</code> in your project www-root</em></footer>
-            </section>
+            </section-->
 
 
             <section>
@@ -408,14 +406,14 @@ if (php_sapi_name() === 'cli-server' &amp;&amp; is_file($filename)) {
                     <li>
                         Write something yourself.
                         <ul>
-                            <li>Use the value in <code>$_SERVER['REQUEST_URI']</code> to get started</li>
+                            <li>Use the values in <code>$_SERVER['REQUEST_URI']</code> and <code>$_SERVER['REQUEST_METHOD']</code> to get started</li>
                         </ul>
                     </li>
                     <li style="margin-top: 1em;">
                         Install a <em>router</em> library that does this for you.
                         <ul>
-                            <li><a href="https://github.com/chriso/klein.php">Klein</a></li>
-                            <li><a href="https://github.com/radiosilence/Ham">HAM</a></li>
+                            <li><a href="https://symfony.com/doc/current/routing.html">Symfony Routing</a></li>
+                            <li><a href="https://packagist.org/packages/nikic/fast-route">nikic/fast-route</a></li>
                             <li><a href="https://github.com/bramus/router">bramus/router</a></li>
                             <li>The router that ships with the framework you're using</li>
                         </ul>
@@ -442,10 +440,15 @@ $router-&gt;get('/hello', function() {
 });
 
 $router-&gt;get('/hello/(\w+)', function($name) {
-	echo 'hello ' . htmlentities($name);
+	echo 'have a nice day ' . htmlentities($name);
 });
 
 $router->run();</code></pre>
+                <small style="text-align: left;">
+                    <code>webroot</code><a href="assets/10/examples/demo01" target="_blank">/</a> &rarr;<br>
+                    <code>webroot</code><a href="assets/10/examples/demo01/hello" target="_blank">/hello</a> &rarr;<br>
+                    <code>webroot</code><a href="assets/10/examples/demo01/hello/paco" target="_blank">/hello/paco</a> &rarr;
+                </small>
             </section>
 
             <section>
