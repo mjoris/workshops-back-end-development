@@ -444,85 +444,317 @@ $router-&gt;get('/hello/(\w+)', function($name) {
 });
 
 $router->run();</code></pre>
-                <small style="text-align: left;">
-                    <code>webroot</code><a href="assets/10/examples/demo01" target="_blank">/</a> &rarr;<br>
-                    <code>webroot</code><a href="assets/10/examples/demo01/hello" target="_blank">/hello</a> &rarr;<br>
-                    <code>webroot</code><a href="assets/10/examples/demo01/hello/paco" target="_blank">/hello/paco</a> &rarr;
-                </small>
-            </section>
-
-            <section>
-                <h2>Linking your assets (1)</h2>
-                <ul>
-                    <li>
-                        Web assets
-                        <ul>
-                            <li>
-                                Images, stylesheets, &hellip; of your website
-                            </li>
-                            <li>
-                                Files consulted <strong>directly</strong> from the web server (not passing <code>index.php</code>)
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        Suppose <code>https://myshop.be/brands/7/products/9</code> generates the following HTML code
-                        &rarr; Problem
-                        <pre class="bigger"><code class="hljs html">&lt;!DOCTYPE html&gt;
-&lt;html lang="nl"&gt;
-&lt;head&gt;
-	&lt;title&gt;MyShop - Drilboor&lt;/title&gt;
-	&lt;meta charset="utf-8" /&gt;
-	&lt;link rel="stylesheet" href="css/start.css" /&gt;
-&lt;/head&gt;
-&lt;body&gt;
-	&hellip; &lt;a href="contact"&gt;Contacteer ons&lt;/a&gt;
-	&hellip; &lt;img src="img/product9.jpg" alt="Productfoto drilboor"/&gt;
-&lt;/body&gt;
-&lt;/html&gt;								</code></pre>
-                    </li>
-                </ul>
-            </section>
-
-            <section>
-                <h2>Linking your assets (2)</h2>
-                <ul>
-                    <li>
-                        Possible solutions
-                        <ul>
-                            <li>
-                                Best: write a PHP function that generates the correct <strong>relative</strong> (like <code>../css</code>) paths for you
-                                <ul>
-                                    <li>
-                                        In some frameworks this function is available (sometimes generating <strong>absolute</strong> URLs)
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                Just start any relative path with <code>/</code> (like <code>/css</code>) = the home slash
-                                <ul>
-                                    <li>
-                                        Disadvantage: your code is home path specific (e.g. <code>myshop.be/admin/</code>) on many places
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                Add <code>&lt;base href="https://myshop.be/"&gt;</code> to your HTML head
-                                <ul>
-                                    <li>
-                                        Disadvantage: your code is URL specific on a few places
-                                    </li>
-                                    <li>
-                                        Disadvantage: side-effects with <code>#</code> and <code>?</code> paths and with SEO and JavaScript
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
+                <div>
+                    <code>webroot/</code>
+                    <input type="text" class="routertest" value="hello">
+                    <a href="" data-base-url="assets/10/examples/demo01/" target="_blank">&rarr;</a>
+                </div>
             </section>
 
         </section>
+
+            <!-- Routing -->
+            <section>
+                <section>
+                    <h2>10.3<br>The Router</h2>
+                </section>
+
+                <section>
+                    <h2>bramus/router</h2>
+                    <ul>
+                        <li>
+                            A lightweight and simple object oriented PHP Router
+                            <ul>
+                                <li>GitHub page with documentation: <a href="https://github.com/bramus/router">https://github.com/bramus/router</a></li>
+                            </ul>
+                        </li>
+                        <li style="margin-top: 1em;">
+                            Installation:
+                            <ul>
+                                <li>
+                                    New project, not yet requiring it via Composer:
+                                    <pre class="bigger"><code class="dontrun">composer require bramus/router ~1.5</code></pre>
+                                </li>
+                                <li>
+                                    Existing project, already requiring it via Composer:
+                                    <pre class="bigger"><code class="dontrun">composer install</code></pre>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Routing</h2>
+                    <ul>
+                        <li>
+                            Definitions
+                            <ul>
+                                <li>A route is a combination of a <strong>pattern</strong> and an <strong>HTTP method</strong></li>
+                                <li>A route is handled by a <strong>handling function</strong> which returns/does x/y</li>
+                            </ul>
+                        </li>
+                        <li style="margin-top: 1em">
+                            General example
+                            <pre class="bigger"><code class="hljs php">require __DIR__ . '../vendor/autoload.php';
+
+// Create Router instance
+$router = new \Bramus\Router\Router();
+
+// Define routes
+$router-&gt;get('pattern1', function() { /* ... */ });
+$router-&gt;get('pattern2', function() { /* ... */ });
+$router-&gt;post('pattern3', function() { /* ... */ });
+
+// Run it!
+$router-&gt;run();</code></pre>
+                        </li>
+                    </ul>
+                    <footer><small>HTTP request methods PUT, DELETE, &hellip; are supported too, but are only allowed in a Web API (~ HTTP standard)</small></footer>
+                </section>
+
+                <section>
+                    <h2>Static Routes</h2>
+                    <ul style="width: 100%;">
+                        <li>Static routes are routes with a fixed pattern
+                            <pre class="bigger"><code class="hljs php">$router-&gt;get('/', function() {
+    echo 'Welcome';
+});
+
+$router-&gt;get('/about', function() {
+    echo 'About Page Contents';
+});
+
+$router-&gt;get('/admin/products/create', function() {
+    echo 'Showing a form to create a product';
+});
+
+$router-&gt;post('/admin/products/create', function() {
+    echo 'Processing product creation form data:';
+    print_r($_POST);
+});
+</code></pre>
+                        </li>
+                    </ul>
+                    <footer>!!! Only the first route matched will be used. <br>If no route matches, <code>bramus/router</code> generates an <strong>empty</strong> 404 response. </footer>
+                </section>
+
+                <section>
+                    <h2>Dynamic Routes</h2>
+                    <ul>
+                        <li>
+                            Dynamic routes are routes with a dynamic pattern
+                            <ul>
+                                <li>The dynamic parts of the pattern will be converted to <strong>route variables</strong> which you pass into the handling function</li>
+                            </ul>
+                            <pre class="bigger"><code class="hljs php">$router-&gt;get('/hello/(\w+)', function($name) {
+    echo 'Hello ' . htmlentities($name);
+});
+
+$router-&gt;get('/movies/(\d+)/photos/(\d+)', function($movieId, $photoId) {
+    echo 'Movie #' . $movieId . ', photo #' . $photoId;
+});                            </code></pre>
+                            <div style="float:right;">
+                                <code>webroot/</code>
+                                <input type="text" class="routertest" value="movies/24/photos/4">
+                                <a href="" data-base-url="assets/10/examples/demo02/" target="_blank">&rarr;</a>
+                            </div>
+                        </li>
+                        <li> PCRE-based subpatterns between <code>()</code>
+                            <ul style="font-size: 70%;">
+                                <li><code>\d+</code> = One or more digits (0-9)</li>
+                                <li><code>\w+</code> = One or more word characters (a-z 0-9 _)</li>
+                                <li><code>[a-z0-9_-]+</code> = One or more word characters (a-z 0-9 _) and the dash (-)</li>
+                                <li><code>.*</code> = Any character (including <code>/</code>), zero or more</li>
+                                <li><code>[^/]+</code> = Any character but <code>/</code>, one or more</li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                    <footer><small>Note: the path <code>/movies/abc/photos/def</code> will simply not match any of the routes, generating a 404 response.</small></footer>
+                </section>
+
+                <section>
+                    <h2>Custom 404 and <em>Before</em> Middleware</h2>
+                    <ul>
+                        <li>
+                            Override the custom 404 handler
+                            <pre class="bigger"><code class="hljs php">$router-&gt;set404(function () {
+    header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
+    echo 'Looks like this page got lost in THE MATRIX.';
+    // Better: load your 404 HTML template here
+});</code></pre>
+                        </li>
+                        <li style="margin-top: 1em">
+                            <em>Before</em> middleware: handler to be executed <strong>before</strong> the route handling is processed
+                            <ul>
+                                <li>Specify HTTP request method(s), route pattern ann handler function</li>
+                            </ul>
+                            <pre class="bigger"><code class="hljs php">$router-&gt;before('GET|POST', '/.*', function () {
+    header('X-Powered-By: bramus/router');
+    // or your favorite checks here
+});</code></pre>
+                        </li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Subrouting</h2>
+                    <ul>
+                        <li>
+                            Mount a collection of routes onto a subroute pattern
+                            <pre class="bigger"><code class="hljs php">$router-&gt;mount('/movies', function() use ($router) {
+
+    // will result in '/movies/'
+    $router-&gt;get('/', function() {
+        echo 'movies overview';
+    });
+
+    // will result in '/movies/id'
+    $router-&gt;get('/(\d+)', function($id) {
+        echo 'movie id ' . htmlentities($id);
+    });
+
+});</code></pre>
+                            <div style="float:right;">
+                                <code>webroot/</code>
+                                <input type="text" class="routertest" value="movies/">
+                                <a href="" data-base-url="assets/10/examples/demo03/" target="_blank">&rarr;</a>
+                            </div>
+                        </li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Demo: clean search URL</h2>
+
+                            <pre class="bigger"><code class="hljs php">$router-&gt;get('/search', function() {
+    echo '&lt;form method="post"&gt;&lt;input type="text" name="term"&gt;&lt;input type="submit"&gt;&lt;/form&gt;';
+});
+
+$router-&gt;post('/search', function() {
+    $term = (isset($_POST['term'])? $_POST['term'] : '');
+    header('Location: search/' . urlencode($term));
+    exit();
+});
+
+$router-&gt;get('/search/(\w+)', function($term) {
+    echo 'Your search term: ' . $term . '&lt;br&gt;';
+    // Look up and show matching items in the database
+});</code></pre>
+                            <div>
+                                <code>webroot/</code>
+                                <input type="text" class="routertest" value="search">
+                                <a href="" data-base-url="assets/10/examples/demo04/" target="_blank">&rarr;</a>
+                            </div>
+                </section>
+
+                <section>
+                    <h2>Demo: same, with templating</h2>
+
+                    <pre class="bigger"><code class="hljs php">require __DIR__ . '/../vendor/autoload.php';
+
+$loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/templates');
+$twig = new \Twig\Environment($loader);
+
+$router = new \Bramus\Router\Router();
+
+$router-&gt;get('/search', function() use ($twig) {
+    echo $twig-&gt;render('search.twig' , ['term' =&gt; '', 'results' =&gt; []]);
+});
+
+$router-&gt;post('/search', function() {
+    $term = (isset($_POST['term'])? $_POST['term'] : '');
+    header('Location: search/' . urlencode($term));
+    exit();
+});
+
+$router-&gt;get('/search/(\w+)', function($term) use ($twig) {
+    // Look up and show matching items in the database
+    echo $twig-&gt;render('search.twig' , ['term' =&gt; $term, 'results' =&gt; ['dummy1', 'dummy2']]);
+});
+
+$router-&gt;run();</code></pre>
+                    <div>
+                        <code>webroot/</code>
+                        <input type="text" class="routertest" value="search">
+                        <a href="" data-base-url="assets/10/examples/demo05/" target="_blank">&rarr;</a>
+                    </div>
+                </section>
+
+
+                <section>
+                    <h2>Linking your assets and URLs (1)</h2>
+                    <ul style="width: 100%;">
+                        <li>
+                            Web assets
+                            <ul>
+                                <li>
+                                    Images, stylesheets, &hellip; of your website
+                                </li>
+                                <li>
+                                    Files consulted <strong>directly</strong> from the web server (not passing <code>index.php</code>)
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            Suppose following code in <code>templates/search.twig</code>
+
+                            <pre class="bigger"><code class="hljs twig">    &lt;link rel="stylesheet" href="layout.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;form method="post" action="search"&gt;
+    &lt;input type="text" class="textbox" placeholder="Search" name="term" value="{{ term }}" &gt;
+    &lt;input title="Search" value="&#128269;" type="submit" class="button"&gt;
+    {% if results %}
+        &lt;p&gt;Resultaten:&lt;/p&gt;
+        &lt;ul&gt;
+            {% for result in results %}
+                &lt;li&gt;{{ result }}&lt;/li&gt;
+            {% endfor %}
+        &lt;/ul&gt;
+    {% endif %}
+&lt;/form&gt;</code></pre>
+                        </li>
+                        <li>&rarr; Problem: relative paths attached to clean URLs e.g. <code>/search/search</code> </li>
+                    </ul>
+                    <div>
+                        <code>webroot/</code>
+                        <input type="text" class="routertest" value="search">
+                        <a href="" data-base-url="assets/10/examples/demo05b/" target="_blank">&rarr;</a>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Linking your assets and URLs (2)</h2>
+                    <ul>
+                        <li>
+                            Solution
+                            <ul>
+                                <li>Links starting by <code>/</code> are relative to the domain name</li>
+                                <li>
+                                    Generate any link to assets and local URLs as <code>'/my/base/path/' . $relativePath</code>
+
+                                </li>
+                                <li>Simple example
+                                    <pre class="bigger"><code class="hljs twig">    {% set basePath = '/assets/10/examples/demo05/' %}
+    &lt;link rel="stylesheet" href="{{ (basePath ~ 'layout.css') }}"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;form method="post" action="{{ (basePath ~ 'search') }}"&gt;
+    &lt;input type="text" class="textbox" placeholder="Search" name="term" value="{{ term }}" &gt;</code></pre>
+                                </li>
+                                <li>Better: define a custom Twig function <code>asset()</code> or use a library e.g. <a
+                                        href="https://symfony.com/doc/current/reference/twig_reference.html">Twig Extensions</a> (not yet supporting Twig 3)</li>
+
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+
+            </section>
+
+
 
         <!-- The END -->
         <section>
@@ -574,6 +806,6 @@ $router->run();</code></pre>
 </script>
 <script src="toc.js"></script>
 <script src="overlay.js"></script>
-
+<script src="routertest.js"></script>
 </body>
 </html>
