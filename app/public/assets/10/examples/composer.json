@@ -2,5 +2,8 @@
     "require": {
         "bramus/router": "~1.5",
         "twig/twig": "^3.0"
+    },
+    "autoload": {
+        "classmap": ["demo06/src/"]
     }
 }

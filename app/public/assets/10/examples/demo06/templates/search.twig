@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    {% set basePath = '/assets/10/examples/demo06/' %}
+    <link rel="stylesheet" href="{{ (basePath ~ 'layout.css') }}">
+</head>
+<body>
+<form method="post" action="{{ (basePath ~ 'search') }}">
+    <input type="text" class="textbox" placeholder="Search" name="term" value="{{ term }}" >
+    <input title="Search" value="&#128269;" type="submit" class="button">
+    {% if results %}
+        <p>Resultaten:</p>
+        <ul>
+            {% for result in results %}
+                <li>{{ result }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</form>
+</body>
+</html>

@@ -752,6 +752,105 @@ $router-&gt;run();</code></pre>
                     </ul>
                 </section>
 
+                <section>
+                    <h2>Working with controllers</h2>
+
+                    <ul>
+                        <li>Problem:
+                           <ul>
+                               <li><code>index.php</code> contains all your application logic and keeps on growing</li>
+                               <li>some routes (not all) need initialized resources (such as <code>$twig</code> and <code>$db</code>)
+                                   and <code>index.php</code> gets cluttered</li>
+                           </ul>
+
+                        </li>
+                        <li style="margin-top: 1em;">Solution:
+                            <ul>
+                                <li>Put your application logic in separate <code>*Controller</code> classes</li>
+                                <li>Put the required initializations in the <code>*Controller</code> constructor</li>
+                                <li>Associate any route with a <code>*Controller</code> method</li>
+                                <li>Organize your controllers into logical units e.g. <code>ProductController</code>, <code>HomeController</code>, &hellip;</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Controllers: howto (1)</h2>
+
+                    <ul style="font-size: 80%; width: 100%;">
+                        <li>Create a <code>*Controller</code> in the folder <code>src</code>
+                            <pre class="bigger"><code class="hljs php">class SearchController
+{</code></pre>
+                        </li>
+                        <li>
+                            Tell composer to autoload our <code>src</code> folder in <code>composer.json</code>
+                            <pre class="bigger"><code class="hjls json">   "autoload": {
+        "classmap": ["src/"]
+    }</code></pre>
+                        </li>
+                        <li>
+                            Activate the autoload expression by
+                            <pre class="bigger"><code class="hjls bash">composer dump-autoload</code></pre>
+                        </li>
+                        <li>Refer to <code>*Controller</code> and its methods in <code>index.php</code>
+                            <pre class="bigger"><code class="hljs php">require __DIR__ . '/../vendor/autoload.php';
+$router = new \Bramus\Router\Router();
+
+$router-&gt;get('/search', 'SearchController@show');
+
+$router-&gt;post('/search', function() {
+    $term = (isset($_POST['term'])? $_POST['term'] : '');
+    header('Location: search/' . urlencode($term));
+    exit();
+});
+
+$router-&gt;get('/search/(\w+)', 'SearchController@showResults');
+
+$router-&gt;run();</code></pre>
+                        </li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Controllers: howto (2)</h2>
+
+                    <ul style="font-size: 90%; width: 100%;">
+                        <li >
+                            Write the appropriate constructor and method(s) in <code>*Controller</code>
+                            <pre class="bigger"><code class="hljs">class SearchController
+{
+    // protected \Doctrine\DBAL\Connection $db;
+    protected \Twig\Environment $twig;
+
+    public function __construct()
+    {
+        // initiate DB connection
+
+        // bootstrap Twig
+        $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../templates');
+        $this-&gt;twig = new \Twig\Environment($loader);
+    }
+
+    public function show()
+    {
+        echo $this-&gt;twig-&gt;render('search.twig' , ['term' =&gt; '', 'results' =&gt; []]);
+    }
+
+    public function showResults($term)
+    {
+        echo $this-&gt;twig-&gt;render('search.twig' , ['term' =&gt; $term, 'results' =&gt; ['dummy1', 'dummy2']]);
+    }
+}</code></pre>
+                        </li>
+                    </ul>
+                    <div>
+                        <code>webroot/</code>
+                        <input type="text" class="routertest" value="search">
+                        <a href="" data-base-url="assets/10/examples/demo06/" target="_blank">&rarr;</a>
+                    </div>
+                </section>
+
             </section>
 
 
