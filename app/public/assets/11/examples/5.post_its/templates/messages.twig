@@ -1,0 +1,51 @@
+{% extends 'layouts/dashboard.twig' %}
+
+{% block pageContent %}
+	<div class="col-sm-12">
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				Messages
+				<a class="btn btn-sm btn-default text-right" href="messages/add" role="button">
+					<i class="fa fa-btn fa-plus"></i><span class="button-text">Add</span>
+				</a>
+			</div>
+			<div class="panel-body">
+				<table class="table table-striped task-table" >
+					<thead>
+					<tr>
+						<th>Contents</th>
+						<th>&nbsp;</th>
+					</tr>
+
+					</thead>
+					<tbody>
+
+					{% for message in messages %}
+
+					<tr>
+						<td class="table-text">
+							<div class="item">{{ message.message }}</div>
+						</td>
+
+						<td>
+							<a class="btn btn-sm btn-danger" href="{{ (basePath ~ 'dashboard/messages/' ~ message.id ~ '/delete') }}" role="button">
+								<i class="fa fa-btn fa-trash"></i><span class="button-text">Delete</span>
+							</a>
+						</td>
+					</tr>
+
+					{% endfor %}
+
+
+
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+	</div>
+
+
+
+{% endblock %}

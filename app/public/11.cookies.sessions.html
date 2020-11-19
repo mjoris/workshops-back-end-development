@@ -1,0 +1,817 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>W&amp;M Server-side – Course materials</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/black.css" id="theme">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+
+<div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+        <section data-background="#b5533c">
+            <h3>Web Programming on Servers and Devices <small>[OGI03v]</small></h3>
+            <h1>11. Cookies &amp; Sessions</h1>
+        </section>
+        
+        <section>
+            <section>
+                <h2>11.1<br>Introduction</h2>
+            </section>
+
+            <section>
+                <h2>Persistence? (1)</h2>
+
+                <ul>
+                    <li>
+                        HTTP is stateless
+                        <ul>
+                            <li>HTTP does not provide a mechanism to keep or maintain information about other requests that might have happened</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Why do we need persistence?
+                        <ul>
+                            <li>to remember settings the user has chosen while browsing</li>
+                            <li>to remember the user has loged in successfully</li>
+                            <li>multiple-step form</li>
+                            <li>&hellip;</li>
+                        </ul>
+
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>Persistence? (2)</h2>
+                <ul>
+                    <li>
+                        How can we keep information between two requests?
+                        <ul>
+                            <li style="margin-top: 0.5em;">Until now: by <strong>repeating</strong> the information in the response
+                                <ul>
+                                    <li>in the querystring of link <code>&lt;a href="&hellip; </code> (GET)</li>
+                                    <li>as a hidden field of a form <code>&lt;input type="hidden" value="&hellip; </code> (POST/GET)</li>
+                                    <li>has backdraws and is insecure </li>
+                                </ul>
+                            </li>
+                            <li style="margin-top: 0.5em;">Cookies</li>
+                            <li style="margin-top: 0.5em;">Sessions</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+        </section>
+
+
+
+        <section>
+
+            <section>
+                <h2>11.2<br>Persistence using Cookies</h2>
+            </section>
+
+            <section>
+                <h2>Cookies</h2>
+                <ul>
+                    <li>Store data on the client-side using <code>name=value</code> pairs</li>
+                    <li>
+                        Cookie usage not unlimited; Minimum requirements set via <a href="http://www.ietf.org/rfc/rfc2109.txt">RFC 2109</a> <em>(item 6.3, page 15)</em>
+                        <ul style="font-size: 70%;">
+                            <li>
+                                Allow a minimum of 4kB to be stored in a cookie
+                                <ul>
+                                    <li>Almost any browser: 4kB max</li>
+                                </ul>
+                            </li>
+                            <li>
+                                Allow at least 20 cookies per domain
+                                <ul>
+                                    <li>Firefox: 150 max</li>
+                                    <li>IE: 50 max</li>
+                                    <li>Chrome/Opera: 180 max</li>
+                                </ul>
+                            </li>
+                            <li>
+                                Allow at least 300 cookies in total
+                            </li>
+                        </ul>
+                    </li>
+                    <li>The limits aren't an obstacle most of the time</li>
+                </ul>
+                <footer><small>Remark: IE imposes a maximum total size for all cookies of a domain (10kB)</small></footer>
+            </section>
+
+            <section>
+                <h2>Client-server traffic (1)</h2>
+                <ul>
+                    <li>
+                        The server can instruct a client to set a cookie
+                        <ul>
+                            <li>The instruction is sent via a header (<code>Set-Cookie</code>) in the server's HTTP response head</li>
+                            <li>Only after (!) the entire response has been received the client will create the cookie</li>
+                        </ul>
+                    </li>
+                    <li>
+                        Upon <strong>each</strong> webpage visit
+                        <ul>
+                            <li>the client will (re)send <em>all (valid) cookies</em> to the server via a header (<code>Cookies</code>) in the HTTP request head</li>
+                        </ul>
+                    </li>
+                </ul>
+                <footer><small>Note: besides this mechanism, JavaScript can set cookies too.</small></footer>
+            </section>
+
+            <section data-background="#fdfdfd">
+                <h2>Client-server traffic (2)</h2>
+                <p><img src="assets/11/traffic_cookie.png" alt="" title="" height="400" style="border: 0px;" class="zoomable-15"/></p>
+            </section>
+
+
+            <section>
+                <h2>Cookie properties (1)</h2>
+                <ul>
+                    <li>
+                        Properties/Fields
+                        <ul>
+                            <li><code>name</code></li>
+                            <li><code>value</code></li>
+                            <li><code>expires</code></li>
+                            <li><code>path</code></li>
+                            <li><code>domain</code></li>
+                            <li><code>secure</code></li>
+                            <li><code>httponly</code></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <code>name</code> and <code>value</code>
+                        <ul>
+                            <li>Name of the cookie and its value</li>
+                            <li>Minimum required properties of a cookie</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+
+            <section>
+                <h2>Cookie properties (2)</h2>
+                <ul>
+                    <li>
+                        <code>expires</code>
+                        <ul>
+                            <li>
+                                Time when a cookie should expire
+                                <ul>
+                                    <li>Default: when browser is closed (= session cookie)</li>
+                                </ul>
+                            </li>
+                            <li>Expire a week from now: <code>time() + 60*60*24*7</code></li>
+                            <li>
+                                Delete a cookie by setting a time in the past <code>time() - 1</code>
+                                <ul>
+                                    <li>Best is to take a point in time way back, to overcome time differences between the server and client: <code>time() - 60*60*24*7</code></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <code>path</code>
+                        <ul>
+                            <li>
+                                Path on the domain on which the cookie is valid
+                                <ul>
+                                    <li>Default: current path</li>
+                                </ul>
+                            </li>
+                            <li>
+                                Cookie created on <code>/admin</code> can't be read from <code>/</code>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+
+            <section>
+                <h2>Cookie properties (3)</h2>
+                <ul>
+                    <li>
+                        <code>domain</code>
+                        <ul>
+                            <li>
+                                Domain on which the cookie is valid
+                                <ul>
+                                    <li>Default: current domain</li>
+                                </ul>
+                            </li>
+                            <li>
+                                If <code>www.ikdoeict.be</code> instructs a cookie to be created for <code>ikdoeict.be</code>, then that cookie can also be read from <code>student.ikdoeict.be</code>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <code>secure</code>
+                        <ul>
+                            <li>
+                                Indicates if a cookie may only be transmitted from the client to the server when running over a secure connection
+                                <ul>
+                                    <li>Default: not activated</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <code>httponly</code>
+                        <ul>
+                            <li>
+                                If true, the cookie is not accessible by JavaScript (prevents against XSS)
+                                <ul>
+                                    <li>Default: false</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Creating Cookies in PHP</h2>
+                <ul>
+                    <li>
+                        Use a function named <code>setcookie()</code>
+                        <ul>
+                            <li>Via the response header, an instruction is sent to the client to create a cookie</li>
+                            <li>
+                                Function Parameters: the properties as described before
+                                <ul>
+                                    <li>Only <code>name</code> and <code>value</code> are mandatory</li>
+                                </ul>
+                            </li>
+                            <li>
+                                Example
+                                <pre class="bigger"><code class="hljs php">setcookie('color', $theValue, time() + 24*60*60*7);</code></pre>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Reading Cookies in PHP</h2>
+                <ul>
+                    <li>
+                        Via a request header, all (*) cookies are automatically sent to the server when making a request.
+                    </li>
+                    <li>
+                        PHP <em>automagically</em> populates a global associative array <code>$_COOKIE</code>
+                    </li>
+                    <ul>
+                        <li>Like <code>$_GET</code> and <code>$_POST</code>, but for cookies</li>
+                        <li>
+                            Example
+                            <pre class="bigger"><code class="hljs php">$color = (string) isset($_COOKIE['color']) ? $_COOKIE['color'] : '#FFFFFF';</code></pre>
+                        </li>
+                    </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Example: Color my site</h2>
+                <ul>
+                    <li>
+                        Change the background color of the page and store it in a cookie
+                        <a href="assets/11/examples/2.sitecolor/v0" id="colormysite-strip"  target="_blank"></a>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Code</h2>
+                <ul>
+                    <li>
+                        Let's take a peek
+                        <div class="hastooltip">
+
+                            <div style="text-align: center">
+                                <figure>
+                                    <img src="assets/11/colormysite-code-v1.png" class="noborder" width="710" alt="" title="" />
+                                </figure>
+
+                                <p style="font-size: 75%; margin-top: -1em;"><code>/assets/11/examples/2.sitecolor/v1-delay</code> <a href="assets/11/examples/2.sitecolor/v1-delay" target="_blank">&rarr;</a></p>
+                            </div>
+
+                            <div class="tooltip">
+                                <div>
+                                    <p>Although the code looks OK, someting odd is happening: the color changes indeed, but with a one-page delay. Refreshing the page in the browser seems to fix this too</p>
+                                    <p>The problem relies in the fact that <code>setcookie()</code> doesn't create a cookie, but sends an instruction to create one. At the time the page is being rendered, the cookie hasn't change yet (as the browser creates the cookie when the HTML's already been rendered)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Code, revisited</h2>
+                <ul>
+                    <li>
+                        Let's take a peek
+                        <div class="hastooltip">
+
+                            <div style="text-align: center">
+                                <figure>
+                                    <img src="assets/11/colormysite-code-v2.png" class="noborder" width="710" alt="" title="" />
+                                </figure>
+
+                                <p style="font-size: 75%; margin-top: -1em;"><code>/assets/11/examples/2.sitecolor/v2-forcedrefresh</code> <a href="assets/11/examples/2.sitecolor/v2-forcedrefresh"  target="_blank">&rarr;</a></p>
+                            </div>
+
+                            <div class="tooltip">
+                                <div>
+                                    <p>By using a <code>header('location: ...');</code> we can enforce a refresh from within our PHP code. That way, when the page reloads, the cookie will be present.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Afterthoughts</h2>
+                <ul style="font-size: 90%;">
+                    <li>
+                        Ideal for storing data that needs to be saved for a longer time / in between sessions
+                    </li>
+                    <li>
+                        Cookies = Uncertain
+                        <ul>
+                            <li>
+                                Cookies may be manually deleted by the client
+                            </li>
+                            <li>
+                                Cookies may be disabled (browser settting)
+                            </li>
+                            <li>
+                                Cookies may overwrite eachother
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        Cookies = Insecure
+                        <ul>
+                            <li>
+                                May be changed/read externally
+                            </li>
+                            <li>
+                                May be stolen via XSS (if <code>httponly</code> is <em>false</em>)
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        Only to be used for storing non-critical data such as a color preference for example (personalization)
+                    </li>
+                </ul>
+            </section>
+
+
+        </section>
+
+
+
+
+        <section>
+
+            <section>
+                <h2>11.3<br>Persistence using Sessions</h2>
+            </section>
+
+            <section>
+                <h2>Sessions</h2>
+
+                <ul>
+                    <li>
+                        Session = period of time in which a user interacts with a website
+                    </li>
+                    <li>
+                        Session starts with first request to a site and stops when you shut down the browser, or after a timeout
+                        <ul>
+                            <li>Timeout is configurable on the server</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        A session is identified by a <strong>session id</strong>
+                        <ul>
+                            <li>
+                                The client needs to send the identifier with each request so that the server knows which session it is about
+                                <ul>
+                                    <li>May be sent using the querystring, a hidden field or a cookie</li>
+                                    <li>If you forget sending it once, a new session id will be generated</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        <strong>Session variables</strong> are stored server-side, linked to the session id
+                    </li>
+                </ul>
+                <footer><small>That's why some people call this mechanism <em>server side cookies</em></small></footer>
+            </section>
+
+            <section>
+                <h2>Sessions in PHP</h2>
+                <ul>
+                    <li>
+                        In PHP
+                        <ul>
+                            <li>
+                                The session id is stored in variable named <code>PHPSESSID</code>
+                                <ul>
+                                    <li>Name of the variable is configurable</li>
+                                </ul>
+                            </li>
+                            <li>PHP provides you some functions to create, manipulate, and destroy sessions</li>
+                            <li>PHP fetches the variables linked to the session id and populates an associative array <code>$_SESSION</code> with them</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Sessions: technical realization</h2>
+                <div class="hastooltip">
+                <ul style="width: 100%;">
+                    <li>
+                        The session id <strong>must</strong> be sent with each HTTP request
+                    </li>
+                    <li>
+                        This is technically realized by
+                        <ul>
+                            <li style="font-size: 60%;">hidden fields (post or get), or</li>
+                            <li style="font-size: 60%;">query string (get), or</li>
+                            <li><strong>by default:</strong> cookies (best choice)</li>
+                        </ul>
+                    </li>
+                    <li>
+                        Default <code>php.ini</code> settings
+                        <pre class="bigger" ><code class="hljs php">// path where sessions are saved on the server
+session.save_path = /tmp
+
+// name of the session id variable
+session.name = PHPSESSID
+
+// use cookies for storing the session id?
+session.use_cookies = 1
+
+// expiry time of the cookie. Default value: when the browser closes
+session.cookie_lifetime = 0
+
+// expiry time of session variables (in seconds)
+session.gc_maxlifetime = 1800</code></pre>
+                    </li>
+                </ul>
+                    <div class="tooltip">
+                        <div><strong>Remarks</strong>
+                            <ul>
+                                <li>
+                                    Example without cookies:
+                                    <pre class="bigger"><code class="hljs php">session_start();
+echo '&lt;a href=&quot;nextpage.php?PHPSESSID=' . session_id() . '&quot; title=&quot;to next page&quot;&gt;to next page&lt;/a&gt;';</code></pre>
+                                </li>
+                                <li>Indeed, session variables are stored in files on the web server (1 file per session). This file is locked by <code>session_start();</code> which could result in <a href="https://ma.ttias.be/php-session-locking-prevent-sessions-blocking-in-requests/">concurrency problems</a>.</em></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section data-background="#fdfdfd">
+                <h2>Client-server traffic</h2>
+                <p><img src="assets/11/traffic_session.png" alt="" title="" height="400" style="border: 0px;" class="zoomable-15"/></p>
+            </section>
+
+            <section>
+                <h2>Sessions, practical (1)</h2>
+                <ul>
+                    <li>
+                        Starting / continuing a session
+                        <pre class="bigger"><code class="hljs php">session_start();</code></pre>
+                        <ul>
+                            <li>
+                                Searches for the <code>PHPSESSID</code> in <code>$_COOKIE</code>, <code>$_GET</code>, or <code>$_POST</code>
+                                <ul>
+                                    <li>If not found, a (new) session id is generated</li>
+                                    <li>If found, all linked vars are fetched and <code>$_SESSION</code> is populated</li>
+                                </ul>
+                            </li>
+                            <li>
+                                If you want to keep your session going: call this function on each page, even if that page doesn't use the session data
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Sessions, practical (2)</h2>
+                <ul style="width: 100%;">
+                    <li>
+                        Storing a var in the session
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/11/examples/3.stranger/somepage.php">session_start();
+$_SESSION['name'] = 'Bramus!';</code></pre>
+                    </li>
+                    <li>
+                        Fetching a var from the session
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/11/examples/3.stranger/someotherpage.php">session_start();
+$name = isset($_SESSION['name']) ? $_SESSION['name'] : 'stranger';</code></pre>
+                    </li>
+                    <li>
+                        Erasing a var from the session
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/11/examples/3.stranger/unset.php">session_start();
+unset($_SESSION['name']);</code></pre>
+                    </li>
+                    <li>
+                        Erasing an entire session
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/11/examples/3.stranger/destroy.php">session_start();
+// Best practice: unset all session vars before stopping the session
+$_SESSION = [];
+// Note: if it's desired to kill the session, also delete the session cookie ...
+session_destroy();</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Example: Authentication</h2>
+                <ul>
+                    <li>
+                        A login and logout page, along with three content pages, showing content based upon the logged in state.
+                        <a href="assets/11/examples/4.login/v0" id="login-strip" target="_blank"></a>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Code</h2>
+                <ul>
+                    <li>
+                        Let's take a peek
+                        <div class="hastooltip">
+
+                            <div style="text-align: center">
+                                <figure>
+                                    <img src="assets/11/login-code.png" class="noborder" width="710" alt="" title="" />
+                                </figure>
+
+                                <p style="font-size: 75%; margin-top: -1em;">let's have a thourough look at the code: <code>/assets/11/examples/4.login/v1</code> <a href="assets/11/examples/4.login/v1" target="_blank">&rarr;</a></p>
+                            </div>
+
+                            <div class="tooltip">
+                                <div>
+                                    <p>The login page is very simple for this proof-of-concept: any login where the username equals the password is accepted</p>
+                                    <p>If the login validates, a <code>user</code> object <em>typically the result of a database query</em> is stored in the session, along with the <code>name</code></p>
+                                    <p>The content pages use a simple <code>if</code> to display the <code>$_SESSION['user']['username']</code> or a request to log in</p>
+                                    <p>The logout page simply destroys the session and redirects to the index</p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+
+            <!--section>
+                <h2>Code, robust version</h2>
+                <ul>
+                    <li>
+                        Store a single identifier in the session instead of the whole user object
+
+                        <div class="hastooltip">
+                            <div style="text-align: center">
+                                <figure>
+                                    <img src="assets/11/login-code.png" class="noborder" width="710" alt="" title="" />
+                                </figure>
+
+                                <p style="font-size: 75%; margin-top: -1em;">conceptual code sample: <code>/assets/11/examples/4.login/v2</code> <a href="assets/11/examples/4.login/v2" target="_blank">&rarr;</a></p>
+                            </div>
+
+                            <div class="tooltip">
+                                <div>
+                                    <p>If the login validates, the <code>user</code> id <em>typically the result of a database query</em> is stored in the session</p>
+                                    <p>When a content page needs some user data (e.g. <code>name</code>), this data is retrieved from the database (<code>WHERE id = :id</code>)</p>
+                                    <p>PRO: This results in more data consistency / safer code e.g. update user info, update access rights</p>
+                                    <p>CON: more queries = slower web application</p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </section-->
+
+        </section>
+
+
+
+
+        <section>
+
+            <section>
+                <h2>11.4<br>Persistence Summary</h2>
+            </section>
+
+            <section>
+                <h2>Summary</h2>
+                <ul style="font-size: 90%; line-height: 110%">
+                    <li>Cookies are okay for storing (non-critical) data for a longer period of time</li>
+                    <li style="margin-top: 1em;">It is advisable to store sensitive data server-side. Sessions are excellent in it. Sessions's security (sid hijacking) depends on underlying technologies.
+                        Sometimes the visitor's IP is linked to the session...</li>
+                </ul>
+
+            </section>
+
+            <section>
+                <h2>Legal issues and privacy</h2>
+                <ul>
+                    <li>
+                        Tracking cookies (&ne; session or functional cookies)
+                        <ul>
+                            <li>
+                                On multiple websites: inclusion of ads (or something else) by marketing company
+                            </li>
+                            <li>
+                                Upon first encounter: assignment of unique ID in persistent cookie
+                            </li>
+                            <li>
+                                Company keeps your personal record for advertisement/profiling and might even sell your record
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        Legal issues
+                        <ul>
+                            <li>
+                                Belgium: cookie statement obligatory
+                            </li>
+                            <li>
+                                The Netherlands: opt-in frame obligatory
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        What about <a href="https://panopticlick.eff.org/">browser fingerprinting</a>? TBC.
+                    </li>
+                </ul>
+            </section>
+
+        </section>
+
+        <section>
+
+            <section>
+                <h2>11.5<br>Takeaway:<br>Demo with Router</h2>
+            </section>
+
+            <section>
+                <h2>Application</h2>
+                <div style="text-align: center">
+                    <figure>
+                        <img src="assets/11/postits1.png" class="noborder" height="250" alt="" title="" />
+                    &nbsp;
+                        <img src="assets/11/postits2.png" class="noborder" height="250" alt="" title="" />
+                    </figure>
+
+                    <p style="font-size: 75%; margin-top: -1em;">let's have a  look at the demo <a href="assets/11/examples/5.post_its" target="_blank">&rarr;</a></p>
+                </div>
+            </section>
+
+            <section>
+                <h2>Overview: the router</h2>
+                <pre class="bigger"><code class="hljs php">&lt;?php
+
+require __DIR__ . '/vendor/autoload.php';
+$router = new \Bramus\Router\Router();
+
+$router-&gt;before('GET|POST', '/.*', function () {
+    session_start();
+});
+
+$router-&gt;get('/', 'PostItController@showAllMessages');
+
+$router-&gt;mount('/dashboard', function() use ($router) {
+
+    $router-&gt;get('/', function() {
+        header('Location: dashboard/messages');
+        exit();
+    });
+
+    $router-&gt;get('/login', 'AuthController@showLogin');
+    $router-&gt;post('/login', 'AuthController@login');
+    $router-&gt;post('/logout', 'AuthController@logout');
+
+    $router-&gt;before('GET|POST', '/messages.*', function () {
+        if (! isset($_SESSION['user'])) {
+            header('Location: /assets/11/examples/5.post_its/dashboard/login');
+            exit();
+        }
+    });
+
+    $router-&gt;get('/messages', 'PostItController@showPersonalMessages');
+    $router-&gt;get('/messages/add', 'PostItController@showAdd');
+    $router-&gt;post('/messages/add', 'PostItController@add');
+    $router-&gt;get('/messages/(\w+)/delete', 'PostItController@showDelete');
+    $router-&gt;post('/messages/(\w+)/delete', 'PostItController@delete');
+
+});
+
+$router-&gt;run();</code></pre>
+                <p style="font-size: 75%; margin-top: -1em;">let's have a thourough look at the controllers &rarr;</p>
+            </section>
+            <section>
+                <h2>Summary of the new elements</h2>
+                <ul>
+                    <li>Application of router <em>before</em> middleware</li>
+                    <li style="margin-top: 1em;">Routes now fully comply with HTTP standard
+                        <ul>
+                            <li>
+                                GET: showing (persisted) forms
+                            </li>
+                            <li>
+                                POST: processing form data, logout
+                            </li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">Form persistence through <strong>sessions</strong></li>
+                    <li style="margin-top: 1em;">Security threat: <strong>unauthorized access</strong>
+                        <ul>
+                            <li>Avoid that an authenticated user can delete messages of other users</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+        </section>
+
+
+
+
+
+        <!-- The END -->
+        <section>
+            <section>
+                <h2>Questions?</h2>
+                <footer>
+                    <em><a href="mailto:joris.maervoet@odisee.be">joris.maervoet@odisee.be</a></em>
+                </footer>
+            </section>
+        </section>
+
+        
+
+    </div>
+
+</div>
+
+<script src="dist/reveal.js"></script>
+<script src="plugin/zoom/zoom.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/search/search.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+
+    // Also available as an ES module, see:
+    // https://revealjs.com/initialization/
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: true,
+        hash: true,
+        slideNumber: true,
+
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight ]
+    });
+
+</script>
+<script src="toc.js"></script>
+<script src="overlay.js"></script>
+
+</body>
+</html>

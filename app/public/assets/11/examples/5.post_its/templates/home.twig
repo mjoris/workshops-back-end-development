@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Post-its</title>
+    {% set basePath = '/assets/11/examples/5.post_its/' %}
+    <link rel="stylesheet" href="{{ (basePath ~ 'layout.css') }}">
+</head>
+<body>
+<div style="width: 100%;margin-left: 20px;"><strong>Post-its</strong> &bullet; <a href="dashboard">Dashboard</a></div>
+{% for message in messages %}
+
+    <div class="postit" id="p{{ message.id }}">
+        {{ message.message }}
+        <br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&mdash; {{ message.author }}
+    </div>
+
+{% endfor %}
+</body>
+</html>

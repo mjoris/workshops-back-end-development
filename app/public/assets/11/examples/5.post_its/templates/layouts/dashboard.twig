@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard</title>
+    <!-- Fonts -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>
+    <!-- Styles -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lato';
+        }
+
+        main > .container {
+            padding: 60px 15px 0;
+        }
+
+        .footer {
+            background-color: #f5f5f5;
+        }
+
+        .footer > .container {
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+
+        code {
+            font-size: 80%;
+        }
+
+        .panel-heading .btn-sm {
+            float: right!important;
+            margin-top: -4px;
+        }
+
+        .table .btn {
+            margin-bottom: 1px;
+        }
+
+        .button-text {
+            margin-left: 6px;
+        }
+
+        @media  screen and (max-width: 600px) {
+            table .button-text {
+                display: none;
+            }
+        }
+
+    </style>
+</head>
+<body id="app-layout"> {% set basePath = '/assets/11/examples/5.post_its/' %}
+<nav class="navbar navbar-default">
+    <div class="container">
+        <!-- Static navbar -->
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    <a class="navbar-brand" href="{{ (basePath ~ 'dashboard') }}">Dashboard</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    {% if user %}
+                    <form class="navbar-form navbar-right" method="post" action="{{ (basePath ~ 'dashboard/logout') }}">
+                        <button type="submit" class="btn btn-sm btn-default"><i class="fa fa-btn fa-power-off"></i><span class="button-text">Log out</span></button>
+                    </form>
+                    {% endif %}
+
+                    <ul class="nav navbar-nav navbar-right">
+                        {% if (not user) %}
+                        <li><a href="{{ basePath }}">Home</a></li>
+                        {% else %}
+                        <li><a href="{{ (basePath ~ 'dashboard/messages') }}">Messages</a></li>
+                        {% endif %}
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div><!--/.container-fluid -->
+        </nav>
+
+    </div>
+</nav>
+
+<div class="container">
+    {% block pageContent %}
+    {% endblock %}
+</div>
+<footer class="footer mt-auto py-3">
+    <div class="container">
+        <span class="text-muted">Dashboard</span>
+    </div>
+</footer>
+
+<!-- JavaScripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+</body>
