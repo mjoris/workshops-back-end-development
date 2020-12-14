@@ -1,5 +1,11 @@
 # Web &amp; Mobile Server-side - workshop materials
-Interactive workshop slides for the course Web &amp; Mobile Server-side, part of the Professional Bachelor ICT study program.
+Interactive workshop slides for the course Web &amp; Mobile Server-side, part of the Professional Bachelor ICT study program @ Odisee, Belgium.
+
+![](wmss-slides-screenshot.png)
+
+A web-based slideshow containing many PHP code examples, which can be interactively executed in the provided Docker multi-container environment.
+
+(CC) Joris Maervoet & Bram(us) Van Damme
 
 ## Installation instructions
 
