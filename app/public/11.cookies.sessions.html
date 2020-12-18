@@ -735,8 +735,8 @@ $router-&gt;mount('/dashboard', function() use ($router) {
     $router-&gt;get('/messages', 'PostItController@showPersonalMessages');
     $router-&gt;get('/messages/add', 'PostItController@showAdd');
     $router-&gt;post('/messages/add', 'PostItController@add');
-    $router-&gt;get('/messages/(\w+)/delete', 'PostItController@showDelete');
-    $router-&gt;post('/messages/(\w+)/delete', 'PostItController@delete');
+    $router-&gt;get('/messages/(\d+)/delete', 'PostItController@showDelete');
+    $router-&gt;post('/messages/(\d+)/delete', 'PostItController@delete');
 
 });
 

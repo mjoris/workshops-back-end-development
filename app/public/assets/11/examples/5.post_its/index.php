@@ -30,8 +30,8 @@ $router->mount('/dashboard', function() use ($router) {
     $router->get('/messages', 'PostItController@showPersonalMessages');
     $router->get('/messages/add', 'PostItController@showAdd');
     $router->post('/messages/add', 'PostItController@add');
-    $router->get('/messages/(\w+)/delete', 'PostItController@showDelete');
-    $router->post('/messages/(\w+)/delete', 'PostItController@delete');
+    $router->get('/messages/(\d+)/delete', 'PostItController@showDelete');
+    $router->post('/messages/(\d+)/delete', 'PostItController@delete');
 
 });
 
