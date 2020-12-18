@@ -1,4 +1,4 @@
-window.addEventListener('ready', function() {
+window.addEventListener('load', function() {
 
     var codeBlocks = document.querySelectorAll('pre code');
     for (var i = 0, len = codeBlocks.length; i < len ; i++) {

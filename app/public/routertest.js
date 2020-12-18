@@ -1,4 +1,4 @@
-window.addEventListener('ready', function() {
+window.addEventListener('load', function() {
     let arrows = document.querySelectorAll('input.routertest + a');
     if (arrows.length) {
         for (let i = 0, leng = arrows.length; i < leng ; i++) {

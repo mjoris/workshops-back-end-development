@@ -1,4 +1,4 @@
-window.addEventListener('ready', function() {
+window.addEventListener('load', function() {
 
     // Add aside element
     var tocAside = document.createElement('aside');
