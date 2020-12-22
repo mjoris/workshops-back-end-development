@@ -1,0 +1,10 @@
+{
+    "require": {
+        "bramus/router": "~1.5",
+        "twig/twig": "^3.0",
+        "doctrine/dbal": "^2.12"
+    },
+    "autoload": {
+        "classmap": ["src/"]
+    }
+}
