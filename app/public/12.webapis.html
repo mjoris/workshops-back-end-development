@@ -677,91 +677,77 @@ if ($zip->open($zipFile, ZipArchive::CREATE) === true) {
             </section>
 
             <section>
-                <h2>Let's define a reusable controlller (1)</h2>
-                <ul>
+                <h2>Let's define a reusable controller</h2>
+                <ul style="width: 100%;font-size: 85%;">
                     <li>Let's call this class <code>ApiBaseController</code></li>
-                    <li>
-                        Idea: create your own <em>resource controller</em> (e.g. <code>LecturerController</code>) by
-                        <ol style="font-size: 85%;">
-                            <li>extending <code>ApiBaseController</code></li>
-                            <li>implementing your own request handling methods such as <code>get()</code>, <code>put()</code>, <code>overview()</code> &hellip;</li>
-                            <li>&mdash; the already implemented function <code>dispatch()</code> will call the right method, en/decode, &hellip; </li>
-                            <li>pointing your Web API routes to <code>LecturerController@dispatch</code></li>
-                        </ol>
-                    </li>
                 </ul>
-            </section>
-            <section>
-                <h2>Let's define a reusable class (2)</h2>
-                <pre class="bigger"><code class="hljs php" style="max-height: 430px; overflow: scroll;font-size: 17px; line-height: 1;">&lt;?php
+                <pre class="bigger"><code class="hljs php" style="max-height: 430px; line-height: 1;">&lt;?php
 abstract class ApiBaseController
 {
-    public function dispatch($id = false) : void {
+    protected ?array $httpBody;
 
-        // Identify the HTTP request method (GET, POST, PULL, ...)
-        $httpMethod = strtolower($_SERVER['REQUEST_METHOD']);
-
-        // Name of required function in child controller
-        $method = (($id == false && $httpMethod == 'get')? 'overview' : $httpMethod);
-
+    public function __construct()
+    {
         // Parse the HTTP request body assuming it contains plain JSON
-        $httpBody = json_decode(file_get_contents('php://input'), true);
+        $this-&gt;httpBody = json_decode(file_get_contents('php://input'), true);
 
-        // Does an instance of this class contain a method called get(), post(), pull() ...?
-        if (method_exists($this, strtolower($httpMethod))) {
-
-            // if so, call this method
-            $answer = call_user_func(array($this, strtolower($httpMethod)), $_GET, $httpBody, $id);
-        } else {
-
-            // HTTP response code 405 Method Not Allowed
-            http_response_code(405);
-            $answer = ['message' => 'HTTP request method ' .  $httpMethod . ' not allowed.'];
-        }
-
-        // set the Content-type response header to JSON and encode the answer into JSON
+        // set the Content-type header of the HTTP response to JSON
         header('Content-type: application/json; charset=UTF-8');
+    }
+
+    protected function message(int $httpCode, string $message) {
+        http_response_code($httpCode);
+        $answer = ['message' =&gt; $message];
         echo json_encode($answer);
     }
 }</code></pre>
+                <ul style="width: 100%;font-size: 85%;">
+                    <li>
+                        Idea: create your own <em>resource controller</em> (e.g. <code>LecturerController</code>) by extending <code>ApiBaseController</code>
+                        <ul style="font-size: 85%;">
+                            <li>When <code>bramus/router</code> is pointed towards a handling function such as <code>LecturerController@get</code>, it will need to <strong>construct</strong> the object first.</li>
+                            <li>When <code>LecturerController</code> has no constructor, the parent constructor will be called, decoding eventual data in the HTTP request's body and setting the HTTP response's Content-type header to JSON</li>
+                        </ul>
+                    </li>
+                </ul>
             </section>
+
             <section>
-                <h2>A simple example</h2>
-                <pre class="bigger"><code class="hljs php" style="max-height: 430px; overflow: scroll;font-size: 17px; line-height: 1;">&lt;?php
+                <h2>A simple example (1)</h2>
+                <pre class="bigger"><code class="hljs php" style="max-height: 430px;">&lt;?php
+
 require __DIR__ . '/vendor/autoload.php';
 
 $router = new \Bramus\Router\Router();
 
 $router-&gt;mount('/api', function() use ($router) {
-    $router-&gt;match('GET|POST', '/lecturers', 'LecturerController@dispatch');
-    $router-&gt;match('GET|PUT|PATCH|DELETE', '/lecturers/(\d+)', 'LecturerController@dispatch');
+    $router-&gt;get('/lecturers', 'LecturerController@overview');
+    $router-&gt;post('/lecturers', 'LecturerController@methodNotAllowed');
+    $router-&gt;get('/lecturers/(\d+)', 'LecturerController@get');
 
 });
 
 $router-&gt;run();</code></pre>
             </section>
             <section>
-                <h2>A simple example</h2>
-                <pre class="bigger"><code class="hljs php" style="max-height: 430px; overflow: scroll;font-size: 17px; line-height: 1;">&lt;?php
+                <h2>A simple example (2)</h2>
+                <pre class="bigger"><code class="hljs php" style="max-height: 430px;">&lt;?php
+
 class LecturerController extends ApiBaseController
 {
     private $lecturers = [
         1 =&gt; ['id' =&gt; 1, 'name' =&gt; 'Joris Maervoet'],
         2 =&gt; ['id' =&gt; 2, 'name' =&gt; 'Pieter Van Peteghem']];
 
-    protected function overview($urlParams, $bodyParams) {
-
-        return ['lecturers' =&gt; array_values($this-&gt;lecturers)];
+    public function overview() {
+        echo json_encode(['lecturers' =&gt; array_values($this-&gt;lecturers)]);
     }
 
-    protected function get($urlParams, $bodyParams, $id) {
-
+    public function get($id) {
         if (array_key_exists($id, $this-&gt;lecturers)) {
-            return $this-&gt;lecturers[$id];
-
+            echo json_encode($this-&gt;lecturers[$id]);
         } else {
-            http_response_code(404); // 404 Not Found.
-            return ['message' =&gt; 'Lecturer not found.'];
+            $this-&gt;message(404, 'Lecturer not found.' ); // 404 Not Found.
         }
     }
 
