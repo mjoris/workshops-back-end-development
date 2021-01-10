@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>W&amp;M Server-side – Course materials</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/black.css" id="theme">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+
+<div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+        <section data-background="#b5533c">
+            <h3>Web &amp; Mobile Server-side <small>[OGI03q]</small></h3>
+            <h1>13. Conclusion</h1>
+            <footer>About what you have learned,<br>what you don't know yet<br>and what you can learn <strong>after</strong> this course</footer>
+        </section>
+
+
+        <section>
+
+            <section>
+                <h2>13.1<br>Wrap-up</h2>
+            </section>
+
+
+            <section data-background="https://i.giphy.com/UUt01UwbpDOiQMdckg.gif" style="background-color: rgba(0,0,0,0.65);padding: 10px 0 10px 10px;">
+                <h2>Summary (1)</h2>
+                <ul>
+                    <li>
+                        In this course, you learned
+                        <ul style="font-size: 85%;">
+                            <li style="margin-top: 0.5em;">how to develop a full-featured web application
+                                <ul>
+                                    <li>in clean and stable PHP code</li>
+                                    <li>in a <em>server-oriented</em> way, involving <strong>server-side</strong> rendering (<code>Twig</code>), routing, form checking, and so on</li>
+                                    <li>including (PHP session based) authentication</li>
+                                    <li>using professional tools such as virtualization (<code>Docker</code>) and version control (<code>git</code>) </li>
+                                </ul>
+                            </li>
+                            <li style="margin-top: 0.5em;">how to develop a web API
+                                <ul>
+                                    <li>in clean and stable PHP code</li>
+                                    <li>for instance as part of a <em>single-page application</em></li>
+                                    <li>using professional tools such as virtualization (<code>Docker</code>) and version control (<code>git</code>) </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Summary (2)</h2>
+                <ul>
+                    <li>
+                        In this course, you learned
+                        <ul style="font-size: 85%;">
+                            <li style="margin-top: 0.5em;">how to develop <strong>secure</strong> server-side code, identifying security threats such as
+                                <ul style="font-size: 80%;">
+                                    <li>Cross-site scripting (XSS)</li>
+                                    <li>SQL Injection</li>
+                                    <li>(URL/GET/POST) parameter tampering</li>
+                                    <li>&hellip; eventually resulting in invalid SQL or invalid data records in the DB</li>
+                                    <li>&hellip; eventually resulting in <strong>unauthorized access</strong></li>
+                                    <li style="margin-top: 1em;">Showing error messages to end users</li>
+                                    <li>File related issues such as not checking the extension of file uploads, having config files or PHP code readable by end users </li>
+                                    <li>Failing authorization control because you forgot <code>exit();</code></li>
+                                    <li style="margin-top: 1em;">Storing plain text passwords in the DB</li>
+                                    <li>&plusmn; Cryptograhic weaknesses (just stick to <code>password_hash()</code>)</li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>MVC (1)</h2>
+                <ul>
+                    <li>In the labs, you actually have been structuring you app into <strong>MVC</strong>
+                    <ul>
+                        <li>
+                            Short for <strong>Model-View-Controller</strong>
+                        </li>
+                        <li style="margin-top: 1em;">
+                            Architectural pattern describing how to build your app
+                        </li>
+                        <li style="margin-top: 1em;">
+                            In a web-context:
+                            <ul>
+                                <li>The model represents data</li>
+                                <li>The view visually represents the model</li>
+                                <li>The controller is the app logic: decides what the input was, and orchestrates the proper models/views</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    </li>
+
+                </ul>
+            </section>
+
+            <section data-background="#fdfdfd">
+                <h2>MVC (2)</h2>
+                <figure>
+                    <img src="assets/13/mvc.png" alt="Model View Controller" title="Model View Controller" width="800" />
+                    <figcaption>MVC Schematic <em>(<a href="http://www.dubberly.com/articles/model-view-controller-pattern.html">ref</a>)</em></figcaption>
+                </figure>
+            </section>
+
+            <section data-background="#fdfdfd">
+                <h2>PHP: The Right Way</h2>
+                <ul>
+                    <li>State-of-the-art reference of PHP standards and best practices</li>
+                </ul>
+                <figure>
+                    <a href="https://phptherightway.com/"><img src="assets/13/phptrw.png" alt="PHP: The Right Way logo" height="300"></a></figure>
+                </figure>
+                <p>&rightarrow; let's have a <a href="https://phptherightway.com/">look</a> and assess our knowledge</p>
+            </section>
+
+        </section>
+
+
+        <section>
+            <section>
+                <h2>13.2<br>PHP Frameworks</h2>
+            </section>
+
+            <section>
+                <h2>Frameworks</h2>
+                <ul>
+                    <li>
+                        Framework &gt; Library
+                        <ul>
+                            <li>Defines a structure to follow</li>
+                            <li>Your project must follow that structure</li>
+                            </li>
+                            <li>Internally, a framework will most likely contain/use a library</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        PHP frameworks are
+                        <ul>
+                            <li>assisting you in <strong>general</strong> web application development</li>
+                            <li>providing libraries for commonly used functions</li>
+                            <li>cutting down the number of lines of repetitive code</li>
+                            <li>speeding up the development process</li>
+                            <li>resulting in more standardized hence more stable and secure code</li>
+                            <li>often MVC</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>2 Types of Frameworks</h2>
+                <ul>
+                    <li>Microframework
+                        <ul>
+                            <li>Light-weight, extensible, fast</li>
+                            <li>Typically: a <em>router</em> connected to an extensible skeleton (where you need to plug and install other services) </li>
+                            <li>Examples: <a href="https://www.slimframework.com/">Slim</a>, <a href="https://silex.symfony.com/">Silex</a>, <a
+                                    href="https://lumen.laravel.com/">Lumen</a>, Flight</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">Full-featured frameworks
+                        <ul>
+                            <li>Typically: a full-stack (enterprise) MVC framework supporting templating, caching, ORM, security, authentication, forms, &hellip; </li>
+                            <li>Examples: <a href="https://symfony.com/">Symfony</a>, <a
+                                    href="https://laravel.com/">Laravel</a>, Zend, Nette, CodeIgniter, YII, PHPixie  </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Let's have a look at <a href="https://www.slimframework.com/">Slim</a></h2>
+                <div class="hastooltip">
+                    <pre data-id="code-animation">
+                        <code class="hljs bash" data-trim>$ composer create-project slim/slim-skeleton [my-app-name]</code>
+                    </pre>
+                    <div class="tooltip">
+                        <div>
+                            <p>Make a clone of <a href="https://github.com/slimphp/Slim-Skeleton">Slim-Skeleton</a> through composer + composer install</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="hastooltip">
+                    <pre class="bigger"><code class="hljs php" style="max-height: 430px;">&lt;?php
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Factory\AppFactory;
+
+require __DIR__ . '/../vendor/autoload.php';
+
+$app = AppFactory::create();
+
+$app-&gt;get('/hello/{name}', function (Request $request, Response $response, array $args) {
+    $name = $args['name'];
+    $response-&gt;getBody()-&gt;write("Hello, $name");
+    return $response;
+});
+
+$app-&gt;run();</code></pre>
+                    <div class="tooltip">
+                        <div>
+                            <p>In the route handling function, you can read the HTTP Request through an object and manipulate and return the HTTP Response as an object</p>
+                            <p>The API of Response and Request follows the <a href="https://www.php-fig.org/psr/psr-7/">PSR-7</a> standard</p>
+                        </div>
+                    </div>
+                </div>
+
+
+            </section>
+
+            <section>
+                <h2>Slim's Application Life Cycle</h2>
+                <ol style="font-size: 85%;width: 80%;">
+                    <li>Instantiate the Slim application object</li>
+                    <li>Define the routes</li>
+                    <li>Application runner: invoke <code>run()</code>
+                        <br>The Request and Response objects are handled by &hellip;
+                        <ol>
+                            <li>Enter Middleware Stack</li>
+                            <li>Run Application: route dispatching and invoke callable</li>
+                            <li>Exit Middleware Stack</li>
+                            <li>Send HTTP Response</li>
+                        </ol>
+                    </li>
+                </ol>
+                <ul style="font-size: 85%;width: 80%;margin-top: 1em;">
+                    <li>Middleware is code execute before or after your Slim application to manipulate the Request and Response objects </li>
+                </ul>
+
+            </section>
+
+            <section>
+                <h2>Dependency Injection (DI) (1)</h2>
+                <ul style="font-size: 90%;">
+                    <li>In short: DI is a software pattern avoiding that one class is completely dependent on the other</li>
+                    <li>Example: in stead of
+                        <pre class="bigger"><code class="hljs php">&lt;?php
+class Database
+{
+    protected $adapter;
+
+    public function __construct() {
+        $this-&gt;adapter = new MySqlAdapter;
+    }
+}</code></pre>
+                        Refactor your code into
+                        <pre class="bigger"><code class="hljs php" style="max-height: 430px;">&lt;?php
+class Database
+{
+    protected $adapter;
+
+    public function __construct(MySqlAdapter $adapter) {
+        $this-&gt;adapter = $adapter;
+    }
+}</code></pre>
+                    </li>
+                    <li>As a result, the class <code>Database</code> is more loosely coupled to <code>MySqlAdapter</code></li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Dependency Injection (DI) (2)</h2>
+                <ul style="font-size: 90%;">
+                    <li>Note: constructor injection is just 1 type of DI</li>
+                    <li>DI promotes <em>Inversion of Control</em>: keep the organizational control out of classes/objects</li>
+                    <li>DI results in more testable and resuable code</li>
+                    <li>DI is often applied in PHP frameworks</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Slim's DI Container</h2>
+                <pre class="bigger"><code class="hljs php">&lt;?php
+use DI\Container;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Factory\AppFactory;
+
+require __DIR__ . '/../vendor/autoload.php';
+
+// Create Container using PHP-DI
+$container = new Container();
+
+// Set container to create App with on AppFactory
+AppFactory::setContainer($container);
+$app = AppFactory::create();
+
+// Add a service to your container
+$container-&gt;set('myService', function () {
+    $settings = [...];
+    return new MyService($settings);
+});
+
+$app-&gt;get('/foo', function (Request $request, Response $response, $args) {
+    $myService = $this-&gt;get('myService');
+
+    // ...do something with $myService...
+
+    return $response;
+});</code></pre>
+
+
+            </section>
+
+
+        </section>
+
+        <section>
+            <section>
+                <h2>13.3<br>What's next?</h2>
+            </section>
+
+            <section>
+                <h2>Web &amp; Mobile Full-stack [OGI03C]</h2>
+                <ul>
+                    <li>Learn how to develop large web application, study web frameworks and become a <strong>full-stack web engineer</strong></li>
+                    <li style="margin-top: 1em;">Choose 1 client-side framework
+                        <ul>
+                            <li><a href="https://vuejs.org/">Vue.js</a></li>
+                            <li><a href="https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor">Microsoft Blazor</a></li>
+                        </ul>
+                    </li>
+                    <li>Choose 1 server-side framework
+                        <ul>
+                            <li><a href="https://laravel.com/">Laravel</a></li>
+                            <li><a href="https://docs.microsoft.com/en-us/aspnet/core/?view=aspnetcore-5.0">ASP.NET Core</a></li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;"><a href="http://onderwijsaanbod.odisee.be/2020/syllabi/n/OGI03CN.htm">Course description</a></li>
+                </ul>
+            </section>
+
+            <section data-background="assets/13/laravelbg.jpg">
+            </section>
+
+            <section>
+                <h2>Laravel</h2>
+                <ul>
+                    <li>Full-featured PHP Framework for the development of web applications and web APIs
+                        <ul>
+                            <li>Model–View–Controller (MVC) pattern</li>
+                            <li>
+                                A <strong>huge</strong> number of built-in features
+                                <ul>
+                                    <li>Routing</li>
+                                    <li>Views and Template engine</li>
+                                    <li>DB-related: ORM, Query Builder, Migrations, &hellip;</li>
+                                    <li>Simple authentication</li>
+                                    <li>Queues, Logging, &hellip;</li>
+                                </ul>
+                            </li>
+                            <li>Emphasis on <em>beautiful code</em> (through syntactic sugar)</li>
+                            <li>Artisan CLI
+                                <ul>
+                                    <li>Example usages: generate classes, clear cache, generate login page</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+
+        </section>
+
+        <!-- The END -->
+        <section>
+            <section>
+                <h2>Questions?</h2>
+                <footer>
+                    <em><a href="mailto:joris.maervoet@odisee.be">joris.maervoet@odisee.be</a></em>
+                </footer>
+            </section>
+
+            <section>
+                <h2>Sources</h2>
+                <ul style="font-size: 80%;">
+                    <li>The Most Popular PHP Frameworks to Use in 2021, <a href="https://kinsta.com/blog/php-frameworks/">https://kinsta.com/blog/php-frameworks/</a></li>
+                </ul>
+            </section>
+        </section>
+
+
+
+
+
+    </div>
+
+</div>
+
+<script src="dist/reveal.js"></script>
+<script src="plugin/zoom/zoom.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/search/search.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+
+    // Also available as an ES module, see:
+    // https://revealjs.com/initialization/
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: true,
+        hash: true,
+        slideNumber: true,
+
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight ]
+    });
+
+</script>
+<script src="toc.js"></script>
+<script src="overlay.js"></script>
+
+</body>
+</html>
