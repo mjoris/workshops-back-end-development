@@ -112,12 +112,12 @@
                 <h2>Installing and running Docker</h2>
                 <ul>
                     <li>
-                        Docker CE - stable release - instructions:
+                        Docker - instructions:
                         <ul>
-                            <li><a href="https://docs.docker.com/docker-for-windows/install/">Docker for Windows</a></li>
-                            <li><a href="https://docs.docker.com/docker-for-mac/install/">Docker for Mac</a></li>
-                            <li><a href="https://docs.docker.com/install/linux/docker-ce/ubuntu/">Docker on Ubuntu</a></li>
-                            <li>Since 2020, Docker runs on Windows Home Edition (WSL), please follow <a href="https://docs.docker.com/docker-for-windows/install-windows-home/">these steps</a>.</li>
+                            <li><a href="https://docs.docker.com/desktop/windows/install/">Docker Desktop for Windows</a></li>
+                            <li><a href="https://docs.docker.com/desktop/mac/install/">Docker Desktop for Mac</a></li>
+                            <li><a href="https://docs.docker.com/engine/install/ubuntu/">Docker Engine on Ubuntu</a></li>
+                            <li>Since 2020, Docker runs on any type of Windows 10 (through WSL 2). Read the instruction thoroughly.</li>
                         </ul>
                     </li>
                 </ul>
@@ -194,7 +194,7 @@
                                 Create a new container: <code>$ docker create -e MYSQL_ROOT_PASSWORD=Azerty123 mysql:5.7</code>
                                 <br> &rarr; the daemon returns a container ID: <code>950968d78d63ae451c178a46799cd85b6aed5d9692d46a6b3acca05da8830990</code>
                                 <ul>
-                                    <li>! all allocations, network connections, &hellip; are made in this step</li>
+                                    <li>this steps reserves "the command" to run, which ports to forward, &hellip; </li>
                                     <li>! each time you repeat this line, a new container is allocated</li>
                                 </ul>
                             </li>
@@ -290,7 +290,11 @@ c5d0d1270551    alexcheng/magento2  "/sbin/my_init"          5 weeks ago       E
 
             <section>
                 <h2>docker create|run</h2>
-                <ul>
+                <ul style="font-size: 93%;">
+                    <li>
+                        Usage: <code>docker create|run [OPTIONS] IMAGE [COMMAND] [ARG...]</code><br>
+                        When the container is started, a default (internal) command is started, as specified by the image, but this command can be overridden
+                    </li>
                     <li>
                         Some options (upon container <strong>creation</strong>)
                         <ul>
@@ -298,15 +302,11 @@ c5d0d1270551    alexcheng/magento2  "/sbin/my_init"          5 weeks ago       E
                                 <code>--name test</code>: assign a name to the container
                             </li>
                             <li>
-                                <code>-w /working/directory</code>: specify the path where the command must executed
+                                <code>-v /Users/franky/Documents/configmap:/etc/mysql/conf.d</code>: <em>bind mount</em>s a host folder into the container
                             </li>
                             <li>
-                                <code>-v /Users/franky/Documents/configmap:/etc/mysql/conf.d</code>: mounts a host folder into the container
+                                <code>--expose 80</code>: document which container ports are listening, and make them available for other containers (not for the host!)
                             </li>
-                            <li>
-                                <code>--expose 80</code>: you document which ports are intended for public usage
-                            </li>
-
                             <li>
                                 <code>-p 3307:3306</code>: binds port 3307 of the host machine to port 3306 of the container
                             </li>
@@ -400,7 +400,7 @@ EXPOSE 3306</code></pre>
                                 Create the image locally by: <code>docker build -t mjoris/mysql-tz:1.0 .</code>
                                 <br> &rarr; the image is built layer by layer
                             </li>
-                            <li>Publish your image on Docker Hub with <code>docker push</code> (first <code>docker login</code>) or use <a href="https://docs.docker.com/docker-hub/github/">automated builds with GitHub</a></li>
+                            <li>Publish your image on Docker Hub with <code>docker push</code> (first <code>docker login</code>) or use <a href="https://docs.docker.com/docker-hub/builds/link-source/">automated builds with GitHub</a></li>
 
                         </ul>
                     </li>
@@ -478,6 +478,8 @@ EXPOSE 3306</code></pre>
                         </ul>
                     </li>
                 </ul>
+                <footer style="margin-top: 0.5em;"><small>Volumes are very similar to <em>bind mounts</em>, but with volumes Docker manages the storage on the host's file system (<a
+                        href="https://docs.docker.com/storage/volumes/">read more</a>)</small></footer>
 
             </section>
 
@@ -527,7 +529,7 @@ EXPOSE 3306</code></pre>
                         </ul>
                     </li>
                     <li style="margin-top: 1em">
-                        Fortunately, <a href="https://docs.docker.com/compose/overview/">Docker Compose</a> exists
+                        Fortunately, <a href="https://docs.docker.com/compose/">Docker Compose</a> exists
                         <ul>
                             <li>
                                 CLI tool for running multi-container Docker apps in an easy way
@@ -560,7 +562,7 @@ EXPOSE 3306</code></pre>
                 <p><img src="assets/02/dcompose.jpg" alt="" title="" height="100" /></p>
                 <ol start="2" style="font-size: 90%">
                     <li>
-                        Build and start your app by running <code>docker-compose up</code> (add <code>-d</code> for detached mode)
+                        Build and start your app by running <code>docker compose up</code> (add <code>-d</code> for detached mode)
                         <ul>
                             <li>
                                 A Docker <a href="https://docs.docker.com/compose/networking/">network</a> is created when missing (network names = service names)
@@ -571,10 +573,10 @@ EXPOSE 3306</code></pre>
                         </ul>
                     </li>
                     <li style="margin-top: 0.4em">
-                        Stop your app: <code>Ctrl+C</code> (or <code>docker-compose stop</code> in detached mode)
+                        Stop your app: <code>Ctrl+C</code> (or <code>docker compose stop</code> in detached mode)
                     </li>
                     <li style="margin-top: 0.4em">
-                        Remove the containers and associated volumes: <code>docker-compose down --volumes</code>
+                        Remove the containers and associated volumes: <code>docker compose down --volumes</code>
                     </li>
                 </ol>
 
@@ -619,8 +621,6 @@ services:
                             <ul>
                                 <li>5 different base OS's running on the kernel, incl. phpmyadmin and composer</li>
                                 <li>nginx needs server like php-fpm for PHP code processing </li>
-                                <li>(-) no fixed mysql version;</li>
-                                <li>(-) PHP version of composer may differ from PHP web version (!)</li>
                             </ul>
                         </li>
                         <li>
@@ -657,6 +657,7 @@ services:
                     <li><a href="https://docs.docker.com/engine/docker-overview/">Docker docs: overview</a></li>
                     <li><a href="https://docker-curriculum.com/">A Docker tutorial for beginners</a></li>
                     <li><a href="https://docs.docker.com/compose/overview/#compose-documentation">Docker docs: Docker compose</a></li>
+                    <li><a href="https://www.freecodecamp.org/news/the-docker-handbook/#how-to-execute-commands-inside-a-container">freeCodeCamp: The Docker Handbook – 2021 Edition</a></li>
                 </ul>
             </section>
         </section>
