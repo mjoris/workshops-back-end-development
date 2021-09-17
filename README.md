@@ -47,8 +47,8 @@ git pull origin master
 ### <code>docker-compose up</code> does not start one or more containers
 * Look at the output of <code>docker-compose up</code>. When a container (fails and) exits, it is shown as the last line of the container output (colored tags by container)
 * Alternatively, start another terminal/cmd and inspect the output of <code>docker-compose ps -a</code>. You can see which container exited, exactly when.
-* Probably one of the containers fails because TCP/IP port 8000, 8080 or 3307 is already in use on your system. Stop the environment, change the port in <code>docker-compose.yml</code> en rerun <code>docker-compose up</code>.
+* Probably one of the containers fails because TCP/IP port 8000, 8080 or 3307 is already in use on your system. Stop the environment, change the port in <code>docker-compose.yml</code> and rerun <code>docker-compose up</code>.
 
 ### Restoring the database (tables)
 Might be necessary when this repository contains database updates.
-* Before running <code>docker-compose up</code>, delete all files in the <code>mysql-data</code> directory
+* Before running <code>docker-compose up</code>, delete all files in the <code>mysql-data</code> directory (except <code>.gitignore</code>)
