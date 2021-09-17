@@ -28,7 +28,7 @@
         <section data-background="#b5533c" > <!-- wposad color #4d7e65 -->
             <h3>Web &amp; Mobile Server-side <small>[OGI03q]</small></h3>
             <h1>01. Recap: the webserver, HTTP, PHP</h1>
-            <footer>What you have learned from <em>Web &amp; Mobile 1</em></footer>
+            <footer>What you have learned from <em>Web &amp; Mobile Introduction</em></footer>
 
         </section>
 
@@ -108,12 +108,27 @@
             </section>
 
             <section data-background="#fdfdfd">
-                <h2>HTTP/2.0 </h2>
+                <h2>HTTP/1.1</h2>
+                <ul style="width: 80%;">
+                    <li>HTTP request = request line + headers + ev. body
+                    </li>
+                </ul>
+                <p><img src="assets/01/http_requestmessageexample.png" alt="" width="400"class="zoomable-20"></p>
+                <ul style="width: 80%;">
+                    <li>HTTP response = status line + headers + body (= document)
+                    </li>
+                </ul>
+                <p><img src="assets/01/http_responsemessageexample.png" alt="" width="400" class="zoomable-20"></p>
+
+            </section>
+
+            <section data-background="#fdfdfd">
+                <h2>HTTP/2.0</h2>
                 <ul style="width: 16em;float: left;font-size: 90%">
                     <li>HTTP request
                         <ul>
                             <li>HEADERS (request method, HTTP version, path, &hellip;)</li>
-                            <li>DATA (e.g. file upload)</li>
+                            <li>DATA (e.g. file upload, form data)</li>
                         </ul>
                     </li>
                     <li>HTTP response
@@ -148,9 +163,33 @@
             <section>
                 <h2>Terminology</h2>
                 <ul>
-                    <li><strong>Document root</strong>: (server disk) folder where the webserver starts to look up documents upon an incoming request</li>
-                    <li><strong>Default page</strong>: when the URL's path is a folder, the webserver looks for <code>index.html</code> or <code>index.php</code> in this folder.
-                        <br> If not available, it might show a directory listing.</li>
+                    <li><strong>Document root</strong>:<br> (server disk) folder where the webserver starts to look up documents upon an incoming request</li>
+                    <li style="margin-top: 1em;"><strong>Default page</strong>:<br>  when the URL's path is a folder, the webserver looks for <code>index.html</code> or <code>index.php</code> in this folder.
+                        <br> If not available, it might show a directory listing (or a <em>forbidden</em> page).</li>
+                </ul>
+            </section>
+
+            <section data-background="#fdfdfd">
+                <h2>Remark: type of links</h2>
+                <ul style="font-size: 92%;width: 84%;">
+                    <li><code>&lt;img src="http://localhost:8080/img/popeye.jpg"&gt;</code><br>
+                        <code>&lt;a href="http://greatwebsite.be/pages/interesting.php"&gt;</code><br>
+                        These are <strong>absolute paths (full URLs)</strong>. Avoid full URLs in your web application code.
+                        If you move your code to a production server, you already have a not working project.
+                    </li>
+                    <li style="margin-top: 0.5em;"><code>&lt;img src="../img/popeye.jpg"&gt;</code><br>
+                        <code>&lt;a href="interesting.php"&gt;</code><br>
+                        These are <strong>relative paths</strong> (relative to the current page folder location).
+                        They are the most flexible option for your project.
+                    </li>
+                    <li style="margin-top: 0.5em;"><code>&lt;img src="/img/popeye.jpg"&gt;</code><br>
+                        <code>&lt;a href="/pages/interesting.php"&gt;</code><br>
+                        <strong>Shortened absolute paths</strong> always start with <code>/</code>.
+                        They are <em>full URLs without the domain name part</em> i.e.
+                        they are relative to the domain name.
+                        If you move your code into a subfolder, you have a not working project.
+                    </li>
+
                 </ul>
             </section>
         </section>
@@ -192,6 +231,33 @@
             <section data-background="#fdfdfd">
                 <h2>Overview </h2>
                 <p><img src="assets/01/parsing2.png" alt=""></p>
+            </section>
+
+            <section data-background="#fdfdfd">
+                <h2>View page source &ne; inspect element</h2>
+                <ul style="width: 100%;">
+                    <li>
+                        <strong>View page source</strong>
+                        <ul>
+                            <li>shows the HTML code that has been received via the HTTP response</li>
+                            <li>is the code sent by the server</li>
+                            <li>WHAT WE WILL USE TO INSPECT OUR CODE</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p><img src="assets/01/pagsrc-htg.png" alt="" width="300"></p>
+                <ul style="width: 100%;">
+                    <li>
+                        <strong>Inspect element (Elements tab)</strong>
+                        <ul>
+                            <li>shows the Document Object Model (DOM) =  a structural interpretation of the page source by the browser</li>
+                            <li>can contain corrections when the original HTML was invalid</li>
+                            <li>can be manipulated by JavaScript code</li>
+                        </ul>
+                    </li>
+                </ul>
+
+
             </section>
 
 
