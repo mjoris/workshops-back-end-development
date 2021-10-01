@@ -557,10 +557,10 @@ Warning: A non-numeric value encountered in php shell code on line 1
                         </ul>
 
                     <pre class="bigger"><code class="hljs php">php &gt; $a = 3;
-php &gt; echo gettype($a);
-integer
+php &gt; echo get_debug_type($a);
+int
 php &gt; $a = 'Hello';
-php &gt; echo gettype($a);
+php &gt; echo get_debug_type($a);
 string</code></pre>
                     </li>
                     <li>PHP is weakly typed
@@ -571,8 +571,8 @@ string</code></pre>
                                 </ul>
                             </li>
                         </ul>
-                        <pre class="bigger"><code class="hljs php">php &gt; echo gettype('12' + '50') . ('12' + '50');
-integer62</code></pre>
+                        <pre class="bigger"><code class="hljs php">php &gt; echo get_debug_type('12' + '50') . ('12' + '50');
+int62</code></pre>
                     </li>
 
                 </ul>
@@ -606,10 +606,10 @@ php &gt; $foo .= ' piggies'; // $foo is now a string ('3.3 piggies')
                     <li>
                         To enforce a variable being of a certain type, you must explicitly cast it to that type
                         <pre class="bigger"><code class="hljs php">php &gt; $a = 3;
-php &gt; echo gettype($a);
-integer
+php &gt; echo get_debug_type($a);
+int
 php &gt; $a = (string) $a;
-php &gt; echo gettype($a);
+php &gt; echo get_debug_type($a);
 string</code></pre>
                     </li></ul>
             </section>
