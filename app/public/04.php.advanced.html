@@ -71,7 +71,10 @@ echo $can-&gt;name . PHP_EOL;
 $can-&gt;lowerPrice();
 
 echo $can-&gt;getPrice();</code></pre>
-                <footer style="margin-top: 0.8em;">Course convention: always use type declarations <small>(although not mandatory in PHP)</small><br>Only supported in recent versions &bullet; update to PHP 7.4</footer>
+                <footer style="margin-top: 0.8em;font-size: 80%;">Course convention: always use type declarations <small>(although not mandatory in PHP)</small>
+                    <br>Only supported in recent versions
+                    <br>PHP 8 supports <a href="https://php.watch/versions/8.0/union-types">union types</a>, <a href="https://stitcher.io/blog/php-8-named-arguments">named arguments</a> and
+                    <a href="https://stitcher.io/blog/constructor-promotion-in-php-8">constructor property promotion</a></footer>
             </section>
 
             <section>
@@ -240,7 +243,7 @@ class Weight {
 $myWeight = new Weight(82.5, 'kg');
 var_dump($myWeight);
 print_r($myWeight);
-echo($myWeight); // requires magic method __toString(); fatal error otherwise </code></pre>
+echo($myWeight); // requires magic method __toString(); fatal Error otherwise </code></pre>
             </section>
 
             <section>
@@ -274,6 +277,33 @@ echo('&lt;br&gt;' . '$myWeight === $myWeight2' . '&lt;br/&gt;');
 var_dump($myWeight === $myWeight2);
 echo('&lt;br&gt;' . '$myWeight === $otherWeight' . '&lt;br/&gt;');
 var_dump($myWeight === $otherWeight); </code></pre>
+            </section>
+
+            <section>
+                <h2>The Null Safe Operator</h2>
+                <p><code>?-&gt;</code> returns <code>null</code> if the left side evaluates to <code>null</code></p>
+
+                <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/oo09.php">&lt;?php
+
+class Weight {
+
+	private float $weight;
+	private ?DateTime $registrationDate;
+
+	public function __construct(float $weight, ?DateTime $registrationDate = null) {
+	    $this-&gt;weight = $weight;
+	    $this-&gt;registrationDate = $registrationDate;
+	}
+
+	public function getRegistrationDate() : ?DateTime {
+	    return $this-&gt;registrationDate;
+    }
+}
+$myWeight1 = new Weight(82.5);
+var_dump($myWeight1?-&gt;getRegistrationDate()?-&gt;format('Y-m-d'));
+$myWeight2 = new Weight(78.5, new DateTime('now'));
+var_dump($myWeight2?-&gt;getRegistrationDate()?-&gt;format('Y-m-d'));
+</code></pre>
             </section>
 
 
@@ -814,7 +844,7 @@ var_dump($myWeight === $otherWeight); </code></pre>
 
                 <ul style="width: 100%;">
                     <li>
-                        Suppress errors with <code>@</code> and handle return values
+                        Suppress non-fatal errors with <code>@</code> and handle return values
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/dealing.php">&lt;?php
 
     $result = @copy(__DIR__ . '/i.do.not.exist.txt', __DIR__ . '/copiedfile.txt');
@@ -828,7 +858,8 @@ var_dump($myWeight === $otherWeight); </code></pre>
     }</code></pre>
                     </li>
                 </ul>
-                <footer style="line-height: 1.2em">Best practice: always place an <code>@</code> before functions that can generate an error message (see documentation)</footer>
+                <footer style="line-height: 1.2em">Best practice: always place an <code>@</code> before oldskool functions that can generate an error message (see documentation)
+                &bullet; <strong>never use <code>@</code> in other situations</strong></footer>
             </section>
 
             <section>
@@ -1010,7 +1041,7 @@ var_dump($myWeight === $otherWeight); </code></pre>
 
     try {
         $di = new DirectoryIterator('/this/path/does/not/exist');
-    } catch (RuntimeException $e) {
+    } catch (UnexpectedValueException $e) {
         echo 'There was an error: &lt;br /&gt;' . $e->getMessage();
     }
 
@@ -1129,7 +1160,7 @@ var_dump($myWeight === $otherWeight); </code></pre>
                 <h2>require &amp; require_once</h2>
                 <ul>
                     <li>
-                        <code>require</code> does the same as <code>include</code> yet it results in a fatal error and stops the process
+                        <code>require</code> does the same as <code>include</code> yet it results in a fatal Error and stops the process
                         <ul>
                             <li>
                                 Contents <code>02.php</code>
