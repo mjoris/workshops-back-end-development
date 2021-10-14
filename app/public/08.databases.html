@@ -28,12 +28,12 @@
     <div class="slides">
         <section data-background="#b5533c">
             <h3>Web &amp; Mobile Server-side <small>[OGI03q]</small></h3>
-            <h1>09. PHP Databases</h1>
+            <h1>08. PHP &amp; Databases</h1>
         </section>
         
         <section>
             <section>
-                <h2>09.1<br>Introduction</h2>
+                <h2>08.1<br>Introduction</h2>
             </section>
 
             <section>
@@ -77,7 +77,7 @@
             <section data-background="#fdfdfd">
                 <h2>PhpMyAdmin: Demo time!</h2>
 
-                <figure><img src="assets/09/phpmyadmin.png" alt="" title="" width="600" /></figure>
+                <figure><img src="assets/08/phpmyadmin.png" alt="" title="" width="600" /></figure>
 
             </section>
 
@@ -171,7 +171,7 @@
         <section>
 
             <section>
-                <h2>09.2<br>Connecting &amp; Catching Errors</h2>
+                <h2>08.2<br>Connecting &amp; Catching Errors</h2>
             </section>
 
             <section>
@@ -195,7 +195,7 @@
                     <li style="margin-top: 1em;">
                         The config is used throughout the next code examples
                         <ul>
-                            <li>Edit the file if needed (location: <code>/assets/09/examples</code>)</li>
+                            <li>Edit the file if needed (location: <code>/assets/08/examples</code>)</li>
                         </ul>
                     </li>
                 </ul>
@@ -209,7 +209,7 @@
                         Connect by creating a new instance of <code>\Doctrine\DBAL\Connection</code> with params
                     </li>
                 </ul>
-                <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/01.php">&lt;?php
+                <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/01.php">&lt;?php
     require_once 'vendor/autoload.php';
     require_once 'config.php';
 
@@ -246,7 +246,7 @@
                         Or, shorter, using a <a href="https://en.wikipedia.org/wiki/Data_source_name">DSN</a> connection string
                     </li>
                 </ul>
-                <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/01.php">&lt;?php
+                <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/01.php">&lt;?php
     require_once 'vendor/autoload.php';
     require_once 'config.php';
 
@@ -295,7 +295,7 @@
 
 
 
-							<pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/02.php">&lt;?php
+							<pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/02.php">&lt;?php
     require_once 'vendor/autoload.php';
     require_once 'config.php';
 
@@ -331,7 +331,7 @@
                         </ul>
                     </li>
                 </ul>
-                <div><figure class="zoomable-20"><img src="assets/09/tomorrowland.jpg" alt="" title="" width="300" /><figcaption>Example: Tomorrowland website</figcaption></figure></div>
+                <div><figure class="zoomable-20"><img src="assets/08/tomorrowland.jpg" alt="" title="" width="300" /><figcaption>Example: Tomorrowland website</figcaption></figure></div>
             </section>
 
             <section>
@@ -345,7 +345,7 @@
 
                         <div>
 
-							<pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/02b.php">try {
+							<pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/02b.php">try {
     $connection-&gt;connect();
 } catch (\Doctrine\DBAL\Exception\ConnectionException $e) {
     exit('Could not connect to database server or access database');
@@ -368,7 +368,7 @@
 
                         <div>
 
-									<pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/02c.php">&lt;?php
+									<pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/02c.php">&lt;?php
 
     function showDbError(string $type) : void {
         header('location: error.php?type=db&amp;detail=' . $type);
@@ -404,7 +404,7 @@
 
                 <div>
 
-							<pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/02d.php">&lt;?php
+							<pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/02d.php">&lt;?php
 
     function showDbError($type, $msg) {
         file_put_contents(
@@ -446,7 +446,7 @@
         <section>
 
             <section>
-                <h2>09.3<br>Executing Queries</h2>
+                <h2>08.3<br>Executing Queries</h2>
             </section>
 
             <section>
@@ -472,14 +472,14 @@
                             <ol style="margin-top: 1em;">
                                 <li>Use <code><s>query()</s></code><small><!--a href="http://www.php.net/manual/en/pdo.query.php">&#9873;</a--></small> for queries that yield a resultset</li>
                             </ol>
-                            <pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/03.php">$stmt = $connection->query('SELECT * FROM collections WHERE user_id = 2');
+                            <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/03.php">$stmt = $connection->query('SELECT * FROM collections WHERE user_id = 2');
 var_dump($stmt);</code></pre>
                         </div>
                         <div>
                             <ol start="2">
                                 <li>Use <code><s>exec()</s></code><small><!--a href="http://www.php.net/manual/en/pdo.exec.php">&#9873;</a--></small> for queries that yield no resultset</li>
                             </ol>
-                            <pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/03b.php">$result = $connection->exec('DELETE FROM collections WHERE user_id = 10');
+                            <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/03b.php">$result = $connection->exec('DELETE FROM collections WHERE user_id = 10');
 var_dump($result);</code></pre>
                         </div>
                     </li>
@@ -497,7 +497,7 @@ var_dump($result);</code></pre>
         <section>
 
             <section>
-                <h2>09.4<br>Working with query parameters</h2>
+                <h2>08.4<br>Working with query parameters</h2>
             </section>
 
             <section>
@@ -608,7 +608,7 @@ var_dump($result);</code></pre>
                         Changing the URL param to a <em>dangerous</em> string that resembles SQL results in <strong>SQL injection</strong>
                         <div style="text-align: center; padding-top: 20px">
                             <figure class="zoomable-20">
-                                <img src="assets/09/littlebobbytables.jpg" alt="" title="" width="400" />
+                                <img src="assets/08/littlebobbytables.jpg" alt="" title="" width="400" />
                                 <figcaption><a href="http://xkcd.com/327/">XKCD: Exploits of a mom</a></figcaption>
                             </figure>
                         </div>
@@ -732,13 +732,13 @@ var_dump($result);</code></pre>
                 <ul style="width: 100%;">
                     <li>
                         Bind values onto the placeholders using <code>Statement::bindValue()</code><small><!--a href="http://www.php.net/manual/en/pdostatement.bindvalue.php">&#9873;</a--></small>
-                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/04b.php">$stmt = $connection->prepare('SELECT * FROM collections WHERE id = ?');
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/04b.php">$stmt = $connection->prepare('SELECT * FROM collections WHERE id = ?');
 $stmt->bindValue(1, $id, 'integer');
 $stmt->execute();</code></pre>
                     </li>
                     <li style="margin-top: 1em;">
                         Alternative: named placeholders
-                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/04c.php">$stmt = $connection->prepare('SELECT * FROM collections WHERE id = :id');
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/04c.php">$stmt = $connection->prepare('SELECT * FROM collections WHERE id = :id');
 $stmt->bindValue(':id', $id, 'integer');
 $stmt->execute();</code></pre>
                     </li>
@@ -751,7 +751,7 @@ $stmt->execute();</code></pre>
                 <ul style="width: 100%;">
                     <li>
                         Also possible <em>(shorter, preferred)</em>:
-                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/04d.php">$stmt = $connection->prepare('SELECT * FROM collections WHERE id = ?');
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/04d.php">$stmt = $connection->prepare('SELECT * FROM collections WHERE id = ?');
 $stmt-&gtexecute([$id]);</code></pre>
                         <ul>
                             <li>Cannot be used with named placeholders</li>
@@ -793,7 +793,7 @@ $stmt-&gtexecute(['test', 4]);</code></pre>
         <section>
 
             <section>
-                <h2>09.5<br>Processing queries</h2>
+                <h2>08.5<br>Processing queries</h2>
             </section>
 
             <section>
@@ -818,7 +818,7 @@ $stmt-&gtexecute(['test', 4]);</code></pre>
                     </li>
                 </ul>
                 <div>
-							<pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/05.php">$stmt = $connection->prepare('SELECT * FROM collections WHERE user_id = ? OR name = ?');
+							<pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/05.php">$stmt = $connection->prepare('SELECT * FROM collections WHERE user_id = ? OR name = ?');
 $stmt->execute(array(2, 'russia'));
 $collections = $stmt->fetchAllAssociative();
 
@@ -832,7 +832,7 @@ echo '&lt;/pre&gt;';</code></pre>
                     </li>
                 </ul>
                 <div>
-                    <pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/05b.php">$collections = $connection->fetchAllAssociative(
+                    <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/05b.php">$collections = $connection->fetchAllAssociative(
     'SELECT * FROM collections WHERE user_id = ? OR name = ?',
     array(2, 'russia'));</code></pre>
                 </div>
@@ -844,7 +844,7 @@ echo '&lt;/pre&gt;';</code></pre>
                     <li>
                         Use <code>Statement::fetchAssociative()</code><small><!--a href="http://www.php.net/manual/en/pdostatement.fetch.php">&#9873;</a--></small> to fetch the returned rows one bye one
                         <div>
-									<pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/05c.php">$stmt = $connection-&gt;prepare('SELECT * FROM collections WHERE user_id = ? OR name = ?');
+									<pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/05c.php">$stmt = $connection-&gt;prepare('SELECT * FROM collections WHERE user_id = ? OR name = ?');
 $stmt-&gt;execute(array(2, 'russia'));
 
 while ($collection = $stmt-&gt;fetchAssociative()) {
@@ -854,7 +854,7 @@ while ($collection = $stmt-&gt;fetchAssociative()) {
                     </li>
                     <li style="margin-top: 1em;">
                         Use case: queries that yield one row
-                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/05d.php">$stmt = $connection-&gt;prepare('SELECT * FROM collections WHERE id = ?');
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/05d.php">$stmt = $connection-&gt;prepare('SELECT * FROM collections WHERE id = ?');
 $stmt-&gt;execute(array(1));
 
 $collection = $stmt-&gt;fetchAssociative();
@@ -869,7 +869,7 @@ var_dump($collection);</code></pre>
                     <li>
                         Use <code>Statement::fetchOne()</code><small><!--a href="http://www.php.net/manual/en/pdostatement.fetchColumn.php">&#9873;</a--></small> to fetch the value of a column from the first row
                         <div>
-									<pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/05e.php">$stmt = $connection->prepare('SELECT name, user_id FROM collections WHERE id = ?');
+									<pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/05e.php">$stmt = $connection->prepare('SELECT name, user_id FROM collections WHERE id = ?');
 $stmt-&gt;execute([1]);
 var_dump($stmt-&gt;fetchOne());</code></pre>
                         </div>
@@ -882,14 +882,14 @@ var_dump($stmt-&gt;fetchOne());</code></pre>
                 <ul>
                     <li>
                         Use <code>Connection::lastInsertId()</code><small><!--a href="http://www.php.net/manual/en/pdo.lastinsertid.php">&#9873;</a--></small> to know the last inserted id (<code>AUTO_INCREMENT</code>) after executing an <code>INSERT</code> query
-                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/06.php">$stmt = $connection->prepare('INSERT INTO collections(name, user_id) VALUES (?,?)');
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/06.php">$stmt = $connection->prepare('INSERT INTO collections(name, user_id) VALUES (?,?)');
 $stmt-&gt;execute(['Trip to Amsterdam', 10]);
 
 echo 'Created album with ID ' . $connection->lastInsertId();</code></pre>
                     </li>
                     <li style="margin-top: 1em">
                         Use <code>Statement::rowCount()</code><small><!--a href="http://www.php.net/manual/en/pdostatement.rowcount.php">&#9873;</a--></small> to know the number of affected rows made by <code>UPDATE</code> and <code>DELETE</code> queries
-                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/07.php">$stmt = $connection->prepare('DELETE FROM collections WHERE user_id = ?');
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/07.php">$stmt = $connection->prepare('DELETE FROM collections WHERE user_id = ?');
 $stmt->execute(array(10));
 
 echo 'Deleted ' . $stmt->rowCount() . ' rows';</code></pre>
@@ -909,7 +909,7 @@ echo 'Deleted ' . $stmt->rowCount() . ' rows';</code></pre>
         <section>
 
             <section>
-                <h2>09.6<br>Best Practices</h2>
+                <h2>08.6<br>Best Practices</h2>
             </section>
 
 
