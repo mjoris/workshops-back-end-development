@@ -33,9 +33,9 @@
 
 	// Get collection from DB
     $stmt = $connection->prepare('SELECT * FROM collections WHERE id = ?');
-    $stmt->execute(array(1));
+    $result = $stmt->executeQuery([1]);
 
-	$collection = $stmt->fetchAssociative();
+	$collection = $result->fetchAssociative();
 	echo '<meta charset="UTF-8" />';
 	echo '<pre>';
 	var_dump($collection);

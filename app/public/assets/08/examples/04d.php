@@ -36,7 +36,7 @@
 
 	// Get collection from DB
 	$stmt = $connection->prepare('SELECT * FROM collections WHERE id = ?');
-	$stmt->execute([$id]);
+    $result = $stmt->executeQuery([$id]);
 
 	// Handle result here ....
 	echo('Nothing to see here, check the source');

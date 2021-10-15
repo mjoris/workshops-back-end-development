@@ -32,7 +32,7 @@
     }
 
     // Get collection from DB
-    $collections = $connection->fetchAllAssociative('SELECT * FROM collections WHERE user_id = ? OR name = ?', array(2, 'russia'));
+    $collections = $connection->fetchAllAssociative('SELECT * FROM collections WHERE user_id = ? OR name = ?', [2, 'russia']);
 
 
     echo '<meta charset="UTF-8" />';

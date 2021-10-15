@@ -28,7 +28,7 @@
     <div class="slides">
         <section data-background="#b5533c">
             <h3>Web &amp; Mobile Server-side <small>[OGI03q]</small></h3>
-            <h1>08. PHP &amp; Databases</h1>
+            <h1>08. Databases</h1>
         </section>
         
         <section>
@@ -472,14 +472,14 @@
                             <ol style="margin-top: 1em;">
                                 <li>Use <code><s>query()</s></code><small><!--a href="http://www.php.net/manual/en/pdo.query.php">&#9873;</a--></small> for queries that yield a resultset</li>
                             </ol>
-                            <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/03.php">$stmt = $connection->query('SELECT * FROM collections WHERE user_id = 2');
-var_dump($stmt);</code></pre>
+                            <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/03.php">$result = $connection-&gt;query('SELECT * FROM collections WHERE user_id = 2');
+var_dump($result);</code></pre>
                         </div>
                         <div>
                             <ol start="2">
                                 <li>Use <code><s>exec()</s></code><small><!--a href="http://www.php.net/manual/en/pdo.exec.php">&#9873;</a--></small> for queries that yield no resultset</li>
                             </ol>
-                            <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/03b.php">$result = $connection->exec('DELETE FROM collections WHERE user_id = 10');
+                            <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/03b.php">$result = $connection-&gt;exec('DELETE FROM collections WHERE user_id = 10');
 var_dump($result);</code></pre>
                         </div>
                     </li>
@@ -536,9 +536,9 @@ var_dump($result);</code></pre>
     $id = isset($_GET['id']) ? $_GET['id'] : 0;
 
     // Get collection from database
-    $stmt = $connection->query('SELECT * FROM collections WHERE id = ' . $id);
+    $result = $connection-&gt;query('SELECT * FROM collections WHERE id = ' . $id);
 
-    // Handle result
+    // Handle result object
 
 &hellip;
 </code></pre>
@@ -562,7 +562,7 @@ var_dump($result);</code></pre>
                             <li><code class="ok">SELECT * FROM products WHERE id = &quot;test&quot;</code> is a valid query</li>
                         </ul>
                         <div>
-                            <pre class="bigger"><code class="hljs php">$stmt = $connection->query('SELECT * FROM collections WHERE user_id = &quot;' . $id . '&quot;');</code></pre>
+                            <pre class="bigger"><code class="hljs php">$result = $connection->query('SELECT * FROM collections WHERE user_id = &quot;' . $id . '&quot;');</code></pre>
                         </div>
                     </li>
                 </ul>
@@ -585,13 +585,13 @@ var_dump($result);</code></pre>
                         </ul>
 
                         <div>
-                            <pre class="bigger"><code class="hljs php">$stmt = $connection->query('SELECT * FROM collections WHERE user_id = &quot;' . addslashes($id) . '&quot;');</code></pre>
+                            <pre class="bigger"><code class="hljs php">$result = $connection-&gt;query('SELECT * FROM collections WHERE user_id = &quot;' . addslashes($id) . '&quot;');</code></pre>
                         </div>
                     </li>
                     <li style="margin-top: 0.5em;">
                         Possible fix: cast <code>$id</code> to an integer
                         <div>
-                            <pre class="bigger"><code class="hljs php">$stmt = $connection->query('SELECT * FROM collections WHERE id = ' . (int) $id);</code></pre>
+                            <pre class="bigger"><code class="hljs php">$result = $connection-&gt;query('SELECT * FROM collections WHERE id = ' . (int) $id);</code></pre>
                         </div>
                         <ul>
                             <li>Won't work if you expect a string though!</li>
@@ -656,7 +656,7 @@ var_dump($result);</code></pre>
 
                     </li>
                 </ul>
-                <pre class="bigger"><code class="hljs php">$stmt = $connection->query('SELECT * FROM collections WHERE id = ' . $connection->quote($userId, 'integer'));</code></pre>
+                <pre class="bigger"><code class="hljs php">$result = $connection-&gt;query('SELECT * FROM collections WHERE id = ' . $connection->quote($userId, 'integer'));</code></pre>
                 <ul style="width: 100%;">
                     <li>
                         Note
@@ -668,7 +668,7 @@ var_dump($result);</code></pre>
                         </ul>
                     </li>
                 </ul>
-                <pre class="bigger"><code class="hljs php">$stmt = $connection->query('SELECT * FROM collections WHERE name = ' . $connection->quote($name, 'string'));</code></pre>
+                <pre class="bigger"><code class="hljs php">$result = $connection->query('SELECT * FROM collections WHERE name = ' . $connection->quote($name, 'string'));</code></pre>
             </section>
 
             <section>
@@ -712,7 +712,7 @@ var_dump($result);</code></pre>
                 <ul>
                     <li>
                         Use <code>Connection::prepare()</code><small><!--a href="http://www.php.net/manual/en/pdo.quote.php">&#9873;</a--></small> to <em>prepare</em> a query with placeholders
-                        <pre class="bigger"><code class="hljs php">$stmt = $connection->prepare('SELECT * FROM collections WHERE id = ?');</code></pre>
+                        <pre class="bigger"><code class="hljs php">$stmt = $connection-&gt;prepare('SELECT * FROM collections WHERE id = ?');</code></pre>
                         <ul>
                             <li>Everywhere you would add a parameter in the query, replace it by a <code>?</code></li>
                         </ul>
@@ -721,7 +721,13 @@ var_dump($result);</code></pre>
                         The result is an instance of <code>/Doctrine/DBAL/Statement</code><small><!--a href="http://www.php.net/manual/en/class.pdostatement.php">&#9873;</a--></small>. Use this stament to:
                         <ul>
                             <li>Bind values onto the placeholders</li>
-                            <li>Execute it</li>
+                            <li>
+                                Execute it
+                                <ul>
+                                    <li><code>Statement::executeQuery()</code> for queries that yield a result set</li>
+                                    <li><code>Statement::executeStatement()</code> for queries that yield no result set</li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -732,15 +738,15 @@ var_dump($result);</code></pre>
                 <ul style="width: 100%;">
                     <li>
                         Bind values onto the placeholders using <code>Statement::bindValue()</code><small><!--a href="http://www.php.net/manual/en/pdostatement.bindvalue.php">&#9873;</a--></small>
-                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/04b.php">$stmt = $connection->prepare('SELECT * FROM collections WHERE id = ?');
-$stmt->bindValue(1, $id, 'integer');
-$stmt->execute();</code></pre>
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/04b.php">$stmt = $connection-&gt;prepare('SELECT * FROM collections WHERE id = ?');
+$stmt-&gt;bindValue(1, $id, 'integer');
+$result = $stmt-&gt;executeQuery();</code></pre>
                     </li>
                     <li style="margin-top: 1em;">
                         Alternative: named placeholders
-                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/04c.php">$stmt = $connection->prepare('SELECT * FROM collections WHERE id = :id');
-$stmt->bindValue(':id', $id, 'integer');
-$stmt->execute();</code></pre>
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/04c.php">$stmt = $connection-&gt;prepare('SELECT * FROM collections WHERE id = :id');
+$stmt-&gt;bindValue(':id', $id, 'integer');
+$result = $stmt-&gt;executeQuery();</code></pre>
                     </li>
                 </ul>
                 <footer><small>Note: You call execute on the statement, not on <code>$connection</code><br>Note: the default binding type is <code>'string'</code></small></footer>
@@ -751,17 +757,17 @@ $stmt->execute();</code></pre>
                 <ul style="width: 100%;">
                     <li>
                         Also possible <em>(shorter, preferred)</em>:
-                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/04d.php">$stmt = $connection->prepare('SELECT * FROM collections WHERE id = ?');
-$stmt-&gtexecute([$id]);</code></pre>
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/04d.php">$stmt = $connection-&gt;prepare('SELECT * FROM collections WHERE id = ?');
+$result = $stmt-&gt;executeQuery([$id]);</code></pre>
                         <ul>
                             <li>Cannot be used with named placeholders</li>
                             <li>Optional 2rd parameter: array of parameter types</li>
                         </ul>
                     </li>
                     <li style="margin-top: 1em;">
-                        The same goes for queries that yield no result set:
+                        The same goes for queries that yield no result set (with <code>executeStatement()</code>):
                         <pre class="bigger"><code class="hljs php">$stmt = $connection->prepare('INSERT INTO collections (name, user_id) VALUES (?, ?)');
-$stmt-&gtexecute(['test', 4]);</code></pre>
+$result = $stmt-&gt;executeStatement(['test', 4]);</code></pre>
                     </li>
                 </ul>
 
@@ -811,7 +817,7 @@ $stmt-&gtexecute(['test', 4]);</code></pre>
                 <h2>Fetching an entire resultset</h2>
                 <ul style="width: 100%;">
                     <li>
-                        Use <code>Statement::fetchAllAssociative()</code><small><!--a href="http://www.php.net/manual/en/pdostatement.fetchall.php">&#9873;</a--></small> to fetch the entire resultset into an array (of rows)
+                        Use <code>Result::fetchAllAssociative()</code><small><!--a href="http://www.php.net/manual/en/pdostatement.fetchall.php">&#9873;</a--></small> to fetch the entire resultset into an array (of rows)
                         <ul>
                             <li>Each element is (again) an <strong>associative</strong> array of which the keys are the column labels</li>
                         </ul>
@@ -819,8 +825,8 @@ $stmt-&gtexecute(['test', 4]);</code></pre>
                 </ul>
                 <div>
 							<pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/05.php">$stmt = $connection->prepare('SELECT * FROM collections WHERE user_id = ? OR name = ?');
-$stmt->execute(array(2, 'russia'));
-$collections = $stmt->fetchAllAssociative();
+$result = $stmt-&gt;executeQuery([2, 'russia']);
+$collections = $result-&gt;fetchAllAssociative();
 
 echo '&lt;pre&gt;';
 var_dump($collections);
@@ -834,7 +840,7 @@ echo '&lt;/pre&gt;';</code></pre>
                 <div>
                     <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/05b.php">$collections = $connection->fetchAllAssociative(
     'SELECT * FROM collections WHERE user_id = ? OR name = ?',
-    array(2, 'russia'));</code></pre>
+    [2, 'russia']);</code></pre>
                 </div>
             </section>
 
@@ -842,12 +848,12 @@ echo '&lt;/pre&gt;';</code></pre>
                 <h2>Fetching a single row</h2>
                 <ul style="width: 100%;">
                     <li>
-                        Use <code>Statement::fetchAssociative()</code><small><!--a href="http://www.php.net/manual/en/pdostatement.fetch.php">&#9873;</a--></small> to fetch the returned rows one bye one
+                        Use <code>Result::fetchAssociative()</code><small><!--a href="http://www.php.net/manual/en/pdostatement.fetch.php">&#9873;</a--></small> to fetch the returned rows one bye one
                         <div>
 									<pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/05c.php">$stmt = $connection-&gt;prepare('SELECT * FROM collections WHERE user_id = ? OR name = ?');
-$stmt-&gt;execute(array(2, 'russia'));
+$result = $stmt-&gt;executeQuery([2, 'russia']);
 
-while ($collection = $stmt-&gt;fetchAssociative()) {
+while ($collection = $result-&gt;fetchAssociative()) {
     var_dump($collection);
 }</code></pre>
                         </div>
@@ -855,9 +861,9 @@ while ($collection = $stmt-&gt;fetchAssociative()) {
                     <li style="margin-top: 1em;">
                         Use case: queries that yield one row
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/05d.php">$stmt = $connection-&gt;prepare('SELECT * FROM collections WHERE id = ?');
-$stmt-&gt;execute(array(1));
+$result = $stmt-&gt;executeQuery([1]);
 
-$collection = $stmt-&gt;fetchAssociative();
+$collection = $result-&gt;fetchAssociative();
 var_dump($collection);</code></pre>
                     </li>
                 </ul>
@@ -867,11 +873,11 @@ var_dump($collection);</code></pre>
                 <h2>Fetching a single field</h2>
                 <ul style="width: 100%;">
                     <li>
-                        Use <code>Statement::fetchOne()</code><small><!--a href="http://www.php.net/manual/en/pdostatement.fetchColumn.php">&#9873;</a--></small> to fetch the value of a column from the first row
+                        Use <code>Result::fetchOne()</code><small><!--a href="http://www.php.net/manual/en/pdostatement.fetchColumn.php">&#9873;</a--></small> to fetch the value of a column from the first row
                         <div>
 									<pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/05e.php">$stmt = $connection->prepare('SELECT name, user_id FROM collections WHERE id = ?');
-$stmt-&gt;execute([1]);
-var_dump($stmt-&gt;fetchOne());</code></pre>
+$result = $stmt-&gt;executeQuery([1]);
+var_dump($result-&gt;fetchOne());</code></pre>
                         </div>
                     </li>
                 </ul>
@@ -883,16 +889,16 @@ var_dump($stmt-&gt;fetchOne());</code></pre>
                     <li>
                         Use <code>Connection::lastInsertId()</code><small><!--a href="http://www.php.net/manual/en/pdo.lastinsertid.php">&#9873;</a--></small> to know the last inserted id (<code>AUTO_INCREMENT</code>) after executing an <code>INSERT</code> query
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/06.php">$stmt = $connection->prepare('INSERT INTO collections(name, user_id) VALUES (?,?)');
-$stmt-&gt;execute(['Trip to Amsterdam', 10]);
+$stmt-&gt;executeStatement(['Trip to Amsterdam', 10]);
 
-echo 'Created album with ID ' . $connection->lastInsertId();</code></pre>
+echo 'Created album with ID ' . $connection-&gt;lastInsertId();</code></pre>
                     </li>
                     <li style="margin-top: 1em">
-                        Use <code>Statement::rowCount()</code><small><!--a href="http://www.php.net/manual/en/pdostatement.rowcount.php">&#9873;</a--></small> to know the number of affected rows made by <code>UPDATE</code> and <code>DELETE</code> queries
+                        <code>Statement::executeStatement()</code><small><!--a href="http://www.php.net/manual/en/pdostatement.rowcount.php">&#9873;</a--></small> returns the number of affected rows by <code>UPDATE</code> and <code>DELETE</code> queries
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/07.php">$stmt = $connection->prepare('DELETE FROM collections WHERE user_id = ?');
-$stmt->execute(array(10));
+$rowCount = $stmt-&gt;executeStatement([10]);
 
-echo 'Deleted ' . $stmt->rowCount() . ' rows';</code></pre>
+echo 'Deleted ' . $rowCount . ' rows';</code></pre>
                         <ul>
                             <li><em>Note: matched rows which aren't updated are not included in this count!</em></li>
                         </ul>

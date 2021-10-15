@@ -34,7 +34,7 @@
 	$id = isset($_GET['id']) ? $_GET['id'] : '0';
 
 	// Get collection from DB
-	$stmt = $connection->query('SELECT * FROM collections WHERE id = ' . $connection->quote($id, PDO::PARAM_INT));
+	$result = $connection->query('SELECT * FROM collections WHERE id = ' . $connection->quote($id, PDO::PARAM_INT));
 
 	// Handle result here ....
 	echo('Nothing to see here, check the source');

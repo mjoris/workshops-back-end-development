@@ -36,7 +36,7 @@
 	// Get collection from DB
 	$stmt = $connection->prepare('SELECT * FROM collections WHERE id = ?');
 	$stmt->bindValue(1, $id, 'integer');
-	$stmt->execute();
+	$result = $stmt->executeQuery();
 
 	// Handle result here ....
 	echo('Nothing to see here, check the source');

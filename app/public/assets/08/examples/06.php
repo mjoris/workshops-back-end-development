@@ -32,7 +32,7 @@
     }
 
     $stmt = $connection->prepare('INSERT INTO collections(name, user_id) VALUES (?,?)');
-    $stmt->execute(['Trip to Amsterdam', 10]);
+    $stmt->executeStatement(['Trip to Amsterdam', 10]);
 
 	echo 'Created album with ID ' . $connection->lastInsertId();
 

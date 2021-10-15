@@ -31,8 +31,8 @@
         showDbError('connect', $e->getMessage());
     }
 
-    $stmt = $connection->query('SELECT * FROM collections WHERE user_id = 2');
-	var_dump($stmt);
+    $result = $connection->query('SELECT * FROM collections WHERE user_id = 2');
+	var_dump($result);
 
 	// Handle result here ....
 

@@ -33,8 +33,8 @@
 
 	// Get collection from DB
     $stmt = $connection->prepare('SELECT * FROM collections WHERE user_id = ? OR name = ?');
-    $stmt->execute(array(2, 'russia'));
-	$collections = $stmt->fetchAllAssociative();
+    $result = $stmt->executeQuery([2, 'russia']);
+	$collections = $result->fetchAllAssociative();
 
 	echo '<meta charset="UTF-8" />';
 	echo '<pre>';

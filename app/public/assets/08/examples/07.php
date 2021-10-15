@@ -32,8 +32,8 @@
     }
 
     $stmt = $connection->prepare('DELETE FROM collections WHERE user_id = ?');
-    $stmt->execute(array(10));
+    $rowCount = $stmt->executeStatement([10]);
 
-    echo 'Deleted ' . $stmt->rowCount() . ' rows';
+    echo 'Deleted ' . $rowCount . ' rows';
 
 //EOF

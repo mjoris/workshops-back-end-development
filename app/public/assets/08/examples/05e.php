@@ -33,11 +33,11 @@
 
 	// Get collection from DB
     $stmt = $connection->prepare('SELECT name, user_id FROM collections WHERE id = ?');
-    $stmt->execute([1]);
+    $result = $stmt->executeQuery([1]);
 
 	echo '<meta charset="UTF-8" />';
 	echo '<pre>';
-	var_dump($stmt->fetchOne());
+	var_dump($result->fetchOne());
 	echo '</pre>';
 
 //EOF
