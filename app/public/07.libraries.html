@@ -791,22 +791,18 @@ $result = $mailer-&gt;send($message);</code></pre>
             <section>
                 <h2>Docker + Git + Composer = &#128165;</h2>
                 <ul style="font-size: 85%;">
-                    <li>During <strong>development</strong>:
+                    <li>Testing your <code>composer.json</code> in a Docker environment
                         <ul>
-                            <li style="color: purple;">Remember: the PHP version of composer and web server container should match</li>
-                            <li>Most Docker MCEs provide a container which has composer installed
-                                <ul>
-                                    <li>often the web server container, or</li>
-                                    <li>a separate <em>workspace</em> container, which the devs can use for any CLI operation</li>
-                                </ul>
-                            </li>
+                            <li style="color: purple;">Remember: the PHP versions of composer and web server container should match</li>
                             <li>So ALWAYS run <code>composer</code> from the dedicated container (<code>docker exec &hellip;</code>)</li>
                         </ul>
                     </li>
-                    <li style="margin-top: 1em;">When providing a MCE on Git
+                    <li style="margin-top: 1em;">Everything up and running with <code>docker-compose up</code> on <strong>Git</strong>
                         <ul>
                             <li style="color: purple;">Remember: the <code style="color: white;">vendor/</code> folder is not on git</li>
-                            <li>You want to have everything up and running when <code>docker-compose up</code></li>
+                            <li>You add a PHP version enforcement to <code>composer.json</code>:
+                                <pre class="bigger"><code class="hljs bash">composer config platform.php 8.0.10</code></pre>
+                            </li>
                             <li>You add a <a href="https://hub.docker.com/_/composer">composer</a> service to <code>docker-compose.yml</code>
                             <ul>
                                 <li><code>command: install</code></li>
