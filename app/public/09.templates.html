@@ -180,11 +180,11 @@ class Template {
 
     // render template with our data
     // @note The template class will automatically prevent XSS for us :-)
-    echo $tpl-&gt;render(array(
+    echo $tpl-&gt;render([
         'title' =&gt; $title,
         'user' =&gt; $userName,
         'weather' =&gt; $weatherToday
-    ));
+    ]);
 </code></pre>
                     </li>
                 </ul>
@@ -258,7 +258,7 @@ class Template {
                         <ul>
                             <li>
                                 New project, not yet requiring it via Composer:
-                                <div><pre class="bigger"><code>composer require twig/twig ^3.0</code></pre></div>
+                                <div><pre class="bigger"><code>composer require twig/twig ^3.3</code></pre></div>
                             </li>
                             <li>
                                 Existing project, already requiring it via Composer:
@@ -315,11 +315,11 @@ $twig = new \Twig\Environment($loader);</code></pre>
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/twig/04/index.php">// Assuming we've already included and bootstrapped Twig
 
 $tpl = $twig->load('main.twig');
-echo $tpl->render(array(
+echo $tpl->render([
 	'title' => $title,
 	'user' => $userName,
 	'weather' => $weatherToday
-));</code></pre>
+]);</code></pre>
                 </ul>
 
             </section>
@@ -383,12 +383,12 @@ echo $tpl->render(array(
 &lt;p&gt;{{ tagline|replace({'like':'love', 'Twig':'you'}) }}&lt;/p&gt;
 &lt;p&gt;Today: {{ curdate|date(&quot;d/m/Y&quot;) }}&lt;/p&gt;
 &lt;p&gt;{{ name|upper|reverse }}&lt;/p&gt;</code></pre>
-                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/twig/06/index.php">echo $tpl-&gt;render(array(
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/twig/06/index.php">echo $tpl-&gt;render([
 	'title' =&gt; 'The title &lt;script&gt;alert(&quot;XSS?&quot;);&lt;/script&gt;',
 	'tagline' =&gt; 'I like Twig',
 	'curdate' =&gt; new DateTime(),
 	'name' =&gt; 'Bramus'
-));</code></pre>
+]);</code></pre>
                     </li>
                 </ul>
                 <p style="margin-top: 1em;">Full list of filters: <a href="https://twig.symfony.com/doc/3.x/filters/index.html">https://twig.symfony.com/doc/3.x/filters/index.html</a></p>
@@ -402,20 +402,20 @@ echo $tpl->render(array(
                         Twig plays nice with associative arrays
                         <pre class="bigger"><code class="hljs php">// define our vars (fixed or via calculations)
 $greeting = 'Good afternoon';
-$user = array(
+$user = [
     'firstname' =&gt; 'Bramus',
     'lastname' =&gt; 'Van Damme',
     'city' =&gt; 'Vinkt'
-);
+];
 
 // load template
 $tpl = $twig->load('main.twig');
 
 // render template with our data
-echo $tpl->render(array(
+echo $tpl->render([
     'greeting' =&gt; $greeting,
     'user' =&gt; $user
-));</code></pre>
+]);</code></pre>
                         <pre class="bigger"><code class="hljs twig" data-overlay-example="assets/09/examples/twig/05/index.php">{{ greeting }} {{ user.firstname }} {{ user.lastname }}.<br />How's the weather in {{ user.city }}?</code></pre>
                     </li>
                 </ul>
@@ -428,23 +428,20 @@ echo $tpl->render(array(
                         Twig also plays nice with multi-dimensional assoc. arrays &hellip;
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/twig/07/index.php">$lecturers = [
     [
-        'name' =&gt; 'Rogier van der Linde', 'city' =&gt; 'Ghent',
-        'courses' =&gt; ['Webtechnology', 'Webdesign &amp; Usability', 'Webscripting 1', 'Webprogramming']
-    ], [
-        'name' =&gt; 'Kevin Picalausa', 'city' =&gt; 'Ghent',
-        'courses' =&gt; ['Webscripting 2', 'Webprogramming']
+        'name' =&gt; 'Pieter Van Peteghem', 'city' =&gt; 'Ghent',
+        'courses' =&gt; ['W&amp;M Server-side']
     ], [
         'name' =&gt; 'Davy De Winne', 'city' =&gt; 'Schellebelle',
-        'courses' =&gt; ['Webtechnology', 'Webdesign &amp; Usability', 'Webscripting 2']
+        'courses' =&gt; ['W&amp;M Introduction', 'W&amp;M Front-End', 'UX/UI Design']
     ], [
-        'name' =&gt; 'Joske Vermeulen'
+        'name' =&gt; 'Peter Demeester'
     ]
 ];
 
-echo $tpl-&gt;render(array(
-	'name' =&gt; 'Bramus Van Damme',
+echo $tpl-&gt;render([
+	'name' =&gt; 'Joris Maervoet',
 	'colleagues' =&gt; $lecturers
-));</code></pre>
+]);</code></pre>
                     </li>
                 </ul>
             </section>
@@ -507,13 +504,13 @@ echo $tpl-&gt;render(array(
 
                         <div class="columns">
                             <div class="column column-12">
-										<pre class="bigger"><code class="hljs php">echo $tpl-&gt;render(array(
-	'courses' => array(
+										<pre class="bigger"><code class="hljs php">echo $tpl-&gt;render([
+	'courses' => [
 		'JPW235' =&gt; 'Webscripting1',
 		'JPW213' =&gt; 'Webscripting2',
 		'JPW218' =&gt; 'Web &amp; Mobile',
-	)
-);</code></pre>
+	]
+];</code></pre>
                             </div>
                             <div class="column column-12">
 										<pre class="bigger"><code class="hljs twig" data-overlay-example="assets/09/examples/twig/08/index.php">&lt;ul&gt;
@@ -662,9 +659,9 @@ $twig = new \Twig\Environment($loader, [
                             <li>The result is a merge between the first and second template</li>
                         </ul>
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/twig/09/index.php">$tpl = $twig->load('main.twig');
-echo $tpl->render(array(
+echo $tpl->render([
     'pageTitle' =&gt; 'Template Inheritance'
-));</code></pre>
+]);</code></pre>
                     </li>
                 </ol>
             </section>
