@@ -1,13 +1,770 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <meta charset="utf-8">
+
+    <title>W&amp;M Server-side – Course materials</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/black.css" id="theme">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+    <link rel="stylesheet" href="main.css">
 </head>
+
 <body>
-    <p>Scantest in progress</p>
+
+<div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+        <section data-background="#b5533c">
+            <h3>Web &amp; Mobile Server-side <small>[OGI03q]</small></h3>
+            <h1>09. Templates</h1>
+        </section>
+
+
+        <section>
+
+            <section>
+                <h2>09.1<br>Introducing Templates</h2>
+            </section>
+
+            <section>
+                <h2>Typical PHP page</h2>
+
+                <ul style="width: 100%;">
+                    <li>
+                        Follows a certain structure
+                        <ul>
+                            <li>Logic at the top</li>
+                            <li>Display at the bottom</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div>
+							<pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/idea/01/index.php">&lt;?php
+
+    // define our vars (fixed or via calculations)
+    $title = 'testpage';
+    $userName = 'bramus';
+    $weatherToday = 'cloudy';
+
+?&gt;&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;&lt;?php echo htmlentities($title); ?&gt;&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  Hi there &lt;?php echo htmlentities($userName); ?&gt;, the weather today is &lt;?php echo htmlentities($weatherToday); ?&gt;.
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                </div>
+            </section>
+
+            <section>
+                <h2>Introducing Templates</h2>
+                <ul>
+                    <li>
+                        Split out the HTML from our PHP logic:
+                        <ol>
+                            <li>Put all the HTML into a separate file and provide <em>named placeholders</em> where to show variables</li>
+                            <li>In the remaining PHP code, keep the logic in place. Add code to load in the template and <em>assign</em> values to the template variables</li>
+                        </ol>
+                    </li>
+                    <li>
+                        Naming conventions:
+                        <ul>
+                            <li>
+                                Give the template file a <code>.tpl</code> extension
+                            </li>
+                            <li>
+                                Put variables between <code>{{ </code> and <code> }}</code> in the template, e.g. <code>{{ firstName }}</code>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Basic Execution</h2>
+
+                <div><pre class="bigger"><code class="hljs html">&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;{{ title }}&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  Hi there {{ user }}, the weather today is {{ weather }}.
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div>
+
+                <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/idea/02/index.php">&lt;?php
+
+$title = 'testpage';
+$userName = 'bramus';
+$weatherToday = 'cloudy';
+
+$tplContent = file_get_contents(__DIR__ . '/templates/main.tpl');
+
+$tplContent = str_replace('{{ title }}', htmlentities($title), $tplContent);
+$tplContent = str_replace('{{ user }}', htmlentities($userName), $tplContent);
+$tplContent = str_replace('{{ weather }}', htmlentities($weatherToday), $tplContent);
+
+echo $tplContent;</code></pre></div>
+
+            </section>
+
+            <section>
+                <h2>OO Execution (1)</h2>
+                <ul style="width: 100%;">
+                    <li>
+                        Let's put this logic into a <em>(very basic)</em> class
+                        <pre class="bigger" style="height: 380px;"><code class="hljs php">&lt;?php
+
+class Template {
+
+	private string $content;
+
+	public function __construct($template = null) {
+		if($template) $this-&gt;loadTemplate($template);
+	}
+
+	public function loadTemplate(string $template) : void {
+		$this-&gt;content = file_get_contents($template);
+	}
+
+	public function render(array $data) : string {
+		foreach ($data as $key =&gt; $value) {
+			$this-&gt;content = str_replace(
+				'{{ '. $key .' }}', htmlentities($value),
+				$this-&gt;content
+			);
+		}
+		return $this-&gt;content;
+	}
+}
+
+// EOF</code></pre>
+                    </li>
+                </ul>
+                <footer><em>Note: this class doesn't do any checking yet!</em></footer>
+            </section>
+
+            <section>
+                <h2>OO Execution (2)</h2>
+                <ul style="width: 100%;">
+                    <li>
+                        Class usage:
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/idea/03/index.php">&lt;?php
+
+    // includes &amp; requires
+    require_once __DIR__ . '/includes/classes/template.php';
+
+    // define our vars (fixed or via calculations)
+    $title = 'testpage';
+    $userName = 'bramus';
+    $weatherToday = 'cloudy';
+
+    // load template
+    $tpl = new Template();
+    $tpl-&gt;loadTemplate(__DIR__ . '/templates/main.tpl');
+
+    // render template with our data
+    // @note The template class will automatically prevent XSS for us :-)
+    echo $tpl-&gt;render([
+        'title' =&gt; $title,
+        'user' =&gt; $userName,
+        'weather' =&gt; $weatherToday
+    ]);
+</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Cool! What now?</h2>
+                <ul>
+                    <li>
+                        We've successfully separated the PHP logic and rendering of our HTML.
+                    </li>
+                    <li style="margin-top: 1em;">
+                        The <code>Template</code> class is very basic. Possible improvements:
+                        <ul>
+                            <li>Support <code>if</code> structures in our templates</li>
+                            <li>Support <code>for</code> and <code>foreach</code> structures in our templates</li>
+                            <li>Variable modifiers <em>(filters)</em> within our template (think <code>ucfirst</code>)</li>
+                            <li>&hellip;</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        We could implement this ourselves &hellip;
+                        <ul>
+                            <li>&hellip; yet some bright minds have already <a href="http://fabien.potencier.org/templating-engines-in-php.html">pondered on the subject</a> and <a href="http://fabien.potencier.org/templating-engines-in-php-follow-up.html">have come up with a robust solution</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+        </section>
+
+
+
+        <section>
+
+            <section>
+                <h2>09.2<br>Introducing Twig</h2>
+
+                <p><img src="assets/09/splash-twig.jpg" width="900" alt="" /></p>
+
+            </section>
+
+            <section>
+                <h2>Twig</h2>
+                <ul>
+                    <li>
+                        PHP Templating Library
+                        <ul>
+                            <li>= Set of classes to working with templates</li>
+                            <li>Website: <a href="https://twig.symfony.com/">https://twig.symfony.com/</a></li>
+                            <li>Documentation: <a href="https://twig.symfony.com/doc/3.x/">https://twig.symfony.com/doc/3.x/</a></li>
+                            <li>Developed by: <a href="https://sensiolabs.com/en">SensioLabs</a></li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Why Twig and not X?
+                        <ul>
+                            <li>Modern code, Template oriented syntax, Fast, Supports caching, Template Inheritance, Flexible, Extensible, &hellip;</li>
+                            <li>Twig prevents XSS as it <em>escapes</em> variables by default</li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </section>
+
+            <section>
+                <h2>Installing Twig</h2>
+                <ul>
+                    <li>
+                        Installation:
+                        <ul>
+                            <li>
+                                New project, not yet requiring it via Composer:
+                                <div><pre class="bigger"><code>composer require twig/twig ^3.3</code></pre></div>
+                            </li>
+                            <li>
+                                Existing project, already requiring it via Composer:
+                                <div><pre class="bigger"><code>composer install</code></pre></div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Using Twig into your project</h2>
+
+                <ol>
+                    <li>
+                        Instead of manually including each class that ships with Twig, just include Composer's general autoloader.
+                        <pre class="bigger"><code class="hljs php">// Require composer autoloader
+require_once __DIR__ . '/vendor/autoload.php';</code></pre>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        <em>Bootstrap</em> Twig, pointing it to the <code>templates/</code> folder
+                        <pre class="bigger"><code class="hljs php">$loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/templates');
+$twig = new \Twig\Environment($loader);</code></pre>
+                    </li>
+
+                    <li style="margin-top: 1em;">
+                        Load your template and render it <em>(see next slide)</em>
+                        <ul>
+                            <li>We'll rename our <code>.tpl</code> files to <code>.twig</code></li>
+                        </ul>
+                    </li>
+                </ol>
+
+
+            </section>
+
+            <section>
+                <h2>Your first Twig Template</h2>
+
+                <ul style="width: 100%;">
+                    <li>
+                        The syntax of our <del><code>.tpl</code></del> <ins><code>.twig</code></ins> file hasn't changed
+                        <pre class="bigger"><code class="hljs twig">&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;{{ title }}&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  Hi there {{ user }}, the weather today is {{ weather }}.
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        The PHP code is quite similar
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/twig/04/index.php">// Assuming we've already included and bootstrapped Twig
+
+$tpl = $twig->load('main.twig');
+echo $tpl->render([
+	'title' => $title,
+	'user' => $userName,
+	'weather' => $weatherToday
+]);</code></pre>
+                </ul>
+
+            </section>
+
+        </section>
+
+        <section>
+            <section>
+                <h2>09.3<br>Exploring Twig</h2>
+            </section>
+
+            <section>
+                <h2>Template Comments</h2>
+                <ul>
+                    <li>
+                        Wrap template comments between <code>{# </code> and <code> #}</code> inside your <code>.twig</code> file.
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Example: <code>{# I am a template comment! #}</code><small><a href="https://twig.symfony.com/doc/3.x/templates.html#comments">&#9873;</a></small>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Template comments won't be rendered, not even in HTML comments.
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Variable Filters (1)</h2>
+                <ul>
+                    <li>
+                        Use a <code>|</code> followed by a <em>filter</em> in the template to modify a parameter before it is displayed
+                        <ul>
+                            <li>Example: <code>{{ firstname|upper }}</code><small><a href="https://twig.symfony.com/doc/3.x/filters/upper.html">&#9873;</a></small> will render <code>firstname</code> in uppercase.</li>
+                            <li>List of filters: <a href="https://twig.symfony.com/doc/3.x/filters/index.html">https://twig.symfony.com/doc/3.x/filters/index.html</a></li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Filters can be combined: <code>{{ firstname|upper|reverse }}</code>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Filters can accept arguments: <code>{{ firstname|slice(0,4) }}</code><small><a href="https://twig.symfony.com/doc/3.x/filters/slice.html">&#9873;</a></small>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Default filter applied: <code>escape</code><small><a href="https://twig.symfony.com/doc/3.x/filters/escape.html">&#9873;</a></small> <em>(aliased to <code>e</code>)</em>
+                        <ul>
+                            <li>Escapes the parameter to prevent XSS</li>
+                            <li>
+                                Use <code>raw</code><small><a href="https://twig.symfony.com/doc/3.x/filters/raw.html">&#9873;</a></small> filter to show a variable unaltered
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Variable Filters (2)</h2>
+                <ul style="width: 100%;">
+                    <li>
+                        Example:
+                        <pre class="bigger"><code class="hljs twig">&lt;p&gt;The value of &lt;em&gt;title&lt;/em&gt; is {{ title }}&lt;/p&gt;
+&lt;p&gt;{{ tagline|replace({'like':'love', 'Twig':'you'}) }}&lt;/p&gt;
+&lt;p&gt;Today: {{ curdate|date(&quot;d/m/Y&quot;) }}&lt;/p&gt;
+&lt;p&gt;{{ name|upper|reverse }}&lt;/p&gt;</code></pre>
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/twig/06/index.php">echo $tpl-&gt;render([
+	'title' =&gt; 'The title &lt;script&gt;alert(&quot;XSS?&quot;);&lt;/script&gt;',
+	'tagline' =&gt; 'I like Twig',
+	'curdate' =&gt; new DateTime(),
+	'name' =&gt; 'Bramus'
+]);</code></pre>
+                    </li>
+                </ul>
+                <p style="margin-top: 1em;">Full list of filters: <a href="https://twig.symfony.com/doc/3.x/filters/index.html">https://twig.symfony.com/doc/3.x/filters/index.html</a></p>
+            </section>
+
+            <section>
+                <h2>Associative Arrays</h2>
+
+                <ul>
+                    <li>
+                        Twig plays nice with associative arrays
+                        <pre class="bigger"><code class="hljs php">// define our vars (fixed or via calculations)
+$greeting = 'Good afternoon';
+$user = [
+    'firstname' =&gt; 'Bramus',
+    'lastname' =&gt; 'Van Damme',
+    'city' =&gt; 'Vinkt'
+];
+
+// load template
+$tpl = $twig->load('main.twig');
+
+// render template with our data
+echo $tpl->render([
+    'greeting' =&gt; $greeting,
+    'user' =&gt; $user
+]);</code></pre>
+                        <pre class="bigger"><code class="hljs twig" data-overlay-example="assets/09/examples/twig/05/index.php">{{ greeting }} {{ user.firstname }} {{ user.lastname }}.<br />How's the weather in {{ user.city }}?</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Multi-Dimensional Assoc. Arrays (1)</h2>
+                <ul>
+                    <li>
+                        Twig also plays nice with multi-dimensional assoc. arrays &hellip;
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/twig/07/index.php">$lecturers = [
+    [
+        'name' =&gt; 'Pieter Van Peteghem', 'city' =&gt; 'Ghent',
+        'courses' =&gt; ['W&amp;M Server-side']
+    ], [
+        'name' =&gt; 'Davy De Winne', 'city' =&gt; 'Schellebelle',
+        'courses' =&gt; ['W&amp;M Introduction', 'W&amp;M Front-End', 'UX/UI Design']
+    ], [
+        'name' =&gt; 'Peter Demeester'
+    ]
+];
+
+echo $tpl-&gt;render([
+	'name' =&gt; 'Joris Maervoet',
+	'colleagues' =&gt; $lecturers
+]);</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Multi-Dimensional Assoc. Arrays (2)</h2>
+                <ul style="width: 100%;">
+                    <li>
+                        &hellip; just use <code>for</code><small><a href="https://twig.symfony.com/doc/3.x/tags/for.html">&#9873;</a></small> and <code>if</code><small><a href="https://twig.symfony.com/doc/3.x/tags/if.html">&#9873;</a></small> tags in your template
+
+                        <pre class="bigger"><code class="hljs twig"  data-overlay-example="assets/09/examples/twig/07/index.php">{% for colleague in colleagues %}
+&lt;h3&gt;
+	{{ colleague.name }}
+	{% if colleague.city %}&lt;em&gt;({{ colleague.city }})&lt;/em&gt;{% endif %}
+&lt;/h3&gt;
+&lt;div&gt;
+	{% if colleague.courses %}
+	&lt;p&gt;You might know him from:&lt;/p&gt;
+	&lt;ul&gt;
+		{% for course in colleague.courses %}
+		&lt;li&gt;{{ course }}&lt;/li&gt;
+		{% endfor %}
+	&lt;/ul&gt;
+	{% else %}
+	&lt;p&gt;(He's not teaching any web courses)&lt;/p&gt;
+	{% endif %}
+&lt;/div&gt;
+{% endfor %}</code></pre>
+                    </li>
+                </ul>
+                <footer><em>Beware: tags must be wrapped between <code>{% </code> and <code> %}</code></em> (twig code block)</footer>
+            </section>
+
+            <section>
+                <h2>More on if</h2>
+                <ul style="width: 100%;">
+                    <li>
+                        The <code>if</code> tag in Twig works just as any other if
+                        <pre class="bigger"><code class="hljs twig">{% if username == 'bramus' %} YOLO {% endif %}</code></pre>
+                        <pre class="bigger"><code class="hljs twig">{% if user in ['bramus', 'rogier'] %} YOLO {% endif %}</code></pre>
+                    </li>
+                    <li>
+                        <code>elseif</code> is also supported
+                        <pre class="bigger"><code class="hljs twig">{% if blogpost.visibility == 'password' %}
+    &lt;p&gt;Blogpost is password protected&lt;/p&gt;
+{% elseif blogpost.visibility == 'link' %}
+    &lt;p&gt;Blogpost is public for those who have the link&lt;/p&gt;
+{% else %}
+    &lt;p&gt;Blogpost is public for all&lt;/p&gt;
+{% endif %}</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>More Array goodiness (1)</h2>
+                <ul style="width: 100%;">
+                    <li>
+                        Looping the array <code>$courses</code> using <code>for-else-endfor</code><small><a href="https://twig.symfony.com/doc/3.x/tags/for.html#the-else-clause">&#9873;</a></small>
+
+                        <div class="columns">
+                            <div class="column column-12">
+										<pre class="bigger"><code class="hljs php">echo $tpl-&gt;render([
+	'courses' => [
+		'JPW235' =&gt; 'Webscripting1',
+		'JPW213' =&gt; 'Webscripting2',
+		'JPW218' =&gt; 'Web &amp; Mobile',
+	]
+];</code></pre>
+                            </div>
+                            <div class="column column-12">
+										<pre class="bigger"><code class="hljs twig" data-overlay-example="assets/09/examples/twig/08/index.php">&lt;ul&gt;
+{% for val in courses %}
+	&lt;li&gt;{{ val }}&lt;/li&gt;
+{% else %}
+	&lt;li&gt;(array is empty)&lt;/li&gt;
+{% endfor %}
+&lt;/ul&gt;</code></pre>
+                            </div>
+                        </div>
+                        <br style="clear: both;" />
+                    </li>
+                    <li>Iterating the keys<small><a href="https://twig.symfony.com/doc/3.x/tags/for.html#iterating-over-keys">&#9873;</a></small> / keys &amp; values<small><a href="https://twig.symfony.com/doc/3.x/tags/for.html#iterating-over-keys-and-values">&#9873;</a></small>:
+                        <div class="columns">
+                            <div class="column column-12">
+										<pre class="bigger"><code class="hljs twig" data-overlay-example="assets/09/examples/twig/08/index.php">&lt;ul&gt;
+{% for k in courses|keys %}
+	&lt;li&gt;key: {{ k }}&lt;/li&gt;
+{% else %}
+	&lt;li&gt;(no items in the array)&lt;/li&gt;
+{% endfor %}
+&lt;/ul&gt;</code></pre>
+                            </div>
+                            <div class="column column-12">
+										<pre class="bigger"><code class="hljs twig" data-overlay-example="assets/09/examples/twig/08/index.php">&lt;ul&gt;
+{% for key, val in courses %}
+	&lt;li&gt;{{ key }} = {{ val }}&lt;/li&gt;
+{% else %}
+	&lt;li&gt;(no items in the array)&lt;/li&gt;
+{% endfor %}
+&lt;/ul&gt;</code></pre>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>More Array goodiness (2)</h2>
+                <ul style="width: 100%;">
+                    <li>
+                        Use the <code>loop</code> variable<small><a href="https://twig.symfony.com/doc/3.x/tags/for.html#the-loop-variable">&#9873;</a></small> inside iterations:
+                        <pre class="bigger"><code class="hljs twig" data-overlay-example="assets/09/examples/twig/08/index.php">&lt;ul&gt;
+{% for val in courses %}
+	&lt;li&gt;
+		{{ val }}
+		&lt;ul&gt;
+			&lt;li&gt;&lt;code&gt;loop.index&lt;/code&gt;: {{ loop.index }}&lt;/li&gt;
+			&lt;li&gt;&lt;code&gt;loop.index0&lt;/code&gt;: {{ loop.index0 }}&lt;/li&gt;
+			&lt;li&gt;&lt;code&gt;loop.revindex&lt;/code&gt;: {{ loop.revindex }}&lt;/li&gt;
+			&lt;li&gt;&lt;code&gt;loop.revindex0&lt;/code&gt;: {{ loop.revindex0 }}&lt;/li&gt;
+			&lt;li&gt;&lt;code&gt;loop.first&lt;/code&gt;: {{ loop.first }}&lt;/li&gt;
+			&lt;li&gt;&lt;code&gt;loop.last&lt;/code&gt;: {{ loop.last }}&lt;/li&gt;
+			&lt;li&gt;&lt;code&gt;loop.length&lt;/code&gt;: {{ loop.length }}&lt;/li&gt;
+		&lt;/ul&gt;
+	&lt;/li&gt;
+{% endfor %}
+&lt;/ul&gt;</code></pre>
+                    </li>
+                    <li>
+                        It's also possible to create your own sequences
+                        <pre class="bigger"><code class="hljs twig">&lt;p&gt;{% for i in 0..10 %}{{ i }}{% endfor %}&lt;/p&gt;
+&lt;p&gt;{% for letter in 'a'..'z' %}{{ letter }}{% endfor %}&lt;/p&gt;</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+        </section>
+
+        <section>
+            <section>
+                <h2>09.4<br>Getting Practical</h2>
+            </section>
+
+            <section>
+                <h2>Configuring Twig</h2>
+                <ul>
+                    <li>
+                        Twig can be configured during its bootstrapping phase<small><a href="https://twig.symfony.com/doc/3.x/api.html#environment-options">&#9873;</a></small>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Example: enable caching
+                        <pre class="bigger"><code class="hljs php">$loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/templates');
+$twig = new \Twig\Environment($loader, [
+    'cache' =&gt; __DIR__ . '/cache',
+    'auto_reload' =&gt; true // set to false on production
+]);</code></pre>
+                        <ul>
+                            <li>When caching is enabled, Twig will save compiled PHP code (<a href="https://twig.symfony.com/doc/3.x/internals.html#the-compiler">example</a>) of the template for faster use</li>
+                        </ul>
+
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Template Inheritance (1)</h2>
+                <ul>
+                    <li>Twig supports template inheritance<small><a href="https://twig.symfony.com/doc/3.x/templates.html#template-inheritance">&#9873;</a></small></li>
+                    <li style="margin-top: 1em;">Use case: Have a parent <code>layout.twig</code> and extend it per page in your project</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Template Inheritance (2)</h2>
+                <ol>
+                    <li>
+                        Define a template as usual, with some <em>blocks</em> in it
+                        <pre class="bigger"><code class="hljs twig">&lt;h1&gt;{{ pageTitle }}&lt;/h1&gt;
+&lt;main&gt;
+    {% block pageContent %}
+    &lt;p&gt;This is the pageContent&lt;/p&gt;
+    {% endblock %}
+&lt;/main&gt;
+{% block pageFooter %}
+&lt;footer&gt;This is the footer&lt;/footer&gt;
+{% endblock %}</code></pre>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Define a second template named <code>main.twig</code>
+                        <ul>
+                            <li>
+                                Make it extend the first template (<code>layout.twig</code>) using <code>extends</code><small><a href="https://twig.symfony.com/doc/3.x/tags/extends.html">&#9873;</a></small>
+                            </li>
+                            <li>
+                                If necessary, overwrite some blocks from the first template.
+                            </li>
+                        </ul>
+                        <pre class="bigger"><code class="hljs twig">{% extends 'layout.twig' %}
+
+{% block pageContent %}
+    &lt;p&gt;Lorem ipsum dolor sit amet&lt;/p&gt;
+{% endblock %}
+</code></pre>
+                    </li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>Template Inheritance (3)</h2>
+                <ol start="3">
+                    <li>
+                        In PHP, load up the second template and display it.
+                        <ul>
+                            <li>The result is a merge between the first and second template</li>
+                        </ul>
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/twig/09/index.php">$tpl = $twig->load('main.twig');
+echo $tpl->render([
+    'pageTitle' =&gt; 'Template Inheritance'
+]);</code></pre>
+                    </li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>Template Inheritance (4)</h2>
+                <ul>
+                    <li>
+                        Override variables of the parent template from within the child template using <code>set</code><small><a href="https://twig.symfony.com/doc/3.x/tags/set.html">&#9873;</a></small> in Twig
+                        <pre class="bigger"><code class="hljs twig" data-overlay-example="assets/09/examples/twig/09/index2.php">{% extends 'layout.twig' %}
+
+{% set pageTitle = pageTitle|replace({'e': 'a'}) ~ ' (Manipulated)' %}</code></pre>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Output the parent block using <code>parent()</code><small><a href="https://twig.symfony.com/doc/3.x/functions/parent.html">&#9873;</a></small>
+                        <pre class="bigger"><code class="hljs twig">{% extends 'layout.twig' %}
+
+{% block pageStyle %}
+    {{ parent() }}
+    footer { text-align: center; padding-top: 2em; }
+{% endblock %}</code></pre>
+                    </li>
+                </ul>
+                <footer>Note: overridden blocks/variables must exist in the parent template</footer>
+            </section>
+
+            <section>
+                <h2>Including other templates</h2>
+                <ul>
+                    <li>
+                        It's also possible to include other templates, using <code>include</code><small><a href="https://twig.symfony.com/doc/3.x/tags/include.html">&#9873;</a></small>. Same principle as PHP's <code>include()</code><small><a href="http://www.php.net/include">&#9873;</a></small>
+                        <pre class="bigger"><code class="hljs twig">{% include 'sidebar.twig' %}</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Want more?</h2>
+                <ul>
+                    <li>
+                        We've only touched base here, there's lots more functionality in Twig
+                        <ul>
+                            <li>Explore the <a href="https://twig.symfony.com/doc/3.x/filters/index.html">full list of filters</a></li>
+                            <li>Next to <code>parent()</code> Twig supports <a href="https://twig.symfony.com/doc/3.x/functions/index.html">some other handy functions</a></li>
+                            <li>Next to <code>if</code>, <code>for</code>, <code>block</code> and <code>set</code> there are <a href="https://twig.symfony.com/doc/3.x/tags/index.html">lots more tags available in Twig</a></li>
+                            <li>Twig has some <a href="https://twig.symfony.com/doc/3.x/tests/index.html">built-in tests</a> you can use on variables</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        You can <a href="https://twig.symfony.com/doc/3.x/advanced.html">extend Twig with your own filters, tests, tags, and functions</a>
+                    </li>
+                </ul>
+            </section>
+        </section>
+
+
+
+
+
+
+        <!-- The END -->
+        <section>
+            <section>
+                <h2>Questions?</h2>
+                <footer>
+                    <em><a href="mailto:joris.maervoet@odisee.be">joris.maervoet@odisee.be</a></em>
+                </footer>
+            </section>
+        </section>
+
+
+
+
+
+    </div>
+
+</div>
+
+<script src="dist/reveal.js"></script>
+<script src="plugin/zoom/zoom.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/search/search.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+
+    // Also available as an ES module, see:
+    // https://revealjs.com/initialization/
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: true,
+        hash: true,
+        slideNumber: true,
+
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight ]
+    });
+
+</script>
+<script src="toc.js"></script>
+<script src="overlay.js"></script>
+
 </body>
 </html>
