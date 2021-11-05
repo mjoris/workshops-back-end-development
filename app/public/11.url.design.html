@@ -28,17 +28,17 @@
     <div class="slides">
         <section data-background="#b5533c">
             <h3>Web &amp; Mobile Server-side <small>[OGI03q]</small></h3>
-            <h1>10. URL Design &amp; Routers</h1>
+            <h1>11. URL Design &amp; Routers</h1>
         </section>
 
         
         <!-- URL Design -->
         <section>
             <section>
-                <h2>10.1<br>URL Design</h2>
+                <h2>11.1<br>URL Design</h2>
             </section>
 
-            <section data-background="assets/10/picard-facepalm.jpg">
+            <section data-background="assets/11/picard-facepalm.jpg">
                 <h2>URLs in the olden days</h2>
 
                 <ul>
@@ -310,7 +310,7 @@
         <!-- Supporting Clean URLs -->
         <section>
             <section>
-                <h2>10.2<br>Supporting Clean URLs</h2>
+                <h2>11.2<br>Supporting Clean URLs</h2>
                 
             </section>
 
@@ -332,7 +332,7 @@
                     <li>
                         Possible using the <code>mod_rewrite</code> Apache Module
                         <ul>
-                            <li>Wampserver: not enabled by default (<a href="assets/10/wamp_url_rewrite.png">instructions</a>)</li>
+                            <li>Wampserver: not enabled by default (<a href="assets/11/wamp_url_rewrite.png">instructions</a>)</li>
                             <li>MAMP Pro: enabled by default</li>
                         </ul>
                     </li>
@@ -447,7 +447,7 @@ $router->run();</code></pre>
                 <div>
                     <code>webroot/</code>
                     <input type="text" class="routertest" value="hello">
-                    <a href="" data-base-url="assets/10/examples/demo01/" target="_blank">&rarr;</a>
+                    <a href="" data-base-url="assets/11/examples/demo01/" target="_blank">&rarr;</a>
                 </div>
             </section>
 
@@ -456,7 +456,7 @@ $router->run();</code></pre>
             <!-- Routing -->
             <section>
                 <section>
-                    <h2>10.3<br>The Router</h2>
+                    <h2>11.3<br>The Router</h2>
                 </section>
 
                 <section>
@@ -557,7 +557,7 @@ $router-&gt;get('/movies/(\d+)/photos/(\d+)', function($movieId, $photoId) {
                             <div style="float:right;">
                                 <code>webroot/</code>
                                 <input type="text" class="routertest" value="movies/24/photos/4">
-                                <a href="" data-base-url="assets/10/examples/demo02/" target="_blank">&rarr;</a>
+                                <a href="" data-base-url="assets/11/examples/demo02/" target="_blank">&rarr;</a>
                             </div>
                         </li>
                         <li> PCRE-based subpatterns between <code>()</code>
@@ -619,7 +619,7 @@ $router-&gt;get('/movies/(\d+)/photos/(\d+)', function($movieId, $photoId) {
                             <div style="float:right;">
                                 <code>webroot/</code>
                                 <input type="text" class="routertest" value="movies/">
-                                <a href="" data-base-url="assets/10/examples/demo03/" target="_blank">&rarr;</a>
+                                <a href="" data-base-url="assets/11/examples/demo03/" target="_blank">&rarr;</a>
                             </div>
                         </li>
                     </ul>
@@ -645,7 +645,7 @@ $router-&gt;get('/search/(\w+)', function($term) {
                             <div>
                                 <code>webroot/</code>
                                 <input type="text" class="routertest" value="search">
-                                <a href="" data-base-url="assets/10/examples/demo04/" target="_blank">&rarr;</a>
+                                <a href="" data-base-url="assets/11/examples/demo04/" target="_blank">&rarr;</a>
                             </div>
                 </section>
 
@@ -678,7 +678,7 @@ $router-&gt;run();</code></pre>
                     <div>
                         <code>webroot/</code>
                         <input type="text" class="routertest" value="search">
-                        <a href="" data-base-url="assets/10/examples/demo05/" target="_blank">&rarr;</a>
+                        <a href="" data-base-url="assets/11/examples/demo05/" target="_blank">&rarr;</a>
                     </div>
                 </section>
 
@@ -721,7 +721,7 @@ $router-&gt;run();</code></pre>
                     <div>
                         <code>webroot/</code>
                         <input type="text" class="routertest" value="search">
-                        <a href="" data-base-url="assets/10/examples/demo05b/" target="_blank">&rarr;</a>
+                        <a href="" data-base-url="assets/11/examples/demo05b/" target="_blank">&rarr;</a>
                     </div>
                 </section>
 
@@ -737,7 +737,7 @@ $router-&gt;run();</code></pre>
 
                                 </li>
                                 <li>Simple example
-                                    <pre class="bigger"><code class="hljs twig">    {% set basePath = '/assets/10/examples/demo05/' %}
+                                    <pre class="bigger"><code class="hljs twig">    {% set basePath = '/assets/11/examples/demo05/' %}
     &lt;link rel="stylesheet" href="{{ (basePath ~ 'layout.css') }}"&gt;
 &lt;/head&gt;
 &lt;body&gt;
@@ -847,7 +847,7 @@ $router-&gt;run();</code></pre>
                     <div>
                         <code>webroot/</code>
                         <input type="text" class="routertest" value="search">
-                        <a href="" data-base-url="assets/10/examples/demo06/" target="_blank">&rarr;</a>
+                        <a href="" data-base-url="assets/11/examples/demo06/" target="_blank">&rarr;</a>
                     </div>
                 </section>
 
