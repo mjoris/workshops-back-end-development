@@ -105,7 +105,7 @@
                                 Allow at least 20 cookies per domain
                                 <ul>
                                     <li>Firefox: 150 max</li>
-                                    <li>IE: 50 max</li>
+                                    <li>IE/Edge: 50...180 max</li>
                                     <li>Chrome/Opera: 180 max</li>
                                 </ul>
                             </li>
@@ -116,7 +116,7 @@
                     </li>
                     <li>The limits aren't an obstacle most of the time</li>
                 </ul>
-                <footer><small>Remark: IE imposes a maximum total size for all cookies of a domain (10kB)</small></footer>
+                <footer><small>Remark: IE/Edge imposes a maximum total size for all cookies of a domain (10kB)</small></footer>
             </section>
 
             <section>
@@ -304,7 +304,7 @@
                 </ul>
             </section>
 
-            <section>
+            <section data-background="#fdfdfd">
                 <h2>Code</h2>
                 <ul>
                     <li>
@@ -330,7 +330,7 @@
                 </ul>
             </section>
 
-            <section>
+            <section data-background="#fdfdfd">
                 <h2>Code, revisited</h2>
                 <ul>
                     <li>
@@ -467,7 +467,7 @@
                         <ul>
                             <li style="font-size: 60%;">hidden fields (post or get), or</li>
                             <li style="font-size: 60%;">query string (get), or</li>
-                            <li><strong>by default:</strong> cookies (best choice)</li>
+                            <li><strong>by default:</strong> cookies (your choice)</li>
                         </ul>
                     </li>
                     <li>
@@ -478,14 +478,15 @@ session.save_path = /tmp
 // name of the session id variable
 session.name = PHPSESSID
 
-// use cookies for storing the session id?
+// use cookies (and only cookies) for storing the session id?
 session.use_cookies = 1
+session.use_only_cookies = 1
 
 // expiry time of the cookie. Default value: when the browser closes
 session.cookie_lifetime = 0
 
 // expiry time of session variables (in seconds)
-session.gc_maxlifetime = 1800</code></pre>
+session.gc_maxlifetime = 1440</code></pre>
                     </li>
                 </ul>
                     <div class="tooltip">
@@ -496,7 +497,7 @@ session.gc_maxlifetime = 1800</code></pre>
                                     <pre class="bigger"><code class="hljs php">session_start();
 echo '&lt;a href=&quot;nextpage.php?PHPSESSID=' . session_id() . '&quot; title=&quot;to next page&quot;&gt;to next page&lt;/a&gt;';</code></pre>
                                 </li>
-                                <li>Indeed, session variables are stored in files on the web server (1 file per session). This file is locked by <code>session_start();</code> which could result in <a href="https://ma.ttias.be/php-session-locking-prevent-sessions-blocking-in-requests/">concurrency problems</a>.</em></li>
+                                <li>Don't try this - it's unsafe</li>
                             </ul>
                         </div>
                     </div>
@@ -516,15 +517,16 @@ echo '&lt;a href=&quot;nextpage.php?PHPSESSID=' . session_id() . '&quot; title=&
                         <pre class="bigger"><code class="hljs php">session_start();</code></pre>
                         <ul>
                             <li>
-                                Searches for the <code>PHPSESSID</code> in <code>$_COOKIE</code>, <code>$_GET</code>, or <code>$_POST</code>
+                                Searches for <code>PHPSESSID</code> in <code>$_COOKIE</code> (and <code>$_GET</code> and <code>$_POST</code>)
                                 <ul>
                                     <li>If not found, a (new) session id is generated</li>
                                     <li>If found, all linked vars are fetched and <code>$_SESSION</code> is populated</li>
                                 </ul>
                             </li>
                             <li>
-                                If you want to keep your session going: call this function on each page, even if that page doesn't use the session data
+                                You call this (on top of your page) <strong>before</strong> any HTML output (cf. cookie header) and <strong>before</strong> any <code>$_SESSION</code> operation
                             </li>
+                            <li>It keeps your session going (time-out counter set to 0)</li>
                         </ul>
                     </li>
                 </ul>
@@ -560,6 +562,22 @@ session_destroy();</code></pre>
             </section>
 
             <section>
+                <h2>Remark: Session Locking</h2>
+                <ul>
+                    <li>Each call to <code>session_start()</code> locks the session file (on disk) until the PHP script is finished, preventing other scripts in the same session to start</li>
+                    <li style="margin-top: 1em;">Result: For the <strong>same user</strong>, the PHP scripts are executed one after the other</li>
+                    <li>
+                        Not necessarily a problem, unless you have parallel calls from JavaScript (e.g. polling)
+                        <ul>
+                            <li><code>session_write_close()</code> writes the session data and further <code>$_SESSION</code> manipulations will not be saved</li>
+                            <li><code>session_start(['read_and_close' =&gt; true])</code> opens the session only for reading</li>
+                        </ul>
+                    </li>
+                </ul>
+                <footer><small>ma.ttias.be has an <a href="https://ma.ttias.be/php-session-locking-prevent-sessions-blocking-in-requests/">excellent article</a> on PHP session locking</small></footer>
+            </section>
+
+            <section>
                 <h2>Example: Authentication</h2>
                 <ul>
                     <li>
@@ -569,7 +587,7 @@ session_destroy();</code></pre>
                 </ul>
             </section>
 
-            <section>
+            <section data-background="#fdfdfd">
                 <h2>Code</h2>
                 <ul>
                     <li>
@@ -664,7 +682,7 @@ session_destroy();</code></pre>
                         </ul>
                     </li>
                     <li>
-                        Legal issues
+                        Legal issues: <a href="https://en.wikipedia.org/wiki/General_Data_Protection_Regulation">GDPR</a>
                         <ul>
                             <li>
                                 Belgium: cookie statement obligatory

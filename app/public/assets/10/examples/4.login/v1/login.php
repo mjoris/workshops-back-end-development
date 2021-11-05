@@ -26,9 +26,7 @@
 
         // Get user with sent username from DB
         $connection = getConnection();
-        $stmt = $connection->prepare('SELECT * FROM users WHERE username = ?');
-        $stmt->execute([$username]);
-        $user = $stmt->fetchAssociative();
+        $user = $connection->fetchAssociative('SELECT * FROM users WHERE username = ?', [$username]);
 
         // User found
 		if ($user !== false) {
