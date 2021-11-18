@@ -49,14 +49,14 @@ class PostItController
 
             if (! $formErrors){
                 $stmt = $this->db->prepare('INSERT INTO messages (message, user_id) VALUES (?, ?)');
-                $stmt->execute([$contents, $_SESSION['user']['id']]);
-                header('location: ../messages');
+                $stmt->executeStatement([$contents, $_SESSION['user']['id']]);
+                header('Location: ../messages');
                 exit();
             }
         }
 
         $_SESSION['flash'] = ['formErrors' => $formErrors, 'contents' => $contents];
-        header('location: add');
+        header('Location: add');
         exit();
     }
 
@@ -65,7 +65,7 @@ class PostItController
         // user_id PREVENTS UNAUTHORIZED ACCESS !!!
         $message = $this->db->fetchAssociative('SELECT * FROM messages WHERE id = ? AND user_id = ?', [$id, $_SESSION['user']['id']]);
         if (! $message) {
-            header('location: ../../messages');
+            header('Location: ../../messages');
             exit();
         }
         echo $this->twig->render('message-delete.twig' , ['message' => $message, 'user' => $_SESSION['user']]);
@@ -75,8 +75,8 @@ class PostItController
     {
         // user_id PREVENTS UNAUTHORIZED ACCESS !!!
         $stmt = $this->db->prepare('DELETE FROM messages WHERE id = ? AND user_id = ?' );
-        $stmt->execute([$id, $_SESSION['user']['id']]);
-        header('location: ../../messages');
+        $stmt->executeStatement([$id, $_SESSION['user']['id']]);
+        header('Location: ../../messages');
         exit();
     }
 

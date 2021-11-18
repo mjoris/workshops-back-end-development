@@ -234,13 +234,13 @@
                 <h2>Note #1: Slug</h2>
                 <ul>
                     <li>
-                        Sometimes a <a href="https://en.wikipedia.org/wiki/Clean_URL#Slug">slug</a> is attached to the end of the URL
+                        Often the ID is replaced by a <a href="https://en.wikipedia.org/wiki/Clean_URL#Slug">slug</a>
                         <ul>
                             <li>
                                 Slug = name of the resource in the form of human-readable keywords
                             </li>
                             <li>
-                                Example: <code>/products/1234/huawei-p10-lite-black</code></strong>
+                                Example: <code>/products/oneplus-10-onyx-blue</code></strong>
                             </li>
                             <li>
                                 SEO: keep it short and use hyphens (<code>-</code>), no underscores (<code>_</code>)
@@ -257,7 +257,7 @@
                                 It depends &#8482;
                             </li>
                             <li>
-                                No IDs is more SEO-friendly, but you need a performant <em>slug index</em> and URLs become invalid when the resource title changes
+                                No IDs is more SEO-friendly, but you need a performant <em>slug index</em> (column in your DB) and URLs become invalid when the resource title changes
                             </li>
                         </ul>
                     </li>
@@ -330,10 +330,10 @@
                 <h2>1. Howto: Apache</h2>
                 <ul>
                     <li>
-                        Possible using the <code>mod_rewrite</code> Apache Module
+                        Possible using the <a href="https://httpd.apache.org/docs/2.4/mod/mod_rewrite.html"><code>mod_rewrite</code></a> Apache Module
                         <ul>
-                            <li>Wampserver: not enabled by default (<a href="assets/11/wamp_url_rewrite.png">instructions</a>)</li>
-                            <li>MAMP Pro: enabled by default</li>
+                            <li>Often not enabled by default</li>
+                            <li>Install by <code>a2enmod rewrite</code>* and alike</li>
                         </ul>
                     </li>
                     <li>
@@ -345,6 +345,7 @@ RewriteRule . index.php [L]</code></pre>
                     </li>
                     <li>Better: include the rewrite rules in your <a href="https://stackoverflow.com/questions/10175513/mod-rewrite-in-vhosts-configuration">virtual hosts</a> config</li>
                 </ul>
+                <footer><small>* this is a line in the <code>Dockerfile</code> on which our <code>php-web</code> service is built</small></footer>
             </section>
 
             <!--section>
@@ -473,7 +474,7 @@ $router->run();</code></pre>
                             <ul>
                                 <li>
                                     New project, not yet requiring it via Composer:
-                                    <pre class="bigger"><code class="dontrun">composer require bramus/router ~1.5</code></pre>
+                                    <pre class="bigger"><code class="dontrun">composer require bramus/router ^1.6.1</code></pre>
                                 </li>
                                 <li>
                                     Existing project, already requiring it via Composer:
@@ -580,7 +581,7 @@ $router-&gt;get('/movies/(\d+)/photos/(\d+)', function($movieId, $photoId) {
                         <li>
                             Override the custom 404 handler
                             <pre class="bigger"><code class="hljs php">$router-&gt;set404(function () {
-    header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
+    http_response_code(404);
     echo 'Looks like this page got lost in THE MATRIX.';
     // Better: load your 404 HTML template here
 });</code></pre>
@@ -588,7 +589,7 @@ $router-&gt;get('/movies/(\d+)/photos/(\d+)', function($movieId, $photoId) {
                         <li style="margin-top: 1em">
                             <em>Before</em> middleware: handler to be executed <strong>before</strong> the route handling is processed
                             <ul>
-                                <li>Specify HTTP request method(s), route pattern ann handler function</li>
+                                <li>Specify HTTP request method(s), route pattern and handler function</li>
                             </ul>
                             <pre class="bigger"><code class="hljs php">$router-&gt;before('GET|POST', '/.*', function () {
     header('X-Powered-By: bramus/router');
@@ -630,6 +631,7 @@ $router-&gt;get('/movies/(\d+)/photos/(\d+)', function($movieId, $photoId) {
 
                             <pre class="bigger"><code class="hljs php">$router-&gt;get('/search', function() {
     echo '&lt;form method="post"&gt;&lt;input type="text" name="term"&gt;&lt;input type="submit"&gt;&lt;/form&gt;';
+    // Better: load your W3C-valid HTML template here
 });
 
 $router-&gt;post('/search', function() {
@@ -744,8 +746,7 @@ $router-&gt;run();</code></pre>
 &lt;form method="post" action="{{ (basePath ~ 'search') }}"&gt;
     &lt;input type="text" class="textbox" placeholder="Search" name="term" value="{{ term }}" &gt;</code></pre>
                                 </li>
-                                <li>Better: define a custom Twig function <code>asset()</code> or use a library e.g. <a
-                                        href="https://symfony.com/doc/current/reference/twig_reference.html">Twig Extensions</a> (not yet supporting Twig 3)</li>
+                                <li>Better: define a custom Twig function <code>asset()</code> and define a <code>BASE_PATH</code> constant in your config files</li>
 
                             </ul>
                         </li>
@@ -790,7 +791,7 @@ $router-&gt;run();</code></pre>
     }</code></pre>
                         </li>
                         <li>
-                            Activate the autoload expression by
+                            Activate the autoload expression (or reindex any new classes in the classmap) by
                             <pre class="bigger"><code class="hjls bash">composer dump-autoload</code></pre>
                         </li>
                         <li>Refer to <code>*Controller</code> and its methods in <code>index.php</code>

@@ -29,8 +29,8 @@ class AuthController
 
         if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'login')) {
             $stmt = $this->db->prepare('SELECT * FROM users WHERE username = ?');
-            $stmt->execute([$username]);
-            $user = $stmt->fetchAssociative();
+            $result = $stmt->executeQuery([$username]);
+            $user = $result->fetchAssociative();
 
             if (($user !== false) && (password_verify($password, $user['password']))) {
                 $_SESSION['user'] = $user;
@@ -42,7 +42,7 @@ class AuthController
             }
         }
 
-        header('location: login');
+        header('Location: login');
         exit();
     }
 
@@ -59,7 +59,7 @@ class AuthController
             );
         }
         session_destroy();
-        header('location: login');
+        header('Location: login');
         exit();
     }
 
