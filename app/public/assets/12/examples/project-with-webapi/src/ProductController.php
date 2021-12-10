@@ -49,9 +49,9 @@ class ProductController extends ApiBaseController
 
             if (!$errorList) {
                 $stmt = $this->db->prepare('INSERT INTO products (title, price, quantity, description, added_on) VALUES (?, ?, ?, ?, ?)');
-                $stmt->execute([$title, $price, $quantity, $description, (new DateTime())->format('Y-m-d H:i:s')]);
+                $result = $stmt->executeStatement([$title, $price, $quantity, $description, (new DateTime())->format('Y-m-d H:i:s')]);
 
-                if ($stmt->rowCount() > 0) {
+                if ($result > 0) {
                     $this->message(201, 'Product has been created.'); // 201 Created
                 } else {
                     $this->message(503, 'Unable to create product.'); // 503 Service Unavailable
