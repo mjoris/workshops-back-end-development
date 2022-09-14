@@ -27,7 +27,7 @@
     <!-- Any section element inside of this container is displayed as a slide -->
     <div class="slides">
         <section data-background="#b5533c" > <!-- wposad color #4d7e65 -->
-            <h3>Web &amp; Mobile Server-side <small>[OGI03q]</small></h3>
+            <h3>Web &amp; Mobile Server-side <small>[OGI03<span style="text-transform: lowercase;">q</span>]</small></h3>
             <h1>02. Docker</h1>
         </section>
 
@@ -79,6 +79,12 @@
                 <footer style="margin-top: 1em">* virtualization based on <em>isolated features</em> of Linux kernel</footer>
             </section>
 
+            <section data-background="#fdfdfd">
+                <h2>How we will use Docker</h2>
+                <p><img src="assets/02/docker-dev-and-prod.png" alt=""></p>
+
+            </section>
+
 
         </section>
 
@@ -114,10 +120,10 @@
                     <li>
                         Docker - instructions:
                         <ul>
-                            <li><a href="https://docs.docker.com/desktop/windows/install/">Docker Desktop for Windows</a></li>
-                            <li><a href="https://docs.docker.com/desktop/mac/install/">Docker Desktop for Mac</a></li>
+                            <li><a href="https://docs.docker.com/desktop/install/windows-install/">Docker Desktop for Windows</a></li>
+                            <li><a href="https://docs.docker.com/desktop/install/mac-install/">Docker Desktop for Mac</a></li>
                             <li><a href="https://docs.docker.com/engine/install/ubuntu/">Docker Engine on Ubuntu</a></li>
-                            <li>Since 2020, Docker runs on any type of Windows 10 (through WSL 2). Read the instruction thoroughly.</li>
+                            <li>Since 2020, Docker runs on any type of Windows 10/11 (through WSL 2). Read the instruction thoroughly.</li>
                         </ul>
                     </li>
                 </ul>
@@ -131,7 +137,7 @@
                         Docker for Windows has multiple modes: Windows containers and Linux containers
                         <ul>
                             <li>For the sake of compatibility &rarr; <strong>always use Linux containers</strong></li>
-                            <li>Yes, Docker's running a VM on Windows (Hyperkit VM on Mac)</li>
+                            <li>Yes, Docker is running a VM on Windows (Hyperkit VM on Mac)</li>
                         </ul>
                     </li>
                 </ul>
@@ -162,7 +168,7 @@
                         Let's explore &hellip;
                         <ul>
                             <li><a href="https://hub.docker.com/search?q=&type=image">Explore</a>: repositories ordered by # pulls</li>
-                            <li><a href="https://docs.docker.com/docker-hub/official_repos/">Official repositories</a> are curated by a dedicated team &rarr; use them !
+                            <li><a href="https://docs.docker.com/docker-hub/official_images/">Official images</a> are curated by a dedicated team &rarr; use them !
                                 <ul>
                                     <li>OSs like <a href="https://hub.docker.com/_/alpine/">Alpine Linux</a></li>
                                     <li>Dev components like <a href="https://hub.docker.com/_/nginx/">nginx</a>*, <a href="https://hub.docker.com/_/php/">PHP</a>* and <a href="https://hub.docker.com/_/mysql/">MySQL</a>* </li>
@@ -290,22 +296,22 @@ c5d0d1270551    alexcheng/magento2  "/sbin/my_init"          5 weeks ago       E
 
             <section>
                 <h2>docker create|run</h2>
-                <ul style="font-size: 93%;">
+                <ul style="font-size: 90%;">
                     <li>
                         Usage: <code>docker create|run [OPTIONS] IMAGE [COMMAND] [ARG...]</code><br>
-                        When the container is started, a default (internal) command is started, as specified by the image, but this command can be overridden
+                        <code>[COMMAND]</code> When the container is started, a default (internal) command* is started (for example: a script starting the web server)
                     </li>
-                    <li>
+                    <li style="margin-top: 0.5em;">
                         Some options (upon container <strong>creation</strong>)
                         <ul>
                             <li>
                                 <code>--name test</code>: assign a name to the container
                             </li>
                             <li>
-                                <code>-v /Users/franky/Documents/configmap:/etc/mysql/conf.d</code>: <em>bind mount</em>s a host folder into the container
+                                <code>-v C:\Users\franky\configmap:/etc/mysql/conf.d</code>: <em>bind mount</em>s a host folder into the container
                             </li>
                             <li>
-                                <code>--expose 80</code>: document which container ports are listening, and make them available for other containers (not for the host!)
+                                <code>--expose 80</code>: document which container ports are listening, and make them available for other containers (not for the host!)**
                             </li>
                             <li>
                                 <code>-p 3307:3306</code>: binds port 3307 of the host machine to port 3306 of the container
@@ -314,12 +320,13 @@ c5d0d1270551    alexcheng/magento2  "/sbin/my_init"          5 weeks ago       E
                                 <code>-P</code>: binds all exposed ports to random ports of the container (detect with <code>docker port</code>)
                             </li>
                             <li>
-                                <code>-e MYSQL_ROOT_PASSWORD=my-secret-pw</code>: set environment variables
+                                <code>-e MYSQL_ROOT_PASSWORD=my-secret-pw</code>: set environment variables***
                             </li>
                             <li>and many <a href="https://docs.docker.com/engine/reference/commandline/create/">others</a></li>
                         </ul>
                     </li>
                 </ul>
+                <footer><small>* as specified by the image, but can be overridden by the container<br>** containers also inherit the exposed ports by the image<br>*** as specified by the image</small></footer>
             </section>
 
             <section>
@@ -329,7 +336,7 @@ c5d0d1270551    alexcheng/magento2  "/sbin/my_init"          5 weeks ago       E
                         You can start a container in
                         <ul>
                             <li style="font-size: 85%;margin-top: 0.5em;">
-                                <strong>detached/background mode</strong> e.g. <code>$ docker run -d mysql:5.7</code>
+                                <strong>detached/background mode</strong> e.g. <code>$ docker run -e MYSQL_ROOT_PASSWORD=Azerty123 -d mysql:5.7</code>
                                 <ul>
                                     <li>You don't have STDIN, STDOUT and STDERR of the container</li>
                                     <li>You have the prompt <code>$</code> back</li>
@@ -337,18 +344,17 @@ c5d0d1270551    alexcheng/magento2  "/sbin/my_init"          5 weeks ago       E
                                 </ul>
                             </li>
                             <li style="font-size: 85%;margin-top: 1em;">
-                                <strong>attached/foreground mode</strong> e.g. <code>$ docker run -it mysql:5.7 bash</code>
+                                <strong>attached/foreground mode</strong> e.g. <code>$ docker run -e MYSQL_ROOT_PASSWORD=Azerty123 -it mysql:5.7</code>
                                 <ul>
                                     <li>Without <code>-d</code>, Docker attaches STDIN, STDOUT and STDERR to the current console</li>
-                                    <li>after the image (<code>mysql:5.7</code>) a command (<code>bash</code>) to be executed inside the container can be specified</li>
-                                    <li>when it concerns an <strong>interactive</strong> command, you must use <code>-i</code> and <code>-t</code> in order to attach a pseudo-TTY</li>
-                                    <li>when you exit the tty (e.g. Ctrl+C), the container is stopped</li>
+                                    <li>when the (internal) command is <strong>interactive</strong>, you must use <code>-i</code> and <code>-t</code>* in order to attach a pseudo-TTY</li>
+                                    <li>when you exit the tty (Ctrl+C or close window), the container is stopped**</li>
                                 </ul>
                             </li>
                         </ul>
                     </li>
                 </ul>
-                <footer><small><code>-t</code> is actually a <code>docker create</code> option</small></footer>
+                <footer><small>* <code>-t</code> is actually a <code>docker create</code> option<br>** unfortunately, mysql containers do not accept Ctrl+C</small></footer>
             </section>
 
             <section>
@@ -359,7 +365,36 @@ c5d0d1270551    alexcheng/magento2  "/sbin/my_init"          5 weeks ago       E
                     </li>
                 </ul>
                 <pre>
-                    <code class="hljs bash">$ docker run -it -p 8080:80 --name demo-app -v /volledig/pad/myfolder:/var/www/html php:7.2-apache</code></pre>
+                    <code class="hljs bash">$ docker run -it -p 8080:80 --name demo-app -v /volledig/pad/myfolder:/var/www/html php:8.1-apache</code></pre>
+            </section>
+            <section>
+                <h2>Docker Volumes</h2>
+                <ul style="font-size: 90%; width: 100%">
+                    <li>
+                        A container can store certain directories as <strong>volumes</strong> = on the host's file system (outside the container's file system).
+                    </li>
+                    <li>
+                        Volumes are defined in the image. Typically assigned to (changing) data directories.
+                    </li>
+                    <li>
+                        Very similar to <em>bind mounts</em>, but in a central store and better performance (<a href="https://docs.docker.com/storage/volumes/">read more</a>)
+                    </li>
+                    <li>
+                        Manage the volumes on your system
+                        <pre data-id="code-animation">
+                    <code class="hljs bash" data-trim>$ docker volume ls
+DRIVER    VOLUME NAME
+local     2b3796f67db0fc84f2e1c9eaec9d8469cfa2700e7e02050bad1df897f502156e
+local     2f38450897fd11d5664b8c883650355a101c6f25e2c214b4b9058d222d2d641c
+local     3a1d620ebf6799ce11d7f7981e103a39dfdcd5610e65eaf962f390a7eafbbda0
+local     3a26d6a7c846d562f578b09cba5292b080b8d7480159a5d1c5334f2b8108adec
+local     4ebec0e3543236847ccc8ec4f6f61143afa759b7aa8e8fc7c404e133e0153757
+</code></pre>
+                    </li>
+                    <li>
+                        Indeed, they are not removed together with the container. <br> Save some disk space: <code>$ docker volume prune</code>
+                    </li>
+                </ul>
             </section>
         </section>
 
@@ -394,10 +429,8 @@ EXPOSE 3306</code></pre>
                                 Some instructions add to, others override the instructions of the parent image
                             </li>
                             <li>
-                                Dockerfile &rarr; installation; <code>docker run</code> options &rarr; running on your system
-                            </li>
-                            <li>
                                 Create the image locally by: <code>docker build -t mjoris/mysql-tz:1.0 .</code>
+                                <br> &rarr; expects a file called <code>Dockerfile</code> in path <code>.</code>
                                 <br> &rarr; the image is built layer by layer
                             </li>
                             <li>Publish your image on Docker Hub with <code>docker push</code> (first <code>docker login</code>) or use <a href="https://docs.docker.com/docker-hub/builds/link-source/">automated builds with GitHub</a></li>
@@ -467,9 +500,6 @@ EXPOSE 3306</code></pre>
                             </li>
                             <li>
                                 <code>VOLUME</code>: container's directory to be stored on the host's file system, outside the UnionFS-system &rarr; to be used for data
-                                <ul>
-                                    <li>manage the volumes on your system <code>$ docker volume ls</code></li>
-                                </ul>
                             </li>
                             <li>
                                 You can <code>COPY</code>/<code>ADD</code> your (configuration) files (at build time) into the image
@@ -478,9 +508,6 @@ EXPOSE 3306</code></pre>
                         </ul>
                     </li>
                 </ul>
-                <footer style="margin-top: 0.5em;"><small>Volumes are very similar to <em>bind mounts</em>, but with volumes Docker manages the storage on the host's file system (<a
-                        href="https://docs.docker.com/storage/volumes/">read more</a>)</small></footer>
-
             </section>
 
             <section>
@@ -585,7 +612,7 @@ EXPOSE 3306</code></pre>
             <section>
                 <h2>A simple example</h2>
                 <pre style="margin-bottom: 0;">docker-php/Dockerfile</pre>
-                <pre style="margin-top: 0;"><code class="hljs Dockerfile">FROM php:7.4-apache
+                <pre style="margin-top: 0;"><code class="hljs Dockerfile">FROM php:8.1-apache
 
 RUN docker-php-ext-install pdo_mysql</code></pre>
                 <pre style="margin-bottom: 0;">docker-compose.yml</pre>
@@ -602,7 +629,7 @@ services:
       - mysqldb
 
   mysqldb:
-    image: mysql:5.7
+    image: mysql:8.0
     ports:
      - "3307:3306"
     volumes:
