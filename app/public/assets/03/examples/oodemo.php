@@ -6,7 +6,7 @@
     $w3cFormat = DateTime::W3C; // class constant
     echo ($myDateOfBirth->format($w3cFormat) . '<br>' . PHP_EOL);
 
-    $date = DateTime::createFromFormat('j-M-Y', '28-Sep-2020'); // static method call
+    $date = DateTime::createFromFormat('j-M-Y', '26-Sep-2022'); // static method call
     $duration = $date->diff($myDateOfBirth);
     echo ($duration->days); // accessing a property
 
