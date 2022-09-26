@@ -14,4 +14,4 @@
     $endStr = '...';
 
     // Go!
-    echo chopStringEnd($origStr, $cutoffLength, null);
+    echo chopStringEnd($origStr, $cutoffLength, $endStr);
