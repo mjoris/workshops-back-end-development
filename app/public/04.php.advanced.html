@@ -27,7 +27,7 @@
     <!-- Any section element inside of this container is displayed as a slide -->
     <div class="slides">
         <section data-background="#b5533c">
-            <h3>Web &amp; Mobile Server-side <small>[OGI03q]</small></h3>
+            <h3>Web &amp; Mobile Server-side <small>[OGI03<span style="text-transform: lowercase;">q</span>]</small></h3>
             <h1>04. PHP Advanced</h1>
         </section>
 
@@ -66,15 +66,46 @@ class Product {
 
 }
 
-$can = new Product(0.60, 820, 'Can Coke 33ml' );
+$can = new Product(0.60, 820, 'Can Coke 33ml');
 echo $can-&gt;name . PHP_EOL;
 $can-&gt;lowerPrice();
 
 echo $can-&gt;getPrice();</code></pre>
-                <footer style="margin-top: 0.8em;font-size: 80%;">Course convention: always use type declarations <small>(although not mandatory in PHP)</small>
-                    <br>Only supported in recent versions
-                    <br>PHP 8 supports <a href="https://php.watch/versions/8.0/union-types">union types</a>, <a href="https://stitcher.io/blog/php-8-named-arguments">named arguments</a> and
-                    <a href="https://stitcher.io/blog/constructor-promotion-in-php-8">constructor property promotion</a></footer>
+                <footer style="margin-top: 0.8em;font-size: 80%;">Course convention: always use <strong>type declarations</strong><small>(although not mandatory in PHP)</small>
+                    <br>
+                    <small>
+                        Everything that works with functions works with object methods: default arguments, <a href="https://php.watch/versions/8.1/intersection-types">intersection</a> and <a href="https://php.watch/versions/8.0/union-types">union</a> type declarations, <a href="https://stitcher.io/blog/php-8-named-arguments">named arguments</a>, &hellip;
+                    </small>
+                </footer>
+            </section>
+
+            <section>
+                <h2>Constructor Property Promotion</h2>
+                <p>Exactly the same class, with <a href="https://stitcher.io/blog/constructor-promotion-in-php-8">Constructor Property Promotion</a></p>
+                <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/oo01b.php">&lt;?php
+
+class Product {
+
+	public function __construct(
+		private float $price,
+		protected ?int $stock,
+		public string $name = 'unknown'
+	) {}
+
+	public function lowerPrice() : void {
+		$this-&gt;price *= 0.9;
+	}
+
+	public function getPrice() : float {
+		return $this-&gt;price;
+	}
+}
+
+$can = new Product(0.60, 820, 'Can Coke 33ml');
+echo $can-&gt;name . PHP_EOL;
+$can-&gt;lowerPrice();
+
+echo $can-&gt;getPrice();</code></pre>
             </section>
 
             <section>
@@ -165,15 +196,15 @@ $dog-&gt;bark();</code></pre>
 
 class Animal {
 
-	private string $name;
+    private string $name;
 
-	public function __construct(string $name) {
-		$this-&gt;name = $name;
-	}
+    public function __construct(string $name) {
+        $this-&gt;name = $name;
+    }
 
-	final function getName() : string { // cannot be overridden!
-		return $this-&gt;name;
-	}
+    final function getName() : string { // cannot be overridden!
+        return $this-&gt;name;
+    }
 }
 
 class Dog extends Animal {
@@ -306,6 +337,40 @@ var_dump($myWeight2?-&gt;getRegistrationDate()?-&gt;format('Y-m-d'));
 </code></pre>
             </section>
 
+            <section>
+                <h2>Enums</h2>
+
+                <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/enums.php">&lt;?php
+enum Status
+{
+    case DRAFT;
+    case PUBLISHED;
+    case ARCHIVED;
+
+    public function color(): string
+    {
+        return match($this)
+        {
+            self::DRAFT =&gt; 'grey',
+            self::PUBLISHED =&gt; 'green',
+            self::ARCHIVED =&gt; 'red',
+        };
+    }
+}
+
+class BlogPost
+{
+    public function __construct(
+        public Status $status,
+    ) {}
+}
+
+$post = new BlogPost(Status::DRAFT);
+echo $post->status->color();</code></pre>
+                <br>
+                <footer><small>PHP version <code>&ge; 8.1</code> required; source: <a
+                        href="https://stitcher.io/blog/php-enums">stitcher.io/blog/php-enums</a></small></footer>
+            </section>
 
 
             <section>
@@ -629,7 +694,7 @@ var_dump($myWeight2?-&gt;getRegistrationDate()?-&gt;format('Y-m-d'));
     echo ($w3cFormat . '&lt;br&gt;' . PHP_EOL);
     echo ($myDateOfBirth-&gt;format($w3cFormat) . '&lt;br&gt;&lt;br&gt;' . PHP_EOL);
 
-    $date = DateTime::createFromFormat('j-M-Y', '28-Sep-2020');
+    $date = DateTime::createFromFormat('j-M-Y', '03-Oct-2022');
     $duration = $date-&gt;diff($myDateOfBirth);
     echo ($duration-&gt;days);</code></pre>
             </section>
@@ -695,7 +760,7 @@ var_dump($myWeight2?-&gt;getRegistrationDate()?-&gt;format('Y-m-d'));
                     <li>
                         PHP can restrict which directories you can access
                         <ul>
-                            <li>E.g. Websites residing in <code>C:\mce\app\public</code> have no business in <code>C:\</code> (but might have access to <code>C:\mce\app</code>)
+                            <li>E.g. Websites residing in <code>/var/www/public</code> have no business in <code>/var</code> (but might have access to <code>/var/www</code>)
                         </ul>
                     </li>
                     <li>In <code>php.ini</code> the <code>open_basedir</code> setting limits this</li>

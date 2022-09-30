@@ -2,16 +2,12 @@
 
 class Product {
 
-	private float $price;
-	protected int $stock;
-	public string $name;
+    public function __construct(
+        private float $price,
+        protected ?int $stock,
+        public string $name = 'unknown'
+    ) {}
 
-	public function __construct(float $price, ?int $stock, string $name = 'unknown') {
-		$this->price = $price;
-		$this->stock = $stock;
-		$this->name = $name;
-	}
-	
 	public function lowerPrice() : void {
 		$this->price *= 0.9;
 	}
@@ -19,7 +15,6 @@ class Product {
 	public function getPrice() : float {
 		return $this->price;
 	}
-
 }
 
 $can = new Product(0.60, 820, 'Can Coke 33ml');

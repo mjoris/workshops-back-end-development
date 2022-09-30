@@ -9,7 +9,7 @@
     echo ($w3cFormat . '<br>' . PHP_EOL);
     echo ($myDateOfBirth->format($w3cFormat) . '<br><br>' . PHP_EOL);
 
-    $date = DateTime::createFromFormat('j-M-Y', '28-Sep-2020');
+    $date = DateTime::createFromFormat('j-M-Y', '03-Oct-2022');
     $duration = $date->diff($myDateOfBirth);
     echo ($duration->days);
 
