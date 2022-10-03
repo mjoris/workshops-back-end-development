@@ -27,7 +27,7 @@
 	<!-- Any section element inside of this container is displayed as a slide -->
 	<div class="slides">
 		<section data-background="#b5533c">
-			<h3>Web &amp; Mobile Server-side <small>[OGI03q]</small></h3>
+			<h3>Web &amp; Mobile Server-side <small>[OGI03<span style="text-transform: lowercase;">q</span>]</small></h3>
 			<h1>05. Git</h1>
 		</section>
 
@@ -79,7 +79,7 @@
 							<li>
 								Download the Git binary from <a href="http://git-scm.com">git-scm.com</a>
 								<ul>
-									<li>On Windows, choose <em>&ldquo;Run Git and included Linux tools from the Windows Command Prompt&rdquo;</em> during installation</li>
+									<li>On Windows, choose <em>&ldquo;Git from the command line also from 3rd-party software&rdquo;</em> during installation</li>
 								</ul>
 							</li>
 							<li style="margin-top: 1em;">
@@ -235,6 +235,8 @@ $ git config --global user.email lorem@ips.um</code></pre>
 							<li style="margin-top: 1em">
 								Ignore certain files by placing their name in <code>.gitignore</code>
 								<pre class="bigger"><code class="hljs bash">Thumbs.db
+.idea
+.vscode
 app.db
 *.log
 vendor/*
@@ -286,7 +288,7 @@ config.php</code></pre>
 								Such a timeline is called a <strong>branch</strong>
 								<ul>
 									<li>More than one branch can exist <em>(see further)</em></li>
-									<li>The default branch is called the <strong>master</strong></li>
+									<li>The default branch is called the <strong>master</strong> or <strong>main</strong></li>
 								</ul>
 							</li>
 						</ul>
@@ -548,7 +550,7 @@ origin</code></pre>
 
 						<ul>
 							<li>
-								The default branch is the <code>master</code>
+								The default branch is the <code>main</code> or <code>master</code> (pre 2021)
 							</li>
 							<li style="margin-top: 0.5em;">
 								List all branches
