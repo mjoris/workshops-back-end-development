@@ -27,8 +27,9 @@
     <!-- Any section element inside of this container is displayed as a slide -->
     <div class="slides">
         <section data-background="#b5533c">
-            <h3>Web &amp; Mobile Server-side <small>[OGI03q]</small></h3>
+            <h3>Web &amp; Mobile Server-side <small>[OGI03<span style="text-transform: lowercase;">q</span>]</small></h3>
             <h1>06. Forms</h1>
+            <footer>Let's have a look at <em>old-skool</em> <br> server-side rendered forms</footer>
         </section>
 
         <!-- form basics -->
@@ -868,11 +869,6 @@
 	...</code></pre></div>
             </section>
 
-            <section data-background="#fdfdfd">
-                <h2>Client-server traffic</h2>
-                <p><img src="assets/06/http_sequence_diagram.png" alt="" title="" height="400" style="border: 0px;" class="zoomable-15"/></p>
-            </section>
-
             <section>
                 <h2>Sidenote: urlencode</h2>
                 <ul>
@@ -896,6 +892,11 @@ header('Location: redirect_process.php?gun=' . urlencode($gun));
 exit(0); // do not forget to exit after redirect</code></pre></div>
                     </li>
                 </ul>
+            </section>
+
+            <section data-background="#fdfdfd">
+                <h2>Client-server traffic</h2>
+                <p><img src="assets/06/http_sequence_diagram.png" alt="" title="" height="400" style="border: 0px;" class="zoomable-15"/></p>
             </section>
         </section>
 
@@ -1075,6 +1076,59 @@ if (isset($_FILES['avatar']) &amp;&amp; ($_FILES['avatar']['error'] === UPLOAD_E
                 </ul>
             </section>
 
+        </section>
+
+        <section>
+            <section>
+                <h2>06.7<br>Present-day forms?</h2>
+            </section>
+
+            <section>
+                <h2>Present-day forms</h2>
+                <ul>
+                    <li>
+                        Nowadays, most often
+                        <ul style="font-size: 85%;">
+                            <li>
+                                forms are validated client-side (Javascript) before any data is submitted to the server
+                            </li>
+                            <li>
+                                when you press the button of a form, the browser does not submit the form cf. the HTML specs
+                            </li>
+                            <li>
+                                when you press the button of a form, a Javascript listener is activated in order to validate and submit the data in background to some web service
+                            </li>
+                            <li>
+                                the response of the webservice is handled by Javascript changing the DOM
+                            </li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 0.5em;">
+                        Often, this so-called webservice is part of a <em>REST Web API</em>
+                        <br>&rarr; we'll see <strong>Web APIs</strong> later on
+                    </li>
+                    <li style="margin-top: 0.5em;">
+                        Want some minimal example?
+                        <br>&rarr; let's have a look at <a href="assets/06/examples/form_with_javascript.html" target="_blank">assets/06/examples/form_with_javascript.html</a>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>Similarities</h2>
+                <ul>
+                    <li style="margin-top: 0.5em;">
+                        It's a good idea to keep the same HTML-structure (<code>&lt;form&gt;</code>)
+                    </li>
+                    <li style="margin-top: 0.5em;">
+                        You need to read the parameters from the querystring* sent to the server
+                    </li>
+                    <li style="margin-top: 0.5em;">
+                        <strong>You still need to validate the form data on the server! Beware of parameter tampering!</strong>
+                    </li>
+                </ul>
+
+                <footer><br><small>* in Web APIs, you'll receive the request body parameters in JSON </small></footer>
+            </section>
         </section>
 
 
