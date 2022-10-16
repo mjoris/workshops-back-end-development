@@ -27,7 +27,7 @@
     <!-- Any section element inside of this container is displayed as a slide -->
     <div class="slides">
         <section data-background="#b5533c">
-            <h3>Web &amp; Mobile Server-side <small>[OGI03q]</small></h3>
+            <h3>Web &amp; Mobile Server-side <small>[OGI03<span style="text-transform: lowercase;">q</span>]</small></h3>
             <h1>08. Databases</h1>
         </section>
         
@@ -95,7 +95,7 @@
                         </ul>
                     </li>
                     <li>
-                        To connect to a MySQL server, 3 extensions exist
+                        To connect to a MySQL server, <s>3</s> 2 extensions exist
                         <ul>
                             <li><code><s>mysql</s></code> (removed in PHP 7.0) &mdash; Classic extension, procedural (= based on methods)</li>
                             <li><code>mysqli</code> &mdash; Improved version of the <code>mysql</code> extension. Supports Prepared Statements, Multiple Statements, Transactions, etc. Both OO and procedural</li>
@@ -150,7 +150,7 @@
                         <ul>
                             <li>
                                 New project, not yet requiring it via Composer:
-                                <pre class="bigger"><code class="dontrun">composer require doctrine/dbal ^3.1</code></pre>
+                                <pre class="bigger"><code class="dontrun">composer require doctrine/dbal ^3.4</code></pre>
                             </li>
                             <li>
                                 Existing project, already requiring it via Composer:
@@ -371,7 +371,7 @@
 									<pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/02c.php">&lt;?php
 
     function showDbError(string $type) : void {
-        header('location: error.php?type=db&amp;detail=' . $type);
+        header('Location: error.php?type=db&amp;detail=' . $type);
         exit();
     }
 
@@ -412,7 +412,7 @@
             PHP_EOL . (new DateTime())->format('Y-m-d H:i:s') . ' : ' . $msg,
             FILE_APPEND
         );
-        header('location: error.php?type=db&amp;detail=' . $type);
+        header('Location: error.php?type=db&amp;detail=' . $type);
         exit();
     }
 
@@ -508,8 +508,8 @@ var_dump($result);</code></pre>
                     <li style="margin-top: 1em;">
                         If you don't, users can perform SQL Injection
                         <ul>
-                            <li>Just as XSS, <a href="http://blogs.msdn.com/b/ie/archive/2012/09/10/xss-trends-and-internet-explorer.aspx">SQL Injection is a real world and big problem</a>!</li>
-                            <li><em>&ldquo;SQL injection is the most pernicious vulnerability in human computer history&rdquo;</em> (<a href="http://blog.imperva.com/2011/09/sql-injection-by-the-numbers.html">source</a>)</li>
+                            <li>Just as XSS, <a href="https://www.imperva.com/blog/sql-injection-attacks-so-old-but-still-so-relevant-heres-why-charts/">SQL Injection is still a real world and big problem</a>!</li>
+                            <li><em>&ldquo;SQL injection is the most pernicious vulnerability in human computer history&rdquo;</em></li>
                         </ul>
                     </li>
                     <li style="margin-top: 1em;">
@@ -954,7 +954,7 @@ echo 'Deleted ' . $rowCount . ' rows';</code></pre>
                         </ul>
                     </li>
                     <li>
-                        Available <a href="http://dev.mysql.com/doc/refman/5.7/en/charset-charsets.html">charset and collations in MySQL</a>
+                        Available <a href="http://dev.mysql.com/doc/refman/8.0/en/charset-charsets.html">charset and collations in MySQL</a>
                         <ul>
                             <li>
                                 Example charset: <code>utf8</code>
@@ -997,7 +997,7 @@ echo 'Deleted ' . $rowCount . ' rows';</code></pre>
                                 DB Connection
                             </li>
                             <li>
-                                HTML charset (or HTTP response header)
+                                PHP/HTML file format (+ ev. HTTP response header)
                             </li>
                         </ol>
                     </li>
@@ -1024,9 +1024,8 @@ DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;</code></pre>
                         <pre class="bigger"><code class="hljs php">'charset' =&gt; 'utf8mb4'</code></pre>
                     </li>
                     <li>
-                        HTML charset
-                        <pre class="bigger"><code class="language-html dontrun">&lt;meta charset=&quot;utf-8&quot; /&gt;</code></pre>
-                        or HTTP response header
+                        Your PHP/HMTL file has UTF-8 encoding
+                        + ev. HTTP response header
                         <pre class="bigger"><code class="hljs php">header('Content-Type: text/html; charset=UTF-8');</code></pre>
                     </li>
                 </ol>
@@ -1073,7 +1072,7 @@ DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;</code></pre>
                                 <pre class="bigger"><code class="hljs php">SELECT date_format(&quot;%Y-%m-%d&quot;, publishTimestamp) AS readabledate FROM ...</code></pre>
                             </li>
                             <li>Most format directives the same as in PHP but with leading <code>%</code></li>
-                            <li>See <a href="http://dev.mysql.com/doc/refman/5.1/en/date-and-time-functions.html #function_date-format">mysql docs</a> for more info</li>
+                            <li>See <a href="http://dev.mysql.com/doc/refman/8.0/en/date-and-time-functions.html #function_date-format">mysql docs</a> for more info</li>
                         </ul>
                     </li>
                     <li>
@@ -1309,10 +1308,10 @@ if (password_verify($pass, $encrypted)) { &hellip; }</code></pre>
             <section>
                 <h2>Sources</h2>
                 <ul>
-                    <li><a href="http://wiki.hashphp.org/PDO_Tutorial_for_MySQL_Developers">http://wiki.hashphp.org/PDO_Tutorial_for_MySQL_Developers</a></li>
-                    <li><a href="http://net.tutsplus.com/tutorials/php/why-you-should-be-using-phps-pdo-for-database-access/">http://net.tutsplus.com/tutorials/php/why-you-should-be-using-phps-pdo-for-database-access/</a></li>
+                    <li><a href="https://www.webcarpenter.com/blog/52-PDO-Tutorial-for-MySQL-Developers">https://www.webcarpenter.com/blog/52-PDO-Tutorial-for-MySQL-Developers</a></li>
+                    <li><a href="https://code.tutsplus.com/tutorials/why-you-should-be-using-phps-pdo-for-database-access--net-12059">https://code.tutsplus.com/tutorials/why-you-should-be-using-phps-pdo-for-database-access--net-12059</a></li>
                     <li><a href="http://www.kitebird.com/articles/php-pdo.html">http://www.kitebird.com/articles/php-pdo.html</a></li>
-                    <li><a href="http://shiflett.org/blog/2006/jan/addslashes-versus-mysql-real-escape-string">http://shiflett.org/blog/2006/jan/addslashes-versus-mysql-real-escape-string</a></li>
+                    <li><a href="https://shiflett.org/blog/2006/addslashes-versus-mysql-real-escape-string">https://shiflett.org/blog/2006/addslashes-versus-mysql-real-escape-string</a></li>
                     <li><a href="http://www.toptal.com/php/a-utf-8-primer-for-php-and-mysql">http://www.toptal.com/php/a-utf-8-primer-for-php-and-mysql</a></li>
                 </ul>
             </section>
