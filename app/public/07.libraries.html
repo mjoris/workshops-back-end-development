@@ -27,7 +27,7 @@
     <!-- Any section element inside of this container is displayed as a slide -->
     <div class="slides">
         <section data-background="#b5533c">
-            <h3>Web &amp; Mobile Server-side <small>[OGI03q]</small></h3>
+            <h3>Web &amp; Mobile Server-side <small>[OGI03<span style="text-transform: lowercase;">q</span>]</small></h3>
             <h1>07. Libraries &amp; Composer</h1>
         </section>
         
@@ -101,10 +101,10 @@
                         Specific Libraries
                         <ul>
                             <li>Templating: Twig, Smarty, &hellip;</li>
-                            <li>Sending e-mail: PHPMailer, SwiftMailer, &hellip;</li>
-                            <li>Working with PDF files: TCPDF, FPDI, &hellip;</li>
+                            <li>Sending e-mail: PHPMailer, Symfony Mailer, &hellip;</li>
+                            <li>Working with PDF files: TCPDF, dompdf, Snappy, &hellip;</li>
                             <li>Manipulate Office Files: PHPSpreadsheet, PHPWord, &hellip;</li>
-                            <li>Database and ORM: Doctrine, illuminate/database, Propel, Redbean, &hellip;</li>
+                            <li>Database and ORM: Doctrine, illuminate/database, &hellip;</li>
                             <li>Routing: Klein, Nette, nikic/fast-route, bramus/router, &hellip;</li>
                             <li>Polyfill libraries: supporting an abandoned or future PHP core feature</li>
                             <li>&hellip; <em>(#lmgtfy)</em></li>
@@ -127,7 +127,7 @@
                         <ul>
                             <li>Bad quality</li>
                             <li>No proper abstraction</li>
-                            <li>PHP 5.* code; PHP 7/8 incompatible code</li>
+                            <li>PHP 5.* code; PHP 8 incompatible code</li>
                             <li>No documentation</li>
                             <li>&hellip;</li>
                         </ul>
@@ -208,99 +208,6 @@
 
                 <footer><em>(If you do keep your code up-to-date that is)</em></footer>
             </section>
-
-            <!--section>
-                <h2>Example: JpGraph (1)</h2>
-
-                <ul>
-                    <li>
-                        Library to create charts
-                        <ul>
-                            <li>Website: <a href="https://jpgraph.net/">http://jpgraph.net/</a></li>
-                            <li>Documentation: <a href="https://jpgraph.net/download/manuals/">http://jpgraph.net/download/manuals/</a></li>
-                            <li>Ships with lots of examples in the <code>.zip</code></li>
-                            <li>Targetted towards PHP 7</li>
-                        </ul>
-                    </li>
-                </ul>
-
-            </section>
-
-            <section>
-                <h2>Example: JpGraph (2)</h2>
-
-                <pre class="bigger"><code class="hljs php" data-overlay-example="assets/07/examples/sans-composer/1.jpgraph/index.php" style="max-height: 380px; overflow: scroll;">&lt;?php
-
-// Include needed classes
-require_once ('jpgraph/jpgraph.php');
-require_once ('jpgraph/jpgraph_pie.php');
-
-// Our data
-$data = array(78, 22);
-
-// Create the Pie Graph
-$graph = new PieGraph(350, 300, 'auto');
-$graph-&gt;SetShadow();
-
-// Set A title for the plot + disable the border
-$graph-&gt;title-&gt;Set(&quot;Percentage of chart which resembles Pac-man&quot;);
-$graph-&gt;SetFrame(false);
-
-// Create the pieplot
-$pieplot = new PiePlot($data);
-$pieplot-&gt;SetCenter(0.5, 0.5);
-$pieplot-&gt;SetStartAngle(39);
-$pieplot-&gt;SetLegends(array('Pac-man', 'Not Pac-Man'));
-
-// Add the pieplot to the graph
-$graph-&gt;Add($pieplot);
-
-// JpGraph Bug: one must add the pieplot before setting colors
-$pieplot-&gt;SetSliceColors(array('#FFFF00','#FF0000'));
-
-// Style the Legend
-$graph-&gt;legend-&gt;SetFrameWeight(0);
-$graph-&gt;legend-&gt;Pos(0.5, 0.90, 'center', 'top');
-$graph-&gt;legend-&gt;SetFillColor('white');
-$graph-&gt;legend-&gt;SetColumns(2);
-
-// Display the graph
-$graph-&gt;Stroke();</code></pre>
-            </section>
-
-            <section>
-                <h2>Example: Twig 1.x</h2>
-
-                <ul>
-                    <li>
-                        Remember how we have been using Twig?
-                        <pre class="bigger"><code class="hljs php">require_once __DIR__ . '/includes/Twig/Autoloader.php';
-Twig_Autoloader::register();
-
-$loader = new Twig_Loader_Filesystem(__DIR__ . '/templates');
-$twig = new Twig_Environment($loader);
-
-// &hellip;
-$tpl = $twig->load('main.twig');
-echo $tpl->render(array('title' => $title));</code></pre>
-                    </li>
-
-                    <li style="margin-top: 0.5em;">
-                        Why is this an interesting example?
-                        <ul>
-                            <li>
-                                Comes with an <em>autoloader</em>
-                                <ul>
-                                    <li>Just include the autoloader and whenever you use one of the Twig classes, it'll automatically <code>require</code> it.</li>
-                                    <li>Having an autoloader mostly attests being <strong>well-structured</strong></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-
-                <footer><em>Note: Twig 2.x does not support this way of including autoloaders anymore.</em></footer>
-            </section-->
 
         </section>
 
@@ -569,7 +476,7 @@ $ mv composer.phar /usr/local/bin/composer</code></pre>
                     <li>
                         Run <code>composer require vendor/package version</code> on the CLI
                         <ul>
-                            <li>e.g. <code>$ composer require swiftmailer/swiftmailer 6.*</code></li>
+                            <li>e.g. <code>$ composer require intervention/image 2.*</code></li>
                         </ul>
                     </li>
                     <li style="margin-top: 1em;">
@@ -582,7 +489,7 @@ $ mv composer.phar /usr/local/bin/composer</code></pre>
                                 Write down that package requirement in <code>composer.json</code>
                                 <div><pre class="bigger"><code class="language-js dontrun">{
     &quot;require&quot;: {
-        &quot;swiftmailer/swiftmailer&quot;: &quot;6.*&quot;
+        "intervention/image": "2.*"
     }
 }</code></pre></div>
                             </li>
@@ -601,7 +508,7 @@ $ mv composer.phar /usr/local/bin/composer</code></pre>
                         Create a file named <code>composer.json</code> in your project root to declare your dependencies in
                         <div><pre class="bigger"><code class="language-js dontrun">{
     &quot;require&quot;: {
-        &quot;swiftmailer/swiftmailer&quot;: &quot;6.*&quot;
+        "intervention/image": "2.*"
     }
 }</code></pre></div>
                     </li>
@@ -628,30 +535,40 @@ $ mv composer.phar /usr/local/bin/composer</code></pre>
                         <pre class="bigger"><code class="hljs php">require_once __DIR__ . '/vendor/autoload.php';</code></pre>
                     </li>
                     <li style="margin-top: 1em;">
-                        Swiftmailer example
-                        <pre class="bigger"><code class="hljs php"  style="max-height: 240px;">&lt;?php
+                        <a href="https://image.intervention.io/">Intervention Image</a> example
+                        <pre class="bigger"><code class="hljs php"  style="max-height: 240px;" data-overlay-example="assets/07/examples/with-composer/1.intervention/">&lt;?php
 
-// Require composer autoloader
+// require composer autoloader
 require_once __DIR__ . '/vendor/autoload.php';
 
-// Create the Transport
-$transport = (new Swift_SmtpTransport('relay.odisee.be', 25))
-    -&gt;setUsername('your username')
-    -&gt;setPassword('your password');
+// import the Intervention Image Manager Class
+use Intervention\Image\ImageManagerStatic as Image;
 
-// Create the Mailer using your created Transport
-$mailer = new Swift_Mailer($transport);
+// open an image file
+$image = Image::make('assets/procla_ict_oct_2022.jpg');
 
-// Create a message
-$message = (new Swift_Message('Wonderful Subject'))
-    -&gt;setFrom(['john@doe.com' =&gt; 'John Doe'])
-    -&gt;setTo(['receiver@domain.org', 'other@domain.org' =&gt; 'A name'])
-    -&gt;setBody('Here is the message itself');
+// resize the image to a width of 1024 pixels and maintain aspect ratio
+$image-&gt;resize(1024, null, function ($constraint) {
+    $constraint-&gt;aspectRatio();
+});
 
-// Send the message
-$result = $mailer-&gt;send($message);</code></pre>
+// insert a watermark
+$image-&gt;insert('assets/odisee.png', 'bottom-right');
+
+// finally we save the image as a new file
+$image-&gt;save('output/procla_ict_oct_2022_watermark.jpg');
+
+?>
+&lt;a href="output/procla_ict_oct_2022_watermark.jpg" target="_blank"&gt;Click here for the result&lt;/a&gt;</code></pre>
                     </li>
                 </ul>
+                <footer><small><br>
+                    Note (Oct. 2022): actually, Intervention Image
+                    requires <a href="https://libgd.github.io/">gd</a>
+                    being installed on the webserver. <br> I have updated the
+                    <code>Dockerfile</code>. Please update your image by
+                    <code>docker compose build php-web</code>.
+                </small></footer>
 
             </section>
 
@@ -778,12 +695,18 @@ $result = $mailer-&gt;send($message);</code></pre>
             </section>
 
             <section>
-                <h2>Composer vs. PHP version (+ env)</h2>
+                <h2>Composer vs. PHP version</h2>
                 <ul>
                     <li>
                         A few important notes:
-                        <div class="warning" style="margin-top: 0.25em;">PHP version is a depency too !</div>
-                        <div class="warning" style="margin-top: 0.25em;">Run composer with the PHP executable used by the webserver</div>
+                        <div class="warning" style="margin-top: 0.25em;">
+                            PHP version (+ installed extensions) is a dependency too !
+                            <ul style="font-size: 85%;">
+                                <li><strong>Recommended: </strong>Run composer with the PHP executable used by the webserver</li>
+                                <li><strong>If not possible: </strong>Enforce PHP version to <code>composer.json</code> using this command: <pre class="bigger"><code class="hljs bash">composer config platform.php 8.0.10</code></pre></li>
+                            </ul>
+
+                        </div>
                     </li>
                 </ul>
             </section>
@@ -947,7 +870,7 @@ $result = $mailer-&gt;send($message);</code></pre>
                 <h2>Demo: Carbon (1)</h2>
                 <ul>
                     <li>
-                        A DateTime extension <em>supporting 281 languages</em>
+                        A DateTime extension <em>supporting 823 languages</em>
                         <ul>
                             <li>Website: <a href="https://carbon.nesbot.com/">https://carbon.nesbot.com/</a></li>
                             <li>Documentation: <a href="https://carbon.nesbot.com/docs/">https://carbon.nesbot.com/docs/</a></li>
@@ -959,7 +882,7 @@ $result = $mailer-&gt;send($message);</code></pre>
                         <ul>
                             <li>
                                 New project, not yet requiring it via Composer:
-                                <div><pre class="bigger"><code class="dontrun">composer require nesbot/carbon ^2.53</code></pre></div>
+                                <div><pre class="bigger"><code class="dontrun">composer require nesbot/carbon ^2.62</code></pre></div>
                             </li>
                             <li>
                                 Existing project, already requiring it via Composer:
@@ -978,14 +901,12 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 use Carbon\Carbon;
 
-// set global locale to Dutch (-&gt; displaying dates/times)
-setlocale(LC_TIME, 'nl_NL');
-$dt = Carbon::now();
-echo $dt-&gt;formatLocalized('%A %d %B %Y');
-echo '&lt;br&gt;';
-
-// set Carbon locale to Dutch (-&gt; displaying time differences)
+// set global locale to Dutch
 Carbon::setLocale('nl');
+
+$dt = Carbon::now();
+echo $dt-&gt;isoFormat('dddd D MMMM YYYY');
+echo '&lt;br&gt;';
 $dt-&gt;endOfYear();
 echo ('Oudjaar is ' . $dt-&gt;diffForHumans()); </code></pre>
 <footer><small>Note: this example requires that the Dutch locale has been installed on the web server's OS</small></footer>
@@ -995,9 +916,10 @@ echo ('Oudjaar is ' . $dt-&gt;diffForHumans()); </code></pre>
                 <ul>
                     <li>The next days, weeks, &hellip; we'll use the following libraries:
                         <ul>
-                            <li><a href="https://twig.symfony.com/">Twig</a></li>
                             <li><a href="http://www.doctrine-project.org/projects/dbal.html">Doctrine DBAL</a></li>
-                            <li><em>some</em> router library</li>
+                            <li><a href="https://twig.symfony.com/">Twig</a></li>
+                            <li><a href="https://github.com/bramus/router">bramus/router</a></li>
+                            <li><a href="https://symfony.com/doc/current/mailer.html">Symphony Mailer</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -1006,7 +928,7 @@ echo ('Oudjaar is ' . $dt-&gt;diffForHumans()); </code></pre>
             <section>
                 <h2>Other libraries worth checking out</h2>
                 <ul>
-                    <li><a href="https://swiftmailer.symfony.com/docs/introduction.html">Swift Mailer</a> &mdash; Sending e-mails</li>
+                    <li><a href="https://symfony.com/doc/current/mailer.html">Symphony Mailer</a> &mdash; Sending e-mails</li>
                     <li><a href="http://guzzlephp.org/">Guzzle</a> &mdash; PHP HTTP client</li>
                     <li><a href="http://image.intervention.io/">Intervention</a> &mdash; Image manipulation</li>
                     <li><a href="https://github.com/Seldaek/monolog">Monolog</a> &mdash; Logging</li>
