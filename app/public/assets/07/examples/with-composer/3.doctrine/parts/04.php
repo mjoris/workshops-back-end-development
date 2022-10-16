@@ -1,5 +1,5 @@
 <?php
 
-$numAffected = $db->executeUpdate('UPDATE todolist SET what = REVERSE(what) WHERE id = ?', array(1));
+$numAffected = $db->executeStatement('UPDATE photos SET title = REVERSE(title) WHERE id = ?', array(1));
 
 dump($numAffected);
