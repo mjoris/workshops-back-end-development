@@ -27,7 +27,7 @@
     <!-- Any section element inside of this container is displayed as a slide -->
     <div class="slides">
         <section data-background="#b5533c">
-            <h3>Web &amp; Mobile Server-side <small>[OGI03q]</small></h3>
+            <h3>Web &amp; Mobile Server-side <small>[OGI03<span style="text-transform: lowercase;">q</span>]</small></h3>
             <h1>10. Cookies &amp; Sessions</h1>
         </section>
         
@@ -105,7 +105,7 @@
                                 Allow at least 20 cookies per domain
                                 <ul>
                                     <li>Firefox: 150 max</li>
-                                    <li>IE/Edge: 50...180 max</li>
+                                    <li>Edge: 50...180 max</li>
                                     <li>Chrome/Opera: 180 max</li>
                                 </ul>
                             </li>
@@ -116,7 +116,7 @@
                     </li>
                     <li>The limits aren't an obstacle most of the time</li>
                 </ul>
-                <footer><small>Remark: IE/Edge imposes a maximum total size for all cookies of a domain (10kB)</small></footer>
+                <footer><small>Remark: Edge imposes a maximum total size for all cookies of a domain (10kB)</small></footer>
             </section>
 
             <section>
@@ -423,8 +423,7 @@
                             <li>
                                 The client needs to send the identifier with each request so that the server knows which session it is about
                                 <ul>
-                                    <li>May be sent using the querystring, a hidden field or a cookie</li>
-                                    <li>If you forget sending it once, a new session id will be generated</li>
+                                    <li>The <strong>session id</strong> is typically stored in a cookie on the client</li>
                                 </ul>
                             </li>
                         </ul>
@@ -458,37 +457,37 @@
             <section>
                 <h2>Sessions: technical realization</h2>
                 <div class="hastooltip">
-                <ul style="width: 100%;">
-                    <li>
-                        The session id <strong>must</strong> be sent with each HTTP request
-                    </li>
-                    <li>
-                        This is technically realized by
-                        <ul>
-                            <li style="font-size: 60%;">hidden fields (post or get), or</li>
-                            <li style="font-size: 60%;">query string (get), or</li>
-                            <li><strong>by default:</strong> cookies (your choice)</li>
-                        </ul>
-                    </li>
-                    <li>
-                        Default <code>php.ini</code> settings
-                        <pre class="bigger" ><code class="hljs php">// path where sessions are saved on the server
-session.save_path = /tmp
+                    <ul style="width: 100%;">
+                        <li>
+                            The session id <strong>must</strong> be sent with each HTTP request
+                        </li>
+                        <li>
+                            This is technically realized by
+                            <ul>
+                                <li style="font-size: 60%;">hidden fields (post or get), or</li>
+                                <li style="font-size: 60%;">query string (get), or</li>
+                                <li><strong>by default:</strong> cookies (your choice)</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Default <code>php.ini</code> settings
+                            <pre class="bigger" ><code class="hljs php">    // path where sessions are saved on the server
+    session.save_path = /tmp
 
-// name of the session id variable
-session.name = PHPSESSID
+    // name of the session id variable
+    session.name = PHPSESSID
 
-// use cookies (and only cookies) for storing the session id?
-session.use_cookies = 1
-session.use_only_cookies = 1
+    // use cookies (and only cookies) for storing the session id?
+    session.use_cookies = 1
+    session.use_only_cookies = 1
 
-// expiry time of the cookie. Default value: when the browser closes
-session.cookie_lifetime = 0
+    // expiry time of the cookie. Default value: when the browser closes
+    session.cookie_lifetime = 0
 
-// expiry time of session variables (in seconds)
-session.gc_maxlifetime = 1440</code></pre>
-                    </li>
-                </ul>
+    // expiry time of session variables (in seconds)
+    session.gc_maxlifetime = 1440</code></pre>
+                        </li>
+                    </ul>
                     <div class="tooltip">
                         <div><strong>Remarks</strong>
                             <ul>
@@ -585,6 +584,9 @@ session_destroy();</code></pre>
                         <a href="assets/10/examples/4.login/v0" id="login-strip" target="_blank"></a>
                     </li>
                 </ul>
+                <figure>
+                    <img src="assets/10/login-strip.png" class="noborder" width="100%" alt="" title="" />
+                </figure>
             </section>
 
             <section data-background="#fdfdfd">
@@ -596,10 +598,11 @@ session_destroy();</code></pre>
 
                             <div style="text-align: center">
                                 <figure>
-                                    <img src="assets/10/login-code.png" class="noborder" width="710" alt="" title="" />
+                                    <img src="assets/10/login-code-2.png" class="noborder" width="710" alt="" title="" />
                                 </figure>
 
                                 <p style="font-size: 75%; margin-top: -1em;">let's have a thourough look at the code: <code>/assets/10/examples/4.login/v1</code> <a href="assets/10/examples/4.login/v1" target="_blank">&rarr;</a></p>
+                                <p style="font-size: 75%;"></p>
                             </div>
 
                             <div class="tooltip">
@@ -615,7 +618,7 @@ session_destroy();</code></pre>
                 </ul>
             </section>
 
-            <!--section>
+            <!--section data-background="#fdfdfd">
                 <h2>Code, robust version</h2>
                 <ul>
                     <li>
@@ -651,7 +654,7 @@ session_destroy();</code></pre>
         <section>
 
             <section>
-                <h2>10.4<br>Persistence Summary</h2>
+                <h2>10.4<br>Summary</h2>
             </section>
 
             <section>
@@ -685,15 +688,15 @@ session_destroy();</code></pre>
                         Legal issues: <a href="https://en.wikipedia.org/wiki/General_Data_Protection_Regulation">GDPR</a>
                         <ul>
                             <li>
-                                Belgium: cookie statement obligatory
+                                Opt-in frame obligatory (for tracking cookies)
                             </li>
                             <li>
-                                The Netherlands: opt-in frame obligatory
+                                Belgium: cookie wall not allowed
                             </li>
                         </ul>
                     </li>
                     <li>
-                        What about <a href="https://panopticlick.eff.org/">browser fingerprinting</a>? TBC.
+                        What about <a href="https://coveryourtracks.eff.org/learn">browser fingerprinting</a>?
                     </li>
                 </ul>
             </section>
