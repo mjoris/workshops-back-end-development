@@ -33,12 +33,12 @@
 	</style>
 
 	<script>
-		var isColor = function(input) {
-			var regexp = /^\#?[0-9A-F]{6}$/i;
+        const isColor = function(input) {
+            const regexp = /^\#?[0-9A-F]{6}$/i;
 			return regexp.test(input.toUpperCase());
 		}
 
-		window.addEventListener('load', function(e) {
+		window.addEventListener('DOMContentLoaded', function(e) {
 
 			document.getElementsByTagName('input')[0].focus();
 
@@ -47,7 +47,7 @@
 				e.preventDefault();
 				e.stopPropagation();
 
-				var formValid = isColor(document.getElementById('color').value);
+				const formValid = isColor(document.getElementById('color').value);
 
 				if (!formValid) {
 					alert('Please enter a hex-color, such as #123ABC');
