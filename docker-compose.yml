@@ -20,6 +20,7 @@ services:
      - "./mysql-sql/demo.sql:/docker-entrypoint-initdb.d/dump.sql"
     environment:
      - MYSQL_ROOT_PASSWORD=Azerty123
+     - LANG=C.UTF-8
   myadmin:
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin
