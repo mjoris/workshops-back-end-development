@@ -308,7 +308,7 @@
 
 
         <!-- Supporting Clean URLs -->
-        <!--section>
+        <section>
             <section>
                 <h2>11.2<br>Supporting Clean URLs</h2>
                 
@@ -346,7 +346,7 @@ RewriteRule . index.php [L]</code></pre>
                     <li>Better: include the rewrite rules in your <a href="https://stackoverflow.com/questions/10175513/mod-rewrite-in-vhosts-configuration">virtual hosts</a> config</li>
                 </ul>
                 <footer><small>* this is a line in the <code>Dockerfile</code> on which our <code>php-web</code> service is built</small></footer>
-            </section-->
+            </section>
 
             <!--section>
                 <h2>1. Howto: IIS</h2>
@@ -400,7 +400,7 @@ if (php_sapi_name() === 'cli-server' &amp;&amp; is_file($filename)) {
             </section-->
 
 
-            <!--section>
+            <section>
                 <h2>2. Howto</h2>
 
                 <ul>
@@ -452,10 +452,10 @@ $router->run();</code></pre>
                 </div>
             </section>
 
-        </section-->
+        </section>
 
             <!-- Routing -->
-            <!--section>
+            <section>
                 <section>
                     <h2>11.3<br>The Router</h2>
                 </section>
@@ -729,26 +729,36 @@ $router-&gt;run();</code></pre>
 
                 <section>
                     <h2>Linking your assets and URLs (2)</h2>
-                    <ul>
+                    <ul style="width: 85%; font-size: 85%;">
                         <li>
                             Solution
-                            <ul>
-                                <li>Links starting by <code>/</code> are relative to the domain name</li>
-                                <li>
-                                    Generate any link to assets and local URLs as <code>'/my/base/path/' . $relativePath</code>
-
+                            <ol>
+                                <li>Define a <code>BASE_PATH</code> constant in (somewhere) your config files</code>
+                                    <pre class="bigger"><code class="hljs php">define('BASE_PATH', 'http://localhost:8080/assets/11/examples/demo05/');</code></pre>
+                                    Idea: you can change your config files upon production
                                 </li>
-                                <li>Simple example
-                                    <pre class="bigger"><code class="hljs twig">    {% set basePath = '/assets/11/examples/demo05/' %}
-    &lt;link rel="stylesheet" href="{{ (basePath ~ 'layout.css') }}"&gt;
+                                <li>Define a custom Twig function <code>url()</code> in <code>index.php</code> (Twig bootstrapping)
+                                    <pre class="bigger"><code class="hljs php">&lt;?php
+require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/config.php';
+
+// Twig Bootstrap
+$loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/templates');
+$twig = new \Twig\Environment($loader);
+$function = new \Twig\TwigFunction('url', function ($path) {
+    return BASE_PATH . $path;
+});
+$twig-&gt;addFunction($function);</code></pre></li>
+                                <li>
+                                    Generate any link to assets and local URLs by <code>url()</code> in <code>templates/search.twig</code>
+                                    <pre class="bigger"><code class="hljs twig">    &lt;link rel="stylesheet" href="{{ url('layout.css') }}"&gt;
 &lt;/head&gt;
 &lt;body&gt;
-&lt;form method="post" action="{{ (basePath ~ 'search') }}"&gt;
-    &lt;input type="text" class="textbox" placeholder="Search" name="term" value="{{ term }}" &gt;</code></pre>
+    &lt;form method="post" action="{{ url('search') }}"&gt;</code></pre>
                                 </li>
-                                <li>Better: define a custom Twig function <code>asset()</code> and define a <code>BASE_PATH</code> constant in your config files</li>
 
-                            </ul>
+
+                            </ol>
                         </li>
                     </ul>
                 </section>
@@ -785,9 +795,10 @@ $router-&gt;run();</code></pre>
 {</code></pre>
                         </li>
                         <li>
-                            Tell composer to autoload our <code>src</code> folder in <code>composer.json</code>
+                            <a href="https://jinoantony.com/blog/how-composer-autoloads-php-files">Tell composer to autoload</a> our <code>src</code> folder in <code>composer.json</code>
                             <pre class="bigger"><code class="hjls json">   "autoload": {
-        "classmap": ["src/"]
+        "classmap": ["src/"],
+        "files": ["config.php"]
     }</code></pre>
                         </li>
                         <li>
@@ -831,6 +842,10 @@ $router-&gt;run();</code></pre>
         // bootstrap Twig
         $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../templates');
         $this-&gt;twig = new \Twig\Environment($loader);
+        $function = new \Twig\TwigFunction('url', function ($path) {
+            return BASE_PATH . $path;
+        });
+        $this-&gt;twig-&gt;addFunction($function);
     }
 
     public function show()
@@ -852,9 +867,9 @@ $router-&gt;run();</code></pre>
                     </div>
                 </section>
 
-            </section-->
+            </section>
 
-        <!--section>
+        <section>
 
             <section>
                 <h2>11.4<br>Takeaway:<br>Demo with Login</h2>
@@ -937,7 +952,7 @@ $router-&gt;run();</code></pre>
                     </li>
                 </ul>
             </section>
-        </section-->
+        </section>
 
         <!-- The END -->
         <section>
@@ -952,6 +967,8 @@ $router-&gt;run();</code></pre>
                 <ul>
                     <li><a href="http://martinfowler.com/articles/richardsonMaturityModel.html">http://martinfowler.com/articles/richardsonMaturityModel.html</a></li>
                     <li><a href="https://www.creativebloq.com/design/design-perfect-url-1126509">https://www.creativebloq.com/design/design-perfect-url-1126509</a></li>
+                    <li><a href="https://jinoantony.com/blog/how-composer-autoloads-php-files">https://jinoantony.com/blog/how-composer-autoloads-php-files</a></li>
+                    <li><a href="https://github.com/bramus/router">https://github.com/bramus/router</a></li>
 
                 </ul>
             </section>
