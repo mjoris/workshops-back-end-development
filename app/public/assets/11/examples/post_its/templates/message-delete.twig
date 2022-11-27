@@ -10,7 +10,7 @@
 
 
 
-				<form action="{{ (basePath ~ 'dashboard/messages/' ~ message.id ~ '/delete') }}" method="POST" class="form-horizontal">
+				<form action="{{ url('dashboard/messages/' ~ message.id ~ '/delete') }}" method="POST" class="form-horizontal">
 
 					<!-- Task Name -->
 					<div class="form-group">
@@ -30,7 +30,7 @@
 						</div>
 					</div>
 				</form>
-				<p class="text-left"><a href="{{ (basePath ~ 'dashboard/messages') }}">Cancel and go back</a></p>
+				<p class="text-left"><a href="{{ url('dashboard/messages') }}">Cancel and go back</a></p>
 			</div>
 		</div>
 

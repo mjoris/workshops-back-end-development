@@ -6,11 +6,10 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    {% set basePath = '/assets/11/examples/demo06/' %}
-    <link rel="stylesheet" href="{{ (basePath ~ 'layout.css') }}">
+    <link rel="stylesheet" href="{{ url('layout.css') }}">
 </head>
 <body>
-<form method="post" action="{{ (basePath ~ 'search') }}">
+<form method="post" action="{{ url('search') }}">
     <input type="text" class="textbox" placeholder="Search" name="term" value="{{ term }}" >
     <input title="Search" value="&#128269;" type="submit" class="button">
     {% if results %}

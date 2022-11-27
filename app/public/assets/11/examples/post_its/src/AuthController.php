@@ -13,6 +13,10 @@ class AuthController
         // bootstrap Twig
         $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../templates');
         $this->twig = new \Twig\Environment($loader);
+        $function = new \Twig\TwigFunction('url', function ($path) {
+            return BASE_PATH . $path;
+        });
+        $this->twig->addFunction($function);
     }
 
     public function showLogin()

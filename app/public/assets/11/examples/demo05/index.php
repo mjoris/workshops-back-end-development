@@ -1,9 +1,14 @@
 <?php
 require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/config.php';
 
 // Twig Bootstrap
 $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/templates');
 $twig = new \Twig\Environment($loader);
+$function = new \Twig\TwigFunction('url', function ($path) {
+    return BASE_PATH . $path;
+});
+$twig->addFunction($function);
 
 $router = new \Bramus\Router\Router();
 

@@ -10,7 +10,7 @@
 			</div>
 			<div class="panel-body">
 				{% include 'partials/errors.twig' %}
-				<form action="{{ (basePath ~ 'dashboard/messages/add') }}" method="POST" class="form-horizontal" enctype="multipart/form-data">
+				<form action="{{ url('dashboard/messages/add') }}" method="POST" class="form-horizontal" enctype="multipart/form-data">
 
 					<div class="form-group">
 						<label for="name" class="col-sm-4 control-label">Contents *</label>
@@ -30,7 +30,7 @@
 					</div>
 
 				</form>
-				<p class="text-left"><a href="{{ (basePath ~ 'dashboard/messages') }}">Cancel and go back</a></p>
+				<p class="text-left"><a href="{{ url('dashboard/messages') }}">Cancel and go back</a></p>
 
 			</div>
 		</div>
