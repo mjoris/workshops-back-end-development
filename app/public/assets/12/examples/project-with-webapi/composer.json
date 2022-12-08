@@ -1,8 +1,8 @@
 {
     "require": {
         "bramus/router": "^1.6.1",
-        "twig/twig": "^3.3",
-        "doctrine/dbal": "^3.1"
+        "twig/twig": "^3.4",
+        "doctrine/dbal": "^3.5"
     },
     "autoload": {
         "classmap": ["src/"]
