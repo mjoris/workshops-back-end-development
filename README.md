@@ -1,5 +1,5 @@
-# Web &amp; Mobile Server-side - workshop materials
-Interactive workshop slides for the course Web &amp; Mobile Server-side, part of the Professional Bachelor ICT study program @ Odisee, Belgium.
+# Back-end Development - workshop materials
+Interactive workshop slides for the course Back-end Development, part of the Professional Bachelor ICT study program @ Odisee, Belgium.
 
 ![](wmss-slides-screenshot.png)
 
@@ -12,20 +12,20 @@ A web-based slideshow containing many PHP code examples, which can be interactiv
 ### Running the slides without working code examples
 * Install [git](https://git-scm.com/downloads) and run from your terminal/cmd
 ```shell
-git clone https://github.com/mjoris/workshops-wmss.git
+git clone https://github.com/mjoris/workshops-back-end-development.git
 ```
-* Open the file <code>workshops-wmss/app/html/index.html</code> in a browser
+* Open the file <code>workshops-back-end-development/app/html/index.html</code> in a browser
 
 ### Running the slides with working code examples
 * Install [git](https://git-scm.com/downloads) and [Docker Desktop](https://www.docker.com/products/docker-desktop).
 * Start the Docker Desktop application
 * Run from your terminal/cmd
 ```shell
-git clone https://github.com/mjoris/workshops-wmss.git
+git clone https://github.com/mjoris/workshops-back-end-development.git
 ```
 * When Docker is up and running, run from your terminal/cmd
 ```shell
-cd workshops-wmss
+cd workshops-back-end-development
 docker-compose up
 ```
 * Browse to [http://localhost:8080](http://localhost:8080)
@@ -38,7 +38,7 @@ docker-compose down
 ## Recipes and troubleshooting
 
 ### Updating the course materials 
-* Run from your terminal/cmd, in your <code>workshops-wmss</code> directory
+* Run from your terminal/cmd, in your <code>workshops-back-end-development</code> directory
 ```shell
 git reset --hard
 git pull origin master
