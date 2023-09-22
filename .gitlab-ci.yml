@@ -1,0 +1,9 @@
+pages:
+  script:
+    - mkdir public
+    - cp -r app/public/* public
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
