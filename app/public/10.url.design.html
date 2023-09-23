@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
 
-    <title>W&amp;M Server-side – Course materials</title>
+    <title>Back-end Development – Course materials</title>
 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -27,18 +27,18 @@
     <!-- Any section element inside of this container is displayed as a slide -->
     <div class="slides">
         <section data-background="#b5533c">
-            <h3>Web &amp; Mobile Server-side <small>[OGI03<span style="text-transform: lowercase;">q</span>]</small></h3>
-            <h1>11. URL Design &amp; Routers</h1>
+            <h3>Back-end Development <small>[OGI05<span style="text-transform: lowercase;">w</span>]</small></h3>
+            <h1>10. URL Design &amp; Routers</h1>
         </section>
 
         
         <!-- URL Design -->
         <section>
             <section>
-                <h2>11.1<br>URL Design</h2>
+                <h2>10.1<br>URL Design</h2>
             </section>
 
-            <section data-background="assets/11/picard-facepalm.jpg">
+            <section data-background="assets/10/picard-facepalm.jpg">
                 <h2>URLs in the olden days</h2>
 
                 <ul>
@@ -310,7 +310,7 @@
         <!-- Supporting Clean URLs -->
         <section>
             <section>
-                <h2>11.2<br>Supporting Clean URLs</h2>
+                <h2>10.2<br>Supporting Clean URLs</h2>
                 
             </section>
 
@@ -448,7 +448,7 @@ $router->run();</code></pre>
                 <div>
                     <code>webroot/</code>
                     <input type="text" class="routertest" value="hello">
-                    <a href="" data-base-url="assets/11/examples/demo01/" target="_blank">&rarr;</a>
+                    <a href="" data-base-url="assets/10/examples/demo01/" target="_blank">&rarr;</a>
                 </div>
             </section>
 
@@ -457,7 +457,7 @@ $router->run();</code></pre>
             <!-- Routing -->
             <section>
                 <section>
-                    <h2>11.3<br>The Router</h2>
+                    <h2>10.3<br>The Router</h2>
                 </section>
 
                 <section>
@@ -558,7 +558,7 @@ $router-&gt;get('/movies/(\d+)/photos/(\d+)', function($movieId, $photoId) {
                             <div style="float:right;">
                                 <code>webroot/</code>
                                 <input type="text" class="routertest" value="movies/24/photos/4">
-                                <a href="" data-base-url="assets/11/examples/demo02/" target="_blank">&rarr;</a>
+                                <a href="" data-base-url="assets/10/examples/demo02/" target="_blank">&rarr;</a>
                             </div>
                         </li>
                         <li> PCRE-based subpatterns between <code>()</code>
@@ -620,7 +620,7 @@ $router-&gt;get('/movies/(\d+)/photos/(\d+)', function($movieId, $photoId) {
                             <div style="float:right;">
                                 <code>webroot/</code>
                                 <input type="text" class="routertest" value="movies/">
-                                <a href="" data-base-url="assets/11/examples/demo03/" target="_blank">&rarr;</a>
+                                <a href="" data-base-url="assets/10/examples/demo03/" target="_blank">&rarr;</a>
                             </div>
                         </li>
                     </ul>
@@ -647,7 +647,7 @@ $router-&gt;get('/search/(\w+)', function($term) {
                             <div>
                                 <code>webroot/</code>
                                 <input type="text" class="routertest" value="search">
-                                <a href="" data-base-url="assets/11/examples/demo04/" target="_blank">&rarr;</a>
+                                <a href="" data-base-url="assets/10/examples/demo04/" target="_blank">&rarr;</a>
                             </div>
                 </section>
 
@@ -680,7 +680,7 @@ $router-&gt;run();</code></pre>
                     <div>
                         <code>webroot/</code>
                         <input type="text" class="routertest" value="search">
-                        <a href="" data-base-url="assets/11/examples/demo05/" target="_blank">&rarr;</a>
+                        <a href="" data-base-url="assets/10/examples/demo05/" target="_blank">&rarr;</a>
                     </div>
                 </section>
 
@@ -723,7 +723,7 @@ $router-&gt;run();</code></pre>
                     <div>
                         <code>webroot/</code>
                         <input type="text" class="routertest" value="search">
-                        <a href="" data-base-url="assets/11/examples/demo05b/" target="_blank">&rarr;</a>
+                        <a href="" data-base-url="assets/10/examples/demo05b/" target="_blank">&rarr;</a>
                     </div>
                 </section>
 
@@ -734,7 +734,7 @@ $router-&gt;run();</code></pre>
                             Solution
                             <ol>
                                 <li>Define a <code>BASE_PATH</code> constant in (somewhere) your config files</code>
-                                    <pre class="bigger"><code class="hljs php">define('BASE_PATH', 'http://localhost:8080/assets/11/examples/demo05/');</code></pre>
+                                    <pre class="bigger"><code class="hljs php">define('BASE_PATH', 'http://localhost:8080/assets/10/examples/demo05/');</code></pre>
                                     Idea: you can change your config files upon production
                                 </li>
                                 <li>Define a custom Twig function <code>url()</code> in <code>index.php</code> (Twig bootstrapping)
@@ -863,7 +863,7 @@ $router-&gt;run();</code></pre>
                     <div>
                         <code>webroot/</code>
                         <input type="text" class="routertest" value="search">
-                        <a href="" data-base-url="assets/11/examples/demo06/" target="_blank">&rarr;</a>
+                        <a href="" data-base-url="assets/10/examples/demo06/" target="_blank">&rarr;</a>
                     </div>
                 </section>
 
@@ -872,19 +872,19 @@ $router-&gt;run();</code></pre>
         <section>
 
             <section>
-                <h2>11.4<br>Takeaway:<br>Demo with Login</h2>
+                <h2>10.4<br>Takeaway:<br>Demo with Login</h2>
             </section>
 
             <section>
                 <h2>Application</h2>
                 <div style="text-align: center">
                     <figure>
-                        <img src="assets/11/postits1.png" class="noborder" height="250" alt="" title="" />
+                        <img src="assets/10/postits1.png" class="noborder" height="250" alt="" title="" />
                         &nbsp;
-                        <img src="assets/11/postits2.png" class="noborder" height="250" alt="" title="" />
+                        <img src="assets/10/postits2.png" class="noborder" height="250" alt="" title="" />
                     </figure>
 
-                    <p style="font-size: 75%; margin-top: -1em;">let's have a  look at the demo <a href="assets/11/examples/post_its" target="_blank">&rarr;</a></p>
+                    <p style="font-size: 75%; margin-top: -1em;">let's have a  look at the demo <a href="assets/10/examples/post_its" target="_blank">&rarr;</a></p>
                 </div>
             </section>
 
@@ -914,7 +914,7 @@ $router-&gt;mount('/dashboard', function() use ($router) {
 
     $router-&gt;before('GET|POST', '/messages.*', function () {
         if (! isset($_SESSION['user'])) {
-            header('Location: /assets/11/examples/post_its/dashboard/login');
+            header('Location: /assets/10/examples/post_its/dashboard/login');
             exit();
         }
     });

@@ -39,7 +39,7 @@
 
                 /*
                  * By now $_SESSION['user'] contains an array like
-                 * ['id' => 1, 'username' => 'joris', 'password' => '$2y$10$ERrAdBi/yPrdwAzgHOx1ROSZzt1U03wubDGBZu45oWpDRCnO0Frf2', 'email' => 'joris.maervoet@odisee.be']
+                 * ['id' => 1, 'username' => 'joris', 'password' => '$2y$11$ERrAdBi/yPrdwAzgHOx1ROSZzt1U03wubDGBZu45oWpDRCnO0Frf2', 'email' => 'joris.maervoet@odisee.be']
                  *
                  * In fact it is more or less safe, because this variable stays on the server.
                  * PRO: you have direct access to the user's data during the session

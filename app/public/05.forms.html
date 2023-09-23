@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
 
-    <title>W&amp;M Server-side – Course materials</title>
+    <title>Back-end Development – Course materials</title>
 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -27,8 +27,8 @@
     <!-- Any section element inside of this container is displayed as a slide -->
     <div class="slides">
         <section data-background="#b5533c">
-            <h3>Web &amp; Mobile Server-side <small>[OGI03<span style="text-transform: lowercase;">q</span>]</small></h3>
-            <h1>06. Forms</h1>
+            <h3>Back-end Development <small>[OGI05<span style="text-transform: lowercase;">w</span>]</small></h3>
+            <h1>05. Forms</h1>
             <footer>Let's have a look at <em>old-skool</em> <br> server-side rendered forms</footer>
         </section>
 
@@ -36,16 +36,16 @@
         <section>
 
             <section>
-                <h2>06.1<br>&lt;form&gt; basics</h2>
+                <h2>05.1<br>&lt;form&gt; basics</h2>
             </section>
 
             <section data-background="#fdfdfd">
                 <h2>Example form</h2>
                 <div>
                     <figure>
-                        <a href="assets/06/examples/form_01.php"><img src="assets/06/testform.jpg" alt="Our testform" title="Our testform" width="700" /></a>
+                        <a href="assets/05/examples/form_01.php"><img src="assets/05/testform.jpg" alt="Our testform" title="Our testform" width="700" /></a>
                     </figure>
-                    <p style="font-size: 75%">Let's take a look at <code>assets/06/examples/form_01.php</code> <a href="assets/06/examples/form_01.php">&rarr;</a></p>
+                    <p style="font-size: 75%">Let's take a look at <code>assets/05/examples/form_01.php</code> <a href="assets/05/examples/form_01.php">&rarr;</a></p>
 
                 </div>
             </section>
@@ -108,7 +108,7 @@
         <section>
 
             <section>
-                <h2>06.2<br>Querystring</h2>
+                <h2>05.2<br>Querystring</h2>
             </section>
 
             <section>
@@ -162,11 +162,11 @@
                 <h2>GET vs POST (2)</h2>
                 <div style="text-align: center;">
                     <figure class="zoomable-15 fragment">
-                        <img src="assets/06/request-get.jpg" alt="HTTP/1.1 request of a form sent via GET" width="500" />
+                        <img src="assets/05/request-get.jpg" alt="HTTP/1.1 request of a form sent via GET" width="500" />
                         <figcaption><small>HTTP/1.1 request of a form sent via GET</small></figcaption>
                     </figure>
                     <figure class="zoomable-15 fragment">
-                        <img src="assets/06/request-post.jpg" alt="HTTP/1.1 request of a form sent via POST" width="500" />
+                        <img src="assets/05/request-post.jpg" alt="HTTP/1.1 request of a form sent via POST" width="500" />
                         <figcaption><small>HTTP/1.1 request of a form sent via POST</small></figcaption>
                     </figure>
                 </div>
@@ -272,9 +272,9 @@
                 <h2>$_GET / $_POST Example</h2>
                 <div>
                     <figure>
-                        <a href="assets/06/examples/form_01.php"><img src="assets/06/testform.jpg" alt="Our testform" title="Our testform" width="700" /></a>
+                        <a href="assets/05/examples/form_01.php"><img src="assets/05/testform.jpg" alt="Our testform" title="Our testform" width="700" /></a>
                     </figure>
-                    <p style="font-size: 75%">Let's take a look at <code>assets/06/examples/form_01.php</code> and <code>assets/06/examples/form_process.php</code> <a href="assets/06/examples/form_01.php">&rarr;</a></p>
+                    <p style="font-size: 75%">Let's take a look at <code>assets/05/examples/form_01.php</code> and <code>assets/05/examples/form_process.php</code> <a href="assets/05/examples/form_01.php">&rarr;</a></p>
 
                 </div>
             </section>
@@ -285,10 +285,10 @@
                     <li>
                         Upon submitting, all form fields are included in the <em>querystring</em>, except:
                         <ul>
-                            <li>Controls without a name attribute (<a href="assets/06/examples/form_02.php">demo</a>)</li>
-                            <li>Unchecked radiobuttons (<a href="assets/06/examples/form_03.php">demo</a>)</li>
-                            <li>Disabled controls (<a href="assets/06/examples/form_04.php">demo</a>)</li>
-                            <li>Buttons that were not clicked (<a href="assets/06/examples/form_04.php">demo</a>)</li>
+                            <li>Controls without a name attribute (<a href="assets/05/examples/form_02.php">demo</a>)</li>
+                            <li>Unchecked radiobuttons (<a href="assets/05/examples/form_03.php">demo</a>)</li>
+                            <li>Disabled controls (<a href="assets/05/examples/form_04.php">demo</a>)</li>
+                            <li>Buttons that were not clicked (<a href="assets/05/examples/form_04.php">demo</a>)</li>
                         </ul>
                     </li>
                 </ul>
@@ -298,7 +298,7 @@
                 <h2>Summarized example: our testform</h2>
                 <div>
                     <figure>
-                        <a href="assets/06/examples/form_05.php"><img src="assets/06/testform.jpg" alt="Our testform" title="Our testform" width="700" /></a>
+                        <a href="assets/05/examples/form_05.php"><img src="assets/05/testform.jpg" alt="Our testform" title="Our testform" width="700" /></a>
                     </figure>
                 </div>
             </section>
@@ -310,7 +310,7 @@
                         Possible if you already have parameters added onto the <code>target</code> URL
                     </li>
                 </ul>
-                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/06/examples/get_and_post.php">&lt;form action=&quot;form_process.php?foo=getfoo&amp;amp;bar=getbar&quot; method=&quot;post&quot;&gt;
+                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/get_and_post.php">&lt;form action=&quot;form_process.php?foo=getfoo&amp;amp;bar=getbar&quot; method=&quot;post&quot;&gt;
 	&lt;fieldset&gt;
 		&lt;h2&gt;Get and Post&lt;/h2&gt;
 		&lt;dl class=&quot;clearfix&quot;&gt;
@@ -401,7 +401,7 @@
         <section>
 
             <section>
-                <h2>06.3<br>PHP Form Processing</h2>
+                <h2>05.3<br>PHP Form Processing</h2>
             </section>
 
             <section>
@@ -415,7 +415,7 @@
                     </li>
                     <li style="margin-top: 1em;">
                         Instead of typing the name of the file in manually, you can let PHP automatically output the URL of the page itself into the <code>action</code> attribute's value
-                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/06/examples/persistency_01.php" data-overlay-height="600">&lt;form action=&quot;&lt;?php echo $_SERVER['PHP_SELF']; ?&gt;&quot; method=&quot;get&quot;&gt;
+                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/persistency_01.php" data-overlay-height="600">&lt;form action=&quot;&lt;?php echo $_SERVER['PHP_SELF']; ?&gt;&quot; method=&quot;get&quot;&gt;
 	...
 &lt;/form&gt;</code></pre></div>
                     </li>
@@ -466,7 +466,7 @@
         <section>
 
             <section>
-                <h2>06.4<br>Persisting form values</h2>
+                <h2>05.4<br>Persisting form values</h2>
             </section>
 
             <section>
@@ -490,7 +490,7 @@
                         <ul>
                             <li>Just output the sent-in value</li>
                         </ul>
-                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/06/examples/persistency_02.php" data-overlay-height="600" style="height: 350px; overflow-y: scroll;">&lt;?php
+                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/persistency_02.php" data-overlay-height="600" style="height: 350px; overflow-y: scroll;">&lt;?php
 
     // Get variable values from $_GET
     // Caution: before form submission, $_GET is completely empty!
@@ -525,7 +525,7 @@
                             <li>For each <code>&lt;option&gt;</code>, check if the value matches the sent-in value</em></li>
                             <li>If so: set the <code>selected=&quot;selected&quot;</code> attribute</li>
                         </ul>
-                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/06/examples/persistency_03.php" data-overlay-height="600" style="width: 50em;">&lt;?php
+                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/persistency_03.php" data-overlay-height="600" style="width: 50em;">&lt;?php
 
     // Get variable values from $_GET
     // Caution: before form submission, $_GET is completely empty!
@@ -559,7 +559,7 @@
                             <li>For each radiobutton, check if the value matches the sent-in value</li>
                             <li>If so: set the <code>checked=&quot;checked&quot;</code> attribute</li>
                         </ul>
-                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/06/examples/persistency_04.php" data-overlay-height="600" style="height: 350px; overflow-y: scroll;">&lt;?php
+                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/persistency_04.php" data-overlay-height="600" style="height: 350px; overflow-y: scroll;">&lt;?php
 
 	// Get variable values from $_GET
     $gender = isset($_GET['gender']) ? (string) $_GET['gender'] : '';
@@ -593,7 +593,7 @@
                 <ul>
                     <li>
                         If we enter some HTML-looking text, we break the form
-                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/06/examples/persistency_06.php" data-overlay-height="600">&lt;form action=&quot;&lt;?php echo $_SERVER['PHP_SELF']; ?&gt;&quot; method=&quot;get&quot;&gt;
+                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/persistency_06.php" data-overlay-height="600">&lt;form action=&quot;&lt;?php echo $_SERVER['PHP_SELF']; ?&gt;&quot; method=&quot;get&quot;&gt;
 	(same HTML code as before)
 &lt;/form&gt;</code></pre></div>
                         <ul>
@@ -605,7 +605,7 @@
                     </li>
                     <li style="margin-top: 1em;">
                         Fix: convert special characters with <code>htmlentities()</code> to their HTML safe / encoded version <strong>when outputting on screen</strong>
-                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/06/examples/persistency_07.php" data-overlay-height="600">&lt;form action=&quot;&lt;?php echo $_SERVER['PHP_SELF']; ?&gt;&quot; method=&quot;get&quot;&gt;
+                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/persistency_07.php" data-overlay-height="600">&lt;form action=&quot;&lt;?php echo $_SERVER['PHP_SELF']; ?&gt;&quot; method=&quot;get&quot;&gt;
 	&lt;input type=&quot;text&quot; id=&quot;name&quot; name=&quot;name&quot;
 	value=&quot;&lt;?php echo htmlentities($name); ?&gt;&quot; /&gt;
 &lt;/form&gt;</code></pre></div>
@@ -644,7 +644,7 @@
                 <ul>
                     <li>
                         Put a block of code at the top where you fetch all vars and then later on work with those vars
-                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/06/examples/persistency_11.php" data-overlay-height="600" style="width: 50em;">&lt;?php
+                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/persistency_11.php" data-overlay-height="600" style="width: 50em;">&lt;?php
 
 	$name = isset($_GET['name']) ? (string) $_GET['name'] : '';
 	$pass = isset($_GET['pass']) ? (string) $_GET['pass'] : '';
@@ -671,7 +671,7 @@
         <section>
 
             <section>
-                <h2>06.5<br>Formchecking</h2>
+                <h2>05.5<br>Formchecking</h2>
             </section>
 
             <section>
@@ -790,7 +790,7 @@
                         Bonus: it affords to have one page process multiple forms
                     </li>
                 </ul>
-                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/06/examples/formchecking_multipleforms.php" data-overlay-height="600" style="height: 350px; overflow-y: scroll;">&lt;?php
+                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/formchecking_multipleforms.php" data-overlay-height="600" style="height: 350px; overflow-y: scroll;">&lt;?php
 
     // initial values
     $moduleAction = isset($_POST['moduleAction']) ? $_POST['moduleAction'] : '';
@@ -840,7 +840,7 @@
 
             <section>
                 <h2>Formchecking Example (Simplified)</h2>
-                <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/06/examples/formchecking.php" data-overlay-height="600">&lt;?php
+                <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/formchecking.php" data-overlay-height="600">&lt;?php
 
     // initial values
     $moduleAction = isset($_POST['moduleAction']) ? $_POST['moduleAction'] : '';
@@ -881,13 +881,13 @@
                     </li>
                     <li>
                         Not encoded
-                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/06/examples/redirect_01.php" data-overlay-height="600">$gun = 'smith&amp;wesson';
+                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/redirect_01.php" data-overlay-height="600">$gun = 'smith&amp;wesson';
 header('Location: redirect_process.php?gun=' . $gun);
 exit(0); // do not forget to exit after redirect</code></pre></div>
                     </li>
                     <li>
                         Encoded
-                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/06/examples/redirect_02.php" data-overlay-height="600">$gun = 'smith&amp;wesson';
+                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/redirect_02.php" data-overlay-height="600">$gun = 'smith&amp;wesson';
 header('Location: redirect_process.php?gun=' . urlencode($gun));
 exit(0); // do not forget to exit after redirect</code></pre></div>
                     </li>
@@ -896,7 +896,7 @@ exit(0); // do not forget to exit after redirect</code></pre></div>
 
             <section data-background="#fdfdfd">
                 <h2>Client-server traffic</h2>
-                <p><img src="assets/06/http_sequence_diagram.png" alt="" title="" height="400" style="border: 0px;" class="zoomable-15"/></p>
+                <p><img src="assets/05/http_sequence_diagram.png" alt="" title="" height="400" style="border: 0px;" class="zoomable-15"/></p>
             </section>
         </section>
 
@@ -905,7 +905,7 @@ exit(0); // do not forget to exit after redirect</code></pre></div>
         <section>
 
             <section>
-                <h2>06.6<br>File Uploads</h2>
+                <h2>05.6<br>File Uploads</h2>
             </section>
 
             <section>
@@ -949,7 +949,7 @@ exit(0); // do not forget to exit after redirect</code></pre></div>
 
             <section>
                 <h2>Demo</h2>
-                <pre class="bigger"><code class="hljs php" data-overlay-example="assets/06/examples/files_01.php" data-overlay-height="600">&lt;form action=&quot;&lt;?php echo $_SERVER['PHP_SELF']; ?&gt;&quot; method=&quot;post&quot; enctype=&quot;multipart/form-data&quot;&gt;
+                <pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/files_01.php" data-overlay-height="600">&lt;form action=&quot;&lt;?php echo $_SERVER['PHP_SELF']; ?&gt;&quot; method=&quot;post&quot; enctype=&quot;multipart/form-data&quot;&gt;
 
     &lt;fieldset&gt;
 
@@ -987,7 +987,7 @@ exit(0); // do not forget to exit after redirect</code></pre></div>
                 </ul>
 
                     <figure class="zoomable-20">
-                        <img src="assets/06/files.jpg" alt="HTTP/1.1 request of a file sent via POST" title="HTTP/1.1 request of a file sent via POST" width="350" />
+                        <img src="assets/05/files.jpg" alt="HTTP/1.1 request of a file sent via POST" title="HTTP/1.1 request of a file sent via POST" width="350" />
                         <figcaption><small>HTTP/1.1 request of a file sent via POST</small></figcaption>
                     </figure>
 
@@ -1017,7 +1017,7 @@ exit(0); // do not forget to exit after redirect</code></pre></div>
                         Example
                     </li>
                 </ul>
-                        <pre ><code class="language-php" data-overlay-example="assets/06/examples/upload.php">&lt;?php
+                        <pre ><code class="language-php" data-overlay-example="assets/05/examples/upload.php">&lt;?php
 if (isset($_FILES['avatar']) &amp;&amp; ($_FILES['avatar']['error'] === UPLOAD_ERR_OK)) {
 
     echo '&lt;p&gt;Uploaded file: ' . $_FILES['avatar']['name'] . '&lt;/p&gt;';
@@ -1080,7 +1080,7 @@ if (isset($_FILES['avatar']) &amp;&amp; ($_FILES['avatar']['error'] === UPLOAD_E
 
         <section>
             <section>
-                <h2>06.7<br>Present-day forms?</h2>
+                <h2>05.7<br>Present-day forms?</h2>
             </section>
 
             <section>
@@ -1109,7 +1109,7 @@ if (isset($_FILES['avatar']) &amp;&amp; ($_FILES['avatar']['error'] === UPLOAD_E
                     </li>
                     <li style="margin-top: 0.5em;">
                         Want some minimal example?
-                        <br>&rarr; let's have a look at <a href="assets/06/examples/form_with_javascript.html" target="_blank">assets/06/examples/form_with_javascript.html</a>
+                        <br>&rarr; let's have a look at <a href="assets/05/examples/form_with_javascript.html" target="_blank">assets/05/examples/form_with_javascript.html</a>
                     </li>
                 </ul>
             </section>
