@@ -1,7 +1,7 @@
 # Back-end Development - workshop materials
 Interactive workshop slides for the course Back-end Development, part of the Professional Bachelor ICT study program @ Odisee, Belgium.
 
-![](wmss-slides-screenshot.png)
+![](backend-slides-screenshot.png)
 
 A web-based slideshow containing many PHP code examples, which can be interactively executed in the provided Docker multi-container environment.
 
