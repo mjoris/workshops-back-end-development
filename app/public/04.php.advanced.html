@@ -453,7 +453,14 @@ echo $post->status->color();</code></pre>
 
             <section>
                 <h2>More OO Goodies (1)</h2>
-                <ul>
+                <ul style="font-size: 85%;">
+                    <li>
+                        <code>readonly</code> keyword
+                        <ul>
+                            <li>readonly <a href="https://php.watch/versions/8.1/readonly">properties</a> can only be initialized once and no further changes are allowed</li>
+                            <li>readonly <a href="https://stitcher.io/blog/readonly-classes-in-php-82">classes</a>: all poperties are readonly</li>
+                        </ul>
+                    </li>
                     <li>
                         <a href="https://www.php.net/manual/en/language.oop5.interfaces.php">Interfaces</a>
                         <ul>
@@ -1115,7 +1122,7 @@ echo $post->status->color();</code></pre>
                 </ul>
             </section>
 
-            <!--section>
+            <section>
                 <h2>Summary / What to use when?</h2>
 
                 <ul>
@@ -1137,8 +1144,36 @@ echo $post->status->color();</code></pre>
                         </ul>
                     </li>
                 </ul>
-            </section-->
+            </section>
 
+        </section>
+
+        <section>
+            <section>
+                <h2>04.4<br>Randomizer</h2>
+            </section>
+
+
+            <section>
+                <h2>The Random\Randomizer class</h2>
+                <ul>
+                    <li><a href="https://www.php.net/manual/en/class.random-randomizer.php">Randomizer</a> provides a high-level API to Random\Engine of choice (<a
+                            href="https://php.watch/versions/8.2/ext-random">article</a>)</li>
+                </ul>
+
+                <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/randomizer.php">&lt;?php
+
+$randomizer = new Random\Randomizer();
+
+echo $randomizer-&gt;getInt(1, 100);
+
+echo $randomizer-&gt;shuffleBytes('lorem ipsum');
+
+print_r($randomizer-&gt;shuffleArray(['apple', 'banana', 'orange']));
+
+$randomizer = new Random\Randomizer(new Random\Engine\Mt19937());
+echo $randomizer-&gt;getInt(1, 100);</code></pre>
+            </section>
         </section>
 
         <!-- The END -->
