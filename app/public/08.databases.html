@@ -316,7 +316,7 @@
 </code></pre>
 
 
-                <footer><small><em>(password included in exception message)</em></small></footer>
+                <footer><small><em>(host and user name included in exception message)</em></small></footer>
             </section>
 
             <section>
@@ -467,20 +467,20 @@
                 <h2>Oldskool Executing Queries</h2>
                 <ul>
                     <li>
-                        Depending on the type of query, use one of these functions
+                        Depending on the type of query, one of these functions were available (<strong>now deprecated</strong>)
                         <div>
                             <ol style="margin-top: 1em;">
-                                <li>Use <code><s>query()</s></code><small><!--a href="http://www.php.net/manual/en/pdo.query.php">&#9873;</a--></small> for queries that yield a resultset</li>
+                                <li><code><s>query()</s></code><small><!--a href="http://www.php.net/manual/en/pdo.query.php">&#9873;</a--></small> for queries that yield a resultset</li>
                             </ol>
                             <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/03.php">$result = $connection-&gt;query('SELECT * FROM collections WHERE user_id = 2');
-var_dump($result);</code></pre>
+var_dump($result); // returns a Result object</code></pre>
                         </div>
                         <div>
                             <ol start="2">
-                                <li>Use <code><s>exec()</s></code><small><!--a href="http://www.php.net/manual/en/pdo.exec.php">&#9873;</a--></small> for queries that yield no resultset</li>
+                                <li><code><s>exec()</s></code><small><!--a href="http://www.php.net/manual/en/pdo.exec.php">&#9873;</a--></small> for queries that yield no resultset</li>
                             </ol>
                             <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/03b.php">$result = $connection-&gt;exec('DELETE FROM collections WHERE user_id = 10');
-var_dump($result);</code></pre>
+var_dump($result); // returns the number of affected rows</code></pre>
                         </div>
                     </li>
                     <li style="margin-top: 1em;">
@@ -517,7 +517,7 @@ var_dump($result);</code></pre>
                     </li>
                 </ul>
 
-                <footer><em style="color: #F55;">You prevent SQL Injection in the lab and the project</em></footer>
+                <footer><em style="color: #F55;">You prevent SQL Injection in the lab and the project (FS:IP)</em></footer>
 
             </section>
 
@@ -789,7 +789,7 @@ $result = $stmt-&gt;executeStatement(['test', 4]);</code></pre>
                     </li>
                 </ul>
 
-                <footer><em style="color: #F55;">!! Always prevent SQL Injection in the labs and in the project !!</em></footer>
+                <footer><em style="color: #F55;">!! Always prevent SQL Injection in the labs and in the project (FS:IP) !!</em></footer>
 
             </section>
 
