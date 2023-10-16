@@ -143,7 +143,6 @@
                         <ul>
                             <li>Defines a structure to follow</li>
                             <li>Your project must follow that structure</li>
-                            </li>
                             <li>Internally, a framework will most likely contain/use a library</li>
                         </ul>
                     </li>
@@ -175,7 +174,7 @@
                 </ul>
             </section>
 
-            <section data-background="assets/07/splash-oldskool.jpg">
+            <!--section data-background="assets/07/splash-oldskool.jpg">
                 <h2>PHP History (1)</h2>
                 <ul>
                     <li>Oldskool obtaining a library
@@ -207,7 +206,7 @@
                 </ul>
 
                 <footer><em>(If you do keep your code up-to-date that is)</em></footer>
-            </section>
+            </section-->
 
         </section>
 
@@ -563,11 +562,10 @@ $image-&gt;save('output/procla_ict_oct_2022_watermark.jpg');
                     </li>
                 </ul>
                 <footer><small><br>
-                    Note (Oct. 2022): actually, Intervention Image
+                    Note: actually, Intervention Image
                     requires <a href="https://libgd.github.io/">gd</a>
-                    being installed on the webserver. <br> I have updated the
-                    <code>Dockerfile</code>. Please update your image by
-                    <code>docker compose build php-web</code>.
+                    being installed on the webserver. <br> This has been done in the
+                    <code>Dockerfile</code>.
                 </small></footer>
 
             </section>
@@ -703,7 +701,7 @@ $image-&gt;save('output/procla_ict_oct_2022_watermark.jpg');
                             PHP version (+ installed extensions) is a dependency too !
                             <ul style="font-size: 85%;">
                                 <li><strong>Recommended: </strong>Run composer with the PHP executable used by the webserver</li>
-                                <li><strong>If not possible: </strong>Enforce PHP version to <code>composer.json</code> using this command: <pre class="bigger"><code class="hljs bash">composer config platform.php 8.0.10</code></pre></li>
+                                <li><strong>If not possible: </strong>Enforce PHP version to <code>composer.json</code> using this command: <pre class="bigger"><code class="hljs bash">composer config platform.php 8.2.10</code></pre></li>
                             </ul>
 
                         </div>
@@ -714,17 +712,18 @@ $image-&gt;save('output/procla_ict_oct_2022_watermark.jpg');
             <section>
                 <h2>Docker + Git + Composer = &#128165;</h2>
                 <ul style="font-size: 85%;">
-                    <li>Testing your <code>composer.json</code> in a Docker environment
+                    <li style="color: purple;">Remember: the <code style="color: white;">vendor/</code> folder is not on git, but <code style="color: white;">composer.json</code> and <code style="color: white;">composer.lock</code> are</li>
+                    <li><strong>Manually</strong> running Composer in a multi-container environment
                         <ul>
+                            <li>= best choice when experimenting with <code>composer.json</code> and <code>composer.lock</code></li>
                             <li style="color: purple;">Remember: the PHP versions of composer and web server container should match</li>
                             <li>So ALWAYS run <code>composer</code> from the dedicated container (<code>docker exec &hellip;</code>)</li>
                         </ul>
                     </li>
-                    <li style="margin-top: 1em;">Everything up and running with <code>docker-compose up</code> on <strong>Git</strong>
+                    <li style="margin-top: 1em;"><strong>Automatically</strong> running Composer in a multi-container environment with <code>docker-compose up</code>
                         <ul>
-                            <li style="color: purple;">Remember: the <code style="color: white;">vendor/</code> folder is not on git</li>
                             <li>You add a PHP version enforcement to <code>composer.json</code>:
-                                <pre class="bigger"><code class="hljs bash">composer config platform.php 8.0.10</code></pre>
+                                <pre class="bigger"><code class="hljs bash">composer config platform.php 8.2.10</code></pre>
                             </li>
                             <li>You add a <a href="https://hub.docker.com/_/composer">composer</a> service to <code>docker-compose.yml</code>
                             <ul>
@@ -882,7 +881,7 @@ $image-&gt;save('output/procla_ict_oct_2022_watermark.jpg');
                         <ul>
                             <li>
                                 New project, not yet requiring it via Composer:
-                                <div><pre class="bigger"><code class="dontrun">composer require nesbot/carbon ^2.62</code></pre></div>
+                                <div><pre class="bigger"><code class="dontrun">composer require nesbot/carbon ^2.71</code></pre></div>
                             </li>
                             <li>
                                 Existing project, already requiring it via Composer:
@@ -955,7 +954,6 @@ echo ('Oudjaar is ' . $dt-&gt;diffForHumans()); </code></pre>
             <section>
                 <h2>Sources</h2>
                 <ul>
-                    <li><a href="http://coding.smashingmagazine.com/2011/10/17/getting-started-with-php-templating/">http://coding.smashingmagazine.com/2011/10/17/getting-started-with-php-templating/</a></li>
                     <li><a href="https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md">https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md</a></li>
                     <li><a href="http://www.php-fig.org/psr/psr-0/">http://www.php-fig.org/psr/psr-0/</a></li>
                     <li><a href="http://getcomposer.org/doc/00-intro.md">http://getcomposer.org/doc/00-intro.md</a></li>
