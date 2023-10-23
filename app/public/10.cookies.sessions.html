@@ -28,12 +28,12 @@
     <div class="slides">
         <section data-background="#b5533c">
             <h3>Back-end Development <small>[OGI05<span style="text-transform: lowercase;">w</span>]</small></h3>
-            <h1>11. Cookies &amp; Sessions</h1>
+            <h1>10. Cookies &amp; Sessions</h1>
         </section>
         
         <section>
             <section>
-                <h2>11.1<br>Introduction</h2>
+                <h2>10.1<br>Introduction</h2>
             </section>
 
             <section>
@@ -85,7 +85,7 @@
         <section>
 
             <section>
-                <h2>11.2<br>Persistence using Cookies</h2>
+                <h2>10.2<br>Persistence using Cookies</h2>
             </section>
 
             <section>
@@ -141,7 +141,7 @@
 
             <section data-background="#fdfdfd">
                 <h2>Client-server traffic (2)</h2>
-                <p><img src="assets/11/traffic_cookie.png" alt="" title="" height="400" style="border: 0px;" class="zoomable-15"/></p>
+                <p><img src="assets/10/traffic_cookie.png" alt="" title="" height="400" style="border: 0px;" class="zoomable-15"/></p>
             </section>
 
 
@@ -299,7 +299,7 @@
                 <ul>
                     <li>
                         Change the background color of the page and store it in a cookie
-                        <a href="assets/11/examples/2.sitecolor/v0" id="colormysite-strip" target="_blank"></a>
+                        <a href="assets/10/examples/2.sitecolor/v0" id="colormysite-strip" target="_blank"></a>
                     </li>
                 </ul>
             </section>
@@ -313,10 +313,10 @@
 
                             <div style="text-align: center">
                                 <figure>
-                                    <img src="assets/11/colormysite-code-v1.png" class="noborder" width="710" alt="" title="" />
+                                    <img src="assets/10/colormysite-code-v1.png" class="noborder" width="710" alt="" title="" />
                                 </figure>
 
-                                <p style="font-size: 75%; margin-top: -1em;"><code>/assets/11/examples/2.sitecolor/v1-delay</code> <a href="assets/11/examples/2.sitecolor/v1-delay" target="_blank">&rarr;</a></p>
+                                <p style="font-size: 75%; margin-top: -1em;"><code>/assets/10/examples/2.sitecolor/v1-delay</code> <a href="assets/10/examples/2.sitecolor/v1-delay" target="_blank">&rarr;</a></p>
                             </div>
 
                             <div class="tooltip">
@@ -339,10 +339,10 @@
 
                             <div style="text-align: center">
                                 <figure>
-                                    <img src="assets/11/colormysite-code-v2.png" class="noborder" width="710" alt="" title="" />
+                                    <img src="assets/10/colormysite-code-v2.png" class="noborder" width="710" alt="" title="" />
                                 </figure>
 
-                                <p style="font-size: 75%; margin-top: -1em;"><code>/assets/11/examples/2.sitecolor/v2-forcedrefresh</code> <a href="assets/11/examples/2.sitecolor/v2-forcedrefresh" target="_blank">&rarr;</a></p>
+                                <p style="font-size: 75%; margin-top: -1em;"><code>/assets/10/examples/2.sitecolor/v2-forcedrefresh</code> <a href="assets/10/examples/2.sitecolor/v2-forcedrefresh" target="_blank">&rarr;</a></p>
                             </div>
 
                             <div class="tooltip">
@@ -401,7 +401,7 @@
         <section>
 
             <section>
-                <h2>11.3<br>Persistence using Sessions</h2>
+                <h2>10.3<br>Persistence using Sessions</h2>
             </section>
 
             <section>
@@ -505,7 +505,7 @@ echo '&lt;a href=&quot;nextpage.php?PHPSESSID=' . session_id() . '&quot; title=&
 
             <section data-background="#fdfdfd">
                 <h2>Client-server traffic</h2>
-                <p><img src="assets/11/traffic_session.png" alt="" title="" height="400" style="border: 0px;" class="zoomable-15"/></p>
+                <p><img src="assets/10/traffic_session.png" alt="" title="" height="400" style="border: 0px;" class="zoomable-15"/></p>
             </section>
 
             <section>
@@ -536,22 +536,22 @@ echo '&lt;a href=&quot;nextpage.php?PHPSESSID=' . session_id() . '&quot; title=&
                 <ul style="width: 100%;">
                     <li>
                         Storing a var in the session
-                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/11/examples/3.stranger/somepage.php">session_start();
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/10/examples/3.stranger/somepage.php">session_start();
 $_SESSION['name'] = 'Bramus!';</code></pre>
                     </li>
                     <li>
                         Fetching a var from the session
-                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/11/examples/3.stranger/someotherpage.php">session_start();
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/10/examples/3.stranger/someotherpage.php">session_start();
 $name = isset($_SESSION['name']) ? $_SESSION['name'] : 'stranger';</code></pre>
                     </li>
                     <li>
                         Erasing a var from the session
-                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/11/examples/3.stranger/unset.php">session_start();
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/10/examples/3.stranger/unset.php">session_start();
 unset($_SESSION['name']);</code></pre>
                     </li>
                     <li>
                         Erasing an entire session
-                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/11/examples/3.stranger/destroy.php">session_start();
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/10/examples/3.stranger/destroy.php">session_start();
 // Best practice: unset all session vars before stopping the session
 $_SESSION = [];
 // Note: if it's desired to kill the session, also delete the session cookie ...
@@ -581,11 +581,11 @@ session_destroy();</code></pre>
                 <ul>
                     <li>
                         A login and logout page, along with three content pages, showing content based upon the logged in state.
-                        <a href="assets/11/examples/4.login/v0" id="login-strip" target="_blank"></a>
+                        <a href="assets/10/examples/4.login/v0" id="login-strip" target="_blank"></a>
                     </li>
                 </ul>
                 <figure>
-                    <img src="assets/11/login-strip.png" class="noborder" width="100%" alt="" title="" />
+                    <img src="assets/10/login-strip.png" class="noborder" width="100%" alt="" title="" />
                 </figure>
             </section>
 
@@ -598,10 +598,10 @@ session_destroy();</code></pre>
 
                             <div style="text-align: center">
                                 <figure>
-                                    <img src="assets/11/login-code-2.png" class="noborder" width="710" alt="" title="" />
+                                    <img src="assets/10/login-code-2.png" class="noborder" width="710" alt="" title="" />
                                 </figure>
 
-                                <p style="font-size: 75%; margin-top: -1em;">let's have a thourough look at the code: <code>/assets/11/examples/4.login/v1</code> <a href="assets/11/examples/4.login/v1" target="_blank">&rarr;</a></p>
+                                <p style="font-size: 75%; margin-top: -1em;">let's have a thourough look at the code: <code>/assets/10/examples/4.login/v1</code> <a href="assets/10/examples/4.login/v1" target="_blank">&rarr;</a></p>
                                 <p style="font-size: 75%;"></p>
                             </div>
 
@@ -627,10 +627,10 @@ session_destroy();</code></pre>
                         <div class="hastooltip">
                             <div style="text-align: center">
                                 <figure>
-                                    <img src="assets/11/login-code.png" class="noborder" width="710" alt="" title="" />
+                                    <img src="assets/10/login-code.png" class="noborder" width="710" alt="" title="" />
                                 </figure>
 
-                                <p style="font-size: 75%; margin-top: -1em;">conceptual code sample: <code>/assets/11/examples/4.login/v2</code> <a href="assets/11/examples/4.login/v2" target="_blank">&rarr;</a></p>
+                                <p style="font-size: 75%; margin-top: -1em;">conceptual code sample: <code>/assets/10/examples/4.login/v2</code> <a href="assets/10/examples/4.login/v2" target="_blank">&rarr;</a></p>
                             </div>
 
                             <div class="tooltip">
@@ -651,7 +651,7 @@ session_destroy();</code></pre>
         <section>
 
             <section>
-                <h2>11.4<br>Summary</h2>
+                <h2>10.4<br>Summary</h2>
             </section>
 
             <section>
