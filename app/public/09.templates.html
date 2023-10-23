@@ -258,7 +258,7 @@ class Template {
                         <ul>
                             <li>
                                 New project, not yet requiring it via Composer:
-                                <div><pre class="bigger"><code>composer require twig/twig ^3.4.3</code></pre></div>
+                                <div><pre class="bigger"><code>composer require twig/twig ^3.7.1</code></pre></div>
                             </li>
                             <li>
                                 Existing project, already requiring it via Composer:
@@ -267,7 +267,6 @@ class Template {
                         </ul>
                     </li>
                 </ul>
-                <footer><small>Versions below 3.4.3 (28/09/2022) have security issues.</small></footer>
             </section>
 
             <section>
@@ -427,24 +426,20 @@ echo $tpl->render([
                 <ul>
                     <li>
                         Twig also plays nice with multi-dimensional assoc. arrays &hellip;
-                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/twig/07/index.php">$lecturers = [
-    [
-        'name' =&gt; 'Pieter Van Peteghem', 'city' =&gt; 'Ghent',
-        'courses' =&gt; ['W&amp;M Server-side']
-    ], [
-        'name' =&gt; 'Davy De Winne', 'city' =&gt; 'Schellebelle',
-        'courses' =&gt; ['W&amp;M Introduction', 'W&amp;M Front-End', 'UX/UI Design']
-    ], [
-        'name' =&gt; 'Peter Demeester'
-    ]
+
+                    </li>
+                </ul><pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/twig/07/index.php"  >$lecturers = [
+    ['name' =&gt; 'Pieter Van Peteghem', 'city' =&gt; 'Ghent', 'courses' =&gt; ['Back-end Development', 'Full-stack: Introductory Project']],
+    ['name' =&gt; 'Bart Delrue', 'city' =&gt; 'Ghent', 'courses' =&gt; ['Front-end Development', 'Full-stack: Introductory Project', 'Full-stack Development']],
+    ['name' =&gt; 'Peter Demeester'],
 ];
 
+$tpl = $twig-&gt;load('main.twig');
+
 echo $tpl-&gt;render([
-	'name' =&gt; 'Joris Maervoet',
-	'colleagues' =&gt; $lecturers
+    'name' =&gt; 'Joris Maervoet',
+    'colleagues' =&gt; $lecturers
 ]);</code></pre>
-                    </li>
-                </ul>
             </section>
 
             <section>
@@ -506,19 +501,19 @@ echo $tpl-&gt;render([
                         <div class="columns">
                             <div class="column column-12">
 										<pre class="bigger"><code class="hljs php">echo $tpl-&gt;render([
-	'courses' => [
-		'JPW235' =&gt; 'Webscripting1',
-		'JPW213' =&gt; 'Webscripting2',
-		'JPW218' =&gt; 'Web &amp; Mobile',
-	]
+    'courses' => [
+        'OGI02I' =&gt; 'Front-end Development',
+        'OGI05H' =&gt; 'Back-end Development',
+        'OGI03C' =&gt; 'Full-stack Development',
+    ]
 ];</code></pre>
                             </div>
                             <div class="column column-12">
 										<pre class="bigger"><code class="hljs twig" data-overlay-example="assets/09/examples/twig/08/index.php">&lt;ul&gt;
 {% for val in courses %}
-	&lt;li&gt;{{ val }}&lt;/li&gt;
+    &lt;li&gt;{{ val }}&lt;/li&gt;
 {% else %}
-	&lt;li&gt;(array is empty)&lt;/li&gt;
+    &lt;li&gt;(array is empty)&lt;/li&gt;
 {% endfor %}
 &lt;/ul&gt;</code></pre>
                             </div>
@@ -530,18 +525,18 @@ echo $tpl-&gt;render([
                             <div class="column column-12">
 										<pre class="bigger"><code class="hljs twig" data-overlay-example="assets/09/examples/twig/08/index.php">&lt;ul&gt;
 {% for k in courses|keys %}
-	&lt;li&gt;key: {{ k }}&lt;/li&gt;
+    &lt;li&gt;key: {{ k }}&lt;/li&gt;
 {% else %}
-	&lt;li&gt;(no items in the array)&lt;/li&gt;
+    &lt;li&gt;(no items in the array)&lt;/li&gt;
 {% endfor %}
 &lt;/ul&gt;</code></pre>
                             </div>
                             <div class="column column-12">
 										<pre class="bigger"><code class="hljs twig" data-overlay-example="assets/09/examples/twig/08/index.php">&lt;ul&gt;
 {% for key, val in courses %}
-	&lt;li&gt;{{ key }} = {{ val }}&lt;/li&gt;
+    &lt;li&gt;{{ key }} = {{ val }}&lt;/li&gt;
 {% else %}
-	&lt;li&gt;(no items in the array)&lt;/li&gt;
+    &lt;li&gt;(no items in the array)&lt;/li&gt;
 {% endfor %}
 &lt;/ul&gt;</code></pre>
                             </div>

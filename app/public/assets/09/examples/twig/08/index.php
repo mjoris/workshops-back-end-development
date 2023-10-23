@@ -9,9 +9,9 @@ $twig = new \Twig\Environment($loader);
 
 // define our vars (fixed or via calculations)
 $courses = array(
-    'JPW235' => 'Webscripting1',
-    'JPW213' => 'Webscripting2',
-    'JPW218' => 'Web & Mobile',
+    'OGI02I' => 'Front-end Development',
+    'OGI05H' => 'Back-end Development',
+    'OGI03C' => 'Full-stack Development',
 );
 
 // load template
