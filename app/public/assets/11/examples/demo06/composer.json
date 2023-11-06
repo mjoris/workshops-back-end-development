@@ -1,0 +1,10 @@
+{
+    "require": {
+        "bramus/router": "^1.6.1",
+        "twig/twig": "^3.7"
+    },
+    "autoload": {
+        "classmap": ["src/"],
+        "files": ["config.php"]
+    }
+}
