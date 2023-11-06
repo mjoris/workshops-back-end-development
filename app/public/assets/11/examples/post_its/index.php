@@ -22,7 +22,7 @@ $router->mount('/dashboard', function() use ($router) {
 
     $router->before('GET|POST', '/messages.*', function () {
         if (! isset($_SESSION['user'])) {
-            header('Location: /assets/10/examples/post_its/dashboard/login');
+            header('Location: ' . BASE_PATH . 'dashboard/login');
             exit();
         }
     });

@@ -914,7 +914,7 @@ $router-&gt;mount('/dashboard', function() use ($router) {
 
     $router-&gt;before('GET|POST', '/messages.*', function () {
         if (! isset($_SESSION['user'])) {
-            header('Location: /assets/11/examples/post_its/dashboard/login');
+            header('Location: ' . BASE_PATH . 'dashboard/login');
             exit();
         }
     });

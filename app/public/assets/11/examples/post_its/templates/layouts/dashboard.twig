@@ -53,7 +53,7 @@
 
     </style>
 </head>
-<body id="app-layout"> {% set basePath = '/assets/10/examples/post_its/' %}
+<body id="app-layout">
 <nav class="navbar navbar-default">
     <div class="container">
         <!-- Static navbar -->
@@ -67,20 +67,20 @@
                         <span class="icon-bar"></span>
                     </button>
 
-                    <a class="navbar-brand" href="{{ (basePath ~ 'dashboard') }}">Dashboard</a>
+                    <a class="navbar-brand" href="{{ url('dashboard') }}">Dashboard</a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     {% if user %}
-                    <form class="navbar-form navbar-right" method="post" action="{{ (basePath ~ 'dashboard/logout') }}">
+                    <form class="navbar-form navbar-right" method="post" action="{{ url('dashboard/logout') }}">
                         <button type="submit" class="btn btn-sm btn-default"><i class="fa fa-btn fa-power-off"></i><span class="button-text">Log out</span></button>
                     </form>
                     {% endif %}
 
                     <ul class="nav navbar-nav navbar-right">
                         {% if (not user) %}
-                        <li><a href="{{ basePath }}">Home</a></li>
+                        <li><a href="{{ url('') }}">Home</a></li>
                         {% else %}
-                        <li><a href="{{ (basePath ~ 'dashboard/messages') }}">Messages</a></li>
+                        <li><a href="{{ url('dashboard/messages') }}">Messages</a></li>
                         {% endif %}
                     </ul>
                 </div><!--/.nav-collapse -->

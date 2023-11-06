@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ url('layout.css') }}">
 </head>
 <body>
-<div style="width: 100%;margin-left: 20px;"><strong>Post-its</strong> &bullet; <a href="dashboard">Dashboard</a></div>
+<div style="width: 100%;margin-left: 20px;"><strong>Post-its</strong> &bullet; <a href="{{ url('dashboard') }}">Dashboard</a></div>
 {% for message in messages %}
 
     <div class="postit" id="p{{ message.id }}">
