@@ -81,7 +81,7 @@
 
             <section data-background="#fdfdfd">
                 <h2>How we will use Docker</h2>
-                <p><img src="assets/02/docker-dev-and-prod-23.png" alt=""></p>
+                <p><img src="assets/02/docker-dev-and-prod-24.png" alt=""></p>
 
             </section>
 
@@ -194,10 +194,10 @@
 
                         <ol>
                             <li style="margin-top: 0.7em;">
-                                Get the mysql:8.0 image (if not present): <code>$ docker pull mysql:8.0</code>
+                                Get the mysql:8.4 image (if not present): <code>$ docker pull mysql:8.4</code>
                             </li>
                             <li style="margin-top: 0.7em;">
-                                Create a new container: <code>$ docker create -e MYSQL_ROOT_PASSWORD=Azerty123 mysql:8.0</code>
+                                Create a new container: <code>$ docker create -e MYSQL_ROOT_PASSWORD=Azerty123 mysql:8.4</code>
                                 <br> &rarr; the daemon returns a container ID: <code>950968d78d63ae451c178a46799cd85b6aed5d9692d46a6b3acca05da8830990</code>
                                 <ul>
                                     <li>this steps reserves "the internal command" to run, which ports to forward, &hellip; </li>
@@ -215,7 +215,7 @@
                     </li>
                 </ul>
                 <pre data-id="code-animation">
-                    <code class="hljs bash" data-trim>$ docker run -e MYSQL_ROOT_PASSWORD=Azerty123 -d mysql:8.0</code>
+                    <code class="hljs bash" data-trim>$ docker run -e MYSQL_ROOT_PASSWORD=Azerty123 -d mysql:8.4</code>
                 </pre>
                 <footer>
                     <small>Documentation on <a href="https://docs.docker.com/engine/reference/run/">run</a>, <a href="https://docs.docker.com/engine/reference/commandline/pull/">pull</a>, <a href="https://docs.docker.com/engine/reference/commandline/create/">create</a> and <a href="https://docs.docker.com/engine/reference/commandline/start/">start</a></small>
@@ -228,7 +228,7 @@
                 <pre data-id="code-animation">
                     <code class="hljs bash" data-trim>$ docker images
 REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE
-mysql                   8.0                 5d4d51c57ea8        2 weeks ago         374MB
+mysql                   8.4                 5d4d51c57ea8        2 weeks ago         374MB
 mysql                   latest              f0f3956a9dd8        3 weeks ago         409MB
 nimmis/apache-php7      latest              93b52d88eb58        6 weeks ago         482MB
 alexcheng/magento2      latest              41b274b16771        7 weeks ago         1.43GB
@@ -237,11 +237,11 @@ mysql                   5.6.23              0bd9ef0792fa        2 years ago     
 
 $ docker ps
 CONTAINER ID    IMAGE               COMMAND                  CREATED           STATUS                  PORTS      NAMES
-950968d78d63    mysql:8.0           "docker-entrypoint.s…"   20 minutes ago    Up 8 minutes            3306/tcp   confident_hermann
+950968d78d63    mysql:8.4           "docker-entrypoint.s…"   20 minutes ago    Up 8 minutes            3306/tcp   confident_hermann
 
 $ docker ps -a
 CONTAINER ID    IMAGE               COMMAND                  CREATED           STATUS                  PORTS      NAMES
-950968d78d63    mysql:8.0           "docker-entrypoint.s…"   20 minutes ago    Up 8 minutes            3306/tcp   confident_hermann
+950968d78d63    mysql:8.4           "docker-entrypoint.s…"   20 minutes ago    Up 8 minutes            3306/tcp   confident_hermann
 4f909c0d46e1    nimmis/apache-php7  "/my_init"               2 weeks ago       Exited (0) 2 weeks ago             youthful_rosalind
 ec1702dd0e85    alexcheng/magento2  "/sbin/my_init"          5 weeks ago       Exited (0) 5 weeks ago             gallant_villani
 c5d0d1270551    alexcheng/magento2  "/sbin/my_init"          5 weeks ago       Exited (0) 5 weeks ago             agitated_kowalevski</code></pre>
@@ -325,10 +325,10 @@ CONTAINER ID    IMAGE               COMMAND                  CREATED           S
                     <li>
                         This <em>central command</em> can be overridden upon container creation
                         <ul>
-                            <li><code>docker run -it php:8.2-apache</code> &rarr; <code>apache2-foreground</code> runs a webserver with PHP</li>
-                            <li><code>docker run -it php:8.2-apache php -a</code> &rarr; <code>php -a</code> runs a simple PHP interpreter</li>
-                            <li><code>docker run -it php:8.2-apache php helloworld.php</code> &rarr; <code>php helloworld.php</code> interprets helloworld.php</li>
-                            <li><code>docker run -it php:8.2-apache bash</code> &rarr; <em>a bit weird &hellip;</em> only runs <code>bash</code> of the underlying OS</li>
+                            <li><code>docker run -it php:8.3-apache</code> &rarr; <code>apache2-foreground</code> runs a webserver with PHP</li>
+                            <li><code>docker run -it php:8.3-apache php -a</code> &rarr; <code>php -a</code> runs a simple PHP interpreter</li>
+                            <li><code>docker run -it php:8.3-apache php helloworld.php</code> &rarr; <code>php helloworld.php</code> interprets helloworld.php</li>
+                            <li><code>docker run -it php:8.3-apache bash</code> &rarr; <em>a bit weird &hellip;</em> only runs <code>bash</code> of the underlying OS</li>
                         </ul>
                     </li>
                 </ul>
@@ -341,14 +341,14 @@ CONTAINER ID    IMAGE               COMMAND                  CREATED           S
                         You can start a container in
                         <ul>
                             <li style="margin-top: 0.5em;">
-                                <strong>detached/background mode</strong> e.g. <code>$ docker run -e MYSQL_ROOT_PASSWORD=Azerty123 -d mysql:8.0</code>
+                                <strong>detached/background mode</strong> e.g. <code>$ docker run -e MYSQL_ROOT_PASSWORD=Azerty123 -d mysql:8.4</code>
                                 <ul>
                                     <li>You don't have STDIN, STDOUT and STDERR of the container</li>
                                     <li>You have the prompt <code>$</code> back</li>
                                 </ul>
                             </li>
                             <li style="margin-top: 1em;">
-                                <strong>attached/foreground mode</strong> e.g. <code>$ docker run -e MYSQL_ROOT_PASSWORD=Azerty123 -it mysql:8.0</code>
+                                <strong>attached/foreground mode</strong> e.g. <code>$ docker run -e MYSQL_ROOT_PASSWORD=Azerty123 -it mysql:8.4</code>
                                 <ul>
                                     <li>Without <code>-d</code>*, Docker attaches STDIN, STDOUT and STDERR to the current console</li>
                                     <li>when the (internal) command is <strong>interactive</strong>, you must use <code>-i</code>* and <code>-t</code>* in order to attach a pseudo-TTY</li>
@@ -403,7 +403,7 @@ bash-4.4#</code></pre>
                     </li>
                     <li style="margin-top: 0.5em;" >
                         Example
-                        <pre><code class="hljs bash">$ docker run -it -p 8080:80 --name demo-app -v /volledig/pad/myfolder:/var/www/html php:8.1-apache</code></pre>
+                        <pre><code class="hljs bash">$ docker run -it -p 8080:80 --name demo-app -v /volledig/pad/myfolder:/var/www/html php:8.3-apache</code></pre>
                     </li>
                 </ul>
                 <footer><small>* containers also inherit the exposed ports by the image<br>** as specified by the image</small></footer>
@@ -434,7 +434,11 @@ local     4ebec0e3543236847ccc8ec4f6f61143afa759b7aa8e8fc7c404e133e0153757
 </code></pre>
                     </li>
                     <li>
-                        Indeed, they are not removed together with the container. <br> Save some disk space: <code>$ docker volume prune</code>
+                        Indeed, they are not removed together with the container, unless you
+                        <code>$ docker rm --volumes</code>
+                        <br>
+                        Save some disk space:
+                        <code>$ docker volume prune</code>
                     </li>
                 </ul>
             </section>
@@ -454,7 +458,7 @@ local     4ebec0e3543236847ccc8ec4f6f61143afa759b7aa8e8fc7c404e133e0153757
                         <ul>
                             <li>
                                 A <a href="https://docs.docker.com/engine/reference/builder/">Dockerfile</a> is a text file containing a list of commands to build an image
-                                <pre><code class="hljs Dockerfile">FROM mysql:8.0
+                                <pre><code class="hljs Dockerfile">FROM mysql:8.4
 
 MAINTAINER Mahmoud Zalt &lt;mahmoud@zalt.me&gt;
 
@@ -506,7 +510,7 @@ EXPOSE 3306</code></pre>
                 </ul>
                 <p><img src="assets/02/sample-imagelayers.png" alt="" title="" height="270" /></p>
                 <footer>
-                    <small>Image: an <a href="https://imagelayers.io">imagelayers.io</a> screenshot from a <a href="https://www.ctl.io/developers/blog/post/imagelayers-io-docker-visualization-and-badges">blogpost by ctl.io</a></small>
+                    <small>Image: an <a href="https://github.com/microscaling/imagelayers">imagelayers.io (archived)</a> screenshot from a <a href="https://www.ctl.io/developers/blog/post/imagelayers-io-docker-visualization-and-badges">blogpost by ctl.io</a></small>
                 </footer>
             </section>
 
@@ -523,7 +527,7 @@ EXPOSE 3306</code></pre>
                 <h2>The Dockerfile</h2>
                 <ul style="font-size: 85%">
                     <li>
-                        Coding your own Dockerfile? Read the <a href="https://docs.docker.com/engine/reference/builder/">docs</a>, look at examples and read about the <a href="https://github.com/FuriKuri/docker-best-practices">do's</a> and the don'ts (<a href="https://runnable.com/blog/9-common-dockerfile-mistakes">1</a>, <a href="https://developers.redhat.com/blog/2016/02/24/10-things-to-avoid-in-docker-containers/">2</a>)
+                        Coding your own Dockerfile? Read the <a href="https://docs.docker.com/engine/reference/builder/">docs</a>, look at examples and read about the <a href="https://github.com/FuriKuri/docker-best-practices">do's</a> and the don'ts (<a href="https://codenow.github.io/blog/9-common-dockerfile-mistakes">1</a>, <a href="https://developers.redhat.com/blog/2016/02/24/10-things-to-avoid-in-docker-containers/">2</a>)
                         Mainly, it's all about reproducability.
                     </li>
                     <li style="margin-top: 0.5em;"> Instructions (some introduction)
@@ -654,7 +658,7 @@ EXPOSE 3306</code></pre>
             <section>
                 <h2>A simple example</h2>
                 <pre style="margin-bottom: 0;">docker-php/Dockerfile</pre>
-                <pre style="margin-top: 0;"><code class="hljs Dockerfile">FROM php:8.2-apache
+                <pre style="margin-top: 0;"><code class="hljs Dockerfile">FROM php:8.3-apache
 
 RUN docker-php-ext-install pdo_mysql</code></pre>
                 <pre style="margin-bottom: 0;">docker-compose.yml</pre>
@@ -671,7 +675,7 @@ services:
       - mysqldb
 
   mysqldb:
-    image: mysql:8.0
+    image: mysql:8.4
     ports:
      - "3307:3306"
     volumes:
