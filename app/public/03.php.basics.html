@@ -1982,8 +1982,8 @@ display_errors = On</code></pre></div>
                         Or put this at the very top of your code (not recommended):
                         <div><pre class="bigger"><code class="hljs php">&lt;?php
 
-	error_reporting(E_ALL); // Report all errors
-	ini_set('display_errors', 'on'); // Show the errors on screen
+error_reporting(E_ALL); // Report all errors
+ini_set('display_errors', 'on'); // Show the errors on screen
 	</code></pre></div>
                     </li>
 
@@ -2162,16 +2162,17 @@ Errors parsing faulty.php</code></pre>
                         Check your PHP config by running <code>php -i</code>
                         <pre class="bigger"><code class="hljs php">$ php -i
 phpinfo()
-PHP Version => 8.2.10
+PHP Version => 8.3.11
 
-System => Linux c68599fb4aaf 5.10.102.1-microsoft-standard-WSL2 #1 SMP Wed Mar 2 00:30:59 UTC 2022 x86_64
-Build Date => Sep 20 2023 18:20:41
+System => Linux aa73ec6f0bba 5.15.133.1-microsoft-standard-WSL2 #1 SMP Thu Oct 5 21:02:42 UTC 2023 x86_64
+Build Date => Sep  4 2024 23:59:53
 &hellip;</code></pre>
                     </li>
                     <li style="margin-top: 1em;">
                         If you don't have access to the shell of the machine, upload a file with these contents to it and load it via the browser
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/phpinfo.php">&lt;?php
-    phpinfo();</code></pre>
+
+phpinfo();</code></pre>
                     </li>
                 </ul>
             </section>
@@ -2182,9 +2183,9 @@ Build Date => Sep 20 2023 18:20:41
                     <li>
                         Know your PHP version by running <code>php -v</code>
                         <pre class="bigger"><code class="hljs php">$ php -v
-PHP 8.2.10 (cli) (built: Sep 20 2023 18:21:31) (NTS)
+PHP 8.3.11 (cli) (built: Sep  5 2024 00:00:45) (NTS)
 Copyright (c) The PHP Group
-Zend Engine v4.2.10, Copyright (c) Zend Technologies</code></pre>
+Zend Engine v4.3.11, Copyright (c) Zend Technologies</code></pre>
                     </li>
                     <li style="margin-top: 1em;">
                         Convert a PHP file to a syntax highlighted HTML file with <code>php -s file.php</code>
@@ -2209,16 +2210,16 @@ Zend Engine v4.2.10, Copyright (c) Zend Technologies</code></pre>
                         Echo'ing a <code>PHP_EOL</code> to the browser does not result in a newline on the screen (but it does in the source code)
                         &rarr; <strong>that's how HTML works</strong>
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/whitespace_01.php">&lt;?php
-    for ($i = 0; $i &lt; 5; $i++) {
-        echo $i+1 . PHP_EOL;
-    }</code></pre>
+for ($i = 0; $i &lt; 5; $i++) {
+    echo $i+1 . PHP_EOL;
+}</code></pre>
                     </li>
                     <li>
                         You'll also need to output a <code>&lt;br /&gt;</code>
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/03/examples/whitespace_02.php">&lt;?php
-    for ($i = 0; $i &lt; 5; $i++) {
-        echo $i+1 . '&lt;br /&gt;' . PHP_EOL;
-    }</code></pre>
+for ($i = 0; $i &lt; 5; $i++) {
+    echo $i+1 . '&lt;br /&gt;' . PHP_EOL;
+}</code></pre>
                     </li>
                 </ul>
 
@@ -2382,10 +2383,10 @@ readfile('original.pdf');</code></pre>
                             <li>Spaces: after <code>,</code>, <code>if</code>, <code>else</code>, <code>while</code>, &hellip; ; before <code>{</code> ; at both sides of operators</li>
                         </ul>
                         <pre><code class="hljs php">&lt;?php
-    if (($a < 3) && ($b > 4)) {
-        $answer = implode('#', [1, 2, 3]);
-        $capacity = (3 + 6) . 'k';
-    }</code></pre>
+if (($a < 3) && ($b > 4)) {
+    $answer = implode('#', [1, 2, 3]);
+    $capacity = (3 + 6) . 'k';
+}</code></pre>
                     </li>
                     <li>
                         Comment your code properly
