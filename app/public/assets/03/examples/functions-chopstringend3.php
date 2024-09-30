@@ -1,27 +1,28 @@
 <?php
 
-	/**
-	 * Chops a string at the given length with the given ending
-	 *
-	 * @param	string 	$str 	The initial String
-	 * @param	int 	$len 	The length to chop off at
-	 * @param	string 	$ending	The ending to add
-	 *
-	 * @return	string 	The circumcised up string
-	 */
-    function chopStringEnd(string $str, int $len = 30, string $ending = '---') : string {
-		if (strlen($str) < $len)
-			return $str;
-		else
-			return substr($str, 0, $len - strlen($str)) . $ending;
-	}
+/**
+ * Chops a string at the given length with the given ending
+ *
+ * @param string $str The initial String
+ * @param int $len The length to chop off at
+ * @param string $ending The ending to add
+ *
+ * @return    string    The circumcised up string
+ */
+function chopStringEnd(string $str, int $len = 30, string $ending = '---'): string
+{
+    if (strlen($str) < $len)
+        return $str;
+    else
+        return substr($str, 0, $len - strlen($str)) . $ending;
+}
 
-	// Our variables
-	$origStr = '/Users/bramus/Dropbox/Kaho/Lesactiviteiten/Webscripting1';
-	$cutoffLength = 40;
-	$endStr = '...';
+// Our variables
+$origStr = 'Welkom in deze tweede workshop van Back-end Development!';
+$cutoffLength = 40;
+$endStr = '...';
 
-	// Go!
-	echo chopStringEnd($origStr, $cutoffLength, $endStr) . '<br />' . PHP_EOL;
-	echo chopStringEnd($origStr, $cutoffLength) . '<br />' .PHP_EOL;
-	echo chopStringEnd($origStr);
+// Go!
+echo chopStringEnd($origStr, $cutoffLength, $endStr) . '<br />' . PHP_EOL;
+echo chopStringEnd($origStr, $cutoffLength) . '<br />' . PHP_EOL;
+echo chopStringEnd($origStr);

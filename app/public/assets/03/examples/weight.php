@@ -1,21 +1,25 @@
 <?php
 
-class Weight {
+class Weight
+{
 
-	private float $weight;
-	private string $unit;
+    private float $weight;
+    private string $unit;
 
-	public function __construct(float $weight, string $unit) {
-		$this->weight = $weight;
-		$this->unit = $unit;
-	}
+    public function __construct(float $weight, string $unit)
+    {
+        $this->weight = $weight;
+        $this->unit = $unit;
+    }
 
-	public function __toString() : string {
-		return $this->weight . ' ' . $this->unit;
-	}
+    public function __toString(): string
+    {
+        return $this->weight . ' ' . $this->unit;
+    }
 }
 
 $myWeight = new Weight(82.5, 'kg');
-?><pre><?php
-echo($myWeight);
-?></pre>
+?>
+<pre><?php
+    echo($myWeight);
+    ?></pre>

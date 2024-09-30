@@ -1,11 +1,11 @@
 <?php
 
-	error_reporting(E_ALL); // set error reporting on
+error_reporting(E_ALL); // set error reporting on
 
-	$host = 'http://www.myhost.com/';
+$host = 'http://www.myhost.com/';
 
-	$absUrl = function (string $relUrl) use ($host) {
-		return $host . $relUrl;
-	};
+$absUrl = function (string $relUrl) use ($host): string {
+    return $host . $relUrl;
+};
 
-	echo $absUrl('files/uploads/me.jpg');
+echo $absUrl('files/uploads/me.jpg');
