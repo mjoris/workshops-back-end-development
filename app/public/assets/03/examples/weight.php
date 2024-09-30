@@ -12,6 +12,7 @@ class Weight
         $this->unit = $unit;
     }
 
+    #[Override] // I know this method is overriding a parent method. If that would ever change, please let me know
     public function __toString(): string
     {
         return $this->weight . ' ' . $this->unit;
