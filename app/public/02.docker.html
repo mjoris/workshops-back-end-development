@@ -661,10 +661,8 @@ EXPOSE 3306</code></pre>
                 <pre style="margin-top: 0;"><code class="hljs Dockerfile">FROM php:8.3-apache
 
 RUN docker-php-ext-install pdo_mysql</code></pre>
-                <pre style="margin-bottom: 0;">docker-compose.yml</pre>
-                <pre style="margin-top: 0;"><code class="hljs yml">version: '3'
-
-services:
+                <pre style="margin-bottom: 0;margin-top: 2.5em;">docker-compose.yml</pre>
+                <pre style="margin-top: 0;" ><code class="hljs yml">services:
   php-web:
     build: docker-php
     ports:
