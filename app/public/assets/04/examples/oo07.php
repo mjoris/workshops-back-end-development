@@ -11,7 +11,8 @@ class Weight
         $this->weight = $weight;
         $this->unit = $unit;
     }
-
+    
+    #[Override]
     public function __toString(): string
     {
         return $this->weight . ' ' . $this->unit;

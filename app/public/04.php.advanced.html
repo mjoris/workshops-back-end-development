@@ -253,6 +253,7 @@ class Dog extends Animal
 {
     private array $tricks = ['jump', 'lay down', 'roll over', 'play dead'];
 
+    #[Override]
     public function doTrick() : string
     {
         return $this-&gt;tricks[rand(0, sizeof($this-&gt;tricks) - 1)];
@@ -261,6 +262,8 @@ class Dog extends Animal
 
 $dog = new Dog('Sparky');
 echo $dog-&gt;doTrick();</code></pre>
+                <footer><small><code>#[Override]</code> is a PHP <a
+                        href="https://www.php.net/manual/en/language.attributes.overview.php">attribute</a> adding metadata signifying that you <em>know</em> this method is overriding a parent method. It is not obligatory, but it will throw an error when it doesn't override (e.g. when you change the name of the parent method).</small></footer>
             </section>
             <section>
                 <h2>Printing Objects</h2>
@@ -278,6 +281,7 @@ class Weight
         $this-&gt;unit = $unit;
     }
 
+    #[Override]
     public function __toString() : string
     {
         return $this-&gt;weight . ' ' . $this-&gt;unit;

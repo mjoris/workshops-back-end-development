@@ -19,6 +19,7 @@ class Dog extends Animal
 
     private array $tricks = ['jump', 'lay down', 'roll over', 'play dead'];
 
+    #[Override]
     public function doTrick(): string
     {
         return $this->tricks[rand(0, sizeof($this->tricks) - 1)];
