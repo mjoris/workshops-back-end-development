@@ -415,7 +415,7 @@
                     </li>
                     <li style="margin-top: 1em;">
                         Instead of typing the name of the file in manually, you can let PHP automatically output the URL of the page itself into the <code>action</code> attribute's value
-                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/persistency_01.php" data-overlay-height="600">&lt;form action=&quot;&lt;?php echo $_SERVER['PHP_SELF']; ?&gt;&quot; method=&quot;get&quot;&gt;
+                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/persistence_01.php" data-overlay-height="600">&lt;form action=&quot;&lt;?php echo $_SERVER['PHP_SELF']; ?&gt;&quot; method=&quot;get&quot;&gt;
 	...
 &lt;/form&gt;</code></pre></div>
                     </li>
@@ -477,7 +477,7 @@
                         = After having submitted the form to itself, make it show again the values you entered.
                     </li>
                     <li style="margin-top: 1em;">
-                        Different types of inputs (text, checkbox, dropdown) require different persistency methods
+                        Different types of inputs (text, checkbox, dropdown) require different persistence techniques
                     </li>
                 </ul>
             </section>
@@ -490,7 +490,7 @@
                         <ul>
                             <li>Just output the sent-in value</li>
                         </ul>
-                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/persistency_02.php" data-overlay-height="600" style="height: 350px; overflow-y: scroll;">&lt;?php
+                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/persistence_02.php" data-overlay-height="600" style="height: 350px; overflow-y: scroll;">&lt;?php
 
 // Get variable values from $_GET
 // Caution: before form submission, $_GET is completely empty!
@@ -523,7 +523,7 @@ $remark = isset($_GET['remark']) ? (string) $_GET['remark'] : '';
                             <li>For each <code>&lt;option&gt;</code>, check if the value matches the sent-in value</em></li>
                             <li>If so: set the <code>selected=&quot;selected&quot;</code> attribute</li>
                         </ul>
-                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/persistency_03.php" data-overlay-height="600">&lt;?php
+                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/persistence_03.php" data-overlay-height="600">&lt;?php
 
 // Get variable values from $_GET
 // Caution: before form submission, $_GET is completely empty!
@@ -556,7 +556,7 @@ $cont = isset($_GET['cont']) ? (int) $_GET['cont'] : 0;
                             <li>For each radiobutton, check if the value matches the sent-in value</li>
                             <li>If so: set the <code>checked=&quot;checked&quot;</code> attribute</li>
                         </ul>
-                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/persistency_04.php" data-overlay-height="600" style="height: 350px; overflow-y: scroll;">&lt;?php
+                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/persistence_04.php" data-overlay-height="600" style="height: 350px; overflow-y: scroll;">&lt;?php
 
 // Get variable values from $_GET
 $gender = isset($_GET['gender']) ? (string) $_GET['gender'] : '';
@@ -589,7 +589,7 @@ $meals = isset($_GET['meals']) ? (array) $_GET['meals'] : array();
                 <ul>
                     <li>
                         If we enter some HTML-looking text, we break the form
-                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/persistency_06.php" data-overlay-height="600">&lt;form action=&quot;&lt;?php echo $_SERVER['PHP_SELF']; ?&gt;&quot; method=&quot;get&quot;&gt;
+                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/persistence_06.php" data-overlay-height="600">&lt;form action=&quot;&lt;?php echo $_SERVER['PHP_SELF']; ?&gt;&quot; method=&quot;get&quot;&gt;
 	(same HTML code as before)
 &lt;/form&gt;</code></pre></div>
                         <ul>
@@ -601,7 +601,7 @@ $meals = isset($_GET['meals']) ? (array) $_GET['meals'] : array();
                     </li>
                     <li style="margin-top: 1em;">
                         Fix: convert special characters with <code>htmlentities()</code> to their HTML safe / encoded version <strong>when outputting on screen</strong>
-                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/persistency_07.php" data-overlay-height="600">&lt;form action=&quot;&lt;?php echo $_SERVER['PHP_SELF']; ?&gt;&quot; method=&quot;get&quot;&gt;
+                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/persistence_07.php" data-overlay-height="600">&lt;form action=&quot;&lt;?php echo $_SERVER['PHP_SELF']; ?&gt;&quot; method=&quot;get&quot;&gt;
     &lt;input type=&quot;text&quot; id=&quot;name&quot; name=&quot;name&quot; value=&quot;&lt;?php echo htmlentities($name); ?&gt;&quot; /&gt;
 &lt;/form&gt;</code></pre></div>
                     </li>
@@ -639,7 +639,7 @@ $meals = isset($_GET['meals']) ? (array) $_GET['meals'] : array();
                 <ul>
                     <li>
                         Put a block of code at the top where you fetch all vars and then later on work with those vars
-                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/persistency_11.php" data-overlay-height="600" style="width: 50em;">&lt;?php
+                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/persistence_11.php" data-overlay-height="600" style="width: 50em;">&lt;?php
 
 $name = isset($_GET['name']) ? (string) $_GET['name'] : '';
 $pass = isset($_GET['pass']) ? (string) $_GET['pass'] : '';
