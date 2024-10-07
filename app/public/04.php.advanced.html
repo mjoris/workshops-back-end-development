@@ -1183,6 +1183,10 @@ $randomizer = new Random\Randomizer();
 
 echo $randomizer-&gt;getInt(1, 100);
 
+echo $randomizer-&gt;getFloat(0.1, 0.3); // default interval boundary: ClosedOpen
+
+echo $randomizer-&gt;getBytesFromString('abcdefghij', 16);
+
 echo $randomizer-&gt;shuffleBytes('lorem ipsum');
 
 print_r($randomizer-&gt;shuffleArray(['apple', 'banana', 'orange']));
