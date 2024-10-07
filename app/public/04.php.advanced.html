@@ -120,7 +120,7 @@ echo $can-&gt;getPrice();</code></pre>
 
 class BasicClass
 {
-    public const CLASS_CONSTANT = 12.7;
+    public const float CLASS_CONSTANT = 12.7;
 
     public function multiply(float $x) : float
     {
@@ -616,7 +616,7 @@ echo $post->status->color();</code></pre>
                             <li><code>$time</code> default is <code>now</code></li>
                             <li>Second (optional) param is the time zone (ignored when implied by <code>$time</code>)</li>
                             <li>Time zone default is <code>UTC</code>, can be overruled by <code>php.ini</code></li>
-                            <li>Launches an <code>Exception</code> when <code>$time</code> could not be parsed</li>
+                            <li>Launches a <code>DateMalformedStringException</code> when <code>$time</code> could not be parsed</li>
                         </ul>
                     </li>
                     <li style="margin-top: 1em;">Method <code>getTimestamp()</code>: read the timestamp </li>

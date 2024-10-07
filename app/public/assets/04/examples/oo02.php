@@ -3,7 +3,7 @@
 class BasicClass
 {
 
-    public const CLASS_CONSTANT = 12.7;
+    public const float CLASS_CONSTANT = 12.7;
 
     public function multiply(float $x): float
     {
