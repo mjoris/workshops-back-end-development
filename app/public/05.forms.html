@@ -1012,37 +1012,45 @@ exit(0); // do not forget to exit after redirect</code></pre></div>
                         Example
                     </li>
                 </ul>
-                        <pre ><code class="language-php" data-overlay-example="assets/05/examples/upload.php">&lt;?php
-if (isset($_FILES['avatar']) &amp;&amp; ($_FILES['avatar']['error'] === UPLOAD_ERR_OK)) {
+                        <pre><code class="language-php" data-overlay-example="assets/05/examples/upload.php">&lt;?php
+$uploaded = false;
+$moved = false;
+$errorMessage = '';
 
-    echo '&lt;p&gt;Uploaded file: ' . $_FILES['avatar']['name'] . '&lt;/p&gt;';
-    echo '&lt;p&gt;Temp location: ' . $_FILES['avatar']['tmp_name'] . '&lt;/p&gt;';
-    echo '&lt;p&gt;Size: ' . $_FILES['avatar']['size'] . '&lt;/p&gt;';
+if (isset($_FILES['avatar']) && ($_FILES['avatar']['error'] === UPLOAD_ERR_OK)) {
+    $uploaded = true;
 
     if (in_array((new SplFileInfo($_FILES['avatar']['name']))-&gt;getExtension(), ['jpeg', 'jpg', 'png', 'gif'])) {
 
-        $moved = @move_uploaded_file($_FILES['avatar']['tmp_name'], __DIR__ . '/' . $_FILES['avatar']['name']);
+        $moved = @move_uploaded_file($_FILES['avatar']['tmp_name'], __DIR__ . DIRECTORY_SEPARATOR . $_FILES['avatar']['name']);
+
         if ($moved) {
-            echo '&lt;p&gt;&lt;img src="' . $_FILES['avatar']['name'] . '" alt=&quot;&quot; /&gt;&lt;p&gt;';
+            // do more things ...
         } else {
-            echo('&lt;p&gt;Error while saving file in the uploads folder&lt;/p&gt;')
+            $errorMessage = 'Error while saving file in the uploads folder';
         }
     } else {
-        echo('&lt;p&gt;Invalid extension. Only .jpeg, .jpg, .png or .gif allowed&lt;/p&gt;');
+        $errorMessage = 'Invalid file extension. Only .jpeg, .jpg, .png or .gif allowed';
     }
 }
-
 ?&gt;
-&lt;form action=&quot;&lt;?php echo $_SERVER['PHP_SELF'];?&gt;&quot; method=&quot;post&quot; enctype=&quot;multipart/form-data&quot; &gt;
-    &lt;input type=&quot;file&quot; name=&quot;avatar&quot; id=&quot;avatar&quot; /&gt;&lt;input type=&quot;submit&quot; /&gt;
+&lt;?php if ($uploaded) { ?&gt;
+    &lt;p&gt;Uploaded file: &lt;?php echo $_FILES['avatar']['name']; ?&gt;&lt;/p&gt;
+    &lt;p&gt;Temp location: &lt;?php echo $_FILES['avatar']['tmp_name']; ?&gt;&lt;/p&gt;
+    &lt;p&gt;Size: &lt;?php echo $_FILES['avatar']['size']; ?&gt;&lt;/p&gt;
+    &lt;?php if ($moved) { ?&gt;
+        &lt;p&gt;&lt;img src="&lt;?php echo $_FILES['avatar']['name']; ?&gt;" alt=""/&gt;&lt;p&gt;
+    &lt;?php } else { ?&gt;
+        &lt;p&gt;&lt;?php echo $errorMessage ?&gt;&lt;/p&gt;
+    &lt;?php } ?&gt;
+&lt;?php } ?&gt;
+&lt;form action="&lt;?php echo $_SERVER['PHP_SELF']; ?&gt;" method="post" enctype="multipart/form-data"&gt;
+    &lt;label for="avatar"&gt;Avatar: &lt;/label&gt;
+    &lt;input type="file" name="avatar" id="avatar"/&gt;&lt;br/&gt;
+    &lt;input type="submit"/&gt;
 &lt;/form&gt;</code></pre>
 
-                <footer  style="line-height: 1.2em">Full reference of <a href="http://php.net/manual/en/features.file-upload.errors.php">upload error codes</a>.
-                    <br/>
-                    Caution: this is just a demo.
-                    <br>
-                    In a properly structured script, you don't <code>echo</code> in the PHP Logic at the top.
-                </footer>
+                <footer  style="line-height: 1.2em"><small>Full reference of <a href="http://php.net/manual/en/features.file-upload.errors.php">upload error codes</a>.</small></footer>
             </section>
 
             <section>
