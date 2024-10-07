@@ -1,12 +1,14 @@
 <?php
 
-class BasicClass {
-	
-	public const CLASS_CONSTANT = 12.7;
+class BasicClass
+{
 
-	public function multiply(float $x) : float {
-		return $x * self::CLASS_CONSTANT;
-	}
+    public const CLASS_CONSTANT = 12.7;
+
+    public function multiply(float $x): float
+    {
+        return $x * self::CLASS_CONSTANT;
+    }
 
 }
 

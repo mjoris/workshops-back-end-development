@@ -1,6 +1,6 @@
 <?php
 
-$name = isset($_POST['name']) ? (string) $_POST['name'] : false;
+$name = isset($_POST['name']) ? (string)$_POST['name'] : false;
 
 if ($name !== false) {
     // validation

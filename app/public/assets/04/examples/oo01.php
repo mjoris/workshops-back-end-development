@@ -1,24 +1,28 @@
 <?php
 
-class Product {
+class Product
+{
 
-	private float $price;
-	protected int $stock;
-	public string $name;
+    private float $price;
+    protected int $stock;
+    public string $name;
 
-	public function __construct(float $price, ?int $stock, string $name = 'unknown') {
-		$this->price = $price;
-		$this->stock = $stock;
-		$this->name = $name;
-	}
-	
-	public function lowerPrice() : void {
-		$this->price *= 0.9;
-	}
+    public function __construct(float $price, ?int $stock, string $name = 'unknown')
+    {
+        $this->price = $price;
+        $this->stock = $stock;
+        $this->name = $name;
+    }
 
-	public function getPrice() : float {
-		return $this->price;
-	}
+    public function lowerPrice(): void
+    {
+        $this->price *= 0.9;
+    }
+
+    public function getPrice(): float
+    {
+        return $this->price;
+    }
 
 }
 

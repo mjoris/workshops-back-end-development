@@ -1,102 +1,102 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Testform</title>
-	<meta charset="UTF-8" />
-	<link rel="stylesheet" type="text/css" href="styles.css" />
+    <title>Testform</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
 </head>
 <body>
 
-	<form action="" method="post" id="nameForm">
+<form action="" method="post" id="nameForm">
 
-		<fieldset>
+    <fieldset>
 
-			<h2>Testform</h2>
+        <h2>Testform</h2>
 
-			<dl class="clearfix">
+        <dl class="clearfix">
 
-				<dt><label for="name">Name</label></dt>
-				<dd class="text">
-					<input type="text" id="name" name="name" value="" class="input-text" />
-					<span class="message error">*</span>
-				</dd>
+            <dt><label for="name">Name</label></dt>
+            <dd class="text">
+                <input type="text" id="name" name="name" value="" class="input-text"/>
+                <span class="message error">*</span>
+            </dd>
 
-				<dt class="full clearfix" id="lastrow">
-					<input type="submit" id="btnSubmit" name="btnSubmit" value="Send" />
-				</dt>
+            <dt class="full clearfix" id="lastrow">
+                <input type="submit" id="btnSubmit" name="btnSubmit" value="Send"/>
+            </dt>
 
-			</dl>
+        </dl>
 
-		</fieldset>
+    </fieldset>
 
-	</form>
+</form>
 
-	<div>
-		<pre id="debug"></pre>
-	</div>
+<div>
+    <pre id="debug"></pre>
+</div>
 
-	<script>
-		;(function() {
-			'use strict';
+<script>
+    ;(function () {
+        'use strict';
 
-			let url = 'form_webservice.php';
-			let name = document.getElementById('name');
+        let url = 'form_webservice.php';
+        let name = document.getElementById('name');
 
-			let log = function (text) {
-				document.getElementById('debug').innerHTML += text + '<br>';
-			};
+        let log = function (text) {
+            document.getElementById('debug').innerHTML += text + '<br>';
+        };
 
-			let validateForm = function () {
-				let allOk = true;
-				if (name.value.trim().length === 0) {
-					name.nextElementSibling.innerText = 'Please enter your name';
-					allOk = false;
-				}
-				log('validateForm: ' + allOk)
-				return allOk;
+        let validateForm = function () {
+            let allOk = true;
+            if (name.value.trim().length === 0) {
+                name.nextElementSibling.innerText = 'Please enter your name';
+                allOk = false;
+            }
+            log('validateForm: ' + allOk)
+            return allOk;
 
-			};
+        };
 
-			let submit = function () {
-				log('Sending POST request to ' + url);
-				// response.ok is true when the status code is 2xx
-				fetch(url, {
-					method: 'post',
-					headers: {
-						'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-					},
-					body: 'name=' + encodeURIComponent(name.value) // this is the querystring
-				})
-					.then(response => response.text())
-					.then(text => thankYou(text))
-					.catch(error => log('Request Failed: ' + error.err));
-			};
+        let submit = function () {
+            log('Sending POST request to ' + url);
+            // response.ok is true when the status code is 2xx
+            fetch(url, {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                },
+                body: 'name=' + encodeURIComponent(name.value) // this is the querystring
+            })
+                .then(response => response.text())
+                .then(text => thankYou(text))
+                .catch(error => log('Request Failed: ' + error.err));
+        };
 
-			let thankYou = function (text) {
-				log('Request succeeded: ' + text);
-				setTimeout(() => {
-					let newItem = document.createElement('h1');
-					newItem.innerText = 'Thank you ' + name.value  + ' for your registration';
-					let form = document.getElementById('nameForm');
-					form.parentNode.replaceChild(newItem, form);
-				}, '3000');
+        let thankYou = function (text) {
+            log('Request succeeded: ' + text);
+            setTimeout(() => {
+                let newItem = document.createElement('h1');
+                newItem.innerText = 'Thank you ' + name.value + ' for your registration';
+                let form = document.getElementById('nameForm');
+                form.parentNode.replaceChild(newItem, form);
+            }, '3000');
 
-			};
+        };
 
 
-			// wait till DOM is loaded
-			window.addEventListener('load', function() {
+        // wait till DOM is loaded
+        window.addEventListener('load', function () {
 
-				document.getElementById('nameForm').addEventListener('submit', function (event) {
-					event.preventDefault();
-					if (validateForm()) {
-						submit();
-					}
-				});
+            document.getElementById('nameForm').addEventListener('submit', function (event) {
+                event.preventDefault();
+                if (validateForm()) {
+                    submit();
+                }
+            });
 
-			});
-		})();
-	</script>
+        });
+    })();
+</script>
 
 </body>
 </html>

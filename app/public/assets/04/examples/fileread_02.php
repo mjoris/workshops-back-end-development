@@ -5,15 +5,15 @@
  * @author Bramus Van Damme <bramus.vandamme@odisee.be> joris maervoet
  */
 
-    $filename = __DIR__ . '/testfile.txt';
+$filename = __DIR__ . '/testfile.txt';
 
-    $file = new SplFileObject($filename, 'r');
+$file = new SplFileObject($filename, 'r');
 
-    while (! $file->eof()) {
-        $buffer = $file->fread(20);
-        echo $buffer . '<br />' . PHP_EOL;
-    }
+while (!$file->eof()) {
+    $buffer = $file->fread(20);
+    echo $buffer . '<br />' . PHP_EOL;
+}
 
-    $file = null;
+$file = null;
 
 // EOF

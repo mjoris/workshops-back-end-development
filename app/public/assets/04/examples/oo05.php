@@ -1,25 +1,30 @@
 <?php
 
-class Animal {
+class Animal
+{
 
-	private string $name;
+    private string $name;
 
-	public function __construct(string $name) {
-		$this->name = $name;
-	}
+    public function __construct(string $name)
+    {
+        $this->name = $name;
+    }
 
-	final function getName() : string {
-		return $this->name;
-	}
+    final function getName(): string
+    {
+        return $this->name;
+    }
 
 }
 
-class Dog extends Animal {
-	
-	public function __construct(string $name) {
-		echo 'Yo dawg!' . '<br />' . PHP_EOL;
-		parent::__construct($name);
-	}
+class Dog extends Animal
+{
+
+    public function __construct(string $name)
+    {
+        echo 'Yo dawg!' . '<br />' . PHP_EOL;
+        parent::__construct($name);
+    }
 
 }
 

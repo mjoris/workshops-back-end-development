@@ -1,16 +1,19 @@
 <?php
 
-class BasicClass {
-	
-	static string $staticVariable;
-	
-	public function __construct(string $name) {
-		self::$staticVariable = $name;
-	}
-	
-	public static function staticFunction(string $ohai) : void {
-		echo $ohai . '<br />' . PHP_EOL;
-	}
+class BasicClass
+{
+
+    static string $staticVariable;
+
+    public function __construct(string $name)
+    {
+        self::$staticVariable = $name;
+    }
+
+    public static function staticFunction(string $ohai): void
+    {
+        echo $ohai . '<br />' . PHP_EOL;
+    }
 
 }
 

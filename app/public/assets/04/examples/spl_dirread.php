@@ -5,20 +5,20 @@
  * @author Bramus Van Damme <bramus.vandamme@odisee.be>
  */
 
-	// Our base dir
-	$myBaseDir = __DIR__;
+// Our base dir
+$myBaseDir = __DIR__;
 
-	// open base directory
-	$di = new DirectoryIterator($myBaseDir);
+// open base directory
+$di = new DirectoryIterator($myBaseDir);
 
-	// read base directory
-	foreach ($di as $file) {
+// read base directory
+foreach ($di as $file) {
 
-		// exclude . and .. + we don't want directories
-		if (!$file->isDot() && !$file->isDir()) {
-			echo $file . '<br />' . PHP_EOL; // $file is converted to string
-		}
+    // exclude . and .. + we don't want directories
+    if (!$file->isDot() && !$file->isDir()) {
+        echo $file . '<br />' . PHP_EOL; // $file is converted to string
+    }
 
-	}
+}
 
 // EOF

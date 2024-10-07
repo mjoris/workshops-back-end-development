@@ -1,4 +1,5 @@
 <?php
+
 enum Status
 {
     case DRAFT;
@@ -7,8 +8,7 @@ enum Status
 
     public function color(): string
     {
-        return match($this)
-        {
+        return match ($this) {
             self::DRAFT => 'grey',
             self::PUBLISHED => 'green',
             self::ARCHIVED => 'red',
@@ -20,7 +20,9 @@ class BlogPost
 {
     public function __construct(
         public Status $status,
-    ) {}
+    )
+    {
+    }
 }
 
 $post = new BlogPost(Status::DRAFT);

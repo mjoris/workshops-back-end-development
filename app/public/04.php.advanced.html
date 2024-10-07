@@ -44,25 +44,28 @@
 
                 <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/oo01.php">&lt;?php
 
-class Product {
+class Product
+{
+    private float $price;
+    protected int $stock;
+    public string $name;
 
-	private float $price;
-	protected int $stock;
-	public string $name;
+    public function __construct(float $price, ?int $stock, string $name = 'unknown')
+    {
+        $this-&gt;price = $price;
+        $this-&gt;stock = $stock;
+        $this-&gt;name = $name;
+    }
 
-	public function __construct(float $price, ?int $stock, string $name = 'unknown') {
-		$this-&gt;price = $price;
-		$this-&gt;stock = $stock;
-		$this-&gt;name = $name;
-	}
+    public function lowerPrice() : void
+    {
+        $this-&gt;price *= 0.9;
+    }
 
-	public function lowerPrice() : void {
-		$this-&gt;price *= 0.9;
-	}
-
-	public function getPrice() : float {
-		return $this-&gt;price;
-	}
+    public function getPrice() : float
+    {
+        return $this-&gt;price;
+    }
 
 }
 
@@ -84,21 +87,23 @@ echo $can-&gt;getPrice();</code></pre>
                 <p>Exactly the same class, with <a href="https://stitcher.io/blog/constructor-promotion-in-php-8">Constructor Property Promotion</a></p>
                 <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/oo01b.php">&lt;?php
 
-class Product {
+class Product
+{
+    public function __construct(
+        private float $price,
+        protected ?int $stock,
+        public string $name = 'unknown'
+    ) {}
 
-	public function __construct(
-		private float $price,
-		protected ?int $stock,
-		public string $name = 'unknown'
-	) {}
+    public function lowerPrice() : void
+    {
+        $this-&gt;price *= 0.9;
+    }
 
-	public function lowerPrice() : void {
-		$this-&gt;price *= 0.9;
-	}
-
-	public function getPrice() : float {
-		return $this-&gt;price;
-	}
+    public function getPrice() : float
+    {
+        return $this-&gt;price;
+    }
 }
 
 $can = new Product(0.60, 820, 'Can Coke 33ml');
@@ -113,14 +118,14 @@ echo $can-&gt;getPrice();</code></pre>
 
                 <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/oo02.php">&lt;?php
 
-class BasicClass {
-
+class BasicClass
+{
     public const CLASS_CONSTANT = 12.7;
 
-    public function multiply(float $x) : float {
+    public function multiply(float $x) : float
+    {
         return $x * self::CLASS_CONSTANT;
     }
-
 }
 
 echo BasicClass::CLASS_CONSTANT . PHP_EOL;
@@ -135,18 +140,19 @@ echo $inst-&gt;multiply(3) . PHP_EOL;</code></pre>
 
                 <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/oo03.php">&lt;?php
 
-class BasicClass {
-
+class BasicClass
+{
     static string $staticVariable;
 
-    public function __construct(string $name) {
+    public function __construct(string $name)
+    {
         self::$staticVariable = $name;
     }
 
-    public static function staticFunction(string $ohai) : void {
+    public static function staticFunction(string $ohai) : void
+    {
         echo $ohai . PHP_EOL;
     }
-
 }
 
 BasicClass::staticFunction('O Hi');
@@ -163,23 +169,26 @@ echo BasicClass::$staticVariable . PHP_EOL;</code></pre>
 
                 <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/oo04.php">&lt;?php
 
-class Animal {
-
+class Animal
+{
     private string $name;
 
-    public function __construct(string $name) {
+    public function __construct(string $name)
+    {
         $this-&gt;name = $name;
     }
 
-    protected function say(string $what) : string {
+    protected function say(string $what) : string
+    {
         return $what;
     }
 
 }
 
-class Dog extends Animal {
-
-    public function bark() : void {
+class Dog extends Animal
+{
+    public function bark() : void
+    {
         echo $this-&gt;say('WOOF!');
     }
 
@@ -194,26 +203,28 @@ $dog-&gt;bark();</code></pre>
 
                 <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/oo05.php">&lt;?php
 
-class Animal {
-
+class Animal
+{
     private string $name;
 
-    public function __construct(string $name) {
+    public function __construct(string $name)
+    {
         $this-&gt;name = $name;
     }
 
-    final function getName() : string { // cannot be overridden!
+    final function getName() : string // cannot be overridden!
+    {
         return $this-&gt;name;
     }
 }
 
-class Dog extends Animal {
-
-    public function __construct(string $name) {
+class Dog extends Animal
+{
+    public function __construct(string $name)
+    {
         echo 'Yo dawg!' . PHP_EOL;
         parent::__construct($name); // call parent function
     }
-
 }
 
 $dog = new Dog('Sparky');
@@ -225,11 +236,12 @@ echo $dog-&gt;getName() . PHP_EOL;</code></pre>
 
                 <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/oo06.php">&lt;?php
 
-abstract class Animal {
-
+abstract class Animal
+{
     private string $name;
 
-    public function __construct(string $name) {
+    public function __construct(string $name)
+    {
         $this-&gt;name = $name;
     }
 
@@ -237,16 +249,15 @@ abstract class Animal {
 
 }
 
-class Dog extends Animal {
-
+class Dog extends Animal
+{
     private array $tricks = ['jump', 'lay down', 'roll over', 'play dead'];
 
-    public function doTrick() : string {
+    public function doTrick() : string
+    {
         return $this-&gt;tricks[rand(0, sizeof($this-&gt;tricks) - 1)];
     }
-
 }
-
 
 $dog = new Dog('Sparky');
 echo $dog-&gt;doTrick();</code></pre>
@@ -256,17 +267,19 @@ echo $dog-&gt;doTrick();</code></pre>
 
                 <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/oo07.php">&lt;?php
 
-class Weight {
-
+class Weight
+{
     private float $weight;
     private string $unit;
 
-    public function __construct(float $weight, string $unit) {
+    public function __construct(float $weight, string $unit)
+    {
         $this-&gt;weight = $weight;
         $this-&gt;unit = $unit;
     }
 
-    public function __toString() : string {
+    public function __toString() : string
+    {
         return $this-&gt;weight . ' ' . $this-&gt;unit;
     }
 }
@@ -282,12 +295,13 @@ echo($myWeight); // requires magic method __toString(); fatal Error otherwise </
 
                 <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/oo08.php">&lt;?php
 
-class Weight {
-
+class Weight
+{
     private $weight;
     private $unit;
 
-    public function __construct($weight, $unit) {
+    public function __construct($weight, $unit)
+    {
         $this-&gt;weight = $weight;
         $this-&gt;unit = $unit;
     }
@@ -316,20 +330,24 @@ var_dump($myWeight === $otherWeight); </code></pre>
 
                 <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/oo09.php">&lt;?php
 
-class Weight {
+class Weight
+{
 
-	private float $weight;
-	private ?DateTime $registrationDate;
+    private float $weight;
+    private ?DateTime $registrationDate;
 
-	public function __construct(float $weight, ?DateTime $registrationDate = null) {
-	    $this-&gt;weight = $weight;
-	    $this-&gt;registrationDate = $registrationDate;
-	}
+    public function __construct(float $weight, ?DateTime $registrationDate = null)
+    {
+        $this-&gt;weight = $weight;
+        $this-&gt;registrationDate = $registrationDate;
+    }
 
-	public function getRegistrationDate() : ?DateTime {
-	    return $this-&gt;registrationDate;
+    public function getRegistrationDate(): ?DateTime
+    {
+        return $this-&gt;registrationDate;
     }
 }
+
 $myWeight1 = new Weight(82.5);
 var_dump($myWeight1?-&gt;getRegistrationDate()?-&gt;format('Y-m-d'));
 $myWeight2 = new Weight(78.5, new DateTime('now'));
@@ -349,8 +367,7 @@ enum Status
 
     public function color(): string
     {
-        return match($this)
-        {
+        return match($this) {
             self::DRAFT =&gt; 'grey',
             self::PUBLISHED =&gt; 'green',
             self::ARCHIVED =&gt; 'red',
@@ -691,19 +708,19 @@ echo $post->status->color();</code></pre>
             <section>
                 <h2>Date Example</h2>
                 <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/datetime.php">&lt;?php
-    $zone = new DateTimeZone('Europe/Brussels');
-    $myDateOfBirth = new DateTime('1979-04-29 11:30', $zone);
-    echo ($myDateOfBirth-&gt;getTimestamp() . '&lt;br&gt;&lt;br&gt;' . PHP_EOL);
-    echo 'm.d.y H:i:s' . '&lt;br&gt;' . PHP_EOL;
-    echo ($myDateOfBirth-&gt;format('m.d.y H:i:s') . '&lt;br&gt;&lt;br&gt;' . PHP_EOL);
+$zone = new DateTimeZone('Europe/Brussels');
+$myDateOfBirth = new DateTime('1979-04-29 11:30', $zone);
+echo ($myDateOfBirth-&gt;getTimestamp() . '&lt;br&gt;&lt;br&gt;' . PHP_EOL);
+echo 'm.d.y H:i:s' . '&lt;br&gt;' . PHP_EOL;
+echo ($myDateOfBirth-&gt;format('m.d.y H:i:s') . '&lt;br&gt;&lt;br&gt;' . PHP_EOL);
 
-    $w3cFormat = DateTime::W3C;
-    echo ($w3cFormat . '&lt;br&gt;' . PHP_EOL);
-    echo ($myDateOfBirth-&gt;format($w3cFormat) . '&lt;br&gt;&lt;br&gt;' . PHP_EOL);
+$w3cFormat = DateTime::W3C;
+echo ($w3cFormat . '&lt;br&gt;' . PHP_EOL);
+echo ($myDateOfBirth-&gt;format($w3cFormat) . '&lt;br&gt;&lt;br&gt;' . PHP_EOL);
 
-    $date = DateTime::createFromFormat('j-M-Y', '03-Oct-2022');
-    $duration = $date-&gt;diff($myDateOfBirth);
-    echo ($duration-&gt;days);</code></pre>
+$date = DateTime::createFromFormat('j-M-Y', '03-Oct-2022');
+$duration = $date-&gt;diff($myDateOfBirth);
+echo ($duration-&gt;days);</code></pre>
             </section>
 
 
@@ -864,23 +881,21 @@ echo $post->status->color();</code></pre>
                     <li>
                         Get the entire file contents using 1 command
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/fileread_04.php">&lt;?php
-    echo file_get_contents(__DIR__ . '/testfile.txt');</code></pre>
+echo file_get_contents(__DIR__ . '/testfile.txt');</code></pre>
                     </li>
                     <li>
                         Or just use <code>file_put_contents()</code>
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/filewrite_01.php">&lt;?php
-
-    file_put_contents(__DIR__ . '/testfile2.txt', 'hello!' . PHP_EOL);</code></pre>
+file_put_contents(__DIR__ . '/testfile2.txt', 'hello!' . PHP_EOL);</code></pre>
                         <ul>
                             <li>
                                 To update a file use <code>file_put_contents()</code> with a <em>flag</em>
                                 <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/filewrite_02.php">&lt;?php
-
-    file_put_contents(
-        __DIR__ . '/testfile2.txt',
-        'hello!' . PHP_EOL,
-        FILE_APPEND
-    );</code></pre>
+file_put_contents(
+    __DIR__ . '/testfile2.txt',
+    'hello!' . PHP_EOL,
+    FILE_APPEND
+);</code></pre>
                             </li>
                         </ul>
                     </li>
@@ -897,15 +912,15 @@ echo $post->status->color();</code></pre>
                         Example
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/filemanipulation.php">&lt;?php
 
-    // Copy file
-    copy(__DIR__ . '/testfile.txt', __DIR__ . '/copiedfile.txt');
+// Copy file
+copy(__DIR__ . '/testfile.txt', __DIR__ . '/copiedfile.txt');
 
-    // Rename file
-    // @note if the path differs you can move a file with this function!
-    rename(__DIR__ . '/copiedfile.txt', __DIR__ . '/testfile2.txt');
+// Rename file
+// @note if the path differs you can move a file with this function!
+rename(__DIR__ . '/copiedfile.txt', __DIR__ . '/testfile2.txt');
 
-    // Delete file
-    unlink(__DIR__ . '/testfile2.txt');</code></pre>
+// Delete file
+unlink(__DIR__ . '/testfile2.txt');</code></pre>
                     </li>
                 </ul>
             </section>
@@ -919,15 +934,15 @@ echo $post->status->color();</code></pre>
                         Suppress non-fatal errors with <code>@</code> and handle return values
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/dealing.php">&lt;?php
 
-    $result = @copy(__DIR__ . '/i.do.not.exist.txt', __DIR__ . '/copiedfile.txt');
+$result = @copy(__DIR__ . '/i.do.not.exist.txt', __DIR__ . '/copiedfile.txt');
 
-    if ($result !== false) {
-        // proceed ...
+if ($result !== false) {
+    // proceed ...
 
-    } else {
-        echo ('Oops... copy has failed.');
+} else {
+    echo ('Oops... copy has failed.');
 
-    }</code></pre>
+}</code></pre>
                     </li>
                 </ul>
                 <footer style="line-height: 1.2em">Best practice: always place an <code>@</code> before oldskool functions that can generate an error message (see documentation)
@@ -964,19 +979,19 @@ echo $post->status->color();</code></pre>
                 </ul>
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/spl_fileproperties.php">&lt;?php
 
-    $filename = __DIR__ . '/testfile.txt';
-    $fi = new SplFileInfo($filename);
-    $modTime = new DateTime('@' . $fi-&gt;getMTime()); // use @ to pass timestamps
+$filename = __DIR__ . '/testfile.txt';
+$fi = new SplFileInfo($filename);
+$modTime = new DateTime('@' . $fi-&gt;getMTime()); // use @ to pass timestamps
 
-    echo '&lt;p&gt;The file ' . $fi-&gt;getFileName() . ' was last modified on ' .  $modTime-&gt;format('Y-m-d H:i:s') . '&lt;/p&gt;' . PHP_EOL;
+echo '&lt;p&gt;The file ' . $fi-&gt;getFileName() . ' was last modified on ' .  $modTime-&gt;format('Y-m-d H:i:s') . '&lt;/p&gt;' . PHP_EOL;
 
-    echo '&lt;p&gt;The file ' . $fi-&gt;getFileName() . ' is ' . ($fi-&gt;isDir() ? '' : 'not') . ' a directory&lt;/p&gt;' . PHP_EOL;
+echo '&lt;p&gt;The file ' . $fi-&gt;getFileName() . ' is ' . ($fi-&gt;isDir() ? '' : 'not') . ' a directory&lt;/p&gt;' . PHP_EOL;
 
-    echo '&lt;p&gt;The file ' . $fi-&gt;getFileName() . ' is ' . ($fi-&gt;isFile() ? '' : 'not') . ' a file&lt;/p&gt;' . PHP_EOL;
+echo '&lt;p&gt;The file ' . $fi-&gt;getFileName() . ' is ' . ($fi-&gt;isFile() ? '' : 'not') . ' a file&lt;/p&gt;' . PHP_EOL;
 
-    echo '&lt;p&gt;The file ' . $fi-&gt;getFileName() . ' is ' . ($fi-&gt;isLink() ? '' : 'not') . ' a shortcut&lt;/p&gt;' . PHP_EOL;
+echo '&lt;p&gt;The file ' . $fi-&gt;getFileName() . ' is ' . ($fi-&gt;isLink() ? '' : 'not') . ' a shortcut&lt;/p&gt;' . PHP_EOL;
 
-// EOF</code></pre>
+</code></pre>
             </section>
 
             <section>
@@ -985,14 +1000,13 @@ echo $post->status->color();</code></pre>
                     <li>Example (file read)
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/spl_fileread.php">&lt;?php
 
-    $lines = new SPLFileObject(__DIR__ . '/testfile.txt');
+$lines = new SPLFileObject(__DIR__ . '/testfile.txt');
 
-    // Loop through the file contents, show line and line numbers too.
-    foreach ($lines as $line_num =&gt; $line) {
-        echo '&lt;strong&gt;#' . $line_num . ':&lt;/strong&gt; ' . $line . '&lt;br /&gt;' . PHP_EOL;
-    }
-
-// EOF</code></pre></li>
+// Loop through the file contents, show line and line numbers too.
+foreach ($lines as $line_num =&gt; $line) {
+    echo '&lt;strong&gt;#' . $line_num . ':&lt;/strong&gt; ' . $line . '&lt;br /&gt;' . PHP_EOL;
+}
+</code></pre></li>
                 </ul>
                 <footer style="line-height: 1.2em">Note 1: looping works because <code>SplFileObject</code> implements the <code>Iterator</code> interface
                     <br>Note 2: if you have other plans with the file: <code>$lines = null;</code> closes the file handle </footer>
@@ -1028,23 +1042,22 @@ echo $post->status->color();</code></pre>
                         Example
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/fileread_01.php">&lt;?php
 
-    // path to file (relative from this PHP file)
-    $filename = __DIR__ . '/testfile.txt';
+// path to file (relative from this PHP file)
+$filename = __DIR__ . '/testfile.txt';
 
-    // open the file in read mode
-    // @see http://php.net/fopen for other modes (r, r+, w, w+, a, a+, ...)
-    $file = new SplFileObject($filename, 'r');
+// open the file in read mode
+// @see http://php.net/fopen for other modes (r, r+, w, w+, a, a+, ...)
+$file = new SplFileObject($filename, 'r');
 
-    // read as much bytes as the file size
-    $contents = $file-&gt;fread($file->getSize());
+// read as much bytes as the file size
+$contents = $file-&gt;fread($file->getSize());
 
-    // close the file handle
-    $file = null;
+// close the file handle
+$file = null;
 
-    // output the fetched contents
-    echo $contents;
-
-// EOF</code></pre>
+// output the fetched contents
+echo $contents;
+</code></pre>
                     </li>
                 </ul>
             </section>
@@ -1056,18 +1069,18 @@ echo $post->status->color();</code></pre>
                     <li>
                         Example 2
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/fileread_02.php">&lt;?php
-    $filename = __DIR__ . '/testfile.txt';
+$filename = __DIR__ . '/testfile.txt';
 
-    $file = new SplFileObject($filename, 'r');
+$file = new SplFileObject($filename, 'r');
 
-    while (! $file-&gt;eof()) {
-        $buffer = $file->fread(20);
-        echo $buffer . '&lt;br /&gt;' . PHP_EOL;
-    }
+while (! $file-&gt;eof()) {
+    $buffer = $file->fread(20);
+    echo $buffer . '&lt;br /&gt;' . PHP_EOL;
+}
 
-    $file = null;
+$file = null;
 
-// EOF</code></pre>
+</code></pre>
                     </li>
                 </ul>
             </section>
@@ -1081,17 +1094,16 @@ echo $post->status->color();</code></pre>
                         Example
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/spl_dirread.php">&lt;?php
 
-    $myBaseDir = __DIR__;
-    $di = new DirectoryIterator($myBaseDir);
+$myBaseDir = __DIR__;
+$di = new DirectoryIterator($myBaseDir);
 
-    foreach ($di as $file) {
-        // exclude . and .. + we don't want directories
-        if (!$file-&gt;isDot() &amp;&amp; !$file-&gt;isDir()) {
-            echo $file . '&lt;br /&gt;' . PHP_EOL; // $file is converted to string
-        }
+foreach ($di as $file) {
+    // exclude . and .. + we don't want directories
+    if (!$file-&gt;isDot() &amp;&amp; !$file-&gt;isDir()) {
+        echo $file . '&lt;br /&gt;' . PHP_EOL; // $file is converted to string
     }
-
-// EOF</code></pre>
+}
+</code></pre>
                     </li>
                 </ul>
             </section>
@@ -1103,21 +1115,21 @@ echo $post->status->color();</code></pre>
                         If you try to access a file/folder that doesn't exist using the SPL classes, PHP will throw an <code>Exception</code>
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/spl_exception_01.php">&lt;?php
 
-    $di = new DirectoryIterator('/this/path/does/not/exist');
+$di = new DirectoryIterator('/this/path/does/not/exist');
 
-// EOF</code></pre>
+</code></pre>
                     </li>
                     <li>
                         Use a <code>try</code>/<code>catch</code> to properly handle it
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/spl_exception_02.php">&lt;?php
 
-    try {
-        $di = new DirectoryIterator('/this/path/does/not/exist');
-    } catch (UnexpectedValueException $e) {
-        echo 'There was an error: &lt;br /&gt;' . $e->getMessage();
-    }
+try {
+    $di = new DirectoryIterator('/this/path/does/not/exist');
+} catch (UnexpectedValueException $e) {
+    echo 'There was an error: &lt;br /&gt;' . $e->getMessage();
+}
 
-// EOF</code></pre>
+</code></pre>
                     </li>
                 </ul>
             </section>

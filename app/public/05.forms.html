@@ -311,24 +311,24 @@
                     </li>
                 </ul>
                         <div><pre class="bigger"><code class="hljs html" data-overlay-example="assets/05/examples/get_and_post.php">&lt;form action=&quot;form_process.php?foo=getfoo&amp;amp;bar=getbar&quot; method=&quot;post&quot;&gt;
-	&lt;fieldset&gt;
-		&lt;h2&gt;Get and Post&lt;/h2&gt;
-		&lt;dl class=&quot;clearfix&quot;&gt;
-			&lt;dt&gt;&lt;label for=&quot;foo&quot;&gt;Foo?&lt;/label&gt;&lt;/dt&gt;
-			&lt;dd class=&quot;text&quot;&gt;
-				&lt;input type=&quot;text&quot; id=&quot;foo&quot; name=&quot;foo&quot; value=&quot;&quot; /&gt;
-			&lt;/dd&gt;
+    &lt;fieldset&gt;
+        &lt;h2&gt;Get and Post&lt;/h2&gt;
+        &lt;dl class=&quot;clearfix&quot;&gt;
+            &lt;dt&gt;&lt;label for=&quot;foo&quot;&gt;Foo?&lt;/label&gt;&lt;/dt&gt;
+            &lt;dd class=&quot;text&quot;&gt;
+                &lt;input type=&quot;text&quot; id=&quot;foo&quot; name=&quot;foo&quot; value=&quot;&quot; /&gt;
+            &lt;/dd&gt;
 
-			&lt;dt&gt;&lt;label for=&quot;baz&quot;&gt;Baz?&lt;/label&gt;&lt;/dt&gt;
-			&lt;dd class=&quot;text&quot;&gt;
-				&lt;input type=&quot;text&quot; id=&quot;baz&quot; name=&quot;baz&quot; value=&quot;&quot; /&gt;
-			&lt;/dd&gt;
+            &lt;dt&gt;&lt;label for=&quot;baz&quot;&gt;Baz?&lt;/label&gt;&lt;/dt&gt;
+            &lt;dd class=&quot;text&quot;&gt;
+                &lt;input type=&quot;text&quot; id=&quot;baz&quot; name=&quot;baz&quot; value=&quot;&quot; /&gt;
+            &lt;/dd&gt;
 
-			&lt;dt class=&quot;full clearfix&quot; id=&quot;lastrow&quot;&gt;
-				&lt;input type=&quot;submit&quot; name=&quot;btnSubmit&quot; value=&quot;Send&quot; /&gt;
-			&lt;/dt&gt;
-		&lt;/dl&gt;
-	&lt;/fieldset&gt;
+            &lt;dt class=&quot;full clearfix&quot; id=&quot;lastrow&quot;&gt;
+                &lt;input type=&quot;submit&quot; name=&quot;btnSubmit&quot; value=&quot;Send&quot; /&gt;
+            &lt;/dt&gt;
+        &lt;/dl&gt;
+    &lt;/fieldset&gt;
 &lt;/form&gt;</code></pre></div>
 
             </section>
@@ -492,24 +492,22 @@
                         </ul>
                         <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/persistency_02.php" data-overlay-height="600" style="height: 350px; overflow-y: scroll;">&lt;?php
 
-    // Get variable values from $_GET
-    // Caution: before form submission, $_GET is completely empty!
-    $name = isset($_GET['name']) ? (string) $_GET['name'] : '';
-    $pass = isset($_GET['pass']) ? (string) $_GET['pass'] : '';
-    $remark = isset($_GET['remark']) ? (string) $_GET['remark'] : '';
+// Get variable values from $_GET
+// Caution: before form submission, $_GET is completely empty!
+$name = isset($_GET['name']) ? (string) $_GET['name'] : '';
+$pass = isset($_GET['pass']) ? (string) $_GET['pass'] : '';
+$remark = isset($_GET['remark']) ? (string) $_GET['remark'] : '';
 
 ?&gt;&lt;DOCTYPE html&gt;
-
 ...
 
 &lt;form action=&quot;&lt;?php echo $_SERVER['PHP_SELF']; ?&gt;&quot; method=&quot;get&quot;&gt;
 
-	&lt;input type=&quot;text&quot; id=&quot;name&quot; name=&quot;name&quot; value=&quot;&lt;?php echo $name; ?&gt;&quot; /&gt;
+    &lt;input type=&quot;text&quot; id=&quot;name&quot; name=&quot;name&quot; value=&quot;&lt;?php echo $name; ?&gt;&quot; /&gt;
 
-	&lt;input type=&quot;password&quot; id=&quot;pass&quot; name=&quot;pass&quot; value=&quot;&lt;?php echo $pass; ?&gt;&quot; /&gt;
+    &lt;input type=&quot;password&quot; id=&quot;pass&quot; name=&quot;pass&quot; value=&quot;&lt;?php echo $pass; ?&gt;&quot; /&gt;
 
-	&lt;textarea name=&quot;remark&quot; id=&quot;remark&quot; rows=&quot;5&quot;
-		cols=&quot;40&quot;&gt;&lt;?php echo $remark; ?&gt;&lt;/textarea&gt;
+    &lt;textarea name=&quot;remark&quot; id=&quot;remark&quot; rows=&quot;5&quot; cols=&quot;40&quot;&gt;&lt;?php echo $remark; ?&gt;&lt;/textarea&gt;
 
 &lt;/form&gt;</code></pre></div>
                     </li>
@@ -525,26 +523,25 @@
                             <li>For each <code>&lt;option&gt;</code>, check if the value matches the sent-in value</em></li>
                             <li>If so: set the <code>selected=&quot;selected&quot;</code> attribute</li>
                         </ul>
-                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/persistency_03.php" data-overlay-height="600" style="width: 50em;">&lt;?php
+                        <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/persistency_03.php" data-overlay-height="600">&lt;?php
 
-    // Get variable values from $_GET
-    // Caution: before form submission, $_GET is completely empty!
-    $cont = isset($_GET['cont']) ? (int) $_GET['cont'] : 0;
+// Get variable values from $_GET
+// Caution: before form submission, $_GET is completely empty!
+$cont = isset($_GET['cont']) ? (int) $_GET['cont'] : 0;
 
 ?&gt;&lt;DOCTYPE html&gt;
-
 ...
 
 &lt;form action=&quot;&lt;?php echo $_SERVER['PHP_SELF']; ?&gt;&quot; method=&quot;get&quot;&gt;
-	&lt;select name=&quot;cont&quot; id=&quot;cont&quot;&gt;
-		&lt;option value=&quot;0&quot;&lt;?php if ($cont == 0) { echo ' selected=&quot;selected&quot;'; } ?&gt;&gt;Please select...&lt;/option&gt;
-		&lt;option value=&quot;1&quot;&lt;?php if ($cont == 1) { echo ' selected=&quot;selected&quot;'; } ?&gt;&gt;Africa&lt;/option&gt;
-		&lt;option value=&quot;2&quot;&lt;?php if ($cont == 2) { echo ' selected=&quot;selected&quot;'; } ?&gt;&gt;America&lt;/option&gt;
-		&lt;option value=&quot;3&quot;&lt;?php if ($cont == 3) { echo ' selected=&quot;selected&quot;'; } ?&gt;&gt;Antarctica&lt;/option&gt;
-		&lt;option value=&quot;4&quot;&lt;?php if ($cont == 4) { echo ' selected=&quot;selected&quot;'; } ?&gt;&gt;Asia&lt;/option&gt;
-		&lt;option value=&quot;5&quot;&lt;?php if ($cont == 5) { echo ' selected=&quot;selected&quot;'; } ?&gt;&gt;Europe&lt;/option&gt;
-		&lt;option value=&quot;6&quot;&lt;?php if ($cont == 6) { echo ' selected=&quot;selected&quot;'; } ?&gt;&gt;Oceania&lt;/option&gt;
-	&lt;/select&gt;
+    &lt;select name=&quot;cont&quot; id=&quot;cont&quot;&gt;
+        &lt;option value=&quot;0&quot;&lt;?php if ($cont == 0) { echo ' selected=&quot;selected&quot;'; } ?&gt;&gt;Please select...&lt;/option&gt;
+        &lt;option value=&quot;1&quot;&lt;?php if ($cont == 1) { echo ' selected=&quot;selected&quot;'; } ?&gt;&gt;Africa&lt;/option&gt;
+        &lt;option value=&quot;2&quot;&lt;?php if ($cont == 2) { echo ' selected=&quot;selected&quot;'; } ?&gt;&gt;America&lt;/option&gt;
+        &lt;option value=&quot;3&quot;&lt;?php if ($cont == 3) { echo ' selected=&quot;selected&quot;'; } ?&gt;&gt;Antarctica&lt;/option&gt;
+        &lt;option value=&quot;4&quot;&lt;?php if ($cont == 4) { echo ' selected=&quot;selected&quot;'; } ?&gt;&gt;Asia&lt;/option&gt;
+        &lt;option value=&quot;5&quot;&lt;?php if ($cont == 5) { echo ' selected=&quot;selected&quot;'; } ?&gt;&gt;Europe&lt;/option&gt;
+        &lt;option value=&quot;6&quot;&lt;?php if ($cont == 6) { echo ' selected=&quot;selected&quot;'; } ?&gt;&gt;Oceania&lt;/option&gt;
+    &lt;/select&gt;
 &lt;/form&gt;</code></pre></div>
                     </li>
                 </ul>
@@ -561,27 +558,26 @@
                         </ul>
                         <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/persistency_04.php" data-overlay-height="600" style="height: 350px; overflow-y: scroll;">&lt;?php
 
-	// Get variable values from $_GET
-    $gender = isset($_GET['gender']) ? (string) $_GET['gender'] : '';
-    $meals = isset($_GET['meals']) ? (array) $_GET['meals'] : array();
+// Get variable values from $_GET
+$gender = isset($_GET['gender']) ? (string) $_GET['gender'] : '';
+$meals = isset($_GET['meals']) ? (array) $_GET['meals'] : array();
 
 ?&gt;&lt;DOCTYPE html&gt;
-
 ...
 
 &lt;form action=&quot;&lt;?php echo $_SERVER['PHP_SELF']; ?&gt;&quot; method=&quot;get&quot;&gt;
 
-	&lt;input type=&quot;radio&quot; name=&quot;gender&quot; value=&quot;male&quot;&lt;?php if ($gender
-		 == 'male') { echo ' checked=&quot;checked&quot;'; } ?&gt; /&gt;
-	&lt;input type=&quot;radio&quot; name=&quot;gender&quot; value=&quot;female&quot;&lt;?php if ($gender
-		 == 'female') { echo ' checked=&quot;checked&quot;'; } ?&gt; /&gt;
+    &lt;input type=&quot;radio&quot; name=&quot;gender&quot; value=&quot;male&quot;&lt;?php if ($gender
+        == 'male') { echo ' checked=&quot;checked&quot;'; } ?&gt; /&gt;
+    &lt;input type=&quot;radio&quot; name=&quot;gender&quot; value=&quot;female&quot;&lt;?php if ($gender
+        == 'female') { echo ' checked=&quot;checked&quot;'; } ?&gt; /&gt;
 
-	&lt;input type=&quot;checkbox&quot; name=&quot;meals[]&quot; value=&quot;breakfast&quot;&lt;?php if (in_array(
-		'breakfast', $meals)) { echo ' checked=&quot;checked&quot;'; } ?&gt; /&gt;
-	&lt;input type=&quot;checkbox&quot; name=&quot;meals[]&quot; value=&quot;lunch&quot;&lt;?php if (in_array(
-		'lunch', $meals)) { echo ' checked=&quot;checked&quot;'; } ?&gt; /&gt;
-	&lt;input type=&quot;checkbox&quot; name=&quot;meals[]&quot; value=&quot;dinner&quot;&lt;?php if (in_array(
-		'dinner', $meals)) { echo ' checked=&quot;checked&quot;'; } ?&gt; /&gt;
+    &lt;input type=&quot;checkbox&quot; name=&quot;meals[]&quot; value=&quot;breakfast&quot;&lt;?php if (in_array(
+        'breakfast', $meals)) { echo ' checked=&quot;checked&quot;'; } ?&gt; /&gt;
+    &lt;input type=&quot;checkbox&quot; name=&quot;meals[]&quot; value=&quot;lunch&quot;&lt;?php if (in_array(
+        'lunch', $meals)) { echo ' checked=&quot;checked&quot;'; } ?&gt; /&gt;
+    &lt;input type=&quot;checkbox&quot; name=&quot;meals[]&quot; value=&quot;dinner&quot;&lt;?php if (in_array(
+        'dinner', $meals)) { echo ' checked=&quot;checked&quot;'; } ?&gt; /&gt;
 
 &lt;/form&gt;</code></pre></div>
                     </li>
@@ -606,8 +602,7 @@
                     <li style="margin-top: 1em;">
                         Fix: convert special characters with <code>htmlentities()</code> to their HTML safe / encoded version <strong>when outputting on screen</strong>
                         <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/persistency_07.php" data-overlay-height="600">&lt;form action=&quot;&lt;?php echo $_SERVER['PHP_SELF']; ?&gt;&quot; method=&quot;get&quot;&gt;
-	&lt;input type=&quot;text&quot; id=&quot;name&quot; name=&quot;name&quot;
-	value=&quot;&lt;?php echo htmlentities($name); ?&gt;&quot; /&gt;
+    &lt;input type=&quot;text&quot; id=&quot;name&quot; name=&quot;name&quot; value=&quot;&lt;?php echo htmlentities($name); ?&gt;&quot; /&gt;
 &lt;/form&gt;</code></pre></div>
                     </li>
                 </ul>
@@ -620,7 +615,7 @@
                         You must <strong>always</strong> use <code>htmlentities()</code> if you output/show user input in an HTML page
                         <ul>
                             <li>If you don't, users can inject custom HTML into your site</li>
-                            <li>Not a big security threat if it's <code>&lt;b&gt;&lt;/b&gt;</code></li>
+                            <li>Not a big security threat if it's <code>&lt;strong&gt;&lt;/strong&gt;</code></li>
                             <li>But what if we inject a custom javascript file via <code>&lt;script src=&quot;http://mysite.com/pwnd.js&quot;&gt;&lt;/script&gt;</code>?</li>
                         </ul>
                     </li>
@@ -646,12 +641,12 @@
                         Put a block of code at the top where you fetch all vars and then later on work with those vars
                         <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/persistency_11.php" data-overlay-height="600" style="width: 50em;">&lt;?php
 
-	$name = isset($_GET['name']) ? (string) $_GET['name'] : '';
-	$pass = isset($_GET['pass']) ? (string) $_GET['pass'] : '';
-	$gender = isset($_GET['gender']) ? (string) $_GET['gender'] : '';
-	$cont = isset($_GET['cont']) ? (int) $_GET['cont'] : 0;
-	$meals = isset($_GET['meals']) ? (array) $_GET['meals'] : array();
-	$remark = isset($_GET['remark']) ? (string) $_GET['remark'] : '';
+$name = isset($_GET['name']) ? (string) $_GET['name'] : '';
+$pass = isset($_GET['pass']) ? (string) $_GET['pass'] : '';
+$gender = isset($_GET['gender']) ? (string) $_GET['gender'] : '';
+$cont = isset($_GET['cont']) ? (int) $_GET['cont'] : 0;
+$meals = isset($_GET['meals']) ? (array) $_GET['meals'] : array();
+$remark = isset($_GET['remark']) ? (string) $_GET['remark'] : '';
 
 ?&gt;&lt;!doctype html&gt;
 ...
@@ -735,14 +730,14 @@
                 </ul>
                         <div><pre class="bigger"><code class="hljs php">&lt;?php
 
-    // form was sent!
-    if (isset($_POST['btnSubmit'])) {
+// form was sent!
+if (isset($_POST['btnSubmit'])) {
 
-        // @TODO: put formchecking logic here
+    // @TODO: put formchecking logic here
 
-    }
+}
 
-    ...</code></pre></div>
+...</code></pre></div>
 
 
             </section>
@@ -758,27 +753,27 @@
                 </ul>
                         <div><pre class="bigger"><code class="hljs php">&lt;?php
 
-    $moduleAction = isset($_POST['moduleAction']) ? $_POST['moduleAction'] : '';
+$moduleAction = isset($_POST['moduleAction']) ? $_POST['moduleAction'] : '';
 
-    // Form was sent!
-    if ($moduleAction == 'processName') {
-        // @TODO: put formchecking logic here
-    }
+// Form was sent!
+if ($moduleAction == 'processName') {
+    // @TODO: put formchecking logic here
+}
 
 ?&gt;&lt;!DOCTYPE html&gt;
 
-	...
+    ...
 
-	&lt;form action=&quot;&lt;?php echo $_SERVER['PHP_SELF']; ?&gt;&quot; method=&quot;post&quot;&gt;
+    &lt;form action=&quot;&lt;?php echo $_SERVER['PHP_SELF']; ?&gt;&quot; method=&quot;post&quot;&gt;
 
-		...
+        ...
 
-		&lt;input type=&quot;hidden&quot; name=&quot;moduleAction&quot; value=&quot;processName&quot; /&gt;
-		&lt;input type=&quot;submit&quot; id=&quot;btnSubmit&quot; name=&quot;btnSubmit&quot; value=&quot;Send&quot; /&gt;
+        &lt;input type=&quot;hidden&quot; name=&quot;moduleAction&quot; value=&quot;processName&quot; /&gt;
+        &lt;input type=&quot;submit&quot; id=&quot;btnSubmit&quot; name=&quot;btnSubmit&quot; value=&quot;Send&quot; /&gt;
 
-		...
+        ...
 
-	&lt;/form&gt;</code></pre></div>
+    &lt;/form&gt;</code></pre></div>
 
 
             </section>
@@ -792,47 +787,47 @@
                 </ul>
                         <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/formchecking_multipleforms.php" data-overlay-height="600" style="height: 350px; overflow-y: scroll;">&lt;?php
 
-    // initial values
-    $moduleAction = isset($_POST['moduleAction']) ? $_POST['moduleAction'] : '';
+// initial values
+$moduleAction = isset($_POST['moduleAction']) ? $_POST['moduleAction'] : '';
 
-    // form #1 was sent
-    if ($moduleAction == 'processName') {
-        // @TODO: put formchecking (form #1 only) logic here
-    }
+// form #1 was sent
+if ($moduleAction == 'processName') {
+    // @TODO: put formchecking (form #1 only) logic here
+}
 
-    // form #2 was sent
-    if ($moduleAction == 'processAge')) {
-        // @TODO: put formchecking (form #2 only) logic here
-    }
+// form #2 was sent
+if ($moduleAction == 'processAge')) {
+    // @TODO: put formchecking (form #2 only) logic here
+}
 
-    // ...
+// ...
 
 ?&gt;&lt;!DOCTYPE html&gt;
 &lt;html&gt;
 ...
 &lt;body&gt;
 
-	&lt;form action=&quot;&lt;?php echo $_SERVER['PHP_SELF']; ?&gt;&quot; method=&quot;post&quot;&gt;
+    &lt;form action=&quot;&lt;?php echo $_SERVER['PHP_SELF']; ?&gt;&quot; method=&quot;post&quot;&gt;
 
-		...
+        ...
 
-		&lt;input type=&quot;hidden&quot; name=&quot;moduleAction&quot; value=&quot;processName&quot; /&gt;
-		&lt;input type=&quot;submit&quot; id=&quot;btnSubmit&quot; name=&quot;btnSubmit&quot; value=&quot;Send&quot; /&gt;
+        &lt;input type=&quot;hidden&quot; name=&quot;moduleAction&quot; value=&quot;processName&quot; /&gt;
+        &lt;input type=&quot;submit&quot; id=&quot;btnSubmit&quot; name=&quot;btnSubmit&quot; value=&quot;Send&quot; /&gt;
 
-		...
+        ...
 
-	&lt;/form&gt;
+    &lt;/form&gt;
 
-	&lt;form action=&quot;&lt;?php echo $_SERVER['PHP_SELF']; ?&gt;&quot; method=&quot;post&quot;&gt;
+    &lt;form action=&quot;&lt;?php echo $_SERVER['PHP_SELF']; ?&gt;&quot; method=&quot;post&quot;&gt;
 
-		...
+        ...
 
-		&lt;input type=&quot;hidden&quot; name=&quot;moduleAction&quot; value=&quot;processAge&quot; /&gt;
-		&lt;input type=&quot;submit&quot; id=&quot;btnSubmit&quot; name=&quot;btnSubmit&quot; value=&quot;Send&quot; /&gt;
+        &lt;input type=&quot;hidden&quot; name=&quot;moduleAction&quot; value=&quot;processAge&quot; /&gt;
+        &lt;input type=&quot;submit&quot; id=&quot;btnSubmit&quot; name=&quot;btnSubmit&quot; value=&quot;Send&quot; /&gt;
 
-		...
+        ...
 
-	&lt;/form&gt;
+    &lt;/form&gt;
 &lt;/body&gt;
 &lt;/html&gt;</code></pre></div>
 
@@ -842,31 +837,31 @@
                 <h2>Formchecking Example (Simplified)</h2>
                 <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/05/examples/formchecking.php" data-overlay-height="600">&lt;?php
 
-    // initial values
-    $moduleAction = isset($_POST['moduleAction']) ? $_POST['moduleAction'] : '';
-    $name = isset($_POST['name']) ? (string) $_POST['name'] : '';
-    $msgName = '*';
+// initial values
+$moduleAction = isset($_POST['moduleAction']) ? $_POST['moduleAction'] : '';
+$name = isset($_POST['name']) ? (string) $_POST['name'] : '';
+$msgName = '*';
 
-    // form is sent
-    if ($moduleAction == 'processName') {
+// form is sent
+if ($moduleAction == 'processName') {
 
-        $allOk = true;
+    $allOk = true;
 
-        // name not set, or empty
-        if (trim($name) === '') {
-            $msgName = 'Please enter your name';
-            $allOk = false;
-        }
-
-        // end of form check.
-        // If $allOk still is true, then the form was sent in correctly
-        if ($allOk) {
-            header('Location: formchecking_thanks.php?name=' .urlencode($name));
-            exit();
-        }
-
+    // name not set, or empty
+    if (trim($name) === '') {
+        $msgName = 'Please enter your name';
+        $allOk = false;
     }
-	...</code></pre></div>
+
+    // end of form check.
+    // If $allOk still is true, then the form was sent in correctly
+    if ($allOk) {
+        header('Location: formchecking_thanks.php?name=' .urlencode($name));
+        exit();
+    }
+
+}
+...</code></pre></div>
             </section>
 
             <section>
@@ -1039,7 +1034,7 @@ if (isset($_FILES['avatar']) &amp;&amp; ($_FILES['avatar']['error'] === UPLOAD_E
 
 ?&gt;
 &lt;form action=&quot;&lt;?php echo $_SERVER['PHP_SELF'];?&gt;&quot; method=&quot;post&quot; enctype=&quot;multipart/form-data&quot; &gt;
-	&lt;input type=&quot;file&quot; name=&quot;avatar&quot; id=&quot;avatar&quot; /&gt;&lt;input type=&quot;submit&quot; /&gt;
+    &lt;input type=&quot;file&quot; name=&quot;avatar&quot; id=&quot;avatar&quot; /&gt;&lt;input type=&quot;submit&quot; /&gt;
 &lt;/form&gt;</code></pre>
 
                 <footer  style="line-height: 1.2em">Full reference of <a href="http://php.net/manual/en/features.file-upload.errors.php">upload error codes</a>.
