@@ -141,8 +141,8 @@
                     <li>
                         Database Abstraction Layer from the Doctrine Project
                         <ul style="font-size: 80%;">
-                            <li>Website: <a href="http://www.doctrine-project.org/projects/dbal.html">http://www.doctrine-project.org/projects/dbal.html</a></li>
-                            <li>Documentation: <a href="http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/index.html">http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/index.html</a></li>
+                            <li>Website: <a href="https://www.doctrine-project.org/projects/dbal.html">https://www.doctrine-project.org/projects/dbal.html</a></li>
+                            <li>Documentation: <a href="https://www.doctrine-project.org/projects/doctrine-dbal/en/4.2/">https://www.doctrine-project.org/projects/doctrine-dbal/en/4.2/</a></li>
                         </ul>
                     </li>
                     <li style="margin-top: 1em;">
@@ -150,7 +150,7 @@
                         <ul>
                             <li>
                                 New project, not yet requiring it via Composer:
-                                <pre class="bigger"><code class="dontrun">composer require doctrine/dbal ^3.4</code></pre>
+                                <pre class="bigger"><code class="dontrun">composer require doctrine/dbal ^4.2</code></pre>
                             </li>
                             <li>
                                 Existing project, already requiring it via Composer:
@@ -159,7 +159,7 @@
                         </ul>
                     </li>
                 </ul>
-                <footer><small>Note: Don't confuse Doctrine DBAL with <a href="http://www.doctrine-project.org/projects/orm.html">Doctrine ORM</a> (which we won't be using by now)</small></footer>
+                <footer><small>Note: Don't confuse Doctrine DBAL with <a href="https://www.doctrine-project.org/projects/orm.html">Doctrine ORM</a> (which we won't be using by now)</small></footer>
             </section>
 
 
@@ -179,18 +179,14 @@
 
                 <ul>
                     <li>
-                        We'll use a <code>config.php</code> to store our credentials
+                        We'll use a <code>.env</code> to store our credentials
 
-                        <pre class="bigger"><code class="hljs php">&lt;?php
+                        <pre class="bigger"><code class="hljs">DB_HOST=mysqldb
+DB_USER=root
+DB_PASS=Azerty123
 
-    define('DB_HOST', 'mysqldb'); // specify an IP address, localhost or a computer name here
-    define('DB_USER', 'root');
-    define('DB_PASS', 'Azerty123');
-
-    define('DB_NAME_FF', 'fotofactory');
-    define('DB_NAME_STATUS', 'status');
-
-//EOF</code></pre>
+DB_NAME_FF=fotofactory
+DB_NAME_STATUS=status</code></pre>
                     </li>
                     <li style="margin-top: 1em;">
                         The config is used throughout the next code examples
@@ -210,35 +206,40 @@
                     </li>
                 </ul>
                 <div><pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/01.php">&lt;?php
-    require_once 'vendor/autoload.php';
-    require_once 'config.php';
 
-    $connectionParams = [
-        'host' =&gt; DB_HOST,
-        'dbname' =&gt; DB_NAME_FF,
-        'user' =&gt; DB_USER,
-        'password' =&gt; DB_PASS,
-        'driver' =&gt; 'pdo_mysql',
-        'charset' =&gt; 'utf8mb4'
-    ];
+require_once 'vendor/autoload.php';
 
-    // getConnection() doesn't actually connect
-    $connection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
+use Dotenv\Dotenv;
+use Doctrine\DBAL\DriverManager;
 
-    // connect() is for testing, and NOT required before querying
-    // connect() returns    TRUE if the connection was successfully established
-    //                      FALSE if the connection is already open
-    $result = $connection-&gt;connect();
-    if ($result) {
-        echo 'Connection was successfully established';
-    }
+// Load .env
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv-&gt;load();
+$dotenv-&gt;required(['DB_HOST', 'DB_NAME_FF', 'DB_USER', 'DB_PASS']);
 
-    // ... your query magic here
+$connectionParams = [
+    'dbname' =&gt; $_ENV['DB_NAME_FF'],
+    'user' =&gt; $_ENV['DB_USER'],
+    'password' =&gt; $_ENV['DB_PASS'],
+    'host' =&gt; $_ENV['DB_HOST'],
+    'driver' =&gt; 'pdo_mysql',
+    'charset' =&gt; 'utf8mb4'
+];
+
+// returns an instance of Doctrine\DBAL\Connection but doesn't actually connect
+$connection = DriverManager::getConnection($connectionParams);
+
+// there is no method to verify the connection
+// let's ask the MySQL version number ...
+$version = $connection-&gt;getServerVersion();
+echo 'Connection was successfully established. Version: ' . $version;
+
+// ... your query magic here
 </code></pre></div>
                 <footer><em>(More on that charset later)</em></footer>
             </section>
 
-            <section>
+            <!--section>
                 <h2>Connecting (2)</h2>
 
                 <ul style="width: 100%;">
@@ -266,7 +267,7 @@
     // ... your query magic here
 </code></pre></div>
                 <footer><em>(More on that charset later)</em></footer>
-            </section>
+            </section-->
 
             <section>
                 <h2>Disconnecting?</h2>
@@ -296,23 +297,33 @@
 
 
 							<pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/02.php">&lt;?php
-    require_once 'vendor/autoload.php';
-    require_once 'config.php';
+require_once 'vendor/autoload.php';
 
-    $connectionParams = [
-        'url' =&gt; 'mysql://' . DB_USER . ':' . DB_PASS . '@' . DB_HOST . '/' . 'does_not_exist'
-    ];
+use Dotenv\Dotenv;
+use Doctrine\DBAL\DriverManager;
 
-    // getConnection() doesn't actually connect
-    $connection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv-&gt;load();
+$dotenv-&gt;required(['DB_HOST', 'DB_NAME_FF', 'DB_USER', 'DB_PASS']);
 
-    // connect() is for testing, and NOT required before querying
-    $result = $connection-&gt;connect();
-    if ($result) {
-        echo 'Connection was successfully established';
-    }
+$connectionParams = [
+    'dbname' =&gt; 'does_not_exist',
+    'user' =&gt; $_ENV['DB_USER'],
+    'password' =&gt; $_ENV['DB_PASS'],
+    'host' =&gt; $_ENV['DB_HOST'],
+    'driver' =&gt; 'pdo_mysql',
+    'charset' =&gt; 'utf8mb4'
+];
 
-    // ... your query magic here
+// returns an instance of Doctrine\DBAL\Connection but doesn't actually connect
+$connection = DriverManager::getConnection($connectionParams);
+
+// there is no method to verify the connection
+// let's ask the MySQL version number ...
+$version = $connection-&gt;getServerVersion();
+echo 'Connection was successfully established. Version: ' . $version;
+
+// ... your query magic here
 </code></pre>
 
 
@@ -346,7 +357,7 @@
                         <div>
 
 							<pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/02b.php">try {
-    $connection-&gt;connect();
+    $version = $connection-&gt;getServerVersion();
 } catch (\Doctrine\DBAL\Exception\ConnectionException $e) {
     exit('Could not connect to database server or access database');
 }</code></pre>
@@ -370,20 +381,18 @@
 
 									<pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/02c.php">&lt;?php
 
-    function showDbError(string $type) : void {
-        header('Location: error.php?type=db&amp;detail=' . $type);
-        exit();
-    }
+function showDbError(string $type) : void {
+    header('Location: error.php?type=db&amp;detail=' . $type);
+    exit();
+}
 
-    &hellip;
+&hellip;
 
-    try {
-        $connection-&gt;connect();
-    } catch (\Doctrine\DBAL\Exception\ConnectionException $e) {
-        showDbError('connect');
-    }
-
-//EOF</code></pre>
+try {
+    $version = $connection-&gt;getServerVersion();
+} catch (Doctrine\DBAL\Exception\ConnectionException $e) {
+    showDbError('connect');
+}</code></pre>
 
                         </div>
 
@@ -406,21 +415,21 @@
 
 							<pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/02d.php">&lt;?php
 
-    function showDbError($type, $msg) {
-        file_put_contents(
-            __DIR__ . '/error_log_mysql',
-            PHP_EOL . (new DateTime())->format('Y-m-d H:i:s') . ' : ' . $msg,
-            FILE_APPEND
-        );
-        header('Location: error.php?type=db&amp;detail=' . $type);
-        exit();
-    }
+function showDbError($type, $msg) {
+    file_put_contents(
+        __DIR__ . '/error_log_mysql',
+        PHP_EOL . (new DateTime())-&gt;format('Y-m-d H:i:s') . ' : ' . $msg,
+        FILE_APPEND
+    );
+    header('Location: error.php?type=db&amp;detail=' . $type);
+    exit();
+}
 
-    try {
-        $db = new PDO('mysql:host=' . DB_HOST .';dbname=does_not_exist;charset=utf8mb4', DB_USER, DB_PASS);
-    } catch (PDOException $e) {
-        showDbError('connect', $e->getMessage());
-    }</code></pre>
+try {
+    $version = $connection-&gt;getServerVersion();
+} catch (PDOException $e) {
+    showDbError('connect', $e-&gt;getMessage());
+}</code></pre>
 
                 </div>
 
@@ -467,19 +476,19 @@
                 <h2>Oldskool Executing Queries</h2>
                 <ul>
                     <li>
-                        Depending on the type of query, one of these functions were available (<strong>now deprecated</strong>)
+                        Depending on the type of query, one of these functions were available (<strong>not available anymore - insecure</strong>)
                         <div>
                             <ol style="margin-top: 1em;">
                                 <li><code><s>query()</s></code><small><!--a href="http://www.php.net/manual/en/pdo.query.php">&#9873;</a--></small> for queries that yield a resultset</li>
                             </ol>
-                            <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/03.php">$result = $connection-&gt;query('SELECT * FROM collections WHERE user_id = 2');
+                            <pre class="bigger"><code class="hljs php">$result = $connection-&gt;query('SELECT * FROM collections WHERE user_id = 2');
 var_dump($result); // returns a Result object</code></pre>
                         </div>
                         <div>
                             <ol start="2">
                                 <li><code><s>exec()</s></code><small><!--a href="http://www.php.net/manual/en/pdo.exec.php">&#9873;</a--></small> for queries that yield no resultset</li>
                             </ol>
-                            <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/03b.php">$result = $connection-&gt;exec('DELETE FROM collections WHERE user_id = 10');
+                            <pre class="bigger"><code class="hljs php">$result = $connection-&gt;exec('DELETE FROM collections WHERE user_id = 10');
 var_dump($result); // returns the number of affected rows</code></pre>
                         </div>
                     </li>
@@ -532,13 +541,13 @@ var_dump($result); // returns the number of affected rows</code></pre>
 
 &hellip;
 
-    // Get ID from URL
-    $id = isset($_GET['id']) ? $_GET['id'] : 0;
+// Get ID from URL
+$id = isset($_GET['id']) ? $_GET['id'] : 0;
 
-    // Get collection from database
-    $result = $connection-&gt;query('SELECT * FROM collections WHERE id = ' . $id);
+// Get collection from database
+$result = $connection-&gt;query('SELECT * FROM collections WHERE id = ' . $id);
 
-    // Handle result object
+// Handle result object
 
 &hellip;
 </code></pre>
@@ -757,8 +766,7 @@ $result = $stmt-&gt;executeQuery();</code></pre>
                 <ul style="width: 100%;">
                     <li>
                         Also possible <em>(shorter, preferred)</em>:
-                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/04d.php">$stmt = $connection-&gt;prepare('SELECT * FROM collections WHERE id = ?');
-$result = $stmt-&gt;executeQuery([$id]);</code></pre>
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/04d.php">$stmt = $connection->executeQuery('SELECT * FROM collections WHERE id = ?', [$id]);</code></pre>
                         <ul>
                             <li>Cannot be used with named placeholders</li>
                             <li>Optional 2rd parameter: array of parameter types</li>
@@ -766,8 +774,7 @@ $result = $stmt-&gt;executeQuery([$id]);</code></pre>
                     </li>
                     <li style="margin-top: 1em;">
                         The same goes for queries that yield no result set (with <code>executeStatement()</code>):
-                        <pre class="bigger"><code class="hljs php">$stmt = $connection->prepare('INSERT INTO collections (name, user_id) VALUES (?, ?)');
-$result = $stmt-&gt;executeStatement(['test', 4]);</code></pre>
+                        <pre class="bigger"><code class="hljs php">$connection->executeStatement('INSERT INTO collections (name, user_id) VALUES (?, ?)', ['test', 4]);</code></pre>
                     </li>
                 </ul>
 
@@ -824,8 +831,10 @@ $result = $stmt-&gt;executeStatement(['test', 4]);</code></pre>
                     </li>
                 </ul>
                 <div>
-							<pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/05.php">$stmt = $connection->prepare('SELECT * FROM collections WHERE user_id = ? OR name = ?');
-$result = $stmt-&gt;executeQuery([2, 'russia']);
+							<pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/05.php">$stmt = $connection-&gt;prepare('SELECT * FROM collections WHERE user_id = ? OR name = ?');
+$stmt-&gt;bindValue(1, 2, 'integer');
+$stmt-&gt;bindValue(2, 'russia', 'string');
+$result = $stmt-&gt;executeQuery();
 $collections = $result-&gt;fetchAllAssociative();
 
 echo '&lt;pre&gt;';
@@ -834,13 +843,12 @@ echo '&lt;/pre&gt;';</code></pre>
                 </div>
                 <ul style="width: 100%;">
                     <li>
-                        Or even shorter with <code>Connection::fetchAllAssociative()</code>
+                        Or even shorter with <code>Statement::fetchAllAssociative()</code>
                     </li>
                 </ul>
                 <div>
-                    <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/05b.php">$collections = $connection->fetchAllAssociative(
-    'SELECT * FROM collections WHERE user_id = ? OR name = ?',
-    [2, 'russia']);</code></pre>
+                    <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/05b.php">$stmt = $connection-&gt;executeQuery('SELECT * FROM collections WHERE user_id = ? OR name = ?', [2, 'russia']);
+$collections = $stmt->fetchAllAssociative();</code></pre>
                 </div>
             </section>
 
@@ -848,22 +856,20 @@ echo '&lt;/pre&gt;';</code></pre>
                 <h2>Fetching a single row</h2>
                 <ul style="width: 100%;">
                     <li>
-                        Use <code>Result::fetchAssociative()</code><small><!--a href="http://www.php.net/manual/en/pdostatement.fetch.php">&#9873;</a--></small> to fetch the returned rows one bye one
+                        Use <code>Result|Statement::fetchAssociative()</code><small><!--a href="http://www.php.net/manual/en/pdostatement.fetch.php">&#9873;</a--></small> to fetch the returned rows one bye one
                         <div>
-									<pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/05c.php">$stmt = $connection-&gt;prepare('SELECT * FROM collections WHERE user_id = ? OR name = ?');
-$result = $stmt-&gt;executeQuery([2, 'russia']);
+									<pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/05c.php">$stmt = $connection-&gt;executeQuery('SELECT * FROM collections WHERE user_id = ? OR name = ?', [2, 'russia']);
 
-while ($collection = $result-&gt;fetchAssociative()) {
+while ($collection = $stmt-&gt;fetchAssociative()) {
     var_dump($collection);
 }</code></pre>
                         </div>
                     </li>
                     <li style="margin-top: 1em;">
                         Use case: queries that yield one row
-                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/05d.php">$stmt = $connection-&gt;prepare('SELECT * FROM collections WHERE id = ?');
-$result = $stmt-&gt;executeQuery([1]);
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/05d.php">$stmt = $connection-&gt;executeQuery('SELECT * FROM collections WHERE id = ?', [1]);
 
-$collection = $result-&gt;fetchAssociative();
+$collection = $stmt->fetchAssociative();
 var_dump($collection);</code></pre>
                     </li>
                 </ul>
@@ -873,11 +879,11 @@ var_dump($collection);</code></pre>
                 <h2>Fetching a single field</h2>
                 <ul style="width: 100%;">
                     <li>
-                        Use <code>Result::fetchOne()</code><small><!--a href="http://www.php.net/manual/en/pdostatement.fetchColumn.php">&#9873;</a--></small> to fetch the value of a column from the first row
+                        Use <code>Result|Statement::fetchOne()</code><small><!--a href="http://www.php.net/manual/en/pdostatement.fetchColumn.php">&#9873;</a--></small> to fetch the value of a column from the first row
                         <div>
-									<pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/05e.php">$stmt = $connection->prepare('SELECT name, user_id FROM collections WHERE id = ?');
-$result = $stmt-&gt;executeQuery([1]);
-var_dump($result-&gt;fetchOne());</code></pre>
+									<pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/05e.php">$stmt = $connection-&gt;executeQuery('SELECT name, user_id FROM collections WHERE id = ?', [1]);
+
+var_dump($stmt-&gt;fetchOne());</code></pre>
                         </div>
                     </li>
                 </ul>
@@ -888,15 +894,13 @@ var_dump($result-&gt;fetchOne());</code></pre>
                 <ul>
                     <li>
                         Use <code>Connection::lastInsertId()</code><small><!--a href="http://www.php.net/manual/en/pdo.lastinsertid.php">&#9873;</a--></small> to know the last inserted id (<code>AUTO_INCREMENT</code>) after executing an <code>INSERT</code> query
-                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/06.php">$stmt = $connection->prepare('INSERT INTO collections(name, user_id) VALUES (?,?)');
-$stmt-&gt;executeStatement(['Trip to Amsterdam', 10]);
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/06.php">$connection-&gt;executeStatement('INSERT INTO collections(name, user_id) VALUES (?,?)', ['Trip to Amsterdam', 10]);
 
 echo 'Created album with ID ' . $connection-&gt;lastInsertId();</code></pre>
                     </li>
                     <li style="margin-top: 1em">
                         <code>Statement::executeStatement()</code><small><!--a href="http://www.php.net/manual/en/pdostatement.rowcount.php">&#9873;</a--></small> returns the number of affected rows by <code>UPDATE</code> and <code>DELETE</code> queries
-                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/07.php">$stmt = $connection->prepare('DELETE FROM collections WHERE user_id = ?');
-$rowCount = $stmt-&gt;executeStatement([10]);
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/07.php">$rowCount = $connection-&gt;executeStatement('DELETE FROM collections WHERE user_id = ?', [10]);
 
 echo 'Deleted ' . $rowCount . ' rows';</code></pre>
                         <ul>
@@ -954,7 +958,7 @@ echo 'Deleted ' . $rowCount . ' rows';</code></pre>
                         </ul>
                     </li>
                     <li>
-                        Available <a href="http://dev.mysql.com/doc/refman/8.0/en/charset-charsets.html">charset and collations in MySQL</a>
+                        Available <a href="https://dev.mysql.com/doc/refman/8.4/en/charset-charsets.html">charset and collations in MySQL</a>
                         <ul>
                             <li>
                                 Example charset: <code>utf8</code>
@@ -1034,10 +1038,10 @@ DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;</code></pre>
             <section>
                 <h2>Sidenote (1)</h2>
                 <ul>
-                    <li>MySQL's <code>utf8</code> charset does <strong>not</strong> comply with the complete UTF-8 standard. It supports characters that need up to 3 bytes for encoding in stead of 4. For example, astral symbols <em>(= <a href="http://www.grumdrig.com/emoji-list/">emoji</a>)</em> require 4 byte encoding.</li>
+                    <li>MySQL's <code>utf8</code> charset does <strong>not</strong> comply with the complete UTF-8 standard. It supports characters that need up to 3 bytes for encoding in stead of 4. For example, astral symbols <em>(= <a href="https://unicode.org/emoji/charts/full-emoji-list.html">emoji</a>)</em> require 4 byte encoding.</li>
                     <li style="margin-top: 1em">Fixed in MySQL 5.5.3 by the addition of <code>utf8mb4</code> charset<br />&rarr; Always use <code>utf8mb4</code> (= full UTF-8)</li>
                 </ul>
-                <footer>More info: <a href="http://mathiasbynens.be/notes/mysql-utf8mb4">http://mathiasbynens.be/notes/mysql-utf8mb4</a></footer>
+                <footer>More info: <a href="https://mathiasbynens.be/notes/mysql-utf8mb4">https://mathiasbynens.be/notes/mysql-utf8mb4</a></footer>
             </section>
 
             <section>
@@ -1046,10 +1050,10 @@ DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;</code></pre>
                     <li>When you create or manipulate strings with encodings &gt; 1 byte in PHP </li>
                     <ul>
                         <li>Make sure your PHP file has UTF-8 encoding</li>
-                        <li>Use <a href="http://php.net/manual/en/ref.mbstring.php">Multibyte String Functions</a> (extension!) such as <code>mb_strlen()</code> in stead of <em>classical</em> string functions</li>
+                        <li>Use <a href="https://php.net/manual/en/ref.mbstring.php">Multibyte String Functions</a> (extension!) such as <code>mb_strlen()</code> in stead of <em>classical</em> string functions</li>
                     </ul>
                 </ul>
-                <footer>All UTF-8 instructions together: <a href="http://www.phptherightway.com/#php_and_utf8">http://www.phptherightway.com/#php_and_utf8</a></footer>
+                <footer>All UTF-8 instructions together: <a href="https://www.phptherightway.com/#php_and_utf8">https://www.phptherightway.com/#php_and_utf8</a></footer>
             </section>
 
             <section>
@@ -1072,7 +1076,7 @@ DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;</code></pre>
                                 <pre class="bigger"><code class="hljs php">SELECT date_format(&quot;%Y-%m-%d&quot;, publishTimestamp) AS readabledate FROM ...</code></pre>
                             </li>
                             <li>Most format directives the same as in PHP but with leading <code>%</code></li>
-                            <li>See <a href="http://dev.mysql.com/doc/refman/8.0/en/date-and-time-functions.html #function_date-format">mysql docs</a> for more info</li>
+                            <li>See <a href="https://dev.mysql.com/doc/refman/8.0/en/date-and-time-functions.html #function_date-format">mysql docs</a> for more info</li>
                         </ul>
                     </li>
                     <li>
@@ -1257,9 +1261,9 @@ foreach ($comments as $c) {
                         Beware of old code/examples:
                         <ul>
                             <li>
-                                <code>md5()</code><small><a href="http://php.net/md5">&#9873;</a></small> and <code>sha1()</code><small><a href="http://php.net/sha1">&#9873;</a></small> <a href="http://www.slideshare.net/ircmaxell/password-storage-and-attacking-in-php">are outdated/too weak</a>, don't use them
+                                <code>md5()</code><small><a href="https://php.net/md5">&#9873;</a></small> and <code>sha1()</code><small><a href="https://php.net/sha1">&#9873;</a></small> <a href="https://www.slideshare.net/ircmaxell/password-storage-and-attacking-in-php">are outdated/too weak</a>, don't use them
                             </li>
-                            <li><code>crypt()</code><small><a href="http://php.net/crypt">&#9873;</a></small> strong but no long preferred</li>
+                            <li><code>crypt()</code><small><a href="https://php.net/crypt">&#9873;</a></small> strong but no long preferred</li>
                         </uL>
                     </li>
                 </ul>
@@ -1271,7 +1275,7 @@ foreach ($comments as $c) {
                 <h2>Encrypt passwords (2)</h2>
                 <ul style="width: 100%;">
                     <li>
-                        Use <code>password_hash()</code><small><a href="http://php.net/password_hash">&#9873;</a></small> and <code>password_verify()</code><small><a href="http://php.net/password_verify">&#9873;</a></small>
+                        Use <code>password_hash()</code><small><a href="https://php.net/password_hash">&#9873;</a></small> and <code>password_verify()</code><small><a href="https://php.net/password_verify">&#9873;</a></small>
                         <ul>
                             <li>Uses a strong one-way hashing algorithm (<a href="https://en.wikipedia.org/wiki/Bcrypt">bcrypt</a>)</li>
                         </ul>
@@ -1309,10 +1313,9 @@ if (password_verify($pass, $encrypted)) { &hellip; }</code></pre>
                 <h2>Sources</h2>
                 <ul>
                     <li><a href="https://www.webcarpenter.com/blog/52-PDO-Tutorial-for-MySQL-Developers">https://www.webcarpenter.com/blog/52-PDO-Tutorial-for-MySQL-Developers</a></li>
-                    <li><a href="https://code.tutsplus.com/tutorials/why-you-should-be-using-phps-pdo-for-database-access--net-12059">https://code.tutsplus.com/tutorials/why-you-should-be-using-phps-pdo-for-database-access--net-12059</a></li>
-                    <li><a href="http://www.kitebird.com/articles/php-pdo.html">http://www.kitebird.com/articles/php-pdo.html</a></li>
+                    <li><a href="https://code.tutsplus.com/why-you-should-be-using-phps-pdo-for-database-access--net-12059t">https://code.tutsplus.com/why-you-should-be-using-phps-pdo-for-database-access--net-12059t</a></li>
                     <li><a href="https://shiflett.org/blog/2006/addslashes-versus-mysql-real-escape-string">https://shiflett.org/blog/2006/addslashes-versus-mysql-real-escape-string</a></li>
-                    <li><a href="http://www.toptal.com/php/a-utf-8-primer-for-php-and-mysql">http://www.toptal.com/php/a-utf-8-primer-for-php-and-mysql</a></li>
+                    <li><a href="https://www.toptal.com/php/a-utf-8-primer-for-php-and-mysql">https://www.toptal.com/php/a-utf-8-primer-for-php-and-mysql</a></li>
                 </ul>
             </section>
         </section>

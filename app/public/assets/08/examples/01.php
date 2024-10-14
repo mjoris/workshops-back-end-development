@@ -1,36 +1,32 @@
 <?php
 
-    // Composer's autoloader
-    require_once 'vendor/autoload.php';
+// Composer's autoloader
+require_once 'vendor/autoload.php';
 
-	// Include config
-	require_once 'config.php';
+use Dotenv\Dotenv;
+use Doctrine\DBAL\DriverManager;
 
-    $connectionParams = [
-        'dbname' => DB_NAME_FF,
-        'user' => DB_USER,
-        'password' => DB_PASS,
-        'host' => DB_HOST,
-        'driver' => 'pdo_mysql',
-        'charset' => 'utf8mb4'
-    ];
+// Load .env
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+$dotenv->required(['DB_HOST', 'DB_NAME_FF', 'DB_USER', 'DB_PASS']);
 
-    /* Alternatively if you prefer a DSN
-    $connectionParams = [
-        'url' => 'mysql://' . DB_USER . ':' . DB_PASS . '@' . DB_HOST . '/' . DB_NAME_FF
-    ]; */
+$connectionParams = [
+    'dbname' => $_ENV['DB_NAME_FF'],
+    'user' => $_ENV['DB_USER'],
+    'password' => $_ENV['DB_PASS'],
+    'host' => $_ENV['DB_HOST'],
+    'driver' => 'pdo_mysql',
+    'charset' => 'utf8mb4'
+];
 
-    // returns an instance of Doctrine\DBAL\Connection but doesn't actually connect
-    $connection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
+// returns an instance of Doctrine\DBAL\Connection but doesn't actually connect
+$connection = DriverManager::getConnection($connectionParams);
 
-    // connect() is for testing, and NOT required before querying
-    // connect() throws a PDOException when
-    // connect() returns TRUE if the connection was successfully established, FALSE if the connection is already open.
-    $result = $connection->connect();
-    if ($result) {
-        echo 'Connection was successfully established';
-    }
+// there is no method to verify the connection
+// let's ask the MySQL version number ...
 
-	// ... your query magic here
+$version = $connection->getServerVersion();
+echo 'Connection was successfully established. Version: ' . $version;
 
-//EOF
+// ... your query magic here

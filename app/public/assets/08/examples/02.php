@@ -1,22 +1,32 @@
 <?php
 
-    // Composer's autoloader
-    require_once 'vendor/autoload.php';
+// Composer's autoloader
+require_once 'vendor/autoload.php';
 
-    // Include config
-    require_once 'config.php';
+use Dotenv\Dotenv;
+use Doctrine\DBAL\DriverManager;
 
-    $connectionParams = [
-        'url' => 'mysql://' . DB_USER . ':' . DB_PASS . '@' . DB_HOST . '/' . 'does_not_exist'
-    ];
+// Load .env
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+$dotenv->required(['DB_HOST', 'DB_NAME_FF', 'DB_USER', 'DB_PASS']);
 
-    $connection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
+$connectionParams = [
+    'dbname' => 'does_not_exist',
+    'user' => $_ENV['DB_USER'],
+    'password' => $_ENV['DB_PASS'],
+    'host' => $_ENV['DB_HOST'],
+    'driver' => 'pdo_mysql',
+    'charset' => 'utf8mb4'
+];
 
-    $result = $connection->connect();
-    if ($result) {
-        echo 'Connection was successfully established';
-    }
+// returns an instance of Doctrine\DBAL\Connection but doesn't actually connect
+$connection = DriverManager::getConnection($connectionParams);
 
-    // ... your query magic here
+// there is no method to verify the connection
+// let's ask the MySQL version number ...
 
-    //EOF
+$version = $connection->getServerVersion();
+echo 'Connection was successfully established. Version: ' . $version;
+
+// ... your query magic here

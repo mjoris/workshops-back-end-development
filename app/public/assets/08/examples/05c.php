@@ -1,45 +1,54 @@
 <?php
 
-    /**
-     * Redirects to the error handling page
-     * @param string $type
-     * @param string $msg
-     * @return void
-     * @throws Exception
-     */
-    function showDbError(string $type, string $msg) : void {
-        file_put_contents(__DIR__ . '/error_log_mysql', PHP_EOL . (new DateTime())->format('Y-m-d H:i:s') . ' : ' . $msg, FILE_APPEND);
-        header('location: error.php?type=db&detail=' . $type);
-        exit();
-    }
+/**
+ * Redirects to the error handling page
+ * @param string $type
+ * @return void
+ */
+function showDbError(string $type): void
+{
+    // The referred page will show a proper error based on the $_GET parameters
+    header('location: error.php?type=db&detail=' . $type);
+    exit();
+}
 
-    // Composer's autoloader
-    require_once 'vendor/autoload.php';
+// Composer's autoloader
+require_once 'vendor/autoload.php';
 
-    // Include config
-    require_once 'config.php';
+use Dotenv\Dotenv;
+use Doctrine\DBAL\DriverManager;
 
-    $connectionParams = [
-        'url' => 'mysql://' . DB_USER . ':' . DB_PASS . '@' . DB_HOST . '/' . DB_NAME_FF
-    ];
+// Load .env
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+$dotenv->required(['DB_HOST', 'DB_NAME_FF', 'DB_USER', 'DB_PASS']);
 
-    $connection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
+$connectionParams = [
+    'dbname' => $_ENV['DB_NAME_FF'],
+    'user' => $_ENV['DB_USER'],
+    'password' => $_ENV['DB_PASS'],
+    'host' => $_ENV['DB_HOST'],
+    'driver' => 'pdo_mysql',
+    'charset' => 'utf8mb4'
+];
 
-    try {
-        $connection->connect();
-    } catch (\Doctrine\DBAL\Exception\ConnectionException $e) {
-        showDbError('connect', $e->getMessage());
-    }
+// returns an instance of Doctrine\DBAL\Connection but doesn't actually connect
+$connection = DriverManager::getConnection($connectionParams);
 
-	// Get collection from DB
-    $stmt = $connection->prepare('SELECT * FROM collections WHERE user_id = ? OR name = ?');
-    $result = $stmt->executeQuery([2, 'russia']);
+// there is no method to verify the connection
+// let's ask the MySQL version number ...
+try {
+    $version = $connection->getServerVersion();
+} catch (Doctrine\DBAL\Exception\ConnectionException $e) {
+    showDbError('connect');
+}
 
-	echo '<meta charset="UTF-8" />';
-	echo '<pre>';
-	while ($collection = $result->fetchAssociative()) {
-		var_dump($collection);
-	}
-	echo '</pre>';
+// Get collection from DB
+$stmt = $connection->executeQuery('SELECT * FROM collections WHERE user_id = ? OR name = ?', [2, 'russia']);
 
-//EOF
+echo '<meta charset="UTF-8" />';
+echo '<pre>';
+while ($collection = $stmt->fetchAssociative()) {
+    var_dump($collection);
+}
+echo '</pre>';
