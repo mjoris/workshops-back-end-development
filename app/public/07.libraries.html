@@ -492,7 +492,7 @@ $image-&gt;save('output/procla_ict_oct_2022_watermark.jpg');
                             <li>= equivalent of <code>&gt;=4.1,&lt;5.0</code></li>
                             <li>
                                 &rarr; Useful for projects respecting <a href="http://semver.org/">semantic versioning</a>
-                                (Laravel <a href="https://medium.com/@vinkla/laravel-packages-and-semantic-versioning-f62dc5accee5">didn't</a> but
+                                (Laravel didn't but
                                 <a href="https://www.techiediaries.com/semantic-versioning/">does from v6</a>,
                                 Twig <a href="https://github.com/memio/twig-template-engine/blob/master/VERSIONING.md">does</a>)
                             </li>
@@ -534,7 +534,7 @@ $image-&gt;save('output/procla_ict_oct_2022_watermark.jpg');
                             PHP version (+ installed extensions) is a dependency too !
                             <ul style="font-size: 85%;">
                                 <li><strong>Recommended: </strong>Run composer with the PHP executable used by the webserver</li>
-                                <li><strong>If not possible: </strong>Enforce PHP version to <code>composer.json</code> using this command: <pre class="bigger"><code class="hljs bash">composer config platform.php 8.2.10</code></pre></li>
+                                <li><strong>If not possible: </strong>Enforce PHP version to <code>composer.json</code> using this command: <pre class="bigger"><code class="hljs bash">composer config platform.php 8.3.11</code></pre></li>
                             </ul>
 
                         </div>
@@ -556,7 +556,7 @@ $image-&gt;save('output/procla_ict_oct_2022_watermark.jpg');
                     <li style="margin-top: 1em;"><strong>Automatically</strong> running Composer in a multi-container environment with <code>docker-compose up</code>
                         <ul>
                             <li>You add a PHP version enforcement to <code>composer.json</code>:
-                                <pre class="bigger"><code class="hljs bash">composer config platform.php 8.2.10</code></pre>
+                                <pre class="bigger"><code class="hljs bash">composer config platform.php 8.3.11</code></pre>
                             </li>
                             <li>You add a <a href="https://hub.docker.com/_/composer">composer</a> service to <code>docker-compose.yml</code>
                             <ul>
@@ -746,8 +746,9 @@ echo ('Oudjaar is ' . $dt-&gt;diffForHumans()); </code></pre>
             <section>
                 <h2>What's next?</h2>
                 <ul>
-                    <li>The next days, weeks, &hellip; we'll use the following libraries:
+                    <li>The next minutes, days, weeks, &hellip; we'll use the following libraries:
                         <ul>
+                            <li><a href="https://github.com/vlucas/phpdotenv">vlucas/phpdotenv</a></li>
                             <li><a href="http://www.doctrine-project.org/projects/dbal.html">Doctrine DBAL</a></li>
                             <li><a href="https://twig.symfony.com/">Twig</a></li>
                             <li><a href="https://github.com/bramus/router">bramus/router</a></li>
@@ -760,16 +761,17 @@ echo ('Oudjaar is ' . $dt-&gt;diffForHumans()); </code></pre>
             <section>
                 <h2>Other libraries worth checking out</h2>
                 <ul>
-                    <li><a href="https://symfony.com/doc/current/mailer.html">Symphony Mailer</a> &mdash; Sending e-mails</li>
-                    <li><a href="http://guzzlephp.org/">Guzzle</a> &mdash; PHP HTTP client</li>
+                    <li><a href="https://docs.guzzlephp.org/en/stable/">Guzzle</a> &mdash; PHP HTTP client</li>
                     <li><a href="http://image.intervention.io/">Intervention</a> &mdash; Image manipulation</li>
                     <li><a href="https://github.com/Seldaek/monolog">Monolog</a> &mdash; Logging</li>
                     <li><a href="http://geocoder-php.org/">Geocoder</a> &mdash; Geocoding manipulations</li>
                     <li><a href="https://github.com/fzaninotto/Faker">Faker</a> &mdash; Generate fake data</li>
                     <li><a href="https://phpunit.de/">PHPUnit</a> &mdash; Write and run unit tests</li>
                     <li><a href="https://github.com/ibericode/vat">ibericode/vat</a> &mdash; <em>Live</em> VAT number validation</li>
-                    <li><a href="https://github.com/stripe/stripe-php">stripe-php</a>, <a
-                            href="https://github.com/mollie/mollie-api-php">mollie-api-php</a> &mdash; Payment API clients</li>
+                    <li>
+                        <a href="https://github.com/stripe/stripe-php">stripe-php</a>,
+                        <a href="https://github.com/mollie/mollie-api-php">mollie-api-php</a> &mdash; Payment API clients
+                    </li>
                     <li>&hellip;</li>
                 </ul>
             </section>
