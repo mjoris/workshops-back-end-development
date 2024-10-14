@@ -210,180 +210,11 @@
 
         </section>
 
-        <section>
-            <section>
-                <h2>07.2 Autoloaders &amp; Namespaces</h2>
-                <p><img src="assets/07/splash-namespaces.jpg" width="600" alt="" style="margin-top: 1em;" /></p>
-            </section>
 
-            <section>
-                <h2>Autoloaders (1)</h2>
-
-                <ul style="font-size: 90%;">
-                    <li>An autoloader is a function that loads a PHP class that is not available in the current scope (e.g. not yet included via <code>include</code> or <code>require</code>).
-                        <ul>
-                            <li>The function takes one argument: the name of the requested class</li>
-                            <li>Function then translates the classname to an actual file to include</li>
-                            <li>Easy to write, if you keep your naming and structure consistent</li>
-                        </ul>
-                    </li>
-                    <li style="margin-top: 1em;">
-                        You need to tell PHP to use that function for autoloading with <code>spl_autoload_register</code>
-                        <pre class="bigger"><code class="hljs php">function simple_autoloader($class) {
-    include 'classes/' . $class . '.class.php';
-}
-
-spl_autoload_register('simple_autoloader');</code></pre>
-                    </li>
-                </ul>
-            </section>
-
-            <section>
-                <h2>Autoloaders (2)</h2>
-                <ul>
-                    <li>
-                        Example: Twig 1.x's autoloader (stripped down)
-                        <pre class="bigger"><code class="hljs php">function autoload($class) {
-	if (0 !== strpos($class, 'Twig_')) { //Don't interfere w other autoloaders
-		return;
-	}
-
-	$path = __DIR__ . '/' . str_replace('_', '/', $class) . '.php';
-
-	if (!file_exists($path)) return;
-
-	require $path;
-}</code></pre>
-                        <ul>
-                            <li>When using <code>Twig_Loader_Filesystem</code> it'll include <code>/path/to/twig/Twig/Loader/Filesystem.php</code></li>
-                        </ul>
-                    </li>
-                </ul>
-                <footer><small>Note: Twig 1.x is obsolete</small></footer>
-            </section>
-
-            <section>
-                <h2>Namespaces (1)</h2>
-
-                <ul style="font-size: 90%;">
-                    <li>
-                        Namespaces allow you to logically group and name your classes
-                        <ul>
-                            <li>No more lengthy classnames such as <code>Swift_Encoder_Base64Encoder</code></li>
-                            <li>&hellip; but a class <code>Base64Encoder</code> in the <code>\Swift\Encoder</code> namespace</li>
-                        </ul>
-                    </li>
-                    <li style="margin-top: 1em;">
-                        Howto
-                        <ul>
-                            <li>Define a class <code>Baz</code> within a namespace: start with <code>namespace Ikdoeict\Demo;</code>
-                                <ul>
-                                    <li>Refer to other classes of the same namespace: just by their base name</li>
-                                </ul>
-                            </li>
-                            <li>How to refer to <code>Baz</code> when you're outside the namespace?
-                                <ul>
-                                    <li>By the fully qualified name: <code>\Ikdoeict\Demo\Baz</code></li>
-                                    <li>Or: first import the namespace by <code>use \Ikdoeict\Demo\Baz;</code> and just use <code>Baz</code> after that</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </section>
-
-            <section>
-                <h2>Namespaces (2) &mdash; Demo time!</h2>
-
-                <div class="hastooltip">
-
-                    <figure><img src="assets/07/namespaces.png" alt="" title="" width="580" class="noborder" /></figure>
-
-                    <p style="font-size: 75%">Let's take a look at the files in  <code>assets/07/examples/namespaces/</code> <a href="assets/07/examples/namespaces/">&rarr;</a></p>
-
-                    <div class="tooltip">
-                        <div style="width: 600px;">
-                            <ul>
-                                <li>
-                                    Define a namespace for your class at the very top of the file
-                                    <pre><code class="hljs php">namespace Ikdoeict\Demo;
-class Foo { ... }</code></pre>
-                                </li>
-                                <li style="margin-top: 1em;">
-                                    Refer to a class with its full namespace.
-                                    <pre><code class="hljs php">$foo = new \Ikdoeict\Demo\Foo('hello-foo');</code></pre>
-                                </li>
-                                <li style="margin-top: 1em;">
-                                    If you don't use the full namespace, PHP will look in the current active namespace and the &ndash; via <code>use</code> &ndash; imported namespaces.
-                                    <pre><code class="hljs php">namespace Ikdoeict\Demo;
-class Bar extends Foo { ... } // = extends Ikdoeict\Demo\Foo</code></pre>
-                                    <pre><code class="hljs php">use \Ikdoeict\Demo\Baz;
-$baz = new Baz('hello-baz'); // = \Ikdoeict\Demo\Baz</code></pre>
-                                </li>
-                                <li style="margin-top: 1em;">
-                                    The global namespace is <code>\</code>
-                                    <pre><code class="hljs php">$di = new \DirectoryIterator(__DIR__);</code></pre>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-            </section>
-
-            <section>
-                <h2>PSR-0</h2>
-
-                <ul>
-                    <li>
-                        <a href="http://www.php-fig.org/psr/psr-0/">PSR-0</a> is <em>&ldquo;a standard describing mandatory requirements for autoloader interoperability&rdquo;</em>
-                        <ul>
-                            <li>
-                                Defines how to namespace your code:<br />
-                                <code>\&lt;VendorName&gt;\(&lt;Namespace&gt;\)*&lt;ClassName&gt;</code></li>
-                            <li>
-                                Defines how that namespace translates to an organization on disk<br />
-                                <code>/path/to/project/vendor/Vendorname/Namespace/ClassName.php</code>
-                            </li>
-                        </ul>
-                    </li>
-                    <li style="margin-top: 1em;">
-                        In other words: Adhering to this folder structure makes your library play nice with <a href="https://gist.github.com/jwage/221634">the PSR-0 autoloader</a>.
-                    </li>
-                </ul>
-                <footer><small>Beware: Use the exact casing on disk as some file systems are Case Sensitive!</small></footer>
-            </section>
-
-            <section>
-                <h2>PSR-4</h2>
-
-                <ul>
-                    <li>
-                        <a href="http://www.php-fig.org/psr/psr-4/">PSR-4</a> is <em>&ldquo;a specification for autoloading classes from file paths&rdquo;</em>
-                        <ul>
-                            <li>PSR-4 is the <em>relative path</em> version of PSR-0</li>
-                            <li>
-                                Affords a more concise folder structure. Example:
-                                <ul>
-                                    <li>Given: a name space prefix <code>Acme\Log\Writer</code></li>
-                                    <li>Given: a base dir <code>./acme-log-writer/lib/</code></li>
-                                    <li>Class <code>\Acme\Log\Writer\File_Writer</code> &rarr; path <code>./acme-log-writer/lib/File_Writer.php</code></li>
-
-                                </ul>
-                            </li>
-                            <li>PSR-0 paths are PSR-4 compliant</li>
-                        </ul>
-                    </li>
-                    <!--li style="margin-top: 1em;">
-                        Roughly translated: PSR-4 = PSR-0, redux.
-                    </li-->
-                </ul>
-            </section>
-        </section>
 
         <section>
             <section>
-                <h2>07.3 Managing Libraries<br />with Composer</h2>
+                <h2>07.2 Managing Libraries<br />with Composer</h2>
                 <p><img src="assets/07/splash-composer.png" width="500" alt="" style="margin-top: 1em;" /></p>
             </section>
 
@@ -863,7 +694,7 @@ $image-&gt;save('output/procla_ict_oct_2022_watermark.jpg');
 
         <section>
             <section>
-                <h2>07.4<br>Epilogue</h2>
+                <h2>07.3<br>Composer: Epilogue</h2>
             </section>
             <section>
                 <h2>Demo: Carbon (1)</h2>
@@ -940,6 +771,116 @@ echo ('Oudjaar is ' . $dt-&gt;diffForHumans()); </code></pre>
                     <li>&hellip;</li>
                 </ul>
             </section>
+
+        </section>
+        <section>
+
+            <section>
+                <h2>07.4<br>Code Organization</h2>
+            </section>
+
+
+            <section>
+                <h2>DRY: Projectwide variables</h2>
+                <ul>
+                    <li>
+                        A variable that is constant and used throughout the project, yet is specific to the very project
+                        <ul>
+                            <li>The mailserver to use when sending an e-mail</li>
+                            <li>The target mailaddress to send the various forms to</li>
+                            <li>The database configuration data (server, username, password, databasename)</li>
+                            <li>The API keys your website uses</li>
+                            <li>...</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        &rarr; You might also call this the configuration data
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>How to?</h2>
+                <ul style="font-size: 85%;">
+                    <li>
+                        Install <code>vlucas/phpdotenv</code>
+                        <div><pre class="bigger"><code class="dontrun">composer vlucas/phpdotenv ^5.6</code></pre></div>
+                    </li>
+                    <li>
+                        Create a <code>.env</code> file <strong>outside your document root</strong> and declare all <em>environment variables</em> into it
+                        <pre class="bigger"><code class="hljs">MAIL_SERVER=localhost
+MAIL_PORT=25
+
+DB_HOST=localhost
+DB_NAME=world
+DB_USER=root
+DB_PASS=Azerty123</code></pre>
+                        <ul>
+                            <li>
+                                Put <code>.env</code> in your <code>.gitignore</code>. Secret keys never belong to your git repo!
+                            </li>
+                            <li>
+                                Consider adding a <code>.env.example</code> to your repo (without the real secrets!).
+                            </li>
+                            <li>
+                                This is the only file you add/change in production!
+                            </li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Load <code>.env</code> from your script by:
+                        <pre class="bigger"><code class="hljs php">$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv-&gt;load();
+// $dotenv-&gt;required(['DB_HOST', 'DB_NAME', 'DB_USER', 'DB_PASS']);</code></pre>
+                        and read them from <code>$_ENV</code>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Code Organization on disk</h2>
+
+                <ul>
+                    Folders &amp; files of your <code>app</code> (cf. <em>boilerplate</em>)
+                    <ul>
+                        <li>
+                            <code>bin</code> &mdash; contains your PHP CLI scripts
+                        </li>
+                        <li>
+                            <code>public</code> &mdash; the document root: only the files that need to be publicly served
+                            <ul>
+                                <li>containing the main <code>php</code> files</li>
+                                <li><code>css</code></li>
+                                <li><code>img</code></li>
+                                <li><code>js</code></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <code>resources</code> &mdash; raw and uncompiled assets (e.g. templates, language files, &hellip;)
+                        </li>
+                        <li>
+                            <code>storage</code> &mdash; files generated by your application (e.g. logs, caches, &hellip;)
+                        </li>
+                        <li>
+                            <code>src</code> &mdash; class files
+                        </li>
+                        <li>
+                            <code>vendor</code> &mdash; contains installed libraries*
+                        </li>
+                        <li>
+                            <code style="background-color: #1a6091">.env</code> &mdash; a file with your environment variables*
+                        </li>
+                        <li>
+                            <code style="background-color: #1a6091">composer.json</code> / <code style="background-color: #1a6091">composer.lock</code>  &mdash; info about package requirements &amp; installation
+                        </li>
+                    </ul>
+
+                </ul>
+                <footer><small>* to be added to <code style="background-color: #1a6091">.gitignore</code></small></footer>
+
+            </section>
+
+
         </section>
 
         <!-- The END -->
@@ -959,6 +900,8 @@ echo ('Oudjaar is ' . $dt-&gt;diffForHumans()); </code></pre>
                     <li><a href="http://getcomposer.org/doc/00-intro.md">http://getcomposer.org/doc/00-intro.md</a></li>
                     <li><a href="https://packagist.org/">https://packagist.org/</a></li>
                     <li><a href="https://speakerdeck.com/hhamon/useful-php-libraries">https://speakerdeck.com/hhamon/useful-php-libraries</a></li>
+                    <li><a href="https://github.com/vlucas/phpdotenv">https://github.com/vlucas/phpdotenv</a></li>
+                    <li><a href="https://matthewsetter.com/set-environment-variables-php-dotenv/">https://matthewsetter.com/set-environment-variables-php-dotenv/</a></li>
                 </ul>
             </section>
         </section>

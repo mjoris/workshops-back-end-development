@@ -42,6 +42,7 @@ Example Implementation
 
 Below is an example function to simply demonstrate how the above
 proposed standards are autoloaded.
+
 ```php
 <?php
 
@@ -53,7 +54,7 @@ function autoload($className)
     if ($lastNsPos = strrpos($className, '\\')) {
         $namespace = substr($className, 0, $lastNsPos);
         $className = substr($className, $lastNsPos + 1);
-        $fileName  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
+        $fileName  = mdstr_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
     }
     $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
 

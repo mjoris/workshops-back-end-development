@@ -34,7 +34,7 @@
         <section>
 
             <section>
-                <h2>06.1<br>Code Organization</h2>
+                <h2>06.1<br><code>include_once</code> and <code>require_once</code></h2>
             </section>
 
             <section>
@@ -155,99 +155,19 @@
                 </ul>
             </section>
 
-            <!--section>
-                <h2>What needs to be DRY?</h2>
-                <ol>
-                    <li>
-                        Projectwide variables
-                    </li>
-                    <li style="margin-top: 1em;">
-                        Recurring functionality
-                    </li>
-                </ol>
-            </section-->
-
-            <section>
-                <h2>DRY: Projectwide variables</h2>
-
-                <ul>
-                    <li>
-                        A variable that is constant and used throughout the project, yet is specific to the very project
-                        <ul>
-                            <li>The mailserver to use when sending an e-mail</li>
-                            <li>The target mailaddress to send the various forms to</li>
-                            <li>The database configuration data (server, username, password, databasename)</li>
-                            <li>The API keys your website uses</li>
-                            <li>...</li>
-                        </ul>
-                    </li>
-                    <li style="margin-top: 1em;">
-                        &rarr; You might also call this the configuration data
-                    </li>
-                </ul>
-            </section>
-
-            <section>
-                <h2>How to?</h2>
-
-                <ul>
-                    <li>
-                        Create a config file and <code>define</code> all variables into it
-                        <pre class="bigger"><code class="hljs php">&lt;?php
-
-define('MAIL_SERVER', 'localhost');
-define('MAIL_PORT', 25);
-
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', 'Azerty123');
-define('DB_NAME', 'world');
-
-// EOF</code></pre>
-                        <ul>
-                            <li>
-                                Include this file everywhere, as the very first file to include and use the defined constants
-                            </li>
-                            <li>
-                                Or even group your settings in seperate database, mail, &hellip; config files
-                            </li>
-                        </ul>
-                    </li>
-                    <li style="margin-top: 1em;">
-                        This file is the only file that may be changed when publishing a site onto a server
-                    </li>
-                </ul>
-            </section>
-
-            <section>
-                <h2>FYI: OO Alternative</h2>
-
-                <ul>
-                    <li>
-                        Create a config class file and use <code>const</code>
-                        <pre class="bigger"><code class="hljs php">&lt;?php
-class Config {
-    const DB_HOST = 'localhost';
-    const DB_USER = 'root';
-    const DB_PASS = 'Azerty123';
-    const DB_NAME = 'world';
-}
-
-// EOF</code></pre>
-
-                    </li>
-                </ul>
-            </section>
 
             <section>
                 <h2>DRY: Recurring Functionality</h2>
-                <ul>
+                <ul style="font-size: 95%;">
                     <li>
                         Say you have a function <code>isValidImageExtension()</code> that checks whether a filename ends in <code>.jpg</code>/<code>.jpeg</code>/<code>.gif</code>
                         <ul>
-                            <li>It'd be stupid to define this function in every file where you need it</li>
+                            <li>It'd be stupid to define this function in every PHP script where you need it</li>
                             <li>What if you want to check for <code>.png</code> too? You'll edit all files?</li>
                         </ul>
+                    </li>
+                    <li>
+                        Say you need to calculate the area of a triangle in multiple scripts &hellip;
                     </li>
                     <li style="margin-top: 1em;">
                         A class definition &mdash; which itself is a step towards becoming DRY &mdash; only needs to be defined once
@@ -256,62 +176,234 @@ class Config {
             </section>
 
             <section>
-                <h2>How to?</h2>
-                <ul>
+                <h2>Example</h2>
+                <ul style="width: 100%;font-size: 80%;">
                     <li>
-                        Define a class in a separate file on disk
-                        <ul>
-                            <li>Include the file when necessary, as the very first file to include and use the defined constants</li>
-                        </ul>
+                        ImageTools.php
+                        <pre class="bigger"><code class="hljs php">&lt;?php
+
+class ImageTools
+{
+    public static function hasValidImageExtension(string $fileName): bool
+    { &hellip;</code></pre>
+                    </li>
+
+                    <li>
+                        Triangle.php
+                        <pre class="bigger"><code class="hljs php">&lt;?php
+
+class Triangle
+{
+    public function __construct(private Coordinate $c1, private Coordinate $c2, private Coordinate $c3) {}
+    &hellip;</code></pre>
+                    </li>
+                    <li>
+                        demo.php
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/06/examples/dry/demo.php">&lt;?php
+
+require_once 'ImageTools.php';
+require_once 'Coordinate.php';
+require_once 'Triangle.php';
+
+$fileName = 'avatar.png';
+$isValid = ImageTools::hasValidImageExtension($fileName);
+var_dump($isValid);
+
+$triangle = new Triangle(new Coordinate(0,0), new Coordinate(1,1), new Coordinate(1,0));
+var_dump($triangle-&gt;getArea());</code></pre>
                     </li>
                 </ul>
 
             </section>
 
 
-            <section>
-                <h2>Code Organization on disk</h2>
-
-                <ul>
-                    Folders of your <code>app</code> (cf. <em>boilerplate</em>)
-                    <ul>
-                        <li>
-                            <code>bin</code> &mdash; contains your PHP CLI scripts
-                        </li>
-                        <li>
-                            <code>config</code> &mdash; contains your config files
-                        </li>
-                        <li>
-                            <code>public</code> &mdash; the document root: only the files that need to be publicly served
-                            <ul>
-                                <li>containing the main <code>php</code> files</li>
-                                <li><code>css</code></li>
-                                <li><code>img</code></li>
-                                <li><code>js</code></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <code>resources</code> &mdash; raw and uncompiled assets (e.g. templates, language files, &hellip;)
-                        </li>
-                        <li>
-                            <code>storage</code> &mdash; files generated by your application (e.g. logs, caches, &hellip;)
-                        </li>
-                        <li>
-                            <code>src</code> &mdash; class files
-                        </li>
-                        <li>
-                            <code>vendor</code> &mdash; contains installed libraries (we'll see this later on)
-                        </li>
-                    </ul>
-
-                </ul>
-
-            </section>
 
 
         </section>
 
+        <section>
+            <section>
+                <h2>06.2<br>Autoloaders</h2>
+            </section>
 
+            <section>
+                <h2>Autoloaders (1)</h2>
+
+                <ul style="font-size: 90%;">
+                    <li>An autoloader is a function that <em>includes</em> a PHP class that is not available in the current scope (e.g. not yet included via <code>include</code> or <code>require</code>).
+                        <ul>
+                            <li>The function takes one argument: the name of the requested class</li>
+                            <li>Function then translates the classname to an actual file to include</li>
+                            <li>Easy to write, if you keep your naming and structure consistent</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        You need to tell PHP to use that function for autoloading with <code>spl_autoload_register</code>
+                        <pre class="bigger"><code class="hljs php">function simple_autoloader($class) {
+    require_once 'classes/' . $class . '.class.php';
+}
+
+spl_autoload_register('simple_autoloader');</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Autoloaders (2)</h2>
+                <ul>
+                    <li>
+                        Example: Twig 1.x's autoloader (stripped down)
+                        <pre class="bigger"><code class="hljs php">function autoload($class) {
+	if (0 !== strpos($class, 'Twig_')) { //Don't interfere w other autoloaders
+		return;
+	}
+
+	$path = __DIR__ . '/' . str_replace('_', '/', $class) . '.php';
+
+	if (!file_exists($path)) return;
+
+	require $path;
+}</code></pre>
+                        <ul>
+                            <li>When using <code>Twig_Loader_Filesystem</code> it'll include <code>/path/to/twig/Twig/Loader/Filesystem.php</code></li>
+                        </ul>
+                    </li>
+                </ul>
+                <footer><small>Note: Twig 1.x is obsolete</small></footer>
+            </section>
+        </section>
+        <section>
+
+            <section>
+                <h2>06.3 Namespaces</h2>
+                <p><img src="assets/06/splash-namespaces.jpg" width="600" alt="" style="margin-top: 1em;" /></p>
+            </section>
+
+            <section>
+                <h2>Namespaces (1)</h2>
+
+                <ul style="font-size: 90%;">
+                    <li>
+                        Namespaces allow you to logically group and name your classes
+                        <ul>
+                            <li>No more lengthy classnames such as <code>Swift_Encoder_Base64Encoder</code></li>
+                            <li>&hellip; but a class <code>Base64Encoder</code> in the <code>\Swift\Encoder</code> namespace</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        Howto
+                        <ul>
+                            <li>Define a class <code>Baz</code> within a namespace: start with <code>namespace Ikdoeict\Demo;</code>
+                                <ul>
+                                    <li>Refer to other classes of the same namespace: just by their base name</li>
+                                </ul>
+                            </li>
+                            <li>How to refer to <code>Baz</code> when you're outside the namespace?
+                                <ul>
+                                    <li>By the fully qualified name: <code>\Ikdoeict\Demo\Baz</code></li>
+                                    <li>Or: first import the namespace by <code>use \Ikdoeict\Demo\Baz;</code> and just use <code>Baz</code> after that</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Namespaces (2) &mdash; Demo time!</h2>
+
+                <div class="hastooltip">
+
+                    <figure><img src="assets/06/namespaces.png" alt="" title="" width="580" class="noborder" /></figure>
+
+                    <p style="font-size: 75%">Let's take a look at the files in  <code>assets/06/examples/namespaces/</code> <a href="assets/06/examples/namespaces/">&rarr;</a></p>
+
+                    <div class="tooltip">
+                        <div style="width: 600px;">
+                            <ul>
+                                <li>
+                                    Define a namespace for your class at the very top of the file
+                                    <pre><code class="hljs php">namespace Ikdoeict\Demo;
+class Foo { ... }</code></pre>
+                                </li>
+                                <li style="margin-top: 1em;">
+                                    Refer to a class with its full namespace.
+                                    <pre><code class="hljs php">$foo = new \Ikdoeict\Demo\Foo('hello-foo');</code></pre>
+                                </li>
+                                <li style="margin-top: 1em;">
+                                    If you don't use the full namespace, PHP will look in the current active namespace and the &ndash; via <code>use</code> &ndash; imported namespaces.
+                                    <pre><code class="hljs php">namespace Ikdoeict\Demo;
+class Bar extends Foo { ... } // = extends Ikdoeict\Demo\Foo</code></pre>
+                                    <pre><code class="hljs php">use \Ikdoeict\Demo\Baz;
+$baz = new Baz('hello-baz'); // = \Ikdoeict\Demo\Baz</code></pre>
+                                </li>
+                                <li style="margin-top: 1em;">
+                                    The global namespace is <code>\</code>
+                                    <pre><code class="hljs php">$di = new \DirectoryIterator(__DIR__);</code></pre>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </section>
+
+        <section>
+
+            <section>
+                <h2>06.4<br>PSR-* Autoloaders</h2>
+            </section>
+
+            <section>
+                <h2>PSR-0</h2>
+
+                <ul>
+                    <li>
+                        <a href="http://www.php-fig.org/psr/psr-0/">PSR-0</a> is <em>&ldquo;a standard describing mandatory requirements for autoloader interoperability&rdquo;</em>
+                        <ul>
+                            <li>
+                                Defines how to namespace your code:<br />
+                                <code>\&lt;VendorName&gt;\(&lt;Namespace&gt;\)*&lt;ClassName&gt;</code></li>
+                            <li>
+                                Defines how that namespace translates to an organization on disk<br />
+                                <code>/path/to/project/vendor/Vendorname/Namespace/ClassName.php</code>
+                            </li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 1em;">
+                        In other words: Adhering to this folder structure makes your library play nice with <a href="https://gist.github.com/jwage/221634">the PSR-0 autoloader</a>.
+                    </li>
+                </ul>
+                <footer><small>Beware: Use the exact casing on disk as some file systems are Case Sensitive!</small></footer>
+            </section>
+
+            <section>
+                <h2>PSR-4</h2>
+
+                <ul>
+                    <li>
+                        <a href="http://www.php-fig.org/psr/psr-4/">PSR-4</a> is <em>&ldquo;a specification for autoloading classes from file paths&rdquo;</em>
+                        <ul>
+                            <li>PSR-4 is the <em>relative path</em> version of PSR-0</li>
+                            <li>
+                                Affords a more concise folder structure. Example:
+                                <ul>
+                                    <li>Given: a name space prefix <code>Acme\Log\Writer</code></li>
+                                    <li>Given: a base dir <code>./acme-log-writer/lib/</code></li>
+                                    <li>Class <code>\Acme\Log\Writer\File_Writer</code> &rarr; path <code>./acme-log-writer/lib/File_Writer.php</code></li>
+
+                                </ul>
+                            </li>
+                            <li>PSR-0 paths are PSR-4 compliant</li>
+                        </ul>
+                    </li>
+                    <!--li style="margin-top: 1em;">
+                        Roughly translated: PSR-4 = PSR-0, redux.
+                    </li-->
+                </ul>
+            </section>
+        </section>
 
         <!-- The END -->
         <section>
