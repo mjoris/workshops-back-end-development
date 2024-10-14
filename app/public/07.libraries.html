@@ -306,7 +306,7 @@ $ mv composer.phar /usr/local/bin/composer</code></pre>
                     <li>
                         Run <code>composer require vendor/package version</code> on the CLI
                         <ul>
-                            <li>e.g. <code>$ composer require intervention/image 2.*</code></li>
+                            <li>e.g. <code>$ composer require intervention/image 3.*</code></li>
                         </ul>
                     </li>
                     <li style="margin-top: 1em;">
@@ -319,7 +319,7 @@ $ mv composer.phar /usr/local/bin/composer</code></pre>
                                 Write down that package requirement in <code>composer.json</code>
                                 <div><pre class="bigger"><code class="language-js dontrun">{
     &quot;require&quot;: {
-        "intervention/image": "2.*"
+        "intervention/image": "3.*"
     }
 }</code></pre></div>
                             </li>
@@ -338,7 +338,7 @@ $ mv composer.phar /usr/local/bin/composer</code></pre>
                         Create a file named <code>composer.json</code> in your project root to declare your dependencies in
                         <div><pre class="bigger"><code class="language-js dontrun">{
     &quot;require&quot;: {
-        "intervention/image": "2.*"
+        "intervention/image": "3.*"
     }
 }</code></pre></div>
                     </li>
@@ -371,19 +371,21 @@ $ mv composer.phar /usr/local/bin/composer</code></pre>
 // require composer autoloader
 require_once __DIR__ . '/vendor/autoload.php';
 
-// import the Intervention Image Manager Class
-use Intervention\Image\ImageManagerStatic as Image;
+// import Intervention Image Manager Class and Gd Driver
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
-// open an image file
-$image = Image::make('assets/procla_ict_oct_2022.jpg');
+// create image manager with desired driver
+$manager = new ImageManager(new Driver());
+
+// read image from file system
+$image = $manager-&gt;read('assets/procla_ict_oct_2022.jpg');
 
 // resize the image to a width of 1024 pixels and maintain aspect ratio
-$image-&gt;resize(1024, null, function ($constraint) {
-    $constraint-&gt;aspectRatio();
-});
+$image-&gt;scale(1024, null);
 
 // insert a watermark
-$image-&gt;insert('assets/odisee.png', 'bottom-right');
+$image-&gt;place('assets/odisee.png', 'bottom-right');
 
 // finally we save the image as a new file
 $image-&gt;save('output/procla_ict_oct_2022_watermark.jpg');
