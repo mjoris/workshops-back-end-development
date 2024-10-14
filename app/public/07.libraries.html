@@ -714,7 +714,7 @@ $image-&gt;save('output/procla_ict_oct_2022_watermark.jpg');
                         <ul>
                             <li>
                                 New project, not yet requiring it via Composer:
-                                <div><pre class="bigger"><code class="dontrun">composer require nesbot/carbon ^2.71</code></pre></div>
+                                <div><pre class="bigger"><code class="dontrun">composer require nesbot/carbon ^3.8</code></pre></div>
                             </li>
                             <li>
                                 Existing project, already requiring it via Composer:
@@ -733,10 +733,10 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 use Carbon\Carbon;
 
-// set global locale to Dutch
-Carbon::setLocale('nl');
-
-$dt = Carbon::now();
+$dt = Carbon::now()-&gt;settings([
+    'locale' =&gt; 'nl_BE',
+    'timezone' =&gt; 'Europe/Brussels',
+]);
 echo $dt-&gt;isoFormat('dddd D MMMM YYYY');
 echo '&lt;br&gt;';
 $dt-&gt;endOfYear();
