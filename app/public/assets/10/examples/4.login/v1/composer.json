@@ -1,5 +1,6 @@
 {
     "require": {
-        "doctrine/dbal": "^3.7"
+        "doctrine/dbal": "^4.2",
+        "vlucas/phpdotenv": "^5.6"
     }
 }

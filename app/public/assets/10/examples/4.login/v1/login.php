@@ -2,7 +2,6 @@
 
 // Composer's autoloader & DB init
 require_once 'vendor/autoload.php';
-require_once 'config.php';
 require_once 'functions.php';
 
 // start session (starts a new one, or continues the already started one)
@@ -23,6 +22,10 @@ $password = isset($_POST['password']) ? trim($_POST['password']) : '';
 
 // form submitted
 if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'login')) {
+
+    $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__);
+    $dotenv->load();
+    $dotenv->required(['DB_HOST', 'DB_NAME_FF', 'DB_USER', 'DB_PASS']);
 
     // Get user with sent username from DB
     $connection = getConnection();

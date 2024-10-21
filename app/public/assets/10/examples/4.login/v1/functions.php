@@ -10,16 +10,26 @@ function showDbError(string $type, string $msg): void
 
 function getConnection(): \Doctrine\DBAL\Connection
 {
+
     $connectionParams = [
-        'url' => 'mysql://' . DB_USER . ':' . DB_PASS . '@' . DB_HOST . '/' . DB_NAME_FF
+        'dbname' => $_ENV['DB_NAME_FF'],
+        'user' => $_ENV['DB_USER'],
+        'password' => $_ENV['DB_PASS'],
+        'host' => $_ENV['DB_HOST'],
+        'driver' => 'pdo_mysql',
+        'charset' => 'utf8mb4'
     ];
 
+    // returns an instance of Doctrine\DBAL\Connection but doesn't actually connect
     $connection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
 
+    // there is no method to verify the connection
+    // let's ask the MySQL version number ...
     try {
-        $connection->connect();
+        $version = $connection->getServerVersion();
     } catch (\Doctrine\DBAL\Exception\ConnectionException $e) {
         showDbError('connect', $e->getMessage());
     }
+
     return $connection;
 }
