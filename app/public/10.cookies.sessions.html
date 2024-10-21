@@ -183,11 +183,11 @@
                                     <li>Default: when browser is closed (= session cookie)</li>
                                 </ul>
                             </li>
-                            <li>Expire a week from now: <code>time() + 60*60*24*7</code></li>
+                            <li>Expire a week from now: <code>time() + 60 * 60 * 24 * 7</code></li>
                             <li>
                                 Delete a cookie by setting a time in the past <code>time() - 1</code>
                                 <ul>
-                                    <li>Best is to take a point in time way back, to overcome time differences between the server and client: <code>time() - 60*60*24*7</code></li>
+                                    <li>Best is to take a point in time way back, to overcome time differences between the server and client: <code>time() - 60 * 60 * 24 * 7</code></li>
                                 </ul>
                             </li>
                         </ul>
@@ -267,7 +267,7 @@
                             </li>
                             <li>
                                 Example
-                                <pre class="bigger"><code class="hljs php">setcookie('color', $theValue, time() + 24*60*60*7);</code></pre>
+                                <pre class="bigger"><code class="hljs php">setcookie('color', $theValue, time() + 24 * 60 * 60 * 7);</code></pre>
                             </li>
                         </ul>
                     </li>

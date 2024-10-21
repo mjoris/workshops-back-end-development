@@ -1,23 +1,23 @@
 <?php
 
-	// includes & requires
-	require_once __DIR__ . '/includes/classes/template.php'; // our template class
+// includes & requires
+require_once __DIR__ . '/includes/classes/template.php'; // our template class
 
-	// define our vars (fixed or via calculations)
-	$title = 'testpage';
-	$userName = 'bramus';
-	$weatherToday = 'cloudy';
+// define our vars (fixed or via calculations)
+$title = 'testpage';
+$userName = 'bramus';
+$weatherToday = 'cloudy';
 
-	// load template
-	$tpl = new Template();
-	$tpl->loadTemplate(__DIR__ . '/templates/main.tpl');
+// load template
+$tpl = new Template();
+$tpl->loadTemplate(__DIR__ . '/templates/main.tpl');
 
-	// render template with our data
-	// @note The template class will automatically prevent XSS for us :-)
-	echo $tpl->render(array(
-		'title' => $title,
-		'user' => $userName,
-		'weather' => $weatherToday
-	));
+// render template with our data
+// @note The template class will automatically prevent XSS for us :-)
+echo $tpl->render(array(
+    'title' => $title,
+    'user' => $userName,
+    'weather' => $weatherToday
+));
 
 // EOF

@@ -54,10 +54,10 @@
                 <div>
 							<pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/idea/01/index.php">&lt;?php
 
-    // define our vars (fixed or via calculations)
-    $title = 'testpage';
-    $userName = 'bramus';
-    $weatherToday = 'cloudy';
+// define our vars (fixed or via calculations)
+$title = 'testpage';
+$userName = 'bramus';
+$weatherToday = 'cloudy';
 
 ?&gt;&lt;!doctype html&gt;
 &lt;html&gt;
@@ -130,30 +130,34 @@ echo $tplContent;</code></pre></div>
                         Let's put this logic into a <em>(very basic)</em> class
                         <pre class="bigger" style="height: 380px;"><code class="hljs php">&lt;?php
 
-class Template {
+class Template
+{
 
-	private string $content;
+    private string $content;
 
-	public function __construct($template = null) {
-		if($template) $this-&gt;loadTemplate($template);
-	}
+    public function __construct($template = null)
+    {
+        if ($template) {
+            $this-&gt;loadTemplate($template);
+        }
+    }
 
-	public function loadTemplate(string $template) : void {
-		$this-&gt;content = file_get_contents($template);
-	}
+    public function loadTemplate(string $template) : void
+    {
+        $this-&gt;content = file_get_contents($template);
+    }
 
-	public function render(array $data) : string {
-		foreach ($data as $key =&gt; $value) {
-			$this-&gt;content = str_replace(
-				'{{ '. $key .' }}', htmlentities($value),
-				$this-&gt;content
-			);
-		}
-		return $this-&gt;content;
-	}
-}
-
-// EOF</code></pre>
+    public function render(array $data) : string
+    {
+        foreach ($data as $key =&gt; $value) {
+            $this-&gt;content = str_replace(
+                '{{ '. $key .' }}', htmlentities($value),
+                $this-&gt;content
+            );
+        }
+        return $this-&gt;content;
+    }
+}</code></pre>
                     </li>
                 </ul>
                 <footer><em>Note: this class doesn't do any checking yet!</em></footer>
@@ -166,25 +170,25 @@ class Template {
                         Class usage:
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/idea/03/index.php">&lt;?php
 
-    // includes &amp; requires
-    require_once __DIR__ . '/includes/classes/template.php';
+// includes &amp; requires
+require_once __DIR__ . '/includes/classes/template.php';
 
-    // define our vars (fixed or via calculations)
-    $title = 'testpage';
-    $userName = 'bramus';
-    $weatherToday = 'cloudy';
+// define our vars (fixed or via calculations)
+$title = 'testpage';
+$userName = 'bramus';
+$weatherToday = 'cloudy';
 
-    // load template
-    $tpl = new Template();
-    $tpl-&gt;loadTemplate(__DIR__ . '/templates/main.tpl');
+// load template
+$tpl = new Template();
+$tpl-&gt;loadTemplate(__DIR__ . '/templates/main.tpl');
 
-    // render template with our data
-    // @note The template class will automatically prevent XSS for us :-)
-    echo $tpl-&gt;render([
-        'title' =&gt; $title,
-        'user' =&gt; $userName,
-        'weather' =&gt; $weatherToday
-    ]);
+// render template with our data
+// @note The template class will automatically prevent XSS for us :-)
+echo $tpl-&gt;render([
+    'title' =&gt; $title,
+    'user' =&gt; $userName,
+    'weather' =&gt; $weatherToday
+]);
 </code></pre>
                     </li>
                 </ul>
@@ -316,9 +320,9 @@ $twig = new \Twig\Environment($loader);</code></pre>
 
 $tpl = $twig->load('main.twig');
 echo $tpl->render([
-	'title' => $title,
-	'user' => $userName,
-	'weather' => $weatherToday
+    'title' => $title,
+    'user' => $userName,
+    'weather' => $weatherToday
 ]);</code></pre>
                 </ul>
 
@@ -384,10 +388,10 @@ echo $tpl->render([
 &lt;p&gt;Today: {{ curdate|date(&quot;d/m/Y&quot;) }}&lt;/p&gt;
 &lt;p&gt;{{ name|upper|reverse }}&lt;/p&gt;</code></pre>
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/twig/06/index.php">echo $tpl-&gt;render([
-	'title' =&gt; 'The title &lt;script&gt;alert(&quot;XSS?&quot;);&lt;/script&gt;',
-	'tagline' =&gt; 'I like Twig',
-	'curdate' =&gt; new DateTime(),
-	'name' =&gt; 'Bramus'
+    'title' =&gt; 'The title &lt;script&gt;alert(&quot;XSS?&quot;);&lt;/script&gt;',
+    'tagline' =&gt; 'I like Twig',
+    'curdate' =&gt; new DateTime(),
+    'name' =&gt; 'Bramus'
 ]);</code></pre>
                     </li>
                 </ul>
@@ -450,20 +454,20 @@ echo $tpl-&gt;render([
 
                         <pre class="bigger"><code class="hljs twig"  data-overlay-example="assets/09/examples/twig/07/index.php">{% for colleague in colleagues %}
 &lt;h3&gt;
-	{{ colleague.name }}
-	{% if colleague.city %}&lt;em&gt;({{ colleague.city }})&lt;/em&gt;{% endif %}
+    {{ colleague.name }}
+    {% if colleague.city %}&lt;em&gt;({{ colleague.city }})&lt;/em&gt;{% endif %}
 &lt;/h3&gt;
 &lt;div&gt;
-	{% if colleague.courses %}
-	&lt;p&gt;You might know him from:&lt;/p&gt;
-	&lt;ul&gt;
-		{% for course in colleague.courses %}
-		&lt;li&gt;{{ course }}&lt;/li&gt;
-		{% endfor %}
-	&lt;/ul&gt;
-	{% else %}
-	&lt;p&gt;(He's not teaching any web courses)&lt;/p&gt;
-	{% endif %}
+    {% if colleague.courses %}
+    &lt;p&gt;You might know him from:&lt;/p&gt;
+    &lt;ul&gt;
+        {% for course in colleague.courses %}
+        &lt;li&gt;{{ course }}&lt;/li&gt;
+        {% endfor %}
+    &lt;/ul&gt;
+    {% else %}
+    &lt;p&gt;(He's not teaching any web courses)&lt;/p&gt;
+    {% endif %}
 &lt;/div&gt;
 {% endfor %}</code></pre>
                     </li>
@@ -552,18 +556,18 @@ echo $tpl-&gt;render([
                         Use the <code>loop</code> variable<small><a href="https://twig.symfony.com/doc/3.x/tags/for.html#the-loop-variable">&#9873;</a></small> inside iterations:
                         <pre class="bigger"><code class="hljs twig" data-overlay-example="assets/09/examples/twig/08/index.php">&lt;ul&gt;
 {% for val in courses %}
-	&lt;li&gt;
-		{{ val }}
-		&lt;ul&gt;
-			&lt;li&gt;&lt;code&gt;loop.index&lt;/code&gt;: {{ loop.index }}&lt;/li&gt;
-			&lt;li&gt;&lt;code&gt;loop.index0&lt;/code&gt;: {{ loop.index0 }}&lt;/li&gt;
-			&lt;li&gt;&lt;code&gt;loop.revindex&lt;/code&gt;: {{ loop.revindex }}&lt;/li&gt;
-			&lt;li&gt;&lt;code&gt;loop.revindex0&lt;/code&gt;: {{ loop.revindex0 }}&lt;/li&gt;
-			&lt;li&gt;&lt;code&gt;loop.first&lt;/code&gt;: {{ loop.first }}&lt;/li&gt;
-			&lt;li&gt;&lt;code&gt;loop.last&lt;/code&gt;: {{ loop.last }}&lt;/li&gt;
-			&lt;li&gt;&lt;code&gt;loop.length&lt;/code&gt;: {{ loop.length }}&lt;/li&gt;
-		&lt;/ul&gt;
-	&lt;/li&gt;
+    &lt;li&gt;
+        {{ val }}
+        &lt;ul&gt;
+            &lt;li&gt;&lt;code&gt;loop.index&lt;/code&gt;: {{ loop.index }}&lt;/li&gt;
+            &lt;li&gt;&lt;code&gt;loop.index0&lt;/code&gt;: {{ loop.index0 }}&lt;/li&gt;
+            &lt;li&gt;&lt;code&gt;loop.revindex&lt;/code&gt;: {{ loop.revindex }}&lt;/li&gt;
+            &lt;li&gt;&lt;code&gt;loop.revindex0&lt;/code&gt;: {{ loop.revindex0 }}&lt;/li&gt;
+            &lt;li&gt;&lt;code&gt;loop.first&lt;/code&gt;: {{ loop.first }}&lt;/li&gt;
+            &lt;li&gt;&lt;code&gt;loop.last&lt;/code&gt;: {{ loop.last }}&lt;/li&gt;
+            &lt;li&gt;&lt;code&gt;loop.length&lt;/code&gt;: {{ loop.length }}&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
 {% endfor %}
 &lt;/ul&gt;</code></pre>
                     </li>
