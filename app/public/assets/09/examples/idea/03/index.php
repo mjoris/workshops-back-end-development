@@ -1,7 +1,9 @@
 <?php
 
 // includes & requires
-require_once __DIR__ . '/includes/classes/template.php'; // our template class
+use src\Template;
+
+require_once __DIR__ . '/src/template.php'; // our template class
 
 // define our vars (fixed or via calculations)
 $title = 'testpage';

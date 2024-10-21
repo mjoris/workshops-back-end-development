@@ -62,10 +62,10 @@ $weatherToday = 'cloudy';
 ?&gt;&lt;!doctype html&gt;
 &lt;html&gt;
 &lt;head&gt;
-  &lt;title&gt;&lt;?php echo htmlentities($title); ?&gt;&lt;/title&gt;
+    &lt;title&gt;&lt;?php echo htmlentities($title); ?&gt;&lt;/title&gt;
 &lt;/head&gt;
 &lt;body&gt;
-  Hi there &lt;?php echo htmlentities($userName); ?&gt;, the weather today is &lt;?php echo htmlentities($weatherToday); ?&gt;.
+    Hi there &lt;?php echo htmlentities($userName); ?&gt;, the weather today is &lt;?php echo htmlentities($weatherToday); ?&gt;.
 &lt;/body&gt;
 &lt;/html&gt;</code></pre>
                 </div>
@@ -100,10 +100,10 @@ $weatherToday = 'cloudy';
 
                 <div><pre class="bigger"><code class="hljs html">&lt;html&gt;
 &lt;head&gt;
-  &lt;title&gt;{{ title }}&lt;/title&gt;
+    &lt;title&gt;{{ title }}&lt;/title&gt;
 &lt;/head&gt;
 &lt;body&gt;
-  Hi there {{ user }}, the weather today is {{ weather }}.
+    Hi there {{ user }}, the weather today is {{ weather }}.
 &lt;/body&gt;
 &lt;/html&gt;</code></pre></div>
 
@@ -171,7 +171,7 @@ class Template
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/09/examples/idea/03/index.php">&lt;?php
 
 // includes &amp; requires
-require_once __DIR__ . '/includes/classes/template.php';
+require_once __DIR__ . '/src/template.php';
 
 // define our vars (fixed or via calculations)
 $title = 'testpage';
@@ -212,7 +212,7 @@ echo $tpl-&gt;render([
                     <li style="margin-top: 1em;">
                         We could implement this ourselves &hellip;
                         <ul>
-                            <li>&hellip; yet some bright minds have already <a href="http://fabien.potencier.org/templating-engines-in-php.html">pondered on the subject</a> and <a href="http://fabien.potencier.org/templating-engines-in-php-follow-up.html">have come up with a robust solution</a></li>
+                            <li>&hellip; yet some bright minds have already <a href="https://fabien.potencier.org/templating-engines-in-php.html">pondered on the subject</a> and <a href="https://fabien.potencier.org/templating-engines-in-php-follow-up.html">have come up with a robust solution</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -262,7 +262,7 @@ echo $tpl-&gt;render([
                         <ul>
                             <li>
                                 New project, not yet requiring it via Composer:
-                                <div><pre class="bigger"><code>composer require twig/twig ^3.7.1</code></pre></div>
+                                <div><pre class="bigger"><code>composer require twig/twig ^3.14.0</code></pre></div>
                             </li>
                             <li>
                                 Existing project, already requiring it via Composer:

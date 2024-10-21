@@ -1,5 +1,6 @@
 <?php
 
+namespace src;
 /**
  * A (work in progress version of a) basic template class
  * Don't use this file in production as it's not the final version
