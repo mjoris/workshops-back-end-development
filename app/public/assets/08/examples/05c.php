@@ -44,11 +44,11 @@ try {
 }
 
 // Get collection from DB
-$stmt = $connection->executeQuery('SELECT * FROM collections WHERE user_id = ? OR name = ?', [2, 'russia']);
+$result = $connection->executeQuery('SELECT * FROM collections WHERE user_id = ? OR name = ?', [2, 'russia']);
 
 echo '<meta charset="UTF-8" />';
 echo '<pre>';
-while ($collection = $stmt->fetchAssociative()) {
+while ($collection = $result->fetchAssociative()) {
     var_dump($collection);
 }
 echo '</pre>';

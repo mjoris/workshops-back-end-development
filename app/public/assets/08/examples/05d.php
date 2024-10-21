@@ -44,9 +44,9 @@ try {
 }
 
 // Get collection from DB
-$stmt = $connection->executeQuery('SELECT * FROM collections WHERE id = ?', [1]);
+$result = $connection->executeQuery('SELECT * FROM collections WHERE id = ?', [1]);
 
-$collection = $stmt->fetchAssociative();
+$collection = $result->fetchAssociative();
 echo '<meta charset="UTF-8" />';
 echo '<pre>';
 var_dump($collection);

@@ -766,7 +766,7 @@ $result = $stmt-&gt;executeQuery();</code></pre>
                 <ul style="width: 100%;">
                     <li>
                         Also possible <em>(shorter, preferred)</em>:
-                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/04d.php">$stmt = $connection->executeQuery('SELECT * FROM collections WHERE id = ?', [$id]);</code></pre>
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/04d.php">$result = $connection->executeQuery('SELECT * FROM collections WHERE id = ?', [$id]);</code></pre>
                         <ul>
                             <li>Cannot be used with named placeholders</li>
                             <li>Optional 2rd parameter: array of parameter types</li>
@@ -843,12 +843,12 @@ echo '&lt;/pre&gt;';</code></pre>
                 </div>
                 <ul style="width: 100%;">
                     <li>
-                        Or even shorter with <code>Statement::fetchAllAssociative()</code>
+                        Or even shorter with <code>Connection::executeQuery()</code> returning a <code>Result</code> directly
                     </li>
                 </ul>
                 <div>
-                    <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/05b.php">$stmt = $connection-&gt;executeQuery('SELECT * FROM collections WHERE user_id = ? OR name = ?', [2, 'russia']);
-$collections = $stmt->fetchAllAssociative();</code></pre>
+                    <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/05b.php">$result = $connection-&gt;executeQuery('SELECT * FROM collections WHERE user_id = ? OR name = ?', [2, 'russia']);
+$collections = $result->fetchAllAssociative();</code></pre>
                 </div>
             </section>
 
@@ -856,20 +856,20 @@ $collections = $stmt->fetchAllAssociative();</code></pre>
                 <h2>Fetching a single row</h2>
                 <ul style="width: 100%;">
                     <li>
-                        Use <code>Result|Statement::fetchAssociative()</code><small><!--a href="http://www.php.net/manual/en/pdostatement.fetch.php">&#9873;</a--></small> to fetch the returned rows one bye one
+                        Use <code>Result::fetchAssociative()</code><small><!--a href="http://www.php.net/manual/en/pdostatement.fetch.php">&#9873;</a--></small> to fetch the returned rows one bye one
                         <div>
-									<pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/05c.php">$stmt = $connection-&gt;executeQuery('SELECT * FROM collections WHERE user_id = ? OR name = ?', [2, 'russia']);
+									<pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/05c.php">$result = $connection-&gt;executeQuery('SELECT * FROM collections WHERE user_id = ? OR name = ?', [2, 'russia']);
 
-while ($collection = $stmt-&gt;fetchAssociative()) {
+while ($collection = $result-&gt;fetchAssociative()) {
     var_dump($collection);
 }</code></pre>
                         </div>
                     </li>
                     <li style="margin-top: 1em;">
                         Use case: queries that yield one row
-                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/05d.php">$stmt = $connection-&gt;executeQuery('SELECT * FROM collections WHERE id = ?', [1]);
+                        <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/05d.php">$result = $connection-&gt;executeQuery('SELECT * FROM collections WHERE id = ?', [1]);
 
-$collection = $stmt->fetchAssociative();
+$collection = $result->fetchAssociative();
 var_dump($collection);</code></pre>
                     </li>
                 </ul>
@@ -879,11 +879,11 @@ var_dump($collection);</code></pre>
                 <h2>Fetching a single field</h2>
                 <ul style="width: 100%;">
                     <li>
-                        Use <code>Result|Statement::fetchOne()</code><small><!--a href="http://www.php.net/manual/en/pdostatement.fetchColumn.php">&#9873;</a--></small> to fetch the value of a column from the first row
+                        Use <code>Result::fetchOne()</code><small><!--a href="http://www.php.net/manual/en/pdostatement.fetchColumn.php">&#9873;</a--></small> to fetch the value of a column from the first row
                         <div>
-									<pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/05e.php">$stmt = $connection-&gt;executeQuery('SELECT name, user_id FROM collections WHERE id = ?', [1]);
+									<pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/05e.php">$result = $connection-&gt;executeQuery('SELECT name, user_id FROM collections WHERE id = ?', [1]);
 
-var_dump($stmt-&gt;fetchOne());</code></pre>
+var_dump($result-&gt;fetchOne());</code></pre>
                         </div>
                     </li>
                 </ul>
@@ -899,7 +899,7 @@ var_dump($stmt-&gt;fetchOne());</code></pre>
 echo 'Created album with ID ' . $connection-&gt;lastInsertId();</code></pre>
                     </li>
                     <li style="margin-top: 1em">
-                        <code>Statement::executeStatement()</code><small><!--a href="http://www.php.net/manual/en/pdostatement.rowcount.php">&#9873;</a--></small> returns the number of affected rows by <code>UPDATE</code> and <code>DELETE</code> queries
+                        <code>Connection::executeStatement()</code><small><!--a href="http://www.php.net/manual/en/pdostatement.rowcount.php">&#9873;</a--></small> returns the number of affected rows by <code>UPDATE</code> and <code>DELETE</code> queries
                         <pre class="bigger"><code class="hljs php" data-overlay-example="assets/08/examples/07.php">$rowCount = $connection-&gt;executeStatement('DELETE FROM collections WHERE user_id = ?', [10]);
 
 echo 'Deleted ' . $rowCount . ' rows';</code></pre>

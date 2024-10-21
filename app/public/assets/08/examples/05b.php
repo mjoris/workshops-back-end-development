@@ -44,8 +44,8 @@ try {
 }
 
 // Get collection from DB
-$stmt = $connection->executeQuery('SELECT * FROM collections WHERE user_id = ? OR name = ?', [2, 'russia']);
-$collections = $stmt->fetchAllAssociative();
+$result = $connection->executeQuery('SELECT * FROM collections WHERE user_id = ? OR name = ?', [2, 'russia']);
+$collections = $result->fetchAllAssociative();
 
 echo '<meta charset="UTF-8" />';
 echo '<pre>';

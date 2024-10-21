@@ -47,7 +47,7 @@ try {
 $id = isset($_GET['id']) ? $_GET['id'] : '0';
 
 // Get collection from DB
-$stmt = $connection->executeQuery('SELECT * FROM collections WHERE id = ?', [$id]);
+$result = $connection->executeQuery('SELECT * FROM collections WHERE id = ?', [$id]);
 
 // Handle result here ....
 echo('Nothing to see here, check the source');

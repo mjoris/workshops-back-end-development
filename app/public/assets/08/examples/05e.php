@@ -44,9 +44,9 @@ try {
 }
 
 // Get collection from DB
-$stmt = $connection->executeQuery('SELECT name, user_id FROM collections WHERE id = ?', [1]);
+$result = $connection->executeQuery('SELECT name, user_id FROM collections WHERE id = ?', [1]);
 
 echo '<meta charset="UTF-8" />';
 echo '<pre>';
-var_dump($stmt->fetchOne());
+var_dump($result->fetchOne());
 echo '</pre>';
