@@ -98,15 +98,18 @@
                             <li>
                                 Allow a minimum of 4kB to be stored in a cookie
                                 <ul>
-                                    <li>Almost any browser: 4kB max</li>
+                                    <li>Chrome/Opera: 4kB max</li>
+                                    <li>Firefox/Edge: 4097B max</li>
+                                    <li>Safari: 4093B max</li>
                                 </ul>
                             </li>
                             <li>
                                 Allow at least 20 cookies per domain
                                 <ul>
+                                    <li>Chrome: 180 max</li>
                                     <li>Firefox: 150 max</li>
-                                    <li>Edge: 50...180 max</li>
-                                    <li>Chrome/Opera: 180 max</li>
+                                    <li>Opera: 60 max</li>
+                                    <li>Safari: 600 max</li>
                                 </ul>
                             </li>
                             <li>
@@ -287,7 +290,7 @@
                         <li>Like <code>$_GET</code> and <code>$_POST</code>, but for cookies</li>
                         <li>
                             Example
-                            <pre class="bigger"><code class="hljs php">$color = (string) isset($_COOKIE['color']) ? $_COOKIE['color'] : '#FFFFFF';</code></pre>
+                            <pre class="bigger"><code class="hljs php">$color = (string) isset($_COOKIE['color'])? $_COOKIE['color'] : '#FFFFFF';</code></pre>
                         </li>
                     </ul>
                     </li>
