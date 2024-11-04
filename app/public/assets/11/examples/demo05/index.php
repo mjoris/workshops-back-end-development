@@ -1,12 +1,15 @@
 <?php
 require __DIR__ . '/../vendor/autoload.php';
-require __DIR__ . '/config.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+$dotenv->required('BASE_PATH');
 
 // Twig Bootstrap
 $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/templates');
 $twig = new \Twig\Environment($loader);
 $function = new \Twig\TwigFunction('url', function ($path) {
-    return BASE_PATH . $path;
+    return $_ENV['BASE_PATH'] . $path;
 });
 $twig->addFunction($function);
 
