@@ -3,24 +3,25 @@
 
 class DatabaseConnector
 {
-    const DB_HOST = 'mysqldb';
-    const DB_USER = 'root';
-    const DB_PASS = 'Azerty123';
-    const DB_NAME = 'post_its';
-    
-    static function getConnection() : \Doctrine\DBAL\Connection {
+    static function getConnection(?string $dbName = null): \Doctrine\DBAL\Connection
+    {
         $connectionParams = [
-            'url' => 'mysql://' . self::DB_USER . ':' . self::DB_PASS . '@' . self::DB_HOST . '/' . self::DB_NAME
+            'dbname' => $dbName ?? $_ENV['DB_NAME'],
+            'user' => $_ENV['DB_USER'],
+            'password' => $_ENV['DB_PASS'],
+            'host' => $_ENV['DB_HOST'],
+            'driver' => 'pdo_mysql',
+            'charset' => 'utf8mb4'
         ];
 
-        $connection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
-
         try {
-            $connection->connect();
-        } catch (\Doctrine\DBAL\Exception\ConnectionException $e) {
-            echo($e->getMessage());
+            $connection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
+            $version = $connection->getServerVersion();
+        } catch (\Doctrine\DBAL\Exception $e) {
+            echo($e->getMessage() . PHP_EOL);
             exit();
         }
         return $connection;
     }
+
 }

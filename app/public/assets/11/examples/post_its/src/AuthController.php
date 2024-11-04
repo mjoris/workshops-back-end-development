@@ -14,17 +14,17 @@ class AuthController
         $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../templates');
         $this->twig = new \Twig\Environment($loader);
         $function = new \Twig\TwigFunction('url', function ($path) {
-            return BASE_PATH . $path;
+            return $_ENV['BASE_PATH'] . $path;
         });
         $this->twig->addFunction($function);
     }
 
-    public function showLogin()
+    public function showLogin(): void
     {
-        echo $this->twig->render('login.twig' , ['username' => '']);
+        echo $this->twig->render('login.twig', ['username' => '']);
     }
 
-    public function login()
+    public function login(): void
     {
         $formErrors = [];
 
@@ -32,16 +32,14 @@ class AuthController
         $password = isset($_POST['password']) ? trim($_POST['password']) : '';
 
         if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'login')) {
-            $stmt = $this->db->prepare('SELECT * FROM users WHERE username = ?');
-            $result = $stmt->executeQuery([$username]);
+            $result = $this->db->executeQuery('SELECT * FROM users WHERE username = ?', [$username]);
             $user = $result->fetchAssociative();
 
             if (($user !== false) && (password_verify($password, $user['password']))) {
                 $_SESSION['user'] = $user;
                 header('location: messages');
                 exit();
-            }
-            else {
+            } else {
                 $formErrors[] = 'Invalid login credentials';
             }
         }
@@ -50,7 +48,7 @@ class AuthController
         exit();
     }
 
-    public function logout()
+    public function logout(): void
     {
 
         $_SESSION = [];
