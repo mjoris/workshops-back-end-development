@@ -173,7 +173,6 @@
                         </ul>
                     </li>
                 </ul>
-                <footer>Note: a username can be a namespace to but you'll need a blacklist</footer>
             </section>
 
             <section>
@@ -188,7 +187,7 @@
                                     <li>They're using <strong>HTTP verbs/methods</strong> (<code>GET</code>, <code>PUT</code>, <code>DELETE</code>, &hellip;) to indicate the type of action</li>
                                 </ul>
                             </li>
-                            <li>The current rule is on <strong>action related to forms</strong>
+                            <li>The current rule is on <strong>action related to <em>old-skool</em> forms</strong>
                                 <ul>
                                     <li>Showing the form (<code>GET</code>)</li>
                                     <li>Processing the action (<code>POST</code>)</li>
@@ -257,7 +256,7 @@
                                 It depends &#8482;
                             </li>
                             <li>
-                                No IDs is more SEO-friendly, but you need a performant <em>slug index</em> (column in your DB) and URLs become invalid when the resource title changes
+                                No IDs is more SEO-friendly, but you need a performant <em>slug index</em> in your DB and URLs become invalid when the resource title changes
                             </li>
                         </ul>
                     </li>
@@ -729,24 +728,28 @@ $router-&gt;run();</code></pre>
 
                 <section>
                     <h2>Linking your assets and URLs (2)</h2>
-                    <ul style="width: 85%; font-size: 85%;">
+                    <ul style="width: 85%; font-size: 80%;">
                         <li>
                             Solution
                             <ol>
-                                <li>Define a <code>BASE_PATH</code> constant in (somewhere) your config files</code>
-                                    <pre class="bigger"><code class="hljs php">define('BASE_PATH', 'http://localhost:8080/assets/11/examples/demo05/');</code></pre>
+                                <li>Define a <code>BASE_PATH</code> constant in your <code>.env</code> file
+                                    <pre class="bigger"><code class="hljs bash">BASE_PATH=http://localhost:8080/assets/11/examples/demo05/</code></pre>
                                     Idea: you can change your config files upon production
                                 </li>
-                                <li>Define a custom Twig function <code>url()</code> in <code>index.php</code> (Twig bootstrapping)
+                                <li>Load <code>.env</code> and define a custom Twig function <code>url()</code> in <code>index.php</code> (Twig bootstrapping)
                                     <pre class="bigger"><code class="hljs php">&lt;?php
 require __DIR__ . '/../vendor/autoload.php';
-require __DIR__ . '/config.php';
+
+// Load .env
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+$dotenv->required('BASE_PATH');
 
 // Twig Bootstrap
 $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/templates');
 $twig = new \Twig\Environment($loader);
 $function = new \Twig\TwigFunction('url', function ($path) {
-    return BASE_PATH . $path;
+    return $_ENV['BASE_PATH'] . $path;
 });
 $twig-&gt;addFunction($function);</code></pre></li>
                                 <li>
@@ -795,10 +798,9 @@ $twig-&gt;addFunction($function);</code></pre></li>
 {</code></pre>
                         </li>
                         <li>
-                            <a href="https://jinoantony.com/blog/how-composer-autoloads-php-files">Tell composer to autoload</a> our <code>src</code> folder in <code>composer.json</code>
+                            <a href="https://jinoantony.com/blog/how-composer-autoloads-php-files">Tell composer to PSR-4 autoload</a> our <code>src</code> folder in <code>composer.json</code>
                             <pre class="bigger"><code class="hjls json">   "autoload": {
-        "classmap": ["src/"],
-        "files": ["config.php"]
+        "classmap": ["src/"]
     }</code></pre>
                         </li>
                         <li>
@@ -837,23 +839,28 @@ $router-&gt;run();</code></pre>
 
     public function __construct()
     {
+        // load .env
+        $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
+        $dotenv-&gt;load();
+        $dotenv-&gt;required('BASE_PATH'); // and some more DB variables
+
         // initiate DB connection
 
         // bootstrap Twig
         $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../templates');
         $this-&gt;twig = new \Twig\Environment($loader);
         $function = new \Twig\TwigFunction('url', function ($path) {
-            return BASE_PATH . $path;
+            return $_ENV['BASE_PATH'] . $path;
         });
         $this-&gt;twig-&gt;addFunction($function);
     }
 
-    public function show()
+    public function show(): void
     {
         echo $this-&gt;twig-&gt;render('search.twig' , ['term' =&gt; '', 'results' =&gt; []]);
     }
 
-    public function showResults($term)
+    public function showResults(string $term): void
     {
         echo $this-&gt;twig-&gt;render('search.twig' , ['term' =&gt; $term, 'results' =&gt; ['dummy1', 'dummy2']]);
     }
@@ -893,6 +900,12 @@ $router-&gt;run();</code></pre>
                 <pre class="bigger"><code class="hljs php">&lt;?php
 
 require __DIR__ . '/vendor/autoload.php';
+
+// load .env
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv-&gt;load();
+$dotenv-&gt;required(['DB_HOST', 'DB_NAME', 'DB_USER', 'DB_PASS', 'BASE_PATH']);
+
 $router = new \Bramus\Router\Router();
 
 $router-&gt;before('GET|POST', '/.*', function () {
@@ -914,7 +927,7 @@ $router-&gt;mount('/dashboard', function() use ($router) {
 
     $router-&gt;before('GET|POST', '/messages.*', function () {
         if (! isset($_SESSION['user'])) {
-            header('Location: ' . BASE_PATH . 'dashboard/login');
+            header('Location: ' . $_ENV['BASE_PATH'] . 'dashboard/login');
             exit();
         }
     });
