@@ -151,13 +151,13 @@ if ($zip->open($zipFile, ZipArchive::CREATE) === true) {
                         To enable others to build cool stuff on top of your platform/data e.g.
                         <ul>
                             <li><a href="https://docs.irail.be/">iRail API</a></li>
-                            <li><a href="https://developer.twitter.com/en/docs/twitter-api">Twitter API</a></li>
+                            <li><a href="https://developer.x.com/en/docs/x-api">X API</a></li>
                         </ul>
                     </li>
                 </ul>
                 <figure>
                     <img src="assets/12/BotanicallsSparkfunKit_jade1_800.jpg" alt="" title="" height="350" />
-                    <figcaption>Let your plants tell you <a href="https://developer.twitter.com/en/docs/twitter-api">via Twitter</a> that they're thirsty with <a href="http://www.botanicalls.com/kits/">botanicalls</a></figcaption>
+                    <figcaption>Let your plants tell you <a href="https://developer.x.com/en/docs/x-api">via X</a> that they're thirsty with <a href="http://www.botanicalls.com/kits/">botanicalls</a></figcaption>
                 </figure>
             </section>
 
@@ -522,7 +522,7 @@ if ($zip->open($zipFile, ZipArchive::CREATE) === true) {
                 <h2>HTTP Status Codes (1)</h2>
                 <ul>
                     <li>
-                        When accessing a resource, you'll get back the data, along with <a href="http://httpstatus.es/">an HTTP status code</a>
+                        When accessing a resource, you'll get back the data, along with <a href="https://www.webfx.com/web-development/glossary/http-status-codes/">an HTTP status code</a>
                     </li>
                     <li style="margin-top: 1em;">
                         General Codes (applicable to all verbs/resources) <small style="background-color: #f00;border-radius: 10px;">FYI</small>
@@ -555,6 +555,7 @@ if ($zip->open($zipFile, ZipArchive::CREATE) === true) {
                         <ul>
                             <li><code>201 &mdash; Created</code> <em>(=OK)</em></li>
                             <li><code>400 &mdash; Bad Request</code> <em>(Missing Parameters)</em></li>
+                            <li><code>422 — Unprocessable Entity</code> <em>(Validation Errors)</em></li>
                         </ul>
                     </li>
                 </ul>
@@ -566,9 +567,10 @@ if ($zip->open($zipFile, ZipArchive::CREATE) === true) {
                     <li>
                         <code>PUT</code> <small style="vertical-align: baseline;">(SQL UPDATE)</small>
                         <ul>
-                            <li><code>200 &mdash; OK</code> <em>(requested data sent via response body)</em></li>
+                            <li><code>204 &mdash; No Content</code> <em>(=OK &mdash; Note: <strong>no</strong> response body sent!)</em></li>
                             <li><code>400 &mdash; Bad Request</code> <em>(Missing Parameters)</em></li>
                             <li><code>404 &mdash; Not Found</code></li>
+                            <li><code>422 — Unprocessable Entity</code> <em>(Validation Errors)</em></li>
                         </ul>
                     </li>
                     <li style="margin-top: 1em;">
@@ -577,11 +579,6 @@ if ($zip->open($zipFile, ZipArchive::CREATE) === true) {
                             <li><code>204 &mdash; No Content</code> <em>(=OK &mdash; Note: <strong>no</strong> response body sent!)</em></li>
                             <li><code>404 &mdash; Not Found</code></li>
                         </ul>
-                    </li>
-                    <li style="margin-top: 1em;">
-                        Warning!
-                        <ul><li>HTTP Statuses 4XX and 5XX will invoke <code>$.ajax().error()</code> in <a href="https://api.jquery.com/jquery.ajax/">jQuery</a>!</li>
-                        <li>&hellip; but <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch">will not with Fetch API</a></li></ul>
                     </li>
                 </ul>
             </section>
@@ -753,13 +750,14 @@ class LecturerController extends ApiBaseController
 
 }
 </code></pre>
+                <footer><small>Beware: <code>json_encode</code> (recursively) transforms <em>sequential</em> arrays into JSON arrays, and <em>associative</em> arrays into JSON objects</small></footer>
             </section>
             <section>
                 <h2>API testing tools</h2>
 
                 <ul>
                     <li style="margin-top: 1em;">
-                        Recommended tools: <a href="https://www.getpostman.com">Postman</a>, <a href="https://insomnia.rest/">Insomnia</a> REST client.
+                        Recommended tools: <a href="https://www.postman.com">Postman</a>, <a href="https://insomnia.rest/">Insomnia</a> REST client.
 
 
 
@@ -805,27 +803,30 @@ class LecturerController extends ApiBaseController
                     <li>
                         How to? <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch">Fetch API</a>
                     </li>
+                    <li style="margin-top: 1em;">
+                        <strong>Warning!</strong>
+                        HTTP Statuses 4XX and 5XX will not make the fetch() promise reject. (Only a failed request will.)
+                    </li>
                     <li>
                         Have a look at <code>demo.twig</code>
 
                     </li>
                 </ul>
-                <pre class="bigger"><code class="hljs javascript" data-overlay-example="assets/12/examples/project-with-webapi/">        // wait till DOM is loaded
-        window.addEventListener('load', function() {
-            let url = 'api/products';
+                <pre class="bigger"><code class="hljs javascript" data-overlay-example="assets/12/examples/project-with-webapi/">    // at this point the DOM is loaded
+    const url = 'api/products';
 
-            // POST example: fetch(url, {method: 'post', body: JSON.stringify(opts)})
-            // response.ok is true when the status code is 2xx
-            fetch(url)
-                .then(response =&gt; response.ok ? response.json() : Promise.reject({err: response.status}))
-                .then(data =&gt; fillProducts(data))
-                .catch(error =&gt; window.alert('Request Failed: ' + error.err));
+    // POST example: fetch(url, {method: 'post', body: JSON.stringify(opts)})
+    // response.ok is true when the status code is 2xx
+    fetch(url)
+        .then(response =&gt; response.ok ? response.json() : Promise.reject({err: response.status}))
+        .then(data =&gt; fillProducts(data))
+        .catch(error =&gt; window.alert('Request Failed: ' + error.err));
 
-            let fillProducts = function (data) {
-                data.products.forEach(function (product, index)
-                    document.body.innerHTML += '&lt;div class="card"&gt;&lt;div class="container"&gt;&lt;h4&gt;' + product.title + '&lt;/h4&gt;&lt;p&gt;Price: ' + product.price + '&euro;&lt;/p&gt;&lt;p&gt;Stock quantity: ' + product.quantity + '&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;';
-                });
-            };</code></pre>
+    const fillProducts = function (data) {
+        data.products.forEach(function (product, index) {
+            document.body.innerHTML += `&lt;div class="card"&gt;&lt;div class="container"&gt;&lt;h4&gt;${product.title}&lt;/h4&gt;&lt;p&gt;Price: ${product.price}&euro;&lt;/p&gt;&lt;p&gt;Stock quantity: ${product.quantity}&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;`;
+        });
+    };</code></pre>
             </section>
 
             <section>
