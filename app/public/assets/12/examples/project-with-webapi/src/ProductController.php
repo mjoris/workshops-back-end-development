@@ -8,6 +8,11 @@ class ProductController extends ApiBaseController
     {
         parent::__construct();
 
+        // load .env
+        $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
+        $dotenv->load();
+        $dotenv->required(['DB_HOST', 'DB_NAME', 'DB_USER', 'DB_PASS']);
+
         // initiate DB connection
         $this->db = DatabaseConnector::getConnection();
     }
@@ -48,8 +53,8 @@ class ProductController extends ApiBaseController
             }
 
             if (!$errorList) {
-                $stmt = $this->db->prepare('INSERT INTO products (title, price, quantity, description, added_on) VALUES (?, ?, ?, ?, ?)');
-                $result = $stmt->executeStatement([$title, $price, $quantity, $description, (new DateTime())->format('Y-m-d H:i:s')]);
+                $result = $this->db->executeStatement('INSERT INTO products (title, price, quantity, description, added_on) VALUES (?, ?, ?, ?, ?)',
+                    [$title, $price, $quantity, $description, (new DateTime())->format('Y-m-d H:i:s')]);
 
                 if ($result > 0) {
                     $this->message(201, 'Product has been created.'); // 201 Created
