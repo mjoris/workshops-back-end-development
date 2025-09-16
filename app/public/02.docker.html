@@ -120,8 +120,8 @@
                     <li>
                         Docker - instructions:
                         <ul>
-                            <li><a href="https://docs.docker.com/desktop/install/windows-install/">Docker Desktop for Windows</a></li>
-                            <li><a href="https://docs.docker.com/desktop/install/mac-install/">Docker Desktop for Mac</a></li>
+                            <li><a href="https://docs.docker.com/desktop/setup/install/windows-install/">Docker Desktop for Windows</a></li>
+                            <li><a href="https://docs.docker.com/desktop/setup/install/mac-install/">Docker Desktop for Mac</a></li>
                             <li><a href="https://docs.docker.com/engine/install/ubuntu/">Docker Engine on Ubuntu</a></li>
                             <li>Since 2020, Docker runs on any type of Windows 10/11 (through WSL 2). Read the instruction thoroughly.</li>
                         </ul>
@@ -154,7 +154,7 @@
                         <a href="https://hub.docker.com">Docker Hub</a> is Docker's browsable registry of images
                     </li>
                     <li>
-                        Image versions (indicated by <em>tags</em>) are grouped into <em>repositories</em>
+                        Strictly speaking, multiple image versions (indicated by <em>tags</em>) are grouped into <em>repositories</em>
                     </li>
                 </ul>
                 <p><img src="assets/02/dockerhub.png" alt="" title="" width="600" /></p>
@@ -167,7 +167,7 @@
                     <li>
                         Let's explore &hellip;
                         <ul>
-                            <li><a href="https://hub.docker.com/search?q=&type=image">Explore</a>: repositories ordered by # pulls</li>
+                            <li><a href="https://hub.docker.com/search?q=&type=image&sort=pull_count&order=desc">Search</a> images, filter by type, order by pull count, &hellip;</li>
                             <li><a href="https://docs.docker.com/trusted-content/official-images/">Official images</a> are curated by a dedicated team &rarr; use them !
                                 <ul>
                                     <li>OSs like <a href="https://hub.docker.com/_/alpine/">Alpine Linux</a></li>
@@ -658,7 +658,7 @@ EXPOSE 3306</code></pre>
             <section>
                 <h2>A simple example</h2>
                 <pre style="margin-bottom: 0;">docker-php/Dockerfile</pre>
-                <pre style="margin-top: 0;"><code class="hljs Dockerfile">FROM php:8.3-apache
+                <pre style="margin-top: 0;"><code class="hljs Dockerfile">FROM php:8.4-apache
 
 RUN docker-php-ext-install pdo_mysql</code></pre>
                 <pre style="margin-bottom: 0;margin-top: 2.5em;">docker-compose.yml</pre>
@@ -710,6 +710,92 @@ RUN docker-php-ext-install pdo_mysql</code></pre>
 
             </section>
 
+        </section>
+
+        <section>
+            <section>
+                <h2>02.6<br>Docker in different contexts</h2>
+                <p>Same tool, different philosophy depending on where you use it.</p>
+            </section>
+
+
+            <section data-background="https://video.cgtn.com/news/3d3d414d32677a4e33457a6333566d54/video/49dd01facbce4c1398d0751c1a175503/49dd01facbce4c1398d0751c1a175503.jpg">
+                <h2>#1 Local Development</h2>
+                <ul>
+                    <li>Goal: Fast, reproducible dev environment</li>
+                    <li>Workspace containers with extra tools (npm, composer, artisan…)</li>
+                    <li>Source code is <strong>mounted</strong>, not baked into image</li>
+                    <li>Containers are flexible, replaceable sandboxes</li>
+                </ul>
+                <p><small>Analogy: a shared kitchen where you bring in fresh ingredients and cook with all the utensils around, changing recipes as you go..</small></p>
+            </section>
+
+
+            <section data-background="https://metrobi.com/wp-content/uploads/2024/03/Catering-Commissary-Kitchen.webp">
+                <h2>#2 CI/CD</h2>
+                <ul>
+                    <li>Goal: Deterministic, repeatable builds & tests</li>
+                    <li>Each pipeline run: fresh container</li>
+                    <li>Code cloned inside the container, builds final image</li>
+                    <li>Containers are short-lived, throw-away environments</li>
+                </ul>
+                <p><small>Analogy: a catering kitchen that’s cleaned spotless for each event, always starting fresh and delivering a consistent dish.</small></p>
+            </section>
+
+
+            <section data-background="https://www.upmenu.com/wp-content/uploads/2023/12/3-fast-food-management-fast-food-restaurant-staff.jpg">
+                <h2>3. Production</h2>
+                <ul>
+                    <li>Goal: Stability & scalability</li>
+                    <li>Code is <strong>baked into image</strong> → immutable</li>
+                    <li>No bind mounts (except persistent volumes)</li>
+                    <li>Stateless containers, orchestrated by Kubernetes/Swarm</li>
+                </ul>
+                <p><small>Analogy: a fast-food chain kitchen with standardized menus, pre-measured ingredients, and identical meals served everywhere</small></p>
+            </section>
+
+
+            <section  data-background="#fdfdfd">
+                <h2>Key Differences</h2>
+                <table style="font-size: 70%;">
+                    <thead>
+                    <tr>
+                        <th>Context</th>
+                        <th>Code in Image?</th>
+                        <th>Volumes?</th>
+                        <th>Tools inside?</th>
+                        <th>Lifetime</th>
+                        <th>Philosophy</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Local Dev</td>
+                        <td>❌ No</td>
+                        <td>✅ Yes</td>
+                        <td>✅ Yes</td>
+                        <td>Long-lived workspace</td>
+                        <td>Speed & Flexibility</td>
+                    </tr>
+                    <tr>
+                        <td>CI/CD</td>
+                        <td>✅ Yes</td>
+                        <td>⚠️ Sometimes</td>
+                        <td>✅ Build deps</td>
+                        <td>Short-lived job</td>
+                        <td>Determinism</td>
+                    </tr>
+                    <tr>
+                        <td>Production</td>
+                        <td>✅ Yes</td>
+                        <td>❌ Usually not</td>
+                        <td>❌ Only runtime</td>
+                        <td>Immutable / restartable</td>
+                        <td>Stability & Repeatability</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </section>
         </section>
 
 
