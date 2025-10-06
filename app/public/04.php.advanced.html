@@ -57,12 +57,12 @@ class Product
         $this-&gt;name = $name;
     }
 
-    public function lowerPrice() : void
+    public function lowerPrice(): void
     {
         $this-&gt;price *= 0.9;
     }
 
-    public function getPrice() : float
+    public function getPrice(): float
     {
         return $this-&gt;price;
     }
@@ -95,12 +95,12 @@ class Product
         public string $name = 'unknown'
     ) {}
 
-    public function lowerPrice() : void
+    public function lowerPrice(): void
     {
         $this-&gt;price *= 0.9;
     }
 
-    public function getPrice() : float
+    public function getPrice(): float
     {
         return $this-&gt;price;
     }
@@ -111,6 +111,39 @@ echo $can-&gt;name . PHP_EOL;
 $can-&gt;lowerPrice();
 
 echo $can-&gt;getPrice();</code></pre>
+                <footer><small>You only have to recognize this pattern</small></footer>
+            </section>
+
+            <section>
+                <h2>Property hooks</h2>
+                <p>Since PHP 8.4, C#-style <a href="https://www.php.net/manual/en/language.oop5.property-hooks.php">Property Hooks</a> adhere to getter/setter safety, but with field-like syntax</p>
+                <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/oo01c.php">&lt;?php
+
+class Product
+{
+    protected int $stock;
+    public private(set) string $name; // asymmetric visibility
+
+    public function __construct(float $price, ?int $stock, string $name = 'unknown')
+    {
+        $this-&gt;price = $price;
+        $this-&gt;stock = $stock;
+        $this-&gt;name = $name;
+    }
+
+    public float $price = 0.00 { // property hook
+        get =&gt; $this-&gt;price;
+        set(float $price) {
+            $this-&gt;price = $price;
+        }
+    }
+
+}
+
+$can = new Product(0.60, 820, 'Can Coke 33ml');
+echo $can-&gt;name . '&lt;br /&gt;' . PHP_EOL;
+echo $can-&gt;price;</code></pre>
+                <footer><small>You only have to recognize this pattern</small></footer>
             </section>
 
             <section>
@@ -122,7 +155,7 @@ class BasicClass
 {
     public const float CLASS_CONSTANT = 12.7;
 
-    public function multiply(float $x) : float
+    public function multiply(float $x): float
     {
         return $x * self::CLASS_CONSTANT;
     }
@@ -149,7 +182,7 @@ class BasicClass
         self::$staticVariable = $name;
     }
 
-    public static function staticFunction(string $ohai) : void
+    public static function staticFunction(string $ohai): void
     {
         echo $ohai . PHP_EOL;
     }
@@ -178,7 +211,7 @@ class Animal
         $this-&gt;name = $name;
     }
 
-    protected function say(string $what) : string
+    protected function say(string $what): string
     {
         return $what;
     }
@@ -187,7 +220,7 @@ class Animal
 
 class Dog extends Animal
 {
-    public function bark() : void
+    public function bark(): void
     {
         echo $this-&gt;say('WOOF!');
     }
@@ -212,7 +245,7 @@ class Animal
         $this-&gt;name = $name;
     }
 
-    final function getName() : string // cannot be overridden!
+    final function getName(): string // cannot be overridden!
     {
         return $this-&gt;name;
     }
@@ -245,7 +278,7 @@ abstract class Animal
         $this-&gt;name = $name;
     }
 
-    abstract public function doTrick() : string;
+    abstract public function doTrick(): string;
 
 }
 
@@ -254,7 +287,7 @@ class Dog extends Animal
     private array $tricks = ['jump', 'lay down', 'roll over', 'play dead'];
 
     #[Override]
-    public function doTrick() : string
+    public function doTrick(): string
     {
         return $this-&gt;tricks[rand(0, sizeof($this-&gt;tricks) - 1)];
     }
@@ -262,8 +295,14 @@ class Dog extends Animal
 
 $dog = new Dog('Sparky');
 echo $dog-&gt;doTrick();</code></pre>
-                <footer><small><code>#[Override]</code> is a PHP <a
-                        href="https://www.php.net/manual/en/language.attributes.overview.php">attribute</a> adding metadata signifying that you <em>know</em> this method is overriding a parent method. It is not obligatory, but it will throw an error when it doesn't override (e.g. when you change the name of the parent method).</small></footer>
+                <footer>
+                    <small>
+                        <code>#[Override]</code>
+                        is a PHP <a
+                        href="https://www.php.net/manual/en/language.attributes.overview.php">attribute</a> adding metadata signifying that you <em>know</em> this method is overriding a parent method. It is not obligatory, but it will throw an error when it doesn't override (e.g. when you change the name of the parent method).
+                        <br>Note: there is a <code>#[Deprecated]</code> attribute too.
+                    </small>
+                </footer>
             </section>
             <section>
                 <h2>Printing Objects</h2>
@@ -282,7 +321,7 @@ class Weight
     }
 
     #[Override]
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this-&gt;weight . ' ' . $this-&gt;unit;
     }
@@ -626,6 +665,34 @@ echo $post->status->color();</code></pre>
 
             </section>
 
+            <section>
+                <h2>The problem with <code>DateTime</code></h2>
+                <pre class="bigger"><code class="hljs php">$date = new DateTime();
+$tomorrow = $date-&gtmodify('+1 day');</code></pre>
+                <ul style="width: 85%;font-size: 90%;">
+                    <li>
+                        In the above example, both <code>$date</code> and <code>$tomorrow</code> are modified (= same object)
+                    </li>
+                    <li>
+                        This is unexpected behaviour
+                    </li>
+                    <li style="margin-top: 2em;">
+                        Prefer <code>DateTimeImmutable</code> resulting in more reliable code
+                    </li>
+                </ul>
+                <pre class="bigger"><code class="hljs php">$date = new DateTimeImmutable();
+$tomorrow = $date-&gtmodify('+1 day');</code></pre>
+                <ul style="width: 85%;font-size: 90%;">
+                    <li>
+                        In the above example, <code>$tomorrow</code> is a new instance and <code>$date</code> is unchanged
+                    </li>
+                    <li>
+                        <code>DateTimeImmutable</code> behaves exactly the same as <code>DateTime</code>, except for modification methods
+                    </li>
+                </ul>
+
+            </section>
+
 
             <section data-background="#fdfdfd">
                 <h2>Date Format</h2>
@@ -713,16 +780,16 @@ echo $post->status->color();</code></pre>
                 <h2>Date Example</h2>
                 <pre class="bigger"><code class="hljs php" data-overlay-example="assets/04/examples/datetime.php">&lt;?php
 $zone = new DateTimeZone('Europe/Brussels');
-$myDateOfBirth = new DateTime('1979-04-29 11:30', $zone);
+$myDateOfBirth = new DateTimeImmutable('1979-04-29 11:30', $zone);
 echo ($myDateOfBirth-&gt;getTimestamp() . '&lt;br&gt;&lt;br&gt;' . PHP_EOL);
 echo 'm.d.y H:i:s' . '&lt;br&gt;' . PHP_EOL;
 echo ($myDateOfBirth-&gt;format('m.d.y H:i:s') . '&lt;br&gt;&lt;br&gt;' . PHP_EOL);
 
-$w3cFormat = DateTime::W3C;
+$w3cFormat = DateTimeImmutable::W3C;
 echo ($w3cFormat . '&lt;br&gt;' . PHP_EOL);
 echo ($myDateOfBirth-&gt;format($w3cFormat) . '&lt;br&gt;&lt;br&gt;' . PHP_EOL);
 
-$date = DateTime::createFromFormat('j-M-Y', '03-Oct-2022');
+$date = DateTimeImmutable::createFromFormat('j-M-Y', '07-Oct-2025');
 $duration = $date-&gt;diff($myDateOfBirth);
 echo ($duration-&gt;days);</code></pre>
             </section>
