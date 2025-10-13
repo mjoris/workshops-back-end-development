@@ -52,6 +52,8 @@ $stmt->bindValue(':id', $id, 'integer');
 $result = $stmt->executeQuery();
 
 // Handle result here ....
-echo('Nothing to see here, check the source');
+echo('The contents of $result: <br><pre>');
+var_dump($result);
+echo '</pre>';
 
 //EOF
