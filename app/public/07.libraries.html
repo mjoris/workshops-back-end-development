@@ -100,7 +100,7 @@
                     <li>
                         Specific Libraries
                         <ul>
-                            <li>Templating: Twig, Smarty, &hellip;</li>
+                            <li>Templating: Twig, Plates, Smarty, &hellip;</li>
                             <li>Sending e-mail: PHPMailer, Symfony Mailer, &hellip;</li>
                             <li>Working with PDF files: TCPDF, dompdf, Snappy, &hellip;</li>
                             <li>Manipulate Office Files: PHPSpreadsheet, PHPWord, &hellip;</li>
@@ -153,7 +153,7 @@
                                 <ul>
                                     <li>Laravel</li>
                                     <li>Symfony</li>
-                                    <li>Zend Framework</li>
+                                    <li>Laminas</li>
 
                                     <li>CodeIgniter</li>
                                     <li>CakePHP</li>
@@ -466,7 +466,7 @@ $image-&gt;save('output/procla_ict_oct_2022_watermark.jpg');
                 <h2>Specifying Package Versions (1)</h2>
                 <ul>
                     <li>
-                        Latest commit: <code>&quot;dev-master&quot;</code>
+                        Latest commit: <code>&quot;dev-master&quot;</code>, <code>&quot;dev-main"</code> or <code>&quot;dev-develop&quot;</code>
                     </li>
                     <li style="margin-top: 1em;">
                         Exact version: <code>&quot;4.2.1&quot;</code>
@@ -494,7 +494,7 @@ $image-&gt;save('output/procla_ict_oct_2022_watermark.jpg');
                                 &rarr; Useful for projects respecting <a href="http://semver.org/">semantic versioning</a>
                                 (Laravel didn't but
                                 <a href="https://www.techiediaries.com/semantic-versioning/">does from v6</a>,
-                                Twig <a href="https://github.com/memio/twig-template-engine/blob/master/VERSIONING.md">does</a>)
+                                Twig <a href="https://github.com/memio/twig-template-engine/blob/main/VERSIONING.md">does</a>)
                             </li>
                             <li>however <code>&quot;~4.1.1&quot;</code> means <code>&gt;=4.1.1,&lt;4.2.0</code></li>
                         </ul>
@@ -534,7 +534,7 @@ $image-&gt;save('output/procla_ict_oct_2022_watermark.jpg');
                             PHP version (+ installed extensions) is a dependency too !
                             <ul style="font-size: 85%;">
                                 <li><strong>Recommended: </strong>Run composer with the PHP executable used by the webserver</li>
-                                <li><strong>If not possible: </strong>Enforce PHP version to <code>composer.json</code> using this command: <pre class="bigger"><code class="hljs bash">composer config platform.php 8.3.11</code></pre></li>
+                                <li><strong>If not possible: </strong>Enforce PHP version to <code>composer.json</code> using this command: <pre class="bigger"><code class="hljs bash">composer config platform.php 8.4.12</code></pre></li>
                             </ul>
 
                         </div>
@@ -545,18 +545,18 @@ $image-&gt;save('output/procla_ict_oct_2022_watermark.jpg');
             <section>
                 <h2>Docker + Git + Composer = &#128165;</h2>
                 <ul style="font-size: 85%;">
-                    <li style="color: purple;">Remember: the <code style="color: white;">vendor/</code> folder is not on git, but <code style="color: white;">composer.json</code> and <code style="color: white;">composer.lock</code> are</li>
+                    <li style="color: #d76080;">Remember: the <code style="color: white;">vendor/</code> folder is not on git, but <code style="color: white;">composer.json</code> and <code style="color: white;">composer.lock</code> are</li>
                     <li><strong>Manually</strong> running Composer in a multi-container environment
                         <ul>
                             <li>= best choice when experimenting with <code>composer.json</code> and <code>composer.lock</code></li>
-                            <li style="color: purple;">Remember: the PHP versions of composer and web server container should match</li>
+                            <li style="color: #d76080;">Remember: the PHP versions of composer and web server container should match</li>
                             <li>So ALWAYS run <code>composer</code> from the dedicated container (<code>docker exec &hellip;</code>)</li>
                         </ul>
                     </li>
                     <li style="margin-top: 1em;"><strong>Automatically</strong> running Composer in a multi-container environment with <code>docker-compose up</code>
                         <ul>
                             <li>You add a PHP version enforcement to <code>composer.json</code>:
-                                <pre class="bigger"><code class="hljs bash">composer config platform.php 8.3.11</code></pre>
+                                <pre class="bigger"><code class="hljs bash">composer config platform.php 8.4.12</code></pre>
                             </li>
                             <li>You add a <a href="https://hub.docker.com/_/composer">composer</a> service to <code>docker-compose.yml</code>
                             <ul>
@@ -714,7 +714,7 @@ $image-&gt;save('output/procla_ict_oct_2022_watermark.jpg');
                         <ul>
                             <li>
                                 New project, not yet requiring it via Composer:
-                                <div><pre class="bigger"><code class="dontrun">composer require nesbot/carbon ^3.8</code></pre></div>
+                                <div><pre class="bigger"><code class="dontrun">composer require nesbot/carbon ^3.10</code></pre></div>
                             </li>
                             <li>
                                 Existing project, already requiring it via Composer:
@@ -785,7 +785,7 @@ echo ('Oudjaar is ' . $dt-&gt;diffForHumans()); </code></pre>
 
 
             <section>
-                <h2>DRY: Projectwide variables</h2>
+                <h2>Projectwide variables</h2>
                 <ul>
                     <li>
                         A variable that is constant and used throughout the project, yet is specific to the very project
