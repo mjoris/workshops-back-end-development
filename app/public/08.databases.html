@@ -142,7 +142,7 @@
                         Database Abstraction Layer from the Doctrine Project
                         <ul style="font-size: 80%;">
                             <li>Website: <a href="https://www.doctrine-project.org/projects/dbal.html">https://www.doctrine-project.org/projects/dbal.html</a></li>
-                            <li>Documentation: <a href="https://www.doctrine-project.org/projects/doctrine-dbal/en/4.2/">https://www.doctrine-project.org/projects/doctrine-dbal/en/4.2/</a></li>
+                            <li>Documentation: <a href="https://www.doctrine-project.org/projects/doctrine-dbal/en/4.3/">https://www.doctrine-project.org/projects/doctrine-dbal/en/4.3/</a></li>
                         </ul>
                     </li>
                     <li style="margin-top: 1em;">
@@ -150,7 +150,7 @@
                         <ul>
                             <li>
                                 New project, not yet requiring it via Composer:
-                                <pre class="bigger"><code class="dontrun">composer require doctrine/dbal ^4.2</code></pre>
+                                <pre class="bigger"><code class="dontrun">composer require doctrine/dbal ^4.3</code></pre>
                             </li>
                             <li>
                                 Existing project, already requiring it via Composer:
@@ -473,22 +473,22 @@ try {
             </section>
 
             <section>
-                <h2>Oldskool Executing Queries</h2>
+                <h2>Executing Queries</h2>
                 <ul>
                     <li>
-                        Depending on the type of query, one of these functions were available (<strong>not available anymore - insecure</strong>)
+                        Depending on the type of query, one of these functions is available
                         <div>
                             <ol style="margin-top: 1em;">
-                                <li><code><s>query()</s></code><small><!--a href="http://www.php.net/manual/en/pdo.query.php">&#9873;</a--></small> for queries that yield a resultset</li>
+                                <li><code>executeQuery()</code><small><!--a href="http://www.php.net/manual/en/pdo.query.php">&#9873;</a--></small> for queries that yield a resultset</li>
                             </ol>
-                            <pre class="bigger"><code class="hljs php">$result = $connection-&gt;query('SELECT * FROM collections WHERE user_id = 2');
+                            <pre class="bigger"><code class="hljs php">$result = $connection-&gt;executeQuery('SELECT * FROM collections WHERE user_id = 2');
 var_dump($result); // returns a Result object</code></pre>
                         </div>
                         <div>
                             <ol start="2">
-                                <li><code><s>exec()</s></code><small><!--a href="http://www.php.net/manual/en/pdo.exec.php">&#9873;</a--></small> for queries that yield no resultset</li>
+                                <li><code>executeStatement()</code><small><!--a href="http://www.php.net/manual/en/pdo.exec.php">&#9873;</a--></small> for queries that yield no resultset</li>
                             </ol>
-                            <pre class="bigger"><code class="hljs php">$result = $connection-&gt;exec('DELETE FROM collections WHERE user_id = 10');
+                            <pre class="bigger"><code class="hljs php">$result = $connection-&gt;executeStatement('DELETE FROM collections WHERE user_id = 10');
 var_dump($result); // returns the number of affected rows</code></pre>
                         </div>
                     </li>
@@ -531,87 +531,53 @@ var_dump($result); // returns the number of affected rows</code></pre>
             </section>
 
             <section>
-                <h2>(Insecure) Example</h2>
-
-                <ul style="width: 100%;">
+                <h2>Insecure (!!!) Examples (1)</h2>
+                <div class="hastooltip">
+                <ul style="width: 100%;font-size: 85%;">
                     <li>
-                        Detailpage of a collection. Url: <code>detail.php?id=X</code>
+                        Detailpage of a collection. Url: <code>detail.php?name=X</code>
 
-                        <pre class="bigger"><code class="hljs php">&lt;?php
-
-&hellip;
-
-// Get ID from URL
-$id = isset($_GET['id']) ? $_GET['id'] : 0;
+                        <pre class="bigger"><code class="hljs php">// Get name from URL
+$name = isset($_GET['name']) ? $_GET['name'] : '';
 
 // Get collection from database
-$result = $connection-&gt;query('SELECT * FROM collections WHERE id = ' . $id);
+$result = $connection-&gt;executeQuery('SELECT * FROM collections WHERE name = "' . $name . '"');
 
 // Handle result object
-
 &hellip;
 </code></pre>
                     </li>
-                </ul>
-            </section>
-
-            <section>
-                <h2>Problem #1</h2>
-
-                <ul>
                     <li>
-                        Changing the URL param to a string will break the query
-                        <ul>
-                            <li>When visiting <code>detail.php?id=test</code> the query will become broken: <code class="nok" style="white-space: nowrap;">SELECT * FROM collections WHERE id = test</code> is an invalid query</li>
-                        </ul>
-                    </li>
-                    <li style="margin-top: 1em;">
-                        Fix: add quotes in your query around the value
-                        <ul>
-                            <li><code class="ok">SELECT * FROM products WHERE id = &quot;test&quot;</code> is a valid query</li>
-                        </ul>
-                        <div>
-                            <pre class="bigger"><code class="hljs php">$result = $connection->query('SELECT * FROM collections WHERE user_id = &quot;' . $id . '&quot;');</code></pre>
-                        </div>
-                    </li>
-                </ul>
-            </section>
-
-            <section>
-                <h2>Problem #2</h2>
-
-                <ul>
-                    <li>
-                        Changing the URL param to a string containing a quote breaks the query
-                        <ul>
-                            <li>When visiting <code>detail.php?id=te&quot;st</code> the query will become broken: <code class="nok" style="white-space: nowrap;">SELECT * FROM products WHERE id = &quot;te&quot;st&quot;</code> is an invalid query</li>
-                        </ul>
+                        When visiting <code>detail.php?name=te&quot;st</code> the query will become broken:
+                        <code class="nok" style="white-space: nowrap;">SELECT * FROM products WHERE name = &quot;te&quot;st&quot;</code> is an invalid query
                     </li>
                     <li style="margin-top: 0.5em;">
-                        Possible fix: use <code>addslashes()</code>
-                        <ul>
-                            <li><code class="ok">SELECT * FROM products WHERE id = &quot;te\&quot;st&quot;</code> is a valid query</li>
-                        </ul>
-
+                        Possible fix: use <code>addslashes() ?? </code>
                         <div>
-                            <pre class="bigger"><code class="hljs php">$result = $connection-&gt;query('SELECT * FROM collections WHERE user_id = &quot;' . addslashes($id) . '&quot;');</code></pre>
+                            <pre class="bigger"><code class="hljs php">$result = $connection-&gt;executeQuery('SELECT * FROM collections WHERE name = &quot;' . addslashes($name) . '&quot;');</code></pre>
                         </div>
                     </li>
-                    <li style="margin-top: 0.5em;">
-                        Possible fix: cast <code>$id</code> to an integer
-                        <div>
-                            <pre class="bigger"><code class="hljs php">$result = $connection-&gt;query('SELECT * FROM collections WHERE id = ' . (int) $id);</code></pre>
-                        </div>
-                        <ul>
-                            <li>Won't work if you expect a string though!</li>
-                        </ul>
+                    <li>
+                        Fix: use <code>addslashes()</code>? No it is <strong>unsafe:</strong>
                     </li>
                 </ul>
+                    <div class="tooltip">
+                        <div>
+                            <ul>
+                                <li>
+                                    PHP's <code>addslashes()</code> does not recognize the multibyte char <code>0xbf27</code> (&#xBF27;) and treats it as two single bytes: <code>0xBF</code> (&#xBF;) and <code>0x27</code> (&#x27;) &rarr; PHP will escape that <code>0x27</code> with a backslash (<code>0x5c</code>) and we end up with the char sequence <code>0xbf5c27</code>
+                                </li>
+                                <li>
+                                    MySQL with a GBK charset connection recognizes <code>0xbf5c</code> (&#xBF5C;) as a multibyte char, leaving an unescaped <code>0x27</code> in the query (!) &rarr; Boom, you've just injected a single quote.
+                                </li>
+                            </ul></div>
+                    </div>
+                </div>
             </section>
 
+
             <section>
-                <h2>Problem #2 (variant)</h2>
-                <div class="hastooltip">
+                <h2>Insecure (!!!) Examples (2)</h2>
                 <ul>
                     <li>
                         Changing the URL param to a <em>dangerous</em> string that resembles SQL results in <strong>SQL injection</strong>
@@ -622,22 +588,8 @@ $result = $connection-&gt;query('SELECT * FROM collections WHERE id = ' . $id);
                             </figure>
                         </div>
                     </li>
-                    <li>
-                        Fix: use <code>addslashes()</code>? No it is <strong>unsafe:</strong>
-                    </li>
                 </ul>
-                <div class="tooltip">
-                    <div>
-                        <ul>
-                            <li>
-                                PHP's <code>addslashes()</code> does not recognize the multibyte char <code>0xbf27</code> (&#xBF27;) and treats it as two single bytes: <code>0xBF</code> (&#xBF;) and <code>0x27</code> (&#x27;) &rarr; PHP will escape that <code>0x27</code> with a backslash (<code>0x5c</code>) and we end up with the char sequence <code>0xbf5c27</code>
-                            </li>
-                            <li>
-                                MySQL with a GBK charset connection recognizes <code>0xbf5c</code> (&#xBF5C;) as a multibyte char, leaving an unescaped <code>0x27</code> in the query (!) &rarr; Boom, you've just injected a single quote.
-                            </li>
-                        </ul></div>
-                </div>
-                </div>
+
             </section>
 
             <section>
@@ -665,7 +617,7 @@ $result = $connection-&gt;query('SELECT * FROM collections WHERE id = ' . $id);
 
                     </li>
                 </ul>
-                <pre class="bigger"><code class="hljs php">$result = $connection-&gt;query('SELECT * FROM collections WHERE id = ' . $connection->quote($userId, 'integer'));</code></pre>
+                <pre class="bigger"><code class="hljs php">$result = $connection-&gt;executeQuery('SELECT * FROM collections WHERE id = ' . $connection->quote($userId, 'integer'));</code></pre>
                 <ul style="width: 100%;">
                     <li>
                         Note
@@ -677,7 +629,7 @@ $result = $connection-&gt;query('SELECT * FROM collections WHERE id = ' . $id);
                         </ul>
                     </li>
                 </ul>
-                <pre class="bigger"><code class="hljs php">$result = $connection->query('SELECT * FROM collections WHERE name = ' . $connection->quote($name, 'string'));</code></pre>
+                <pre class="bigger"><code class="hljs php">$result = $connection->executeQuery('SELECT * FROM collections WHERE name = ' . $connection->quote($name, 'string'));</code></pre>
             </section>
 
             <section>
@@ -758,7 +710,7 @@ $stmt-&gt;bindValue(':id', $id, 'integer');
 $result = $stmt-&gt;executeQuery();</code></pre>
                     </li>
                 </ul>
-                <footer><small>Note: You call execute on the statement, not on <code>$connection</code><br>Note: the default binding type is <code>'string'</code></small></footer>
+                <footer><small>Note: the default binding type is <code>'string'</code></small></footer>
             </section>
 
             <section>
@@ -945,7 +897,7 @@ echo 'Deleted ' . $rowCount . ' rows';</code></pre>
 
             <section>
                 <h2>Background information</h2>
-                <ul>
+                <ul style="font-size: 90%;">
                     <li>
                         In general
                         <ul>
@@ -961,22 +913,22 @@ echo 'Deleted ' . $rowCount . ' rows';</code></pre>
                         Available <a href="https://dev.mysql.com/doc/refman/8.4/en/charset-charsets.html">charset and collations in MySQL</a>
                         <ul>
                             <li>
-                                Example charset: <code>utf8</code>
+                                Example charset: <code>utf8mb4</code>
                             </li>
                             <li>
                                 Each charset comes with a list of collations e.g.
                                 <ul>
                                     <li>
-                                        <code>utf8_bin</code> &mdash; binary order
+                                        <code>utf8mb4_bin</code> &mdash; binary order
                                     </li>
                                     <li>
-                                        <code>utf8_german2_ci</code> &mdash; German phone book order / case insensitive
+                                        <code>utf8mb4_german2_ci</code> &mdash; German phone book order / case insensitive
                                     </li>
                                     <li>
-                                        <code>utf8_unicode_ci</code> &mdash; accurate multi-language Unicode order / case insensitive
+                                        <code>utf8mb4_unicode_ci</code> &mdash; accurate multi-language Unicode order / case insensitive
                                     </li>
                                     <li>
-                                        <code>utf8_general_ci</code> &mdash; less accurate multi-language order / case insensitive
+                                        <code>utf8mb4_general_ci</code> &mdash; less accurate multi-language order / case insensitive
                                     </li>
                                 </ul>
                             </li>
@@ -986,6 +938,22 @@ echo 'Deleted ' . $rowCount . ' rows';</code></pre>
                         </ul>
                     </li>
                 </ul>
+                <footer style="font-size: 90%;">
+                    <small>
+                        Why isn't the charset called <code>utf8</code>?
+                        Long time ago, MySQL launched a charset named <code>utf8</code> which did
+                        <strong>not</strong> comply with the complete UTF-8 standard. It supported
+                        characters that need up to 3 bytes for encoding in stead of 4.
+                        For example, astral symbols
+                        <em>(= <a href="https://unicode.org/emoji/charts/full-emoji-list.html">emoji</a>)</em>
+                        require 4 byte encoding.
+                        This was fixed in MySQL 5.5.3 by the addition of <code>utf8mb4</code> charset.
+                        In MySQL 8.0, the original <code>utf8</code> charset was renamed into <code>utf8mb3</code>
+                        and declared as deprecated. Cautio: by now <code>utf8</code> is still an alias for
+                        <code>utf8mb3</code> but in the future this target will change to <code>utf8mb4</code>.
+                        &rarr; Always use <code>utf8mb4</code> (= full UTF-8)
+                    </small>
+                </footer>
             </section>
 
             <section>
@@ -1036,16 +1004,7 @@ DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;</code></pre>
             </section>
 
             <section>
-                <h2>Sidenote (1)</h2>
-                <ul>
-                    <li>MySQL's <code>utf8</code> charset does <strong>not</strong> comply with the complete UTF-8 standard. It supports characters that need up to 3 bytes for encoding in stead of 4. For example, astral symbols <em>(= <a href="https://unicode.org/emoji/charts/full-emoji-list.html">emoji</a>)</em> require 4 byte encoding.</li>
-                    <li style="margin-top: 1em">Fixed in MySQL 5.5.3 by the addition of <code>utf8mb4</code> charset<br />&rarr; Always use <code>utf8mb4</code> (= full UTF-8)</li>
-                </ul>
-                <footer>More info: <a href="https://mathiasbynens.be/notes/mysql-utf8mb4">https://mathiasbynens.be/notes/mysql-utf8mb4</a></footer>
-            </section>
-
-            <section>
-                <h2>Sidenote (2) <small style="background-color: #f00;border-radius: 10px;">FYI</small></h2>
+                <h2>Sidenote <small style="background-color: #f00;border-radius: 10px;">FYI</small></h2>
                 <ul>
                     <li>When you create or manipulate strings with encodings &gt; 1 byte in PHP </li>
                     <ul>
