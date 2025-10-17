@@ -9,8 +9,8 @@ $twig = new \Twig\Environment($loader);
 
 // define our vars (fixed or via calculations)
 $lecturers = array(
-    ['name' => 'Pieter Van Peteghem', 'city' => 'Ghent', 'courses' => ['Back-end Development', 'Full-stack: Introductory Project']],
-    ['name' => 'Bart Delrue', 'city' => 'Ghent', 'courses' => ['Front-end Development', 'Full-stack: Introductory Project', 'Full-stack Development']],
+    ['name' => 'Pieter Van Peteghem', 'city' => 'Ghent', 'courses' => ['Back-end Development']],
+    ['name' => 'Bart Delrue', 'city' => 'Ghent', 'courses' => ['Javascript Development', 'Full-stack Introduction', 'Web Frameworks']],
     ['name' => 'Peter Demeester'],
 );
 
