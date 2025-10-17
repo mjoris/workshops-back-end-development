@@ -98,8 +98,8 @@
                             <li>
                                 Allow a minimum of 4kB to be stored in a cookie
                                 <ul>
-                                    <li>Chrome/Opera: 4kB max</li>
-                                    <li>Firefox/Edge: 4097B max</li>
+                                    <li>Chrome/Opera/Edge: 4kB max</li>
+                                    <li>Firefox: 4097B max</li>
                                     <li>Safari: 4093B max</li>
                                 </ul>
                             </li>
@@ -119,7 +119,6 @@
                     </li>
                     <li>The limits aren't an obstacle most of the time</li>
                 </ul>
-                <footer><small>Remark: Edge imposes a maximum total size for all cookies of a domain (10kB)</small></footer>
             </section>
 
             <section>
@@ -259,7 +258,7 @@
                 <h2>Creating Cookies in PHP</h2>
                 <ul>
                     <li>
-                        Use a function named <code>setcookie()</code>
+                        Use a function named <code>setcookie()</code> <a href="https://www.php.net/manual/en/function.setcookie.php">&#9873;</a>
                         <ul>
                             <li>Via the response header, an instruction is sent to the client to create a cookie</li>
                             <li>
@@ -515,7 +514,7 @@ echo '&lt;a href=&quot;nextpage.php?PHPSESSID=' . session_id() . '&quot; title=&
                 <h2>Sessions, practical (1)</h2>
                 <ul>
                     <li>
-                        Starting / continuing a session
+                        Starting / continuing a session <a href="https://www.php.net/manual/en/function.session-start.php">&#9873;</a>
                         <pre class="bigger"><code class="hljs php">session_start();</code></pre>
                         <ul>
                             <li>
