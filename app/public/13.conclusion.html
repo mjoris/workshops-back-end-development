@@ -255,7 +255,7 @@ $app-&gt;run();</code></pre>
 
             <section>
                 <h2>Dependency Injection (DI) (1)</h2>
-                <ul style="font-size: 90%;">
+                <ul style="font-size: 80%;">
                     <li>In short: DI is a software pattern avoiding that one class is completely dependent on the other</li>
                     <li>Example: in stead of
                         <pre class="bigger"><code class="hljs php">&lt;?php
@@ -269,11 +269,15 @@ class Database
 }</code></pre>
                         Refactor your code into
                         <pre class="bigger"><code class="hljs php" style="max-height: 430px;">&lt;?php
+interface DatabaseAdapter {
+    public function connect();
+}
+
 class Database
 {
     protected $adapter;
 
-    public function __construct(MySqlAdapter $adapter) {
+    public function __construct(DatabaseAdapter $adapter) { // depency injection
         $this-&gt;adapter = $adapter;
     }
 }</code></pre>
@@ -335,9 +339,36 @@ $app-&gt;get('/foo', function (Request $request, Response $response, $args) {
             </section>
 
             <section>
-                <h2>Full-stack Development [OGI03C]</h2>
+                <h2>Full-stack Introduction [OGI05I]</h2>
                 <ul>
-                    <li>Learn how to develop large web application, study web frameworks and become a <strong>full-stack web engineer</strong></li>
+                    <li>Group assignment: build your first full-stack application with PHP and TypeScript and learn more about
+                        <ul>
+                            <li>
+                                TypeScript
+                            </li>
+                            <li>
+                                Rest APIs: conventions and implementation in PHP
+                            </li>
+                            <li>
+                                Publishing your web application
+                            </li>
+                            <li>
+                                Authentication with JWT-tokens
+                            </li>
+                            <li>
+                                Web sockets
+                            </li>
+                        </ul>
+
+                    </li>
+                    <li style="margin-top: 1em;"><a href="https://onderwijsaanbod.odisee.be/syllabi/n/OGI05IN">Course description</a></li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Web Frameworks [OGI06I]</h2>
+                <ul>
+                    <li>Learn how to develop large web applications and study web frameworks = trajectory to become a <strong>full-stack web engineer</strong></li>
                     <li style="margin-top: 1em;">Client-side framework
                         <ul>
                             <li><a href="https://vuejs.org/">Vue.js</a></li>
@@ -348,7 +379,7 @@ $app-&gt;get('/foo', function (Request $request, Response $response, $args) {
                             <li><a href="https://laravel.com/">Laravel</a></li>
                         </ul>
                     </li>
-                    <li style="margin-top: 1em;"><a href="http://onderwijsaanbod.odisee.be/2024/syllabi/n/OGI03CN.htm">Course description</a></li>
+                    <li style="margin-top: 1em;"><a href="https://onderwijsaanbod.odisee.be/syllabi/n/OGI06IN">Course description</a></li>
                 </ul>
             </section>
 
