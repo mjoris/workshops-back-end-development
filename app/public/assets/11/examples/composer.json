@@ -1,7 +1,7 @@
 {
     "require": {
         "bramus/router": "^1.6.1",
-        "twig/twig": "^3.14",
+        "twig/twig": "^3.22",
         "vlucas/phpdotenv": "^5.6"
     }
 }
