@@ -640,7 +640,7 @@ if ($zip->open($zipFile, ZipArchive::CREATE) === true) {
                             <li>
                                 The client indicates in an <code>Accept</code> header
                                 <ul>
-                                    <li>e.g <code>Accept: application/collection+json</code> <a href="https://github.com/collection-json/spec">(link)</a></li>
+                                    <li>e.g <code>Accept: application/json</code></li>
                                     <li>Content negotiation e.g. <code>Accept: application/xml; q=0.8, application/json</code></li>
                                 </ul>
                             </li>
@@ -674,39 +674,48 @@ if ($zip->open($zipFile, ZipArchive::CREATE) === true) {
             </section>
 
             <section>
-                <h2>Let's define a reusable controller</h2>
+                <h2>Let's define a reusable class</h2>
                 <ul style="width: 100%;font-size: 85%;">
-                    <li>Let's call this class <code>ApiBaseController</code></li>
+                    <li>Let's call this class <code>ApiResponse</code></li>
                 </ul>
-                <pre class="bigger"><code class="hljs php" style="max-height: 430px; line-height: 1;">&lt;?php
-abstract class ApiBaseController
+                <pre class="bigger"><code class="hljs php" style="max-height: 430px; line-height: 1.2;font-size: 80%;">&lt;?php
+class ApiResponse
 {
-    protected ?array $httpBody;
-
-    public function __construct()
+    public static function input(): ?array
     {
-        // Parse the HTTP request body assuming it contains plain JSON
-        $this-&gt;httpBody = json_decode(file_get_contents('php://input'), true);
-
-        // set the Content-type header of the HTTP response to JSON
-        header('Content-type: application/json; charset=UTF-8');
+        return json_decode(file_get_contents('php://input'), true);
     }
 
-    protected function message(int $httpCode, string $message) {
-        http_response_code($httpCode);
-        $answer = ['message' =&gt; $message];
-        echo json_encode($answer);
+    public static function success(mixed $data = null, ?array $meta = null, int $status = 200): void
+    {
+        $response = [];
+        if ($data !== null) {
+            $response['data'] = $data;
+        }
+        if ($meta !== null) {
+            $response['meta'] = $meta;
+        }
+
+        http_response_code($status);
+        header('Content-Type: application/json');
+        echo json_encode($response, JSON_PRETTY_PRINT);
+        exit;
+    }
+
+    public static function error(string $message, int $status = 400, array|string $errors = []): void
+    {
+        http_response_code($status);
+        header('Content-Type: application/json');
+        echo json_encode([
+            'error' =&gt; [
+                'message' =&gt; $message,
+                'details' =&gt; $errors,
+                'status'  =&gt; $status,
+            ]
+        ], JSON_PRETTY_PRINT);
+        exit;
     }
 }</code></pre>
-                <ul style="width: 100%;font-size: 85%;">
-                    <li>
-                        Idea: create your own <em>resource controller</em> (e.g. <code>LecturerController</code>) by extending <code>ApiBaseController</code>
-                        <ul style="font-size: 85%;">
-                            <li>When <code>bramus/router</code> is pointed towards a handling function such as <code>LecturerController@get</code>, it will need to <strong>construct</strong> the object first.</li>
-                            <li>When <code>LecturerController</code> has no constructor, the parent constructor will be called, decoding eventual data in the HTTP request's body and setting the HTTP response's Content-type header to JSON</li>
-                        </ul>
-                    </li>
-                </ul>
             </section>
 
             <section>
@@ -737,14 +746,14 @@ class LecturerController extends ApiBaseController
         2 =&gt; ['id' =&gt; 2, 'name' =&gt; 'Pieter Van Peteghem']];
 
     public function overview() {
-        echo json_encode(['lecturers' =&gt; array_values($this-&gt;lecturers)]);
+        ApiResponse::success(array_values($this-&gt;lecturers))
     }
 
     public function get($id) {
         if (array_key_exists($id, $this-&gt;lecturers)) {
-            echo json_encode($this-&gt;lecturers[$id]);
+            ApiResponse::success($this-&gt;lecturers[$id]);
         } else {
-            $this-&gt;message(404, 'Lecturer not found.' ); // 404 Not Found.
+            ApiResponse::error('Lecturer not found.', 404); // 404 Not Found.
         }
     }
 
@@ -758,9 +767,20 @@ class LecturerController extends ApiBaseController
                 <ul>
                     <li style="margin-top: 1em;">
                         Recommended tools: <a href="https://www.postman.com">Postman</a>, <a href="https://insomnia.rest/">Insomnia</a> REST client.
-
-
-
+                    </li>
+                    <li>
+                        Or: VS Code plug-ins
+                        <ul>
+                            <li>
+                                Thunderclient
+                            </li>
+                            <li>
+                                REST Client (Huachao Mao)
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        Or: in PhpStorm, just choose <code>Tools &gt; HTTP Client</code>
                     </li>
                     <li style="margin-top: 1em;">&rarr; Let's test our <code>api/lecturers</code> endpoint with Insomnia</li>
                 </ul>
@@ -823,7 +843,7 @@ class LecturerController extends ApiBaseController
         .catch(error =&gt; window.alert('Request Failed: ' + error.err));
 
     const fillProducts = function (data) {
-        data.products.forEach(function (product, index) {
+        data.data.forEach(function (product, index) {
             document.body.innerHTML += `&lt;div class="card"&gt;&lt;div class="container"&gt;&lt;h4&gt;${product.title}&lt;/h4&gt;&lt;p&gt;Price: ${product.price}&euro;&lt;/p&gt;&lt;p&gt;Stock quantity: ${product.quantity}&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;`;
         });
     };</code></pre>
