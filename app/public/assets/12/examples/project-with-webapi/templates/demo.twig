@@ -44,7 +44,7 @@
             .catch(error => window.alert('Request Failed: ' + error.err));
 
         const fillProducts = function (data) {
-            data.products.forEach(function (product, index) {
+            data.data.forEach(function (product, index) {
                 document.body.innerHTML += `<div class="card"><div class="container"><h4>${product.title}</h4><p>Price: ${product.price}&euro;</p><p>Stock quantity: ${product.quantity}</p></div></div>`;
             });
         };

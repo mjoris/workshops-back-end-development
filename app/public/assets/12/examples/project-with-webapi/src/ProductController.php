@@ -1,13 +1,11 @@
 <?php
 
-class ProductController extends ApiBaseController
+class ProductController
 {
     protected \Doctrine\DBAL\Connection $db;
 
     public function __construct()
     {
-        parent::__construct();
-
         // load .env
         $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
         $dotenv->load();
@@ -19,20 +17,20 @@ class ProductController extends ApiBaseController
 
     public function overview() {
         $products = $this->db->fetchAllAssociative('SELECT id, title, price, quantity FROM products', []);
-        echo json_encode(['products' => $products]);
+        ApiResponse::success($products);
     }
 
     public function get($id) {
         $product = $this->db->fetchAssociative('SELECT id, title, price, quantity FROM products WHERE id = ?', [$id]);
         if ($product !== false)
-            echo json_encode($product);
+            ApiResponse::success($product);
         else {
-            $this->message(404, 'Product does not exist.');
+            ApiResponse::error('Product does not exist.', 404);
         }
     }
 
     public function post() {
-        $bodyParams = $this->httpBody;
+        $bodyParams = ApiResponse::input();
         $title = $bodyParams['title'] ?? false;
         $price = $bodyParams['price'] ?? false;
         $quantity = $bodyParams['quantity'] ?? false;
@@ -57,17 +55,21 @@ class ProductController extends ApiBaseController
                     [$title, $price, $quantity, $description, (new DateTime())->format('Y-m-d H:i:s')]);
 
                 if ($result > 0) {
-                    $this->message(201, 'Product has been created.'); // 201 Created
+                    ApiResponse::success('Product has been created.', status: 201); // 201 Created
                 } else {
-                    $this->message(503, 'Unable to create product.'); // 503 Service Unavailable
+                    ApiResponse::error('Unable to create product.', 503); // 503 Service Unavailable
                 }
             } else {
-                $this->message(422, implode(' ', $errorList)); // 422 Unprocessable Entity
+                ApiResponse::error('Validation error(s).', 422, implode(' ', $errorList)); // 422 Unprocessable Entity
             }
         } else {
-            $this->message(400, 'Unable to create product. Malformed request.'); // 400 Bad Request
+            ApiResponse::error('Malformed request.', 400); // 400 Bad Request
         }
 
+    }
+
+    public function methodNotAllowed() {
+        ApiResponse::error('HTTP request method ' .  $_SERVER['REQUEST_METHOD']. ' not allowed.', 405);
     }
 
 }
