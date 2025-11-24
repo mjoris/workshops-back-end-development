@@ -851,17 +851,19 @@ class LecturerController extends ApiBaseController
 
             <section>
                 <h2>Same-origin policy</h2>
-                <ul>
+                <ul style="font-size: 90%;">
                     <li>Same-origin policy: a script loaded from one origin can only access resources from the same origin
                         <ul>
                             <li>Origin = protocol + host + port</li>
                             <li>Example: a script loaded from <code>https://www.ikdoeict.be</code>
-                                <ul>
+                                <ul style="font-size: 85%;">
                                     <li>cannot access the elements of an <code>&lt;iframe&gt;</code> from <code>https://kbctouch.kbc.be</code></li>
-                                    <li>can only consume a web API from that origin</li>
+                                    <li>can process <code>fetch()</code> requests to <code>https://www.ikdoeict.be</code></li>
+                                    <li>cannot process <code>fetch()</code> requests to <code>http://www.ikdoeict.be</code></li>
+                                    <li>cannot process <code>fetch()</code> requests to <code>https://kbctouch.kbc.be</code></li>
                                 </ul>
                             </li>
-
+                            <li>This is imposed by <strong>the browser</strong></li>
                             <li>In most browsers even <code>localhost</code> and <code>127.0.0.1</code> do conflict</li>
                             <li>Reason: security</li>
                         </ul>
@@ -869,8 +871,42 @@ class LecturerController extends ApiBaseController
                     <li style="margin-top: 0.5em;">
                         Multiple techniques to relax this policy
                         <ul>
-                            <li><a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">Cross-origin resource sharing (CORS)</a>: HTTP headers indicating whether an origin can be trusted</li>
+                            <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS">Cross-origin resource sharing (CORS)</a>: HTTP headers indicating whether an origin can be trusted</li>
                         </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>CORS (1)</h2>
+                <ul style="font-size: 90%;">
+                    <li>
+                        In the case of a <em>simple request</em> (<a
+                            href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS#simple_requests">conditions</a>)
+                        <ul>
+                            <li>
+                                a web API call with verb GET (and empty HTTP request body) is a <em>simple request</em>
+                            </li>
+                            <li>
+                                a plain old form request with verb POST is a <em>simple request</em>
+                                <img src="https://mdn.github.io/shared-assets/images/diagrams/http/cors/simple-request.svg" alt="Diagram of simple CORS GET request" loading="lazy">
+                            </li>
+                            <li>
+                                or a more restrictive response: <code>Access-Control-Allow-Origin: https://foo.example</code>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>CORS (2)</h2>
+                <ul style="font-size: 90%;">
+                    <li>
+                        In any other case, the browser will ask whether the actual request is safe to send, by a <a
+                            href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS#preflighted_requests">preflight request</a>
+                        <br>
+                        <img src="https://mdn.github.io/shared-assets/images/diagrams/http/cors/preflight-correct.svg" alt="Diagram of a request that is preflighted" loading="lazy" style="width: 75%;">
                     </li>
                 </ul>
             </section>
