@@ -123,8 +123,8 @@
             </section>
 
             <section data-background="#fdfdfd">
-                <h2>HTTP/2.0</h2>
-                <ul style="width: 16em;float: left;font-size: 90%">
+                <h2>HTTP/2</h2>
+                <ul style="width: 18em;float: left;font-size: 90%">
                     <li>HTTP request
                         <ul>
                             <li>HEADERS (request method, HTTP version, path, &hellip;)</li>
@@ -137,9 +137,17 @@
                             <li>DATA (e.g. the document itself)</li>
                         </ul>
                     </li>
+                    <li>HTTP/1.1 starting line stuff has been replaced by <strong>pseudo-headers</strong> starting with <code>:</code></li>
+                    <li>
+                        HTTP/2 enables <a href="https://freecontent.manning.com/mental-model-graphic-how-is-http-1-1-different-from-http-2/">multiplexing</a>: multiple requests and responses can be sent over the same TCP connection
+                    </li>
                 </ul>
-                <p><img src="assets/01/http20.png" alt="" width="500"></p>
-
+                <p><img src="assets/01/http20.png" alt="" width="400"></p>
+                <footer>
+                    <small>In meanwhile we're at <a href="https://http.dev/3#head-of-line-blocking">HTTP/3</a> implementing multiplexing over UDP</small>
+                    <br>
+                    <small>Note: <strong>PHP code can generally be written as if it were handling HTTP/1.1.</strong>  The actual HTTP version used on the network is often handled by the web server and intermediaries. The details above are mainly useful for recognizing HTTP requests and responses in browser developer tools.</small>
+                </footer>
             </section>
 
             <section data-background="#fdfdfd">
