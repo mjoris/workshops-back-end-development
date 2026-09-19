@@ -81,7 +81,7 @@
 
             <section data-background="#fdfdfd">
                 <h2>How we will use Docker</h2>
-                <p><img src="assets/02/docker-dev-and-prod-24.png" alt=""></p>
+                <p><img src="assets/02/docker-dev-and-prod-26.png" alt="Docker development and production environments"></p>
 
             </section>
 
@@ -123,7 +123,7 @@
                             <li><a href="https://docs.docker.com/desktop/setup/install/windows-install/">Docker Desktop for Windows</a></li>
                             <li><a href="https://docs.docker.com/desktop/setup/install/mac-install/">Docker Desktop for Mac</a></li>
                             <li><a href="https://docs.docker.com/engine/install/ubuntu/">Docker Engine on Ubuntu</a></li>
-                            <li>Since 2020, Docker runs on any type of Windows 10/11 (through WSL 2). Read the instruction thoroughly.</li>
+                            <li>Docker runs both on Windows 10 and 11 (through WSL 2). Read the instruction thoroughly.</li>
                         </ul>
                     </li>
                 </ul>
@@ -194,10 +194,10 @@
 
                         <ol>
                             <li style="margin-top: 0.7em;">
-                                Get the mysql:8.4 image (if not present): <code>$ docker pull mysql:8.4</code>
+                                Get the mysql:9.7 image (if not present): <code>$ docker pull mysql:9.7</code>
                             </li>
                             <li style="margin-top: 0.7em;">
-                                Create a new container: <code>$ docker create -e MYSQL_ROOT_PASSWORD=Azerty123 mysql:8.4</code>
+                                Create a new container: <code>$ docker create -e MYSQL_ROOT_PASSWORD=Azerty123 mysql:9.7</code>
                                 <br> &rarr; the daemon returns a container ID: <code>950968d78d63ae451c178a46799cd85b6aed5d9692d46a6b3acca05da8830990</code>
                                 <ul>
                                     <li>this steps reserves "the internal command" to run, which ports to forward, &hellip; </li>
@@ -215,7 +215,7 @@
                     </li>
                 </ul>
                 <pre data-id="code-animation">
-                    <code class="hljs bash" data-trim>$ docker run -e MYSQL_ROOT_PASSWORD=Azerty123 -d mysql:8.4</code>
+                    <code class="hljs bash" data-trim>$ docker run -e MYSQL_ROOT_PASSWORD=Azerty123 -d mysql:9.7</code>
                 </pre>
                 <footer>
                     <small>Documentation on <a href="https://docs.docker.com/engine/reference/run/">run</a>, <a href="https://docs.docker.com/engine/reference/commandline/pull/">pull</a>, <a href="https://docs.docker.com/engine/reference/commandline/create/">create</a> and <a href="https://docs.docker.com/engine/reference/commandline/start/">start</a></small>
@@ -228,7 +228,7 @@
                 <pre data-id="code-animation">
                     <code class="hljs bash" data-trim>$ docker images
 REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE
-mysql                   8.4                 5d4d51c57ea8        2 weeks ago         374MB
+mysql                   9.7                 5d4d51c57ea8        2 weeks ago         374MB
 mysql                   latest              f0f3956a9dd8        3 weeks ago         409MB
 nimmis/apache-php7      latest              93b52d88eb58        6 weeks ago         482MB
 alexcheng/magento2      latest              41b274b16771        7 weeks ago         1.43GB
@@ -237,11 +237,11 @@ mysql                   5.6.23              0bd9ef0792fa        2 years ago     
 
 $ docker ps
 CONTAINER ID    IMAGE               COMMAND                  CREATED           STATUS                  PORTS      NAMES
-950968d78d63    mysql:8.4           "docker-entrypoint.s…"   20 minutes ago    Up 8 minutes            3306/tcp   confident_hermann
+950968d78d63    mysql:9.7           "docker-entrypoint.s…"   20 minutes ago    Up 8 minutes            3306/tcp   confident_hermann
 
 $ docker ps -a
 CONTAINER ID    IMAGE               COMMAND                  CREATED           STATUS                  PORTS      NAMES
-950968d78d63    mysql:8.4           "docker-entrypoint.s…"   20 minutes ago    Up 8 minutes            3306/tcp   confident_hermann
+950968d78d63    mysql:9.7           "docker-entrypoint.s…"   20 minutes ago    Up 8 minutes            3306/tcp   confident_hermann
 4f909c0d46e1    nimmis/apache-php7  "/my_init"               2 weeks ago       Exited (0) 2 weeks ago             youthful_rosalind
 ec1702dd0e85    alexcheng/magento2  "/sbin/my_init"          5 weeks ago       Exited (0) 5 weeks ago             gallant_villani
 c5d0d1270551    alexcheng/magento2  "/sbin/my_init"          5 weeks ago       Exited (0) 5 weeks ago             agitated_kowalevski</code></pre>
@@ -325,10 +325,10 @@ CONTAINER ID    IMAGE               COMMAND                  CREATED           S
                     <li>
                         This <em>central command</em> can be overridden upon container creation
                         <ul>
-                            <li><code>docker run -it php:8.3-apache</code> &rarr; <code>apache2-foreground</code> runs a webserver with PHP</li>
-                            <li><code>docker run -it php:8.3-apache php -a</code> &rarr; <code>php -a</code> runs a simple PHP interpreter</li>
-                            <li><code>docker run -it php:8.3-apache php helloworld.php</code> &rarr; <code>php helloworld.php</code> interprets helloworld.php</li>
-                            <li><code>docker run -it php:8.3-apache bash</code> &rarr; <em>a bit weird &hellip;</em> only runs <code>bash</code> of the underlying OS</li>
+                            <li><code>docker run -it php:8.5-apache</code> &rarr; <code>apache2-foreground</code> runs a webserver with PHP</li>
+                            <li><code>docker run -it php:8.5-apache php -a</code> &rarr; <code>php -a</code> runs a simple PHP interpreter</li>
+                            <li><code>docker run -it php:8.5-apache php helloworld.php</code> &rarr; <code>php helloworld.php</code> interprets helloworld.php</li>
+                            <li><code>docker run -it php:8.5-apache bash</code> &rarr; <em>a bit weird &hellip;</em> only runs <code>bash</code> of the underlying OS</li>
                         </ul>
                     </li>
                 </ul>
@@ -341,14 +341,14 @@ CONTAINER ID    IMAGE               COMMAND                  CREATED           S
                         You can start a container in
                         <ul>
                             <li style="margin-top: 0.5em;">
-                                <strong>detached/background mode</strong> e.g. <code>$ docker run -e MYSQL_ROOT_PASSWORD=Azerty123 -d mysql:8.4</code>
+                                <strong>detached/background mode</strong> e.g. <code>$ docker run -e MYSQL_ROOT_PASSWORD=Azerty123 -d mysql:9.7</code>
                                 <ul>
                                     <li>You don't have STDIN, STDOUT and STDERR of the container</li>
                                     <li>You have the prompt <code>$</code> back</li>
                                 </ul>
                             </li>
                             <li style="margin-top: 1em;">
-                                <strong>attached/foreground mode</strong> e.g. <code>$ docker run -e MYSQL_ROOT_PASSWORD=Azerty123 -it mysql:8.4</code>
+                                <strong>attached/foreground mode</strong> e.g. <code>$ docker run -e MYSQL_ROOT_PASSWORD=Azerty123 -it mysql:9.7</code>
                                 <ul>
                                     <li>Without <code>-d</code>*, Docker attaches STDIN, STDOUT and STDERR to the current console</li>
                                     <li>when the (internal) command is <strong>interactive</strong>, you must use <code>-i</code>* and <code>-t</code>* in order to attach a pseudo-TTY</li>
@@ -403,7 +403,7 @@ bash-4.4#</code></pre>
                     </li>
                     <li style="margin-top: 0.5em;" >
                         Example
-                        <pre><code class="hljs bash">$ docker run -it -p 8080:80 --name demo-app -v /volledig/pad/myfolder:/var/www/html php:8.3-apache</code></pre>
+                        <pre><code class="hljs bash">$ docker run -it -p 8080:80 --name demo-app -v /volledig/pad/myfolder:/var/www/html php:8.5-apache</code></pre>
                     </li>
                 </ul>
                 <footer><small>* containers also inherit the exposed ports by the image<br>** as specified by the image</small></footer>
@@ -458,7 +458,7 @@ local     4ebec0e3543236847ccc8ec4f6f61143afa759b7aa8e8fc7c404e133e0153757
                         <ul>
                             <li>
                                 A <a href="https://docs.docker.com/engine/reference/builder/">Dockerfile</a> is a text file containing a list of commands to build an image
-                                <pre><code class="hljs Dockerfile">FROM mysql:8.4
+                                <pre><code class="hljs Dockerfile">FROM mysql:9.7
 
 MAINTAINER Mahmoud Zalt &lt;mahmoud@zalt.me&gt;
 
@@ -658,7 +658,7 @@ EXPOSE 3306</code></pre>
             <section>
                 <h2>A simple example</h2>
                 <pre style="margin-bottom: 0;">docker-php/Dockerfile</pre>
-                <pre style="margin-top: 0;"><code class="hljs Dockerfile">FROM php:8.4-apache
+                <pre style="margin-top: 0;"><code class="hljs Dockerfile">FROM php:8.5-apache
 
 RUN docker-php-ext-install pdo_mysql</code></pre>
                 <pre style="margin-bottom: 0;margin-top: 2.5em;">docker-compose.yml</pre>
@@ -673,7 +673,7 @@ RUN docker-php-ext-install pdo_mysql</code></pre>
       - mysqldb
 
   mysqldb:
-    image: mysql:8.4
+    image: mysql:9.7
     ports:
      - "3307:3306"
     volumes:
@@ -710,91 +710,40 @@ RUN docker-php-ext-install pdo_mysql</code></pre>
 
             </section>
 
-        </section>
 
-        <section>
-            <section>
-                <h2>02.6<br>Docker in different contexts</h2>
-                <p>Same tool, different philosophy depending on where you use it.</p>
-            </section>
-
-
-            <section data-background="https://video.cgtn.com/news/3d3d414d32677a4e33457a6333566d54/video/49dd01facbce4c1398d0751c1a175503/49dd01facbce4c1398d0751c1a175503.jpg">
-                <h2>#1 Local Development</h2>
-                <ul>
-                    <li>Goal: Fast, reproducible dev environment</li>
-                    <li>Workspace containers with extra tools (npm, composer, artisan…)</li>
-                    <li>Source code is <strong>mounted</strong>, not baked into image</li>
-                    <li>Containers are flexible, replaceable sandboxes</li>
+            <section data-background="#fdfdfd">
+                <h2>Closing notes</h2>
+                <ul style="font-size: 85%">
+                    <li>
+                        In this course we use Docker as a <em>development</em> environment
+                        <ul>
+                            <li>your source code stays on your machine and is <strong>mounted</strong> into the container (<code>volumes:</code>)</li>
+                            <li>edit a file, refresh the browser &rarr; you immediately see the result</li>
+                            <li>a container is a sandbox: throw it away and build it again</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 0.8em">
+                        In this course we will <strong>not</strong> use Docker on the staging/production server
+                        <ul>
+                            <li>there, the web server, PHP and MySQL are simply <a href="02.docker.html#/1/4">running on the machine itself</a></li>
+                            <li>we only push our <em>source code</em> to it, not our containers</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 0.8em">
+                        But of course you <em>can</em> run Docker in production &ndash; several architectures exist
+                        <ul>
+                            <li>one server (e.g. a VPS in the cloud) running your <code>docker compose</code> setup</li>
+                            <li>a managed container service of a cloud provider</li>
+                            <li>a whole server park, where a tool decides on which machine each container runs</li>
+                        </ul>
+                    </li>
+                    <li style="margin-top: 0.8em">
+                        In all of these, the source code is <strong>copied into the image</strong> (in the <code>Dockerfile</code>) instead of mounted
+                        <ul>
+                            <li>&rarr; one fixed package that gets deployed; volumes only for data that must survive</li>
+                        </ul>
+                    </li>
                 </ul>
-                <p><small>Analogy: a shared kitchen where you bring in fresh ingredients and cook with all the utensils around, changing recipes as you go..</small></p>
-            </section>
-
-
-            <section data-background="https://metrobi.com/wp-content/uploads/2024/03/Catering-Commissary-Kitchen.webp">
-                <h2>#2 CI/CD</h2>
-                <ul>
-                    <li>Goal: Deterministic, repeatable builds & tests</li>
-                    <li>Each pipeline run: fresh container</li>
-                    <li>Code cloned inside the container, builds final image</li>
-                    <li>Containers are short-lived, throw-away environments</li>
-                </ul>
-                <p><small>Analogy: a catering kitchen that’s cleaned spotless for each event, always starting fresh and delivering a consistent dish.</small></p>
-            </section>
-
-
-            <section data-background="https://www.upmenu.com/wp-content/uploads/2023/12/3-fast-food-management-fast-food-restaurant-staff.jpg">
-                <h2>3. Production</h2>
-                <ul>
-                    <li>Goal: Stability & scalability</li>
-                    <li>Code is <strong>baked into image</strong> → immutable</li>
-                    <li>No bind mounts (except persistent volumes)</li>
-                    <li>Stateless containers, orchestrated by Kubernetes/Swarm</li>
-                </ul>
-                <p><small>Analogy: a fast-food chain kitchen with standardized menus, pre-measured ingredients, and identical meals served everywhere</small></p>
-            </section>
-
-
-            <section  data-background="#fdfdfd">
-                <h2>Key Differences</h2>
-                <table style="font-size: 70%;">
-                    <thead>
-                    <tr>
-                        <th>Context</th>
-                        <th>Code in Image?</th>
-                        <th>Volumes?</th>
-                        <th>Tools inside?</th>
-                        <th>Lifetime</th>
-                        <th>Philosophy</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>Local Dev</td>
-                        <td>❌ No</td>
-                        <td>✅ Yes</td>
-                        <td>✅ Yes</td>
-                        <td>Long-lived workspace</td>
-                        <td>Speed & Flexibility</td>
-                    </tr>
-                    <tr>
-                        <td>CI/CD</td>
-                        <td>✅ Yes</td>
-                        <td>⚠️ Sometimes</td>
-                        <td>✅ Build deps</td>
-                        <td>Short-lived job</td>
-                        <td>Determinism</td>
-                    </tr>
-                    <tr>
-                        <td>Production</td>
-                        <td>✅ Yes</td>
-                        <td>❌ Usually not</td>
-                        <td>❌ Only runtime</td>
-                        <td>Immutable / restartable</td>
-                        <td>Stability & Repeatability</td>
-                    </tr>
-                    </tbody>
-                </table>
             </section>
         </section>
 
