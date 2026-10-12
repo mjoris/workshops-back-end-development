@@ -1,5 +1,5 @@
 {
     "require": {
-        "intervention/image": "3.*"
+        "intervention/image": "4.*"
     }
 }
