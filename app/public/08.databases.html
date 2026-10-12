@@ -142,7 +142,7 @@
                         Database Abstraction Layer from the Doctrine Project
                         <ul style="font-size: 80%;">
                             <li>Website: <a href="https://www.doctrine-project.org/projects/dbal.html">https://www.doctrine-project.org/projects/dbal.html</a></li>
-                            <li>Documentation: <a href="https://www.doctrine-project.org/projects/doctrine-dbal/en/4.3/">https://www.doctrine-project.org/projects/doctrine-dbal/en/4.3/</a></li>
+                            <li>Documentation: <a href="https://www.doctrine-project.org/projects/doctrine-dbal/en/4.5/">https://www.doctrine-project.org/projects/doctrine-dbal/en/4.5/</a></li>
                         </ul>
                     </li>
                     <li style="margin-top: 1em;">
@@ -150,7 +150,7 @@
                         <ul>
                             <li>
                                 New project, not yet requiring it via Composer:
-                                <pre class="bigger"><code class="dontrun">composer require doctrine/dbal ^4.3</code></pre>
+                                <pre class="bigger"><code class="dontrun">composer require doctrine/dbal ^4.5</code></pre>
                             </li>
                             <li>
                                 Existing project, already requiring it via Composer:
@@ -526,7 +526,7 @@ var_dump($result); // returns the number of affected rows</code></pre>
                     </li>
                 </ul>
 
-                <footer><em style="color: #F55;">You prevent SQL Injection in the lab and the project (FS:IP)</em></footer>
+                <footer><em style="color: #F55;">You prevent SQL Injection in the lab and the project (OPO FS Intro)</em></footer>
 
             </section>
 
@@ -748,7 +748,7 @@ $result = $stmt-&gt;executeQuery();</code></pre>
                     </li>
                 </ul>
 
-                <footer><em style="color: #F55;">!! Always prevent SQL Injection in the labs and in the project (FS:IP) !!</em></footer>
+                <footer><em style="color: #F55;">!! Always prevent SQL Injection in the labs and in the project (OPO FS Intro) !!</em></footer>
 
             </section>
 
@@ -910,7 +910,7 @@ echo 'Deleted ' . $rowCount . ' rows';</code></pre>
                         </ul>
                     </li>
                     <li>
-                        Available <a href="https://dev.mysql.com/doc/refman/8.4/en/charset-charsets.html">charset and collations in MySQL</a>
+                        Available <a href="https://dev.mysql.com/doc/refman/9.7/en/charset-charsets.html">charset and collations in MySQL</a>
                         <ul>
                             <li>
                                 Example charset: <code>utf8mb4</code>
@@ -1035,7 +1035,7 @@ DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;</code></pre>
                                 <pre class="bigger"><code class="hljs php">SELECT date_format(&quot;%Y-%m-%d&quot;, publishTimestamp) AS readabledate FROM ...</code></pre>
                             </li>
                             <li>Most format directives the same as in PHP but with leading <code>%</code></li>
-                            <li>See <a href="https://dev.mysql.com/doc/refman/8.0/en/date-and-time-functions.html #function_date-format">mysql docs</a> for more info</li>
+                            <li>See <a href="https://dev.mysql.com/doc/refman/9.7/en/date-and-time-functions.html">mysql docs</a> for more info</li>
                         </ul>
                     </li>
                     <li>
@@ -1220,7 +1220,7 @@ foreach ($comments as $c) {
                         Beware of old code/examples:
                         <ul>
                             <li>
-                                <code>md5()</code><small><a href="https://php.net/md5">&#9873;</a></small> and <code>sha1()</code><small><a href="https://php.net/sha1">&#9873;</a></small> <a href="https://www.slideshare.net/ircmaxell/password-storage-and-attacking-in-php">are outdated/too weak</a>, don't use them
+                                <code>md5()</code><small><a href="https://php.net/md5">&#9873;</a></small> and <code>sha1()</code><small><a href="https://php.net/sha1">&#9873;</a></small> <a href="https://www.slideshare.net/slideshow/password-storage-and-attacking-in-php/16176699">are outdated/too weak</a>, don't use them
                             </li>
                             <li><code>crypt()</code><small><a href="https://php.net/crypt">&#9873;</a></small> strong but no long preferred</li>
                         </uL>
