@@ -151,13 +151,13 @@ if ($zip->open($zipFile, ZipArchive::CREATE) === true) {
                         To enable others to build cool stuff on top of your platform/data e.g.
                         <ul>
                             <li><a href="https://docs.irail.be/">iRail API</a></li>
-                            <li><a href="https://developer.x.com/en/docs/x-api">X API</a></li>
+                            <li><a href="https://docs.x.com/x-api/overview">X API</a></li>
                         </ul>
                     </li>
                 </ul>
                 <figure>
                     <img src="assets/12/BotanicallsSparkfunKit_jade1_800.jpg" alt="" title="" height="350" />
-                    <figcaption>Let your plants tell you <a href="https://developer.x.com/en/docs/x-api">via X</a> that they're thirsty with <a href="http://www.botanicalls.com/kits/">botanicalls</a></figcaption>
+                    <figcaption>Let your plants tell you <a href="https://docs.x.com/x-api/overview">via X</a> that they're thirsty with <a href="http://www.botanicalls.com/kits/">botanicalls</a></figcaption>
                 </figure>
             </section>
 
@@ -724,7 +724,7 @@ class ApiResponse
 
 require __DIR__ . '/vendor/autoload.php';
 
-$router = new \Bramus\Router\Router();
+$router = new \Mjoris\Router\Router();
 
 $router-&gt;mount('/api', function() use ($router) {
     $router-&gt;get('/lecturers', 'LecturerController@overview');
@@ -889,7 +889,7 @@ class LecturerController extends ApiBaseController
                             </li>
                             <li>
                                 a plain old form request with verb POST is a <em>simple request</em>
-                                <img src="https://mdn.github.io/shared-assets/images/diagrams/http/cors/simple-request.svg" alt="Diagram of simple CORS GET request" loading="lazy">
+                                <img src="assets/12/simple-request.svg" alt="Diagram of simple CORS GET request" loading="lazy">
                             </li>
                             <li>
                                 or a more restrictive response: <code>Access-Control-Allow-Origin: https://foo.example</code>
@@ -906,7 +906,7 @@ class LecturerController extends ApiBaseController
                         In any other case, the browser will ask whether the actual request is safe to send, by a <a
                             href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS#preflighted_requests">preflight request</a>
                         <br>
-                        <img src="https://mdn.github.io/shared-assets/images/diagrams/http/cors/preflight-correct.svg" alt="Diagram of a request that is preflighted" loading="lazy" style="width: 75%;">
+                        <img src="assets/12/preflight-correct.svg" alt="Diagram of a request that is preflighted" loading="lazy" style="width: 75%;">
                     </li>
                 </ul>
             </section>
@@ -970,9 +970,7 @@ class LecturerController extends ApiBaseController
                     <li><a href="http://www.slideshare.net/leahculver/oauth-open-api-authentication">http://www.slideshare.net/leahculver/oauth-open-api-authentication</a></li>
 
                     <!-- Update -->
-                    <li><a href="https://www.codeofaninja.com/2017/02/create-simple-rest-api-in-php.html">https://www.codeofaninja.com/2017/02/create-simple-rest-api-in-php.html</a></li>
                     <li><a href="https://davisonpro.dev/how-to-create-an-advanced-php-rest-api/">https://davisonpro.dev/how-to-create-an-advanced-php-rest-api/</a></li>
-                    <li><a href="https://apisyouwonthate.com/blog/rest-and-hypermedia-in-2019">https://apisyouwonthate.com/blog/rest-and-hypermedia-in-2019</a></li>
                 </ul>
             </section>
         </section>
