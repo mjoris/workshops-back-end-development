@@ -13,7 +13,7 @@ $function = new \Twig\TwigFunction('url', function ($path) {
 });
 $twig->addFunction($function);
 
-$router = new \Bramus\Router\Router();
+$router = new \Mjoris\Router\Router();
 
 $router->get('/search', function() use ($twig) {
     echo $twig->render('search.twig' , ['term' => '', 'results' => []]);

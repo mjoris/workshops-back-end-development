@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . '/../vendor/autoload.php';
 
-$router = new \Bramus\Router\Router();
+$router = new \Mjoris\Router\Router();
 
 $router->mount('/movies', function() use ($router) {
 

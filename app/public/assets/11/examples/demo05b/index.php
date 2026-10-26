@@ -5,7 +5,7 @@ require __DIR__ . '/../vendor/autoload.php';
 $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/templates');
 $twig = new \Twig\Environment($loader);
 
-$router = new \Bramus\Router\Router();
+$router = new \Mjoris\Router\Router();
 
 $router->get('/search', function() use ($twig) {
     echo $twig->render('search.twig' , ['term' => '', 'results' => []]);
