@@ -282,7 +282,7 @@
                                 It means that the pages are about the same resource but might not be exact copies (e.g. think of the breadcrumb)
                             </li>
                             <li>
-                                You need to <a href="https://moz.com/blog/canonical-url-tag-the-most-important-advancement-in-seo-practices-since-sitemaps">hint</a> search engines about canonical URLs
+                                You need to <a href="https://metaflow.life/blog/canonical-tag-guide">hint</a> search engines about canonical URLs
                             </li>
                         </ul>
                     </li>
@@ -414,7 +414,7 @@ if (php_sapi_name() === 'cli-server' &amp;&amp; is_file($filename)) {
                         <ul>
                             <li><a href="https://symfony.com/doc/current/routing.html">Symfony Routing</a></li>
                             <li><a href="https://packagist.org/packages/nikic/fast-route">nikic/fast-route</a></li>
-                            <li><a href="https://github.com/bramus/router">bramus/router</a></li>
+                            <li><a href="https://github.com/bramus/router">bramus/router</a> &longrightarrow; <a href="https://github.com/mjoris/router">mjoris/router</a></li>
                             <li>The router that ships with the framework you're using</li>
                         </ul>
                     </li>
@@ -429,7 +429,7 @@ if (php_sapi_name() === 'cli-server' &amp;&amp; is_file($filename)) {
 
 require __DIR__ . '/vendor/autoload.php';
 
-$router = new \Bramus\Router\Router();
+$router = new \Mjoris\Router\Router();
 
 $router-&gt;get('/', function() {
 	echo 'index';
@@ -460,12 +460,13 @@ $router->run();</code></pre>
                 </section>
 
                 <section>
-                    <h2>bramus/router</h2>
+                    <h2>mjoris/router</h2>
                     <ul>
                         <li>
                             A lightweight and simple object oriented PHP Router
                             <ul>
-                                <li>GitHub page with documentation: <a href="https://github.com/bramus/router">https://github.com/bramus/router</a></li>
+                                <li>PHP 8 fork of <a href="https://github.com/bramus/router">https://github.com/bramus/router</a> </li>
+                                <li>GitHub page with documentation: <a href="https://github.com/mjoris/router">https://github.com/mjoris/router</a></li>
                             </ul>
                         </li>
                         <li style="margin-top: 1em;">
@@ -473,7 +474,7 @@ $router->run();</code></pre>
                             <ul>
                                 <li>
                                     New project, not yet requiring it via Composer:
-                                    <pre class="bigger"><code class="dontrun">composer require bramus/router ^1.6.1</code></pre>
+                                    <pre class="bigger"><code class="dontrun">composer require mjoris/router ^2.0</code></pre>
                                 </li>
                                 <li>
                                     Existing project, already requiring it via Composer:
@@ -499,7 +500,7 @@ $router->run();</code></pre>
                             <pre class="bigger"><code class="hljs php">require __DIR__ . '../vendor/autoload.php';
 
 // Create Router instance
-$router = new \Bramus\Router\Router();
+$router = new \Mjoris\Router\Router();
 
 // Define routes
 $router-&gt;get('pattern1', function() { /* ... */ });
@@ -536,7 +537,7 @@ $router-&gt;post('/admin/products/create', function() {
 </code></pre>
                         </li>
                     </ul>
-                    <footer>!!! Only the first route matched will be used. <br>If no route matches, <code>bramus/router</code> generates an <strong>empty</strong> 404 response. </footer>
+                    <footer>!!! Only the first route matched will be used. <br>If no route matches, <code>mjoris/router</code> generates an <strong>empty</strong> 404 response. </footer>
                 </section>
 
                 <section>
@@ -591,7 +592,7 @@ $router-&gt;get('/movies/(\d+)/photos/(\d+)', function($movieId, $photoId) {
                                 <li>Specify HTTP request method(s), route pattern and handler function</li>
                             </ul>
                             <pre class="bigger"><code class="hljs php">$router-&gt;before('GET|POST', '/.*', function () {
-    header('X-Powered-By: bramus/router');
+    header('X-Powered-By: mjoris/router');
     // or your favorite checks here
 });</code></pre>
                         </li>
@@ -658,7 +659,7 @@ $router-&gt;get('/search/(\w+)', function($term) {
 $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/templates');
 $twig = new \Twig\Environment($loader);
 
-$router = new \Bramus\Router\Router();
+$router = new \Mjoris\Router\Router();
 
 $router-&gt;get('/search', function() use ($twig) {
     echo $twig-&gt;render('search.twig' , ['term' =&gt; '', 'results' =&gt; []]);
@@ -809,7 +810,7 @@ $twig-&gt;addFunction($function);</code></pre></li>
                         </li>
                         <li>Refer to <code>*Controller</code> and its methods in <code>index.php</code>
                             <pre class="bigger"><code class="hljs php">require __DIR__ . '/../vendor/autoload.php';
-$router = new \Bramus\Router\Router();
+$router = new \Mjoris\Router\Router();
 
 $router-&gt;get('/search', 'SearchController@show');
 
@@ -906,7 +907,7 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv-&gt;load();
 $dotenv-&gt;required(['DB_HOST', 'DB_NAME', 'DB_USER', 'DB_PASS', 'BASE_PATH']);
 
-$router = new \Bramus\Router\Router();
+$router = new \Mjoris\Router\Router();
 
 $router-&gt;before('GET|POST', '/.*', function () {
     session_start();
@@ -982,6 +983,7 @@ $router-&gt;run();</code></pre>
                     <li><a href="https://www.creativebloq.com/design/design-perfect-url-1126509">https://www.creativebloq.com/design/design-perfect-url-1126509</a></li>
                     <li><a href="https://jinoantony.com/blog/how-composer-autoloads-php-files">https://jinoantony.com/blog/how-composer-autoloads-php-files</a></li>
                     <li><a href="https://github.com/bramus/router">https://github.com/bramus/router</a></li>
+                    <li><a href="https://github.com/mjoris/router">https://github.com/mjoris/router</a></li>
 
                 </ul>
             </section>
